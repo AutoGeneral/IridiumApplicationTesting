@@ -1,5 +1,8 @@
 # A&G Web Application Testing Suite
 
+See the [documentation](https://mcasperson.gitbooks.io/iridiumapplicationtesting-gettingstartedguide/content/)
+for more details.
+
 # Important Information
 
 The use of cucumber with Java Web Start requires a custom version of the cucumber core library.
@@ -154,7 +157,7 @@ When running locally against a single instance of an application (i.e. running m
 it is usually best to use a single thread.
 
 #### tagsOverride
-See "Running scenarios based on tags" in Confluence (http://confluence/display/EBUS/Web+Application+Testing+Documentation)
+See https://mcasperson.gitbooks.io/iridiumapplicationtesting-gettingstartedguide/content/
 to get more information about this option.
 
 #### enableVideoCapture
