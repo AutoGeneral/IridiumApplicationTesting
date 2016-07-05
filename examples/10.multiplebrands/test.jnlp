@@ -10,11 +10,11 @@ codebase="https://github.com/AutoGeneral/IridiumApplicationTesting/releases/down
 <j2se version="1.8+"
 href="http://java.sun.com/products/autodl/j2se"/>
     <property name="jnlp.packEnabled" value="true"/>
-    <property name="javaws.configuration" value="http://gitstash/pages/AGIC/webapptesting/master/browse/examples/10.multiplebrands/configuration.xml"/>
-    <property name="javaws.dataset" value="http://gitstash/pages/AGIC/webapptesting/master/browse/examples/10.multiplebrands/dataset.xml"/>
+    <property name="javaws.configuration" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/10.multiplebrands/configuration.xml"/>
+    <property name="javaws.dataset" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/10.multiplebrands/dataset.xml"/>
     <property name="javaws.appURLOverride" value=""/>
     <property name="javaws.featureGroupName" value="CQS-PROD"/>
-    <property name="javaws.testSource" value="http://gitstash/pages/AGIC/webapptesting/master/browse/examples/10.multiplebrands/test.feature"/>
+    <property name="javaws.testSource" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/10.multiplebrands/test.feature"/>
     <property name="javaws.importBaseUrl" value=""/>
     <property name="javaws.testDestination" value="CHROME"/>
     <property name="javaws.webdriver.chrome.driver" value=""/>

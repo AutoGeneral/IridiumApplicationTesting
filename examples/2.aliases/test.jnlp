@@ -14,7 +14,7 @@ href="http://java.sun.com/products/autodl/j2se"/>
     <property name="javaws.dataset" value=""/>
     <property name="javaws.appURLOverride" value="https://secure.budgetdirect.com.au/car/new_quote.jsp?hSty=BUDD"/>
     <property name="javaws.featureGroupName" value=""/>
-    <property name="javaws.testSource" value="http://gitstash/pages/AGIC/webapptesting/master/browse/examples/2.aliases/test.feature"/>
+    <property name="javaws.testSource" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/2.aliases/test.feature"/>
     <property name="javaws.importBaseUrl" value=""/>
     <property name="javaws.testDestination" value="CHROME"/>
     <property name="javaws.webdriver.chrome.driver" value=""/>
