@@ -229,7 +229,3 @@ We also include the ZAP JAR dependencies as part of the Gradle build.
 Not webdrivers support setting a proxy. Firefox and PhantomJS do, while Chrome, Opera and Safari don't. This means that
 ZAP integration and steps that rely on BrowserMob (e.g. I remove repeated AWSELB cookies from the request to the URL regex "whatever")
 will not work when run in these browsers.
-
-# Step docs
-Documentation on the steps available can be found in 
-http://bamboodev.budgetdirect.com.au:8085/browse/WAIT-COM/latest/artifact/shared/JavaDocs/build/docs/javadoc/au/com/agic/apptesting/steps/StepDefinitions.html
