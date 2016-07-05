@@ -59,9 +59,9 @@ Simple script (note that multiline scripts may not work in your system)
 ```
 java -DfeatureGroupName=SAR-PROD
      -DtestDestination=Firefox
-     -DtestSource=C:\Users\ashteiniko\IdeaProjects\end-to-end-tests\features
-     -Dconfiguration=C:\Users\ashteiniko\IdeaProjects\end-to-end-tests\settings\configuration.xml
-     -Ddataset=C:\Users\ashteiniko\IdeaProjects\end-to-end-tests\data\sar-dataset.xml
+     -DtestSource=C:\Users\mcasperson\IdeaProjects\end-to-end-tests\features
+     -Dconfiguration=C:\Users\mcasperson\IdeaProjects\end-to-end-tests\settings\configuration.xml
+     -Ddataset=C:\Users\mcasperson\IdeaProjects\end-to-end-tests\data\sar-dataset.xml
      -DappURLOverride=https://secure.budgetdirect.com.au/sar/quote.jsp?hSty=BUDD
      -jar .\WebAppTesting.jar
 ```
@@ -74,9 +74,9 @@ Simple browserstack setup:
      -DtestDestination=BrowserStack
      -DfeatureGroupName=SAR-PROD
      -DgroupName=Chrome
-     -DtestSource=C:\Users\ashteiniko\IdeaProjects\end-to-end-tests\features
-     -Dconfiguration=C:\Users\ashteiniko\IdeaProjects\end-to-end-tests\settings\configuration.xml
-     -Ddataset=C:\Users\ashteiniko\IdeaProjects\end-to-end-tests\data\sar-dataset.xml
+     -DtestSource=C:\Users\mcasperson\IdeaProjects\end-to-end-tests\features
+     -Dconfiguration=C:\Users\mcasperson\IdeaProjects\end-to-end-tests\settings\configuration.xml
+     -Ddataset=C:\Users\mcasperson\IdeaProjects\end-to-end-tests\data\sar-dataset.xml
 ```
 
 ## Params
