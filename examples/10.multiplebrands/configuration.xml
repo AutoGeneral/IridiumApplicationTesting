@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<profile>
+	<urlMappings>
+		<featureGroup name="CQS-PROD">
+			<urlMapping>
+				<url name="default">https://secure.budgetdirect.com.au/car/new_quote.jsp?hSty=BUDD</url>
+			</urlMapping>
+            <urlMapping>
+                <url name="default">https://ecommerce.disconline.com.au/car/new_quote.jsp?hSty=1FOW</url>
+            </urlMapping>
+		</featureGroup>
+	</urlMappings>
+</profile>
