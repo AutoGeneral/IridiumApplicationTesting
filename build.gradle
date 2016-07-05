@@ -189,7 +189,7 @@ run {
 
 checkstyle {
 	toolVersion = '6.18'
-	configFile = rootProject.file("${buildDir}/checkstyle.xml");
+	configFile = rootProject.file("checkstyle.xml");
 	showViolations = true
 	ignoreFailures = false
 }
@@ -202,14 +202,5 @@ tasks.withType(Checkstyle) {
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.13'
+	gradleVersion = '2.14'
 }
-
-task downloadCheckstyleConfig << {
-	def url = 'http://gitstash/projects/AGIC-TOOLS/repos/code-standards/browse/checkstyle/checkstyle.xml?raw'
-	def file = new File("${buildDir}/checkstyle.xml").newOutputStream()
-	file << new URL(url).openStream()
-	file.close()
-}
-
-classes.dependsOn(downloadCheckstyleConfig)

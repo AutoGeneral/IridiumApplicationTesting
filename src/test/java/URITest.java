@@ -18,10 +18,11 @@ public class URITest {
 	private static final FileSystemUtilsImpl FILE_SYSTEM_UTILS = new FileSystemUtilsImpl();
 
 	/**
-	 * Make sure we can download a JAR file when ZAP attempts to find a folder from the uberjar
+	 * Make sure we can download a JAR file when ZAP attempts to find a folder from the uberjar.
+	 * Don't test this with every build as it is a big download.
 	 * @throws IOException
 	 */
-	@Test
+	//@Test
 	public void testFileAccess() throws IOException {
 		final URI uri = URI.create("jar:https://github.com/AutoGeneral/IridiumApplicationTesting/releases/download/v0.0.1/webapptesting-signed.jar!/zap");
 		String tmpFile = "/tmp/" + LocalDateTime.now() + ".jar";
