@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jnlp spec="1.0+"
-codebase="http://bamboodev/webapptesting/webstart/">
+codebase="https://github.com/AutoGeneral/IridiumApplicationTesting/releases/download/v0.0.1/">
     <information>
     <title>Web Application Tester</title>
 <vendor>Lights On</vendor>

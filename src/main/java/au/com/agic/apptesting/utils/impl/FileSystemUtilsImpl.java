@@ -150,10 +150,10 @@ public class FileSystemUtilsImpl implements FileSystemUtils {
 				/*
 					If we get here, it means that we are running from a web start jar,
 					which looks like:
-					jar:http://bamboodev/webapptesting/webstart/webapptesting-signed.jar!/zap
+					jar:https://github.com/AutoGeneral/IridiumApplicationTesting/releases/download/v0.0.1/webapptesting-signed.jar!/zap
 
 					getSchemeSpecificPart() will return:
-					http://bamboodev/webapptesting/webstart/webapptesting-signed.jar!/zap
+					https://github.com/AutoGeneral/IridiumApplicationTesting/releases/download/v0.0.1/webapptesting-signed.jar!/zap
 				 */
 				final URI newUri = URI.create(resPath.getSchemeSpecificPart());
 
