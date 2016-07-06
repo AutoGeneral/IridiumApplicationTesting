@@ -79,6 +79,7 @@ def monteRepackVersion = '1.0.1'
 def javaSlangVersion = '2.0.0-RC4'
 def zapAPIVersion = '1.0.0'
 def browsermobVersion = '2.1.1'
+def compressCommonsVersion = '1.12'
 
 dependencies {
     compile 'mysql:mysql-connector-java:' + mysqlDriverVersion
@@ -104,6 +105,7 @@ dependencies {
     compile 'org.zaproxy:zap-clientapi:' + zapAPIVersion
     compile files ("lib/zap-2.5.0.jar", "lib/cucumber-core-1.2.5-AG-SNAPSHOT.jar")
     compile 'net.lightbody.bmp:browsermob-core:' + browsermobVersion
+    compile group: 'org.apache.commons', name: 'commons-compress', version: compressCommonsVersion
 
     /*
         The following are dependencies required by ZAP

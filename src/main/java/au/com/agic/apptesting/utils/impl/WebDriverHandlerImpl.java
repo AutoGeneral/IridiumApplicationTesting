@@ -5,6 +5,9 @@ import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverHandler;
 
+import org.apache.commons.compress.compressors.CompressorException;
+import org.apache.commons.compress.compressors.CompressorInputStream;
+import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -76,7 +79,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
-					extractDriver("/drivers/win32/phantomjs/phantomjs.exe", "phantomjs.exe"));
+					extractZipDriver("/drivers/win32/phantomjs/phantomjs.exe.gz", "phantomjs.exe"));
 			}
 
 		} catch (final Exception ex) {
@@ -113,7 +116,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
-					extractDriver("/drivers/mac64/phantomjs/phantomjs", "phantomjs"));
+					extractZipDriver("/drivers/mac64/phantomjs/phantomjs.gz", "phantomjs"));
 			}
 
 		} catch (final Exception ex) {
@@ -150,7 +153,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
-					extractDriver("/drivers/linux64/phantomjs/phantomjs", "phantomjs"));
+					extractZipDriver("/drivers/linux64/phantomjs/phantomjs.gz", "phantomjs"));
 			}
 
 		} catch (final DriverException ex) {
@@ -173,8 +176,34 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			throw new DriverException("The driver resource does not exist.");
 		}
 
+		return copyDriver(driverURL, name);
+	}
+
+	private String extractZipDriver(@NotNull final String driver, @NotNull final String name) throws IOException, CompressorException {
+		checkNotNull(driver);
+		checkArgument(StringUtils.isNotBlank(name));
+
+		final InputStream driverURL = getClass().getResourceAsStream(driver);
+
+		/*
+			The driver may not be bundled
+		 */
+		if (driverURL == null) {
+			throw new DriverException("The driver resource does not exist.");
+		}
+
+		final CompressorInputStream input = new CompressorStreamFactory()
+			.createCompressorInputStream(CompressorStreamFactory.GZIP, driverURL);
+
+		return copyDriver(input, name);
+	}
+
+	private String copyDriver(@NotNull InputStream stream, @NotNull final String name) throws IOException {
+		checkNotNull(stream);
+		checkArgument(StringUtils.isNotBlank(name));
+
 		final Path driverTemp = Files.createTempFile("driver", name);
-		FileUtils.copyToFile(driverURL, driverTemp.toFile());
+		FileUtils.copyToFile(stream, driverTemp.toFile());
 		driverTemp.toFile().setExecutable(true);
 		return driverTemp.toAbsolutePath().toString();
 	}
