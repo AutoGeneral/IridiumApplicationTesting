@@ -13,7 +13,6 @@ Feature: Open an application
     And I wait "30" seconds for the element with the xpath alias of "TitleXpath" to be displayed
 
   Scenario: Save the results
-    And the application is spidered
     And the attack strength is set to "HIGH"
     And the active scanner is run
     And the ZAP XML report is written to the file "zapreport.xml"
