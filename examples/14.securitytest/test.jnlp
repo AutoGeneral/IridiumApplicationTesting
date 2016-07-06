@@ -31,7 +31,7 @@ href="http://java.sun.com/products/autodl/j2se"/>
     <property name="javaws.enableScenarioScreenshots" value="true"/>
     <property name="javaws.tagsOverride" value=""/>
     <property name="javaws.phantomJSLoggingLevel" value="NONE"/>
-    <property name="javaws.startInternalProxy" value=""/>
+    <property name="javaws.startInternalProxy" value="zap"/>
 	<property name="jnlp.versionEnabled" value="true"/>
 	<jar href="webapptesting-signed.jar" main="true" version="0.0.1" />
     </resources>
