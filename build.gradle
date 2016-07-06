@@ -1,9 +1,13 @@
 buildscript {
     repositories {
-	maven {
-      		url "https://plugins.gradle.org/m2/"
-    	}
-	mavenCentral()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+		maven {
+			url 'http://prod-vm-fv-ag-snx-x1.budgetdirect.com.au:8081/nexus/content/groups/public'
+		}
+		mavenCentral()
+		mavenLocal()
     }
 
     dependencies {
@@ -50,9 +54,10 @@ shadowJar {
 }
 
 repositories {
-    maven { url nexusProxy }
     mavenLocal()
 	mavenCentral()
+	maven { url nexusProxy }
+	maven { url "http://repository.springsource.com/maven/bundles/external" }
 }
 
 def mysqlDriverVersion = '5.1.34'
@@ -60,11 +65,10 @@ def guavaVersion = '19.0-SNAPSHOT'
 def seleniumVersion = '2.52.0'
 def validationVersion = '1.0.0.GA'
 def cucumberVersion = '1.2.4'
-def cucumberCoreVersion = '1.2.5-AG-SNAPSHOT'
 def logbackVersion = '1.1.3'
 def slf4jVersion = '1.7.12'
 def threadPoolVersion = '20030513.073905'
-def commonsIoVersion = '2.4'
+def commonsIoVersion = '2.5'
 def commonsLangVersion = '3.4'
 def chromeDriverVersion = '2.53.1'
 def operaDriverVersion = '1.5'
@@ -82,7 +86,6 @@ dependencies {
     compile 'org.seleniumhq.selenium:selenium-java:' + seleniumVersion
     compile 'javax.validation:validation-api:' + validationVersion
     compile 'info.cukes:cucumber-java:' + cucumberVersion
-    compile 'info.cukes:cucumber-core:' + cucumberCoreVersion
     compile 'info.cukes:cucumber-html:' + cucumberHtmlFormatterVersion
     compile 'ch.qos.logback:logback-classic:' + logbackVersion
     compile 'ch.qos.logback:logback-core:' + logbackVersion
@@ -99,7 +102,7 @@ dependencies {
     compile 'com.pojosontheweb:monte-repack:' + monteRepackVersion
     compile 'com.javaslang:javaslang:' + javaSlangVersion
     compile 'org.zaproxy:zap-clientapi:' + zapAPIVersion
-    compile files ("lib/zap-2.5.0.jar")
+    compile files ("lib/zap-2.5.0.jar", "lib/cucumber-core-1.2.5-AG-SNAPSHOT.jar")
     compile 'net.lightbody.bmp:browsermob-core:' + browsermobVersion
 
     /*
@@ -134,7 +137,7 @@ dependencies {
     compile group: 'org.jfree', name: 'jfreechart', version: '1.0.19'
     compile group: 'org.jgrapht', name: 'jgrapht-core', version: '0.9.2'
     compile group: 'com.sun.woodstock.dependlibs', name: 'jh', version: '2.0'
-    compile group: 'net.sf.json-lib', name: 'json-lib', version: '2.2.3'
+    compile group: 'net.sf.json-lib', name: 'json-lib', version: '2.2.3', classifier: 'jdk15'
     compile group: 'com.yuvimasory', name: 'orange-extensions', version: '1.3.0'
     compile group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '2.5.8'
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.11.2'

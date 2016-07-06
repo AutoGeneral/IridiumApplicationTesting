@@ -16,7 +16,7 @@ href="http://java.sun.com/products/autodl/j2se"/>
     <property name="javaws.featureGroupName" value="CQS-ECOM"/>
     <property name="javaws.testSource" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/9.multipleenvironments/test.feature"/>
     <property name="javaws.importBaseUrl" value=""/>
-    <property name="javaws.testDestination" value="CHROME"/>
+    <property name="javaws.testDestination" value="FIREFOX"/>
     <property name="javaws.webdriver.chrome.driver" value=""/>
     <property name="javaws.webdriver.opera.driver" value=""/>
     <property name="javaws.phantomjs.binary.path" value=""/>
@@ -32,7 +32,8 @@ href="http://java.sun.com/products/autodl/j2se"/>
     <property name="javaws.tagsOverride" value=""/>
     <property name="javaws.phantomJSLoggingLevel" value="NONE"/>
     <property name="javaws.startInternalProxy" value=""/>
-    <jar href="webapptesting-signed.jar" main="true" />
+	<property name="jnlp.versionEnabled" value="true"/>
+	<jar href="webapptesting-signed.jar" main="true" version="0.0.1" />
     </resources>
     <application-desc
         name="Web Application tester"

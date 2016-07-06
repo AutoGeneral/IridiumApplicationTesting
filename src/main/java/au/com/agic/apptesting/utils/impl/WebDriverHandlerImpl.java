@@ -16,6 +16,9 @@ import java.nio.file.Path;
 
 import javax.validation.constraints.NotNull;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * A servoce that detects the OS, extracts the drivers and configures then as system properies
  */
@@ -150,13 +153,26 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					extractDriver("/drivers/linux64/phantomjs/phantomjs", "phantomjs"));
 			}
 
+		} catch (final DriverException ex) {
+			throw ex;
 		} catch (final Exception ex) {
 			throw new DriverException(ex);
 		}
 	}
 
 	private String extractDriver(@NotNull final String driver, @NotNull final String name) throws IOException {
+		checkNotNull(driver);
+		checkArgument(StringUtils.isNotBlank(name));
+
 		final InputStream driverURL = getClass().getResourceAsStream(driver);
+
+		/*
+			The driver may not be bundled
+		 */
+		if (driverURL == null) {
+			throw new DriverException("The driver resource does not exist.");
+		}
+
 		final Path driverTemp = Files.createTempFile("driver", name);
 		FileUtils.copyToFile(driverURL, driverTemp.toFile());
 		driverTemp.toFile().setExecutable(true);
