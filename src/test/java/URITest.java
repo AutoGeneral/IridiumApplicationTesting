@@ -24,7 +24,7 @@ public class URITest {
 	 */
 	//@Test
 	public void testFileAccess() throws IOException {
-		final URI uri = URI.create("jar:https://github.com/AutoGeneral/IridiumApplicationTesting/releases/download/v0.0.1/webapptesting-signed.jar!/zap");
+		final URI uri = URI.create("jar:https://s3-ap-southeast-2.amazonaws.com/ag-iridium/webapptesting-signed.jar!/zap");
 		String tmpFile = "/tmp/" + LocalDateTime.now() + ".jar";
 		FILE_SYSTEM_UTILS.copyFromJar(uri, Paths.get(tmpFile));
 		Assert.assertTrue(new File(tmpFile).exists());
