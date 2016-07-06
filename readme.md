@@ -87,14 +87,11 @@ Simple browserstack setup:
 Params marked as * are required
 
 #### configuration *
-We're no longer using DDS to store testing configuration so you MUST specify .xml file with testing profile.
-Usually that is http://gitstash/projects/AGIC/repos/end-to-end-tests/browse/settings/configuration.xml.
-This option accepts a complete file path, or a URL.
+You must specify .xml file with testing configuration profile. This option accepts a complete file path, or a URL. ([Example](https://github.com/AutoGeneral/IridiumApplicationTesting/blob/master/examples/5.dataset/configuration.xml))
+
 
 #### dataset *
-We're no longer using DDS to store data sets configuration so you MUST specify .xml file with dataset.
-Check http://gitstash/projects/AGIC/repos/end-to-end-tests/browse/data to see existing dataset profiles.
-This option accepts a complete file path, or a URL.
+You must specify .xml file with datasets configuration. This option accepts a complete file path, or a URL. ([Example](https://github.com/AutoGeneral/IridiumApplicationTesting/blob/master/examples/5.dataset/dataset.xml))
 
 #### testSource *
 Path to E2E tests.
