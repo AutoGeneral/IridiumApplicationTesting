@@ -166,7 +166,9 @@ public class ZAPStepDefinitions {
 	 * This step will save the ZAP report to disk with the given filename
 	 *
 	 * @param path The name of the report, like "zapreport.xml"
-	 */
+	 * @throws IOException When the report file could not be written
+	 * @throws ClientApiException When the ZAP API threw an exception
+     */
 	@When("the ZAP XML report is written to the file \"(.*?)\"")
 	public void writeXmlReport(final String path) throws IOException, ClientApiException {
 		final ClientApi clientApi = getClientApi();
@@ -185,7 +187,8 @@ public class ZAPStepDefinitions {
 
 	/**
 	 * This configures ZAP with all scanners, both passive and active
-	 */
+	 * @throws ClientApiException When the ZAP API threw an exception
+     */
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Given("a scanner with all policies enabled")
 	public void enableAllScanners() throws ClientApiException {
@@ -203,6 +206,7 @@ public class ZAPStepDefinitions {
 
 	/**
 	 * This configures ZAP with no scanners, neither passive nor active
+	 * @throws ClientApiException When the ZAP API threw an exception
 	 */
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Given("a scanner with all policies disabled")
@@ -221,6 +225,7 @@ public class ZAPStepDefinitions {
 
 	/**
 	 * Enables only the passive scanner. The active scanner is disabled.
+	 * @throws ClientApiException When the ZAP API threw an exception
 	 */
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Given("the passive scanner is enabled")
@@ -239,6 +244,7 @@ public class ZAPStepDefinitions {
 
 	/**
 	 * Enables only the active scanner. The passive scanner is disabled.
+	 * @throws ClientApiException When the ZAP API threw an exception
 	 */
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Given("the active scanner is enabled")
@@ -259,6 +265,7 @@ public class ZAPStepDefinitions {
 	 * Enabled the given active scan policy
 	 *
 	 * @param policyName The name of the active scan policy
+	 * @throws ClientApiException When the ZAP API threw an exception
 	 */
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Given("the \"(.*?)\" policy is enabled")
@@ -288,7 +295,6 @@ public class ZAPStepDefinitions {
 	/**
 	 * Sets the attack strength
 	 * @param strength The ZAP attack strength
-	 * @throws ClientApiException when the ZAP API threw an exception
 	 */
 	@Given("the attack strength is set to \"(.*?)\"")
 	public void setAttackStrength(final String strength) {
@@ -464,6 +470,7 @@ public class ZAPStepDefinitions {
 	 *
 	 * @param risk    The level of risk. Either HIGH, MEDIUM or LOW
 	 * @param baseUrl An optional regex that can be used to match the url that a risk is assoicated with
+	 * @throws ClientApiException When the ZAP API threw an exception
 	 */
 	@Then("^no \"(.*?)\" or higher risk vulnerabilities should be present(?: for the base url \"(.*?)\")?$")
 	public void checkVulnerabilities(final String risk, final String baseUrl) throws ClientApiException {

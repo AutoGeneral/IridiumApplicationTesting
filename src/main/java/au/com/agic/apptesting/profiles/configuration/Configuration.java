@@ -48,6 +48,8 @@ public class Configuration {
 	 * validCommands is an object that contains a list. In JSON, validCommands is a list.
 	 *
 	 * Here we accept the JSON list and put it into the ValidCommands object
+	 *
+	 * @return A collection used when parsing a JSON representation of the data stucture
 	 */
 	@XmlTransient
 	public List<DesiredCapabilities> getJsonSettings() {
