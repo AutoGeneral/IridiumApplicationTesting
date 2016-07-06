@@ -3,7 +3,7 @@ buildscript {
 	maven {
       		url "https://plugins.gradle.org/m2/"
     	}
-	mavenCentral()        
+	mavenCentral()
     }
 
     dependencies {
@@ -52,6 +52,7 @@ shadowJar {
 repositories {
     maven { url nexusProxy }
     mavenLocal()
+	mavenCentral()
 }
 
 def mysqlDriverVersion = '5.1.34'
