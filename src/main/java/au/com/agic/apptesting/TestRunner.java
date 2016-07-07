@@ -14,6 +14,7 @@ import au.com.agic.apptesting.utils.ExceptionWriter;
 import au.com.agic.apptesting.utils.FeatureLoader;
 import au.com.agic.apptesting.utils.FileSystemUtils;
 import au.com.agic.apptesting.utils.JUnitReportMerge;
+import au.com.agic.apptesting.utils.JarDownloader;
 import au.com.agic.apptesting.utils.LocalProxyUtils;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.ScreenCapture;
@@ -28,6 +29,7 @@ import au.com.agic.apptesting.utils.impl.DesktopInteractionImpl;
 import au.com.agic.apptesting.utils.impl.ExceptionWriterImpl;
 import au.com.agic.apptesting.utils.impl.FileSystemUtilsImpl;
 import au.com.agic.apptesting.utils.impl.JUnitReportMergeImpl;
+import au.com.agic.apptesting.utils.impl.JarDownloaderImpl;
 import au.com.agic.apptesting.utils.impl.LocalPathFeatureLoaderImpl;
 import au.com.agic.apptesting.utils.impl.WebDriverHandlerImpl;
 import au.com.agic.apptesting.utils.impl.ZapProxyUtilsImpl;
@@ -77,6 +79,7 @@ public class TestRunner {
 	private static final LocalProxyUtils<?> ZAP_PROXY = new ZapProxyUtilsImpl();
 	private static final LocalProxyUtils<?> BROWSERMOB_PROXY = new BrowsermobProxyUtilsImpl();
 	private static final WebDriverHandler WEB_DRIVER_HANDLER = new WebDriverHandlerImpl();
+	private static final JarDownloader JAR_DOWNLOADER = new JarDownloaderImpl();
 	private static final String HTML_EXTENSION = ".html";
 	/**
 	 * Used to name threads that might be reused
@@ -114,6 +117,7 @@ public class TestRunner {
 
 		try {
 
+			JAR_DOWNLOADER.downloadJar(tempFiles);
 			copySystemProperties();
 			WEB_DRIVER_HANDLER.configureWebDriver(tempFiles);
 			final List<ProxyDetails<?>> proxies = configureProxies(tempFiles);

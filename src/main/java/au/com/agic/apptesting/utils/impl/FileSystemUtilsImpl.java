@@ -1,5 +1,6 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static au.com.agic.apptesting.utils.JarDownloader.LOCAL_JAR_FILE_SYSTEM_PROPERTY;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -158,19 +159,9 @@ public class FileSystemUtilsImpl implements FileSystemUtils {
 				final URI newUri = URI.create(resPath.getSchemeSpecificPart());
 
 				/*
-					Create a new URI that references the jar file
-				 */
-				final URI webstartJar = new URIBuilder()
-					.setScheme(newUri.getScheme())
-					.setHost(newUri.getHost())
-					.setPath(newUri.getPath().replaceAll("\\!.*", ""))
-					.build();
-
-				/*
 					Copy it somewhere locally
 				 */
-				final File copy = File.createTempFile("zap", ".jar");
-				FileUtils.copyURLToFile(webstartJar.toURL(), copy);
+				final File copy = new File(System.getProperty(LOCAL_JAR_FILE_SYSTEM_PROPERTY));
 
 				/*
 					Recreate the reference to the local copy of the jar file
