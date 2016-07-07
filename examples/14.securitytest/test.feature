@@ -14,11 +14,9 @@ Feature: Open an application
   Scenario: Register User
     And I click the element with the css selector of "[href='login.jsp']"
     And I wait "30" seconds for the element with the xpath alias of "TitleXpath" to be displayed
-    And I take a screenshot
 
     And I click the element with the css selector of "[href='register.jsp']"
     And I wait "30" seconds for the element with the xpath alias of "TitleXpath" to be displayed
-    And I take a screenshot
 
     And I populate the element with the ID of "username" with a random number between "1" and "10000000"
     And I populate the element with the ID of "username" with "@a.com"
@@ -43,7 +41,8 @@ Feature: Open an application
     And I wait "30" seconds for the element with the xpath alias of "TitleXpath" to be displayed
 
   Scenario: Save the results
+    And the application is spidered
     And the attack strength is set to "HIGH"
     And the active scanner is run
     And the ZAP XML report is written to the file "zapreport.xml"
-    Then no "Medium" or higher risk vulnerabilities should be present for the base url "^https://bodgeit\.herokuapp\.com"
+    Then no "Medium" or higher risk vulnerabilities should be present for the base url "^https://bodgeit.herokuapp.com"
