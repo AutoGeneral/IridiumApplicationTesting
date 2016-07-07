@@ -162,11 +162,26 @@ public class ZAPStepDefinitions {
 		return (ClientApi) proxyInterface.get();
 	}
 
+	/**
+	 * Creates an empty ZAP session
+	 * @throws ClientApiException When the ZAP API threw an exception
+	 */
 	@When("I create an empty ZAP session")
 	public void startSession() throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
 		final String url = threadDetails.getUrlDetails().getDefaultUrl();
-		clientApi.httpSessions.createEmptySession(ZAP_API_KEY, url, null);
+		clientApi.httpSessions.createEmptySession(ZAP_API_KEY, url, "session");
+	}
+
+	/**
+	 * Creates an empty ZAP session
+	 * @throws ClientApiException When the ZAP API threw an exception
+	 */
+	@When("I set the active ZAP session")
+	public void activeSession() throws ClientApiException {
+		final ClientApi clientApi = getClientApi();
+		final String url = threadDetails.getUrlDetails().getDefaultUrl();
+		clientApi.httpSessions.addSessionToken(ZAP_API_KEY, url, "session");
 	}
 
 	/**
