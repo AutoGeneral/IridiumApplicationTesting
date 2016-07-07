@@ -3,6 +3,8 @@ Feature: Open an application
   Scenario: Generate Page Object
     Given the alias mappings
       | Title             | /html/body/center/table/tbody/tr[1]/td/h1     |
+      | LoginLink         | [href='login.jsp']                            |
+      | RegisterLink      | [href='register.jsp']                         |
       | AboutLink         | [href='about.jsp']                            |
       | BasketLink        | [href='basket.jsp']                           |
       | SearchLink        | [href='search.jsp']                           |
@@ -21,10 +23,10 @@ Feature: Open an application
     And I open the application
 
   Scenario: Register User
-    And I click the element with the css selector of "[href='login.jsp']"
+    And I click the element with the css selector alias of "LoginLink"
     And I wait "30" seconds for the element with the xpath alias of "Title" to be displayed
 
-    And I click the element with the css selector of "[href='register.jsp']"
+    And I click the element with the css selector alias of "RegisterLink"
     And I wait "30" seconds for the element with the xpath alias of "Title" to be displayed
 
     And I populate the element with the ID of "username" with a random number between "1" and "10000000"
