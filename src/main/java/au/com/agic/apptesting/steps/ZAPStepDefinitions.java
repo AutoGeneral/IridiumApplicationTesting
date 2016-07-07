@@ -610,7 +610,7 @@ public class ZAPStepDefinitions {
 				.map(Integer::parseInt)
 				.orElse(0);
 
-			double timeoutIn = (timeout - new Date().getTime() - start) / 1000.0d;
+			double timeoutIn = (timeout - (new Date().getTime() - start)) / 1000.0d;
 
 			LOGGER.info(
 				"Spidering {}% done. Timing out in {} seconds",
