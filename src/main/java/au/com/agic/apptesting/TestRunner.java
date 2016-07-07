@@ -112,28 +112,36 @@ public class TestRunner {
 		 */
 		final List<File> tempFiles = new ArrayList<>();
 
-		copySystemProperties();
-		WEB_DRIVER_HANDLER.configureWebDriver();
-		final List<ProxyDetails<?>> proxies = configureProxies(tempFiles);
-		cleanupOldReports();
-		init(reportOutput, tempFiles, proxies);
-
-		/*
-			Now run the tests
-		 */
 		try {
-			runScripts(reportOutput);
-			mergeReports(reportOutput);
-		} catch (final FileProfileAccessException ex) {
-			LOGGER.error("WEBAPPTESTER-BUG-0003: There was an exception thrown while trying to run the test scripts."
-				+ " This is most likely because of an invalid URL or path to the feature scripts."
-				+ " The details of the error are shown below.", ex);
-		} catch (final Exception ex) {
-			LOGGER.error("WEBAPPTESTER-BUG-0004: There was an exception thrown while trying to run the test scripts."
-				+ " The details of the error are shown below.", ex);
-		}
 
-		threadPool.stop();
+			copySystemProperties();
+			WEB_DRIVER_HANDLER.configureWebDriver(tempFiles);
+			final List<ProxyDetails<?>> proxies = configureProxies(tempFiles);
+			cleanupOldReports();
+			init(reportOutput, tempFiles, proxies);
+
+			/*
+				Now run the tests
+			 */
+			try {
+				runScripts(reportOutput);
+				mergeReports(reportOutput);
+			} catch (final FileProfileAccessException ex) {
+				LOGGER.error("WEBAPPTESTER-BUG-0003: There was an exception thrown while trying to run the test scripts."
+					+ " This is most likely because of an invalid URL or path to the feature scripts."
+					+ " The details of the error are shown below.", ex);
+			} catch (final Exception ex) {
+				LOGGER.error("WEBAPPTESTER-BUG-0004: There was an exception thrown while trying to run the test scripts."
+					+ " The details of the error are shown below.", ex);
+			}
+
+			threadPool.stop();
+		} finally {
+			/*
+				Clean up temp files
+			 */
+			tempFiles.stream().forEach(File::delete);
+		}
 	}
 
 	/**

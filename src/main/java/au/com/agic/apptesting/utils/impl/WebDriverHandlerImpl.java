@@ -12,10 +12,12 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -30,17 +32,19 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
 	@Override
-	public void configureWebDriver() {
+	public void configureWebDriver(@NotNull final List<File> tempFiles) {
+		checkNotNull(tempFiles);
+
 		if (SystemUtils.IS_OS_WINDOWS) {
-			configureWindows();
+			configureWindows(tempFiles);
 		} else if (SystemUtils.IS_OS_MAC) {
-			configureMac();
+			configureMac(tempFiles);
 		} else if (SystemUtils.IS_OS_LINUX) {
-			configureLinux();
+			configureLinux(tempFiles);
 		}
 	}
 
-	private void configureWindows() {
+	private void configureWindows(@NotNull final List<File> tempFiles) {
 		try {
 			final boolean chromeWebDriverSet =
 				StringUtils.isNotBlank(
@@ -49,7 +53,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!chromeWebDriverSet) {
 				System.setProperty(
 					Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/win32/chrome/chromedriver.exe", "chrome.exe"));
+					extractDriver("/drivers/win32/chrome/chromedriver.exe", "chrome.exe", tempFiles));
 			}
 
 			final boolean operaWebDriverSet =
@@ -59,7 +63,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!operaWebDriverSet) {
 				System.setProperty(
 					Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/win64/opera/operadriver.exe", "opera.exe"));
+					extractDriver("/drivers/win64/opera/operadriver.exe", "opera.exe", tempFiles));
 			}
 
 			final boolean ieWebDriverSet =
@@ -69,7 +73,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!operaWebDriverSet) {
 				System.setProperty(
 					Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/win64/ie/IEDriverServer.exe", "ie.exe"));
+					extractDriver("/drivers/win64/ie/IEDriverServer.exe", "ie.exe", tempFiles));
 			}
 
 			final boolean phantomWebDriverSet =
@@ -79,7 +83,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
-					extractZipDriver("/drivers/win32/phantomjs/phantomjs.exe.gz", "phantomjs.exe"));
+					extractZipDriver("/drivers/win32/phantomjs/phantomjs.exe.gz", "phantomjs.exe", tempFiles));
 			}
 
 		} catch (final Exception ex) {
@@ -87,7 +91,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		}
 	}
 
-	private void configureMac() {
+	private void configureMac(@NotNull final List<File> tempFiles) {
 		try {
 			final boolean chromeWebDriverSet =
 				StringUtils.isNotBlank(
@@ -96,7 +100,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!chromeWebDriverSet) {
 				System.setProperty(
 					Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/mac32/chrome/chromedriver", "chrome"));
+					extractDriver("/drivers/mac32/chrome/chromedriver", "chrome", tempFiles));
 			}
 
 			final boolean operaWebDriverSet =
@@ -106,7 +110,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!operaWebDriverSet) {
 				System.setProperty(
 					Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/mac64/opera/operadriver", "opera"));
+					extractDriver("/drivers/mac64/opera/operadriver", "opera", tempFiles));
 			}
 
 			final boolean phantomWebDriverSet =
@@ -116,7 +120,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
-					extractZipDriver("/drivers/mac64/phantomjs/phantomjs.gz", "phantomjs"));
+					extractZipDriver("/drivers/mac64/phantomjs/phantomjs.gz", "phantomjs", tempFiles));
 			}
 
 		} catch (final Exception ex) {
@@ -124,7 +128,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		}
 	}
 
-	private void configureLinux() {
+	private void configureLinux(@NotNull final List<File> tempFiles) {
 		try {
 			final boolean chromeWebDriverSet =
 				StringUtils.isNotBlank(
@@ -133,7 +137,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!chromeWebDriverSet) {
 				System.setProperty(
 					Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/linux64/chrome/chromedriver", "chrome"));
+					extractDriver("/drivers/linux64/chrome/chromedriver", "chrome", tempFiles));
 			}
 
 			final boolean operaWebDriverSet =
@@ -143,7 +147,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!operaWebDriverSet) {
 				System.setProperty(
 					Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/linux64/opera/operadriver", "opera"));
+					extractDriver("/drivers/linux64/opera/operadriver", "opera", tempFiles));
 			}
 
 			final boolean phantomWebDriverSet =
@@ -153,7 +157,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
-					extractZipDriver("/drivers/linux64/phantomjs/phantomjs.gz", "phantomjs"));
+					extractZipDriver("/drivers/linux64/phantomjs/phantomjs.gz", "phantomjs", tempFiles));
 			}
 
 		} catch (final DriverException ex) {
@@ -163,7 +167,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		}
 	}
 
-	private String extractDriver(@NotNull final String driver, @NotNull final String name) throws IOException {
+	private String extractDriver(
+			@NotNull final String driver,
+			@NotNull final String name,
+			@NotNull final List<File> tempFiles) throws IOException {
 		checkNotNull(driver);
 		checkArgument(StringUtils.isNotBlank(name));
 
@@ -176,10 +183,13 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			throw new DriverException("The driver resource does not exist.");
 		}
 
-		return copyDriver(driverURL, name);
+		return copyDriver(driverURL, name, tempFiles);
 	}
 
-	private String extractZipDriver(@NotNull final String driver, @NotNull final String name) throws IOException, CompressorException {
+	private String extractZipDriver(
+			@NotNull final String driver,
+			@NotNull final String name,
+			@NotNull final List<File> tempFiles) throws IOException, CompressorException {
 		checkNotNull(driver);
 		checkArgument(StringUtils.isNotBlank(name));
 
@@ -195,16 +205,22 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		final CompressorInputStream input = new CompressorStreamFactory()
 			.createCompressorInputStream(CompressorStreamFactory.GZIP, driverURL);
 
-		return copyDriver(input, name);
+		return copyDriver(input, name, tempFiles);
 	}
 
-	private String copyDriver(@NotNull InputStream stream, @NotNull final String name) throws IOException {
+	private String copyDriver(
+			@NotNull final InputStream stream,
+			@NotNull final String name,
+			@NotNull final List<File> tempFiles) throws IOException {
 		checkNotNull(stream);
 		checkArgument(StringUtils.isNotBlank(name));
 
 		final Path driverTemp = Files.createTempFile("driver", name);
 		FileUtils.copyToFile(stream, driverTemp.toFile());
 		driverTemp.toFile().setExecutable(true);
+
+		tempFiles.add(driverTemp.toFile());
+
 		return driverTemp.toAbsolutePath().toString();
 	}
 }
