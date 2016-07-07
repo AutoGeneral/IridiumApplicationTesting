@@ -1,0 +1,1 @@
+This is an example that demonstrates running tests in BrowserStack.

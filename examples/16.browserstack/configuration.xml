@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<profile>
+    <browserstack>
+        <accessToken>accessTokenGoesHere</accessToken>
+        <username>usernameGoesHere</username>
+    </browserstack>
+    <settings>
+        <desiredCapabilities enabled="true" group="Chrome,Windows,Desktop">
+            <capability name="browser" value="Chrome"/>
+            <capability name="browser_version" value="50.0"/>
+            <capability name="os" value="Windows"/>
+            <capability name="os_version" value="8.1"/>
+            <capability name="browserstack.debug" value="true"/>
+        </desiredCapabilities>
+    </settings>
+	<urlMappings>
+		<featureGroup name="CQS-PROD">
+			<urlMapping>
+				<url name="default">https://secure.budgetdirect.com.au/car/new_quote.jsp?hSty=BUDD</url>
+			</urlMapping>
+		</featureGroup>
+	</urlMappings>
+</profile>
