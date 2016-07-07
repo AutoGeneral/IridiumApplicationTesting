@@ -637,7 +637,7 @@ public class ZAPStepDefinitions {
 
 			return alerts.stream()
 				.filter(v ->
-					falsePositives.stream()
+					!falsePositives.stream()
 						.anyMatch(w -> w.matches(
 							v.getUrl(),
 							v.getParam(),
