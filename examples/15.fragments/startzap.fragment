@@ -1,0 +1,2 @@
+  Scenario: Initialise ZAP
+    Given a scanner with all policies enabled
