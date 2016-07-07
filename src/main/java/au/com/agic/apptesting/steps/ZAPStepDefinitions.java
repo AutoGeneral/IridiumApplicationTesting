@@ -162,6 +162,13 @@ public class ZAPStepDefinitions {
 		return (ClientApi) proxyInterface.get();
 	}
 
+	@When("I create an empty ZAP session")
+	public void startSession() {
+		final ClientApi clientApi = getClientApi();
+		final String url = threadDetails.getUrlDetails().getDefaultUrl();
+		clientApi.httpSessions.createEmptySession(ZAP_API_KEY, url, null);
+	}
+
 	/**
 	 * This step will save the ZAP report to disk with the given filename
 	 *

@@ -9,6 +9,7 @@ Feature: Open an application
 
   Scenario: Launch App
     And I set the default wait time between steps to "2"
+    And I create an empty ZAP session
     And I open the application
     And I wait "30" seconds for the element with the xpath alias of "TitleXpath" to be displayed
 

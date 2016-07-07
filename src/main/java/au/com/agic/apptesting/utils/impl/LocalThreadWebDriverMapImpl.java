@@ -19,6 +19,7 @@ import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -190,7 +191,22 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		}
 
 		if (Constants.FIREFOX.equalsIgnoreCase(browser)) {
-			return new FirefoxDriver(capabilities);
+			final FirefoxProfile profile = new FirefoxProfile();
+
+			/*
+				Set the proxy
+			 */
+			if (mainProxy.isPresent()) {
+
+				profile.setPreference("network.proxy.type", 1);
+				profile.setPreference("network.proxy.http", "localhost");
+				profile.setPreference("network.proxy.http_port", mainProxy.get().getPort());
+				profile.setPreference("network.proxy.ssl", "localhost");
+				profile.setPreference("network.proxy.ssl_port", mainProxy.get().getPort());
+				profile.setPreference("network.proxy.no_proxies_on", "");
+			}
+
+			return new FirefoxDriver(profile);
 		}
 
 		if (Constants.SAFARI.equalsIgnoreCase(browser)) {
