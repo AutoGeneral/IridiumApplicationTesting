@@ -6,7 +6,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
-import au.com.agic.apptesting.exception.NoFeaturesException;
 import au.com.agic.apptesting.exception.RunScriptsException;
 import au.com.agic.apptesting.utils.ApplicationUrlLoader;
 import au.com.agic.apptesting.utils.DesktopInteraction;
@@ -31,11 +30,11 @@ import au.com.agic.apptesting.utils.impl.FileSystemUtilsImpl;
 import au.com.agic.apptesting.utils.impl.JUnitReportMergeImpl;
 import au.com.agic.apptesting.utils.impl.JarDownloaderImpl;
 import au.com.agic.apptesting.utils.impl.LocalPathFeatureLoaderImpl;
-import au.com.agic.apptesting.utils.impl.WebDriverHandlerImpl;
-import au.com.agic.apptesting.utils.impl.ZapProxyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.ScreenCaptureImpl;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.TagAnalyserImpl;
+import au.com.agic.apptesting.utils.impl.WebDriverHandlerImpl;
+import au.com.agic.apptesting.utils.impl.ZapProxyUtilsImpl;
 
 import net.lightbody.bmp.BrowserMobProxy;
 
@@ -49,8 +48,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -94,7 +91,7 @@ public class TestRunner {
 	private static final long DELAY_CONCURRENT_START = 2000;
 	private static final long THREAD_COMPLETE_SLEEP = 1000;
 	private final DefaultThreadPool threadPool = new DefaultThreadPool(NumberUtils
-			.toInt(SYSTEM_PROPERTY_UTILS.getProperty(Constants.NUMBER_THREADS_SYSTEM_PROPERTY), 2));
+		.toInt(SYSTEM_PROPERTY_UTILS.getProperty(Constants.NUMBER_THREADS_SYSTEM_PROPERTY), 2));
 	/**
 	 * Used to count the number of scripts that have completed
 	 */
@@ -349,8 +346,7 @@ public class TestRunner {
 
 	/**
 	 * We run each Cucumber test in a new thread. This improves performance, but also allows us to use a different
-	 * configuration for each thread, which means we can connect to BrowserStack and test against a different
-	 * browser.
+	 * configuration for each thread, which means we can connect to BrowserStack and test against a different browser.
 	 */
 	private class CucumberThread implements Runnable {
 
