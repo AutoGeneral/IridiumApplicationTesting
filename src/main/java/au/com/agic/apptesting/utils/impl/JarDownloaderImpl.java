@@ -6,6 +6,8 @@ import au.com.agic.apptesting.exception.JarDownloadException;
 import au.com.agic.apptesting.utils.JarDownloader;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URI;
@@ -17,6 +19,8 @@ import javax.validation.constraints.NotNull;
  * Downloads the JAR file and saves it locally
  */
 public class JarDownloaderImpl implements JarDownloader {
+	private static final Logger LOGGER = LoggerFactory.getLogger(JarDownloaderImpl.class);
+	private static final String HTTP_SCHEME = "http";
 
 	@Override
 	public void downloadJar(@NotNull final List<File> tempFiles) {
@@ -32,7 +36,9 @@ public class JarDownloaderImpl implements JarDownloader {
 				.getLocation()
 				.toURI();
 
-			if (uri.getScheme().startsWith("http")) {
+			if (uri.getScheme().startsWith(HTTP_SCHEME)) {
+				LOGGER.info("Downloading JAR file locally for ZAP and Cucumber to use");
+
 				/*
 					Copy it somewhere locally
 				 */

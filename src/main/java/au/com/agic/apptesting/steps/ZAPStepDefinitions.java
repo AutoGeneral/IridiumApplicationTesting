@@ -30,8 +30,10 @@ import org.zaproxy.clientapi.core.ClientApiException;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +60,10 @@ public class ZAPStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ZAPStepDefinitions.class);
 	private static final String DECIMAL_FORMAT = "#.##";
 	private static final int ZAP_SLEEP = 5000;
+	/**
+	 * Don't spider for longer than 5 minutes
+	 */
+	private static final int ZAP_SPIDER_TIMEOUT = 300000;
 	private static final int ZAP_MINIMUM_DONE_BEFORE_COMPLETE = 99;
 	private static final int ZAP_DONE = 100;
 
@@ -535,9 +541,15 @@ public class ZAPStepDefinitions {
 			filteredAlerts.size(), equalTo(0));
 	}
 
+	/**
+	 * Starts the ZAP spider.
+	 * @param depth How far to search into the application
+	 * @param timeout How long to wait for a timeout
+	 * @throws ClientApiException
+	 */
 	@SuppressWarnings({"unchecked", "OptionalGetWithoutIsPresent"})
-	@And("^the application is spidered(?: to a depth of\"(\\d+)\")?$")
-	public void theApplicationIsSpidered(final Integer depth) throws ClientApiException {
+	@And("^the application is spidered(?: to a depth of\"(\\d+)\")?(?: timing out after \"(\\d+)\" seconds)?$")
+	public void theApplicationIsSpidered(final Integer depth, final Integer timeout) throws ClientApiException {
 		checkState(threadDetails.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
 
 		final ClientApi clientApi = getClientApi();
@@ -558,6 +570,7 @@ public class ZAPStepDefinitions {
 			}
 
 			final int fixedDepth = depth == null ? DEFAULT_SPIDER_DEPTH : depth;
+			final long fixedTimeout = (long)(timeout == null ? ZAP_SPIDER_TIMEOUT : timeout) * 1000;
 			clientApi.spider.setOptionMaxDepth(ZAP_API_KEY, fixedDepth);
 			clientApi.spider.setOptionThreadCount(ZAP_API_KEY, DEFAULT_SPIDER_THREAD_COUNT);
 
@@ -569,20 +582,23 @@ public class ZAPStepDefinitions {
 				null,
 				null);
 
-			waitForSpiderToComplete(fixedDepth);
+			waitForSpiderToComplete(fixedDepth, fixedTimeout);
 		}
 	}
 
 	@SuppressWarnings("BusyWait")
-	private void waitForSpiderToComplete(final int depth) throws ClientApiException {
+	private void waitForSpiderToComplete(final int depth, final long timeout) throws ClientApiException {
 		checkArgument(depth > 0);
+		checkArgument(timeout > 0);
 
 		final ClientApi clientApi = getClientApi();
 
 		int status = 0;
 		int counter99 = 0; //hack to detect a ZAP spider that gets stuck on 99%
 
-		while (status < ZAP_DONE) {
+		final long start = new Date().getTime();
+
+		while (status < ZAP_DONE && new Date().getTime() - start < timeout) {
 			status = Optional.of(clientApi.spider.scans())
 				.map(a -> CastUtils.as(ApiResponseList.class, a))
 				.filter(Objects::nonNull)
@@ -593,6 +609,13 @@ public class ZAPStepDefinitions {
 				.map(a -> a.getAttribute("progress"))
 				.map(Integer::parseInt)
 				.orElse(0);
+
+			double timeoutIn = (timeout - new Date().getTime() - start) / 1000.0d;
+
+			LOGGER.info(
+				"Spidering {}% done. Timing out in {} seconds",
+				status,
+				new DecimalFormat("#.##").format(timeoutIn));
 
 			if (status >= ZAP_MINIMUM_DONE_BEFORE_COMPLETE) {
 				counter99++;
