@@ -1,43 +1,12 @@
 package au.com.agic.apptesting;
 
-import static au.com.agic.apptesting.constants.Constants.OPEN_REPORT_FILE_SYSTEM_PROPERTY;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
+import au.com.agic.apptesting.exception.NoFeaturesException;
 import au.com.agic.apptesting.exception.RunScriptsException;
-import au.com.agic.apptesting.utils.ApplicationUrlLoader;
-import au.com.agic.apptesting.utils.DesktopInteraction;
-import au.com.agic.apptesting.utils.ExceptionWriter;
-import au.com.agic.apptesting.utils.FeatureLoader;
-import au.com.agic.apptesting.utils.FileSystemUtils;
-import au.com.agic.apptesting.utils.JUnitReportMerge;
-import au.com.agic.apptesting.utils.JarDownloader;
-import au.com.agic.apptesting.utils.LocalProxyUtils;
-import au.com.agic.apptesting.utils.ProxyDetails;
-import au.com.agic.apptesting.utils.ScreenCapture;
-import au.com.agic.apptesting.utils.SystemPropertyUtils;
-import au.com.agic.apptesting.utils.TagAnalyser;
-import au.com.agic.apptesting.utils.ThreadDetails;
-import au.com.agic.apptesting.utils.WebDriverHandler;
-import au.com.agic.apptesting.utils.impl.ApplicationUrlLoaderImpl;
-import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
-import au.com.agic.apptesting.utils.impl.DesiredCapabilitiesLoaderImpl;
-import au.com.agic.apptesting.utils.impl.DesktopInteractionImpl;
-import au.com.agic.apptesting.utils.impl.ExceptionWriterImpl;
-import au.com.agic.apptesting.utils.impl.FileSystemUtilsImpl;
-import au.com.agic.apptesting.utils.impl.JUnitReportMergeImpl;
-import au.com.agic.apptesting.utils.impl.JarDownloaderImpl;
-import au.com.agic.apptesting.utils.impl.LocalPathFeatureLoaderImpl;
-import au.com.agic.apptesting.utils.impl.ScreenCaptureImpl;
-import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-import au.com.agic.apptesting.utils.impl.TagAnalyserImpl;
-import au.com.agic.apptesting.utils.impl.WebDriverHandlerImpl;
-import au.com.agic.apptesting.utils.impl.ZapProxyUtilsImpl;
-
+import au.com.agic.apptesting.utils.*;
+import au.com.agic.apptesting.utils.impl.*;
 import net.lightbody.bmp.BrowserMobProxy;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.StringUtils;
@@ -47,6 +16,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -55,7 +25,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.validation.constraints.NotNull;
+import static au.com.agic.apptesting.constants.Constants.OPEN_REPORT_FILE_SYSTEM_PROPERTY;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Typically Cucumber tests are run as jUnit tests. However, in our configuration we run Cucumber as a standalone
@@ -137,6 +109,8 @@ public class TestRunner {
 			}
 
 			threadPool.stop();
+		} catch (final Exception ex) {
+			EXCEPTION_WRITER.saveException(reportOutput, ex);
 		} finally {
 			/*
 				Clean up temp files
@@ -346,7 +320,8 @@ public class TestRunner {
 
 	/**
 	 * We run each Cucumber test in a new thread. This improves performance, but also allows us to use a different
-	 * configuration for each thread, which means we can connect to BrowserStack and test against a different browser.
+	 * configuration for each thread, which means we can connect to BrowserStack and test against a different
+	 * browser.
 	 */
 	private class CucumberThread implements Runnable {
 
