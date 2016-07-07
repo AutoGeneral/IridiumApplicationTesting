@@ -67,7 +67,8 @@ Feature: Open an application
     And the attack strength is set to "HIGH"
     And the active scanner is run
     And the ZAP XML report is written to the file "zapreport.xml"
+    # Ignore X-Frame-Options Header Error
     And the following false positives are ignored
       | url                              | parameter          | cweId      | wascId   |
       | https://bodgeit.herokuapp.com.*  |                    | 16         | 15       |
-    Then no "Medium" or higher risk vulnerabilities should be present for the base url "^https://bodgeit.herokuapp.com"
+    Then no "Low" or higher risk vulnerabilities should be present for the base url "^https://bodgeit.herokuapp.com"
