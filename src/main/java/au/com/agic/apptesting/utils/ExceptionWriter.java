@@ -7,5 +7,10 @@ import javax.validation.constraints.NotNull;
  */
 public interface ExceptionWriter {
 
-	void saveException(@NotNull final String location, @NotNull final Exception exception);
+	/**
+	 * Writes out the details of the exception to a file
+	 * @param location The location of the exception file
+	 * @param exception The exception to save
+	 */
+	void saveException(@NotNull final String location, @NotNull final Throwable exception);
 }

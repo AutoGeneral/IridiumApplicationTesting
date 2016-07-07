@@ -167,8 +167,8 @@ public class FileSystemUtilsImpl implements FileSystemUtils {
 					Recreate the reference to the local copy of the jar file
 				 */
 				final URI newResPath = new URIBuilder()
-					.setScheme("jar:file")
-					.setPath(copy.getAbsolutePath()
+					.setScheme("jar")
+					.setPath(copy.toURI()
 						+ newUri.getPath().replaceAll("^.*?(?=\\!)", ""))
 					.build();
 
@@ -176,7 +176,7 @@ public class FileSystemUtilsImpl implements FileSystemUtils {
 				final FileSystem fs = FileSystems.newFileSystem(newResPath, env);
 				return new PathReference(fs.provider().getPath(newResPath), fs);
 			}))
-			.getOrElseThrow(x -> new IOException("Could not process the URI " + resPath, x.getCause()));
+			.getOrElseThrow(x -> new IOException("Could not process the URI " + resPath, x));
 	}
 
 	/**

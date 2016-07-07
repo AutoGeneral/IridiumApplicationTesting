@@ -2,7 +2,6 @@ package au.com.agic.apptesting;
 
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
-import au.com.agic.apptesting.exception.NoFeaturesException;
 import au.com.agic.apptesting.exception.RunScriptsException;
 import au.com.agic.apptesting.utils.*;
 import au.com.agic.apptesting.utils.impl.*;
@@ -103,14 +102,19 @@ public class TestRunner {
 				LOGGER.error("WEBAPPTESTER-BUG-0003: There was an exception thrown while trying to run the test scripts."
 					+ " This is most likely because of an invalid URL or path to the feature scripts."
 					+ " The details of the error are shown below.", ex);
+
+				throw ex;
 			} catch (final Exception ex) {
 				LOGGER.error("WEBAPPTESTER-BUG-0004: There was an exception thrown while trying to run the test scripts."
 					+ " The details of the error are shown below.", ex);
+
+				throw ex;
 			}
 
 			threadPool.stop();
 		} catch (final Exception ex) {
 			EXCEPTION_WRITER.saveException(reportOutput, ex);
+			throw ex;
 		} finally {
 			/*
 				Clean up temp files
@@ -425,8 +429,9 @@ public class TestRunner {
 		/**
 		 * Tags can be defined against the URL, or overridden with a system property
 		 */
-		private void addTags(@NotNull final List<String> args,
-			@NotNull final ThreadDetails threadDetails) {
+		private void addTags(
+				@NotNull final List<String> args,
+				@NotNull final ThreadDetails threadDetails) {
 			checkNotNull(args);
 			checkNotNull(threadDetails);
 

@@ -25,7 +25,7 @@ public class ExceptionWriterImpl implements ExceptionWriter {
 	private static final String EXCEPTION_FILE_NAME = "exception.txt";
 
 	@Override
-	public void saveException(@NotNull final String location, @NotNull final Exception exception) {
+	public void saveException(@NotNull final String location, @NotNull final Throwable exception) {
 		checkArgument(StringUtils.isNoneBlank(location));
 		checkNotNull(exception);
 
@@ -35,8 +35,12 @@ public class ExceptionWriterImpl implements ExceptionWriter {
 		try {
 			FileUtils.writeStringToFile(
 				new File(location + "/" + EXCEPTION_FILE_NAME),
-				message + "\n" + stackTrace,
+				message + "\n" + stackTrace + "\n",
 				true);
+
+			if (exception.getCause() != null) {
+				saveException(location, exception.getCause());
+			}
 		} catch (final IOException ex) {
 			LOGGER.error("WEBAPPTESTER-BUG-0005: Could not write exception details to log file", ex);
 		}
