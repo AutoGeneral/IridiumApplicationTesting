@@ -12,19 +12,19 @@ Feature: Open an application
     And I open the application
     And I wait "30" seconds for the element with the xpath alias of "TitleXpath" to be displayed
 
-    And I click the element with the css selector of "[href=about.jsp]"
+    And I click the element with the css selector of "[href='about.jsp']"
     And I wait "30" seconds for the element with the xpath alias of "TitleXpath" to be displayed
 
-    And I click the element with the css selector of "[href=contact.jsp]"
+    And I click the element with the css selector of "[href='contact.jsp']"
     And I wait "30" seconds for the element with the xpath alias of "TitleXpath" to be displayed
 
-    And I click the element with the css selector of "[href=login.jsp]"
+    And I click the element with the css selector of "[href='login.jsp']"
     And I wait "30" seconds for the element with the xpath alias of "TitleXpath" to be displayed
 
-    And I click the element with the css selector of "[href=basket.jsp]"
+    And I click the element with the css selector of "[href='basket.jsp']"
     And I wait "30" seconds for the element with the xpath alias of "TitleXpath" to be displayed
 
-    And I click the element with the css selector of "[href=search.jsp]"
+    And I click the element with the css selector of "[href='search.jsp']"
     And I wait "30" seconds for the element with the xpath alias of "TitleXpath" to be displayed
 
   Scenario: Save the results
