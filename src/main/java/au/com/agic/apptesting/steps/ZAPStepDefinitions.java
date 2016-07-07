@@ -163,7 +163,7 @@ public class ZAPStepDefinitions {
 	}
 
 	@When("I create an empty ZAP session")
-	public void startSession() {
+	public void startSession() throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
 		final String url = threadDetails.getUrlDetails().getDefaultUrl();
 		clientApi.httpSessions.createEmptySession(ZAP_API_KEY, url, null);
