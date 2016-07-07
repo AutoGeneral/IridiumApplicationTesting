@@ -15,7 +15,7 @@ href="http://java.sun.com/products/autodl/j2se"/>
     <property name="javaws.appURLOverride" value="https://bodgeit.herokuapp.com"/>
     <property name="javaws.featureGroupName" value=""/>
     <property name="javaws.testSource" value="test.feature"/>
-    <property name="javaws.importBaseUrl" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/15.securitytest/"/>
+    <property name="javaws.importBaseUrl" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/15.fragments/"/>
     <property name="javaws.testDestination" value="FIREFOX"/>
     <property name="javaws.webdriver.chrome.driver" value=""/>
     <property name="javaws.webdriver.opera.driver" value=""/>

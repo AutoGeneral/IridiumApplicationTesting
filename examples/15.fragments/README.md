@@ -4,5 +4,5 @@ The important change for this example is:
 
 ```
    <property name="javaws.testSource" value="test.feature"/>
-   <property name="javaws.importBaseUrl" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/15.securitytest/"/>
+   <property name="javaws.importBaseUrl" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/15.fragments/"/>
 ```
