@@ -70,9 +70,7 @@ def slf4jVersion = '1.7.12'
 def threadPoolVersion = '20030513.073905'
 def commonsIoVersion = '2.5'
 def commonsLangVersion = '3.4'
-def chromeDriverVersion = '2.53.1'
 def operaDriverVersion = '1.5'
-def ieDriverVersion = '2.53.0'
 def phontomJsDriverVersion = '1.3.0'        // https://github.com/detro/ghostdriver/issues/397
 def cucumberHtmlFormatterVersion = '0.2.3'
 def monteRepackVersion = '1.0.1'
@@ -94,12 +92,12 @@ dependencies {
     compile 'commons-threadpool:commons-threadpool:' + threadPoolVersion
     compile 'commons-io:commons-io:' + commonsIoVersion
     compile 'org.apache.commons:commons-lang3:' + commonsLangVersion
-    compile 'org.seleniumhq.selenium:selenium-chrome-driver:' + chromeDriverVersion
-    compile 'org.seleniumhq.selenium:selenium-firefox-driver:' + chromeDriverVersion
-    compile 'org.seleniumhq.selenium:selenium-safari-driver:' + chromeDriverVersion
+    compile 'org.seleniumhq.selenium:selenium-chrome-driver:' + seleniumVersion
+    compile 'org.seleniumhq.selenium:selenium-firefox-driver:' + seleniumVersion
+    compile 'org.seleniumhq.selenium:selenium-safari-driver:' + seleniumVersion
     compile 'com.codeborne:phantomjsdriver:' + phontomJsDriverVersion
     compile 'com.opera:operadriver:' + operaDriverVersion
-    compile 'org.seleniumhq.selenium:selenium-ie-driver:' + ieDriverVersion
+    compile 'org.seleniumhq.selenium:selenium-ie-driver:' + seleniumVersion
     compile 'com.pojosontheweb:monte-repack:' + monteRepackVersion
     compile 'com.javaslang:javaslang:' + javaSlangVersion
     compile 'org.zaproxy:zap-clientapi:' + zapAPIVersion
