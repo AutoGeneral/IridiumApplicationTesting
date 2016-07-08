@@ -78,6 +78,13 @@ def javaSlangVersion = '2.0.0-RC4'
 def zapAPIVersion = '1.0.0'
 def browsermobVersion = '2.1.1'
 def compressCommonsVersion = '1.12'
+def xmlApisVersion =  '1.4.01'
+
+configurations.all {
+	resolutionStrategy {
+		force 'xml-apis:xml-apis:1.4.01'
+	}
+}
 
 dependencies {
     compile 'mysql:mysql-connector-java:' + mysqlDriverVersion
@@ -104,6 +111,7 @@ dependencies {
     compile files ("lib/zap-2.5.0.jar", "lib/cucumber-core-1.2.5-AG-SNAPSHOT.jar")
     compile 'net.lightbody.bmp:browsermob-core:' + browsermobVersion
     compile group: 'org.apache.commons', name: 'commons-compress', version: compressCommonsVersion
+	compile group: 'xml-apis', name: 'xml-apis', version: xmlApisVersion
 
     /*
         The following are dependencies required by ZAP
