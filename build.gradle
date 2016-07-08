@@ -62,7 +62,7 @@ repositories {
 
 def mysqlDriverVersion = '5.1.34'
 def guavaVersion = '19.0-SNAPSHOT'
-def seleniumVersion = '2.52.0'
+def seleniumVersion = '2.53.1'
 def validationVersion = '1.0.0.GA'
 def cucumberVersion = '1.2.4'
 def logbackVersion = '1.1.3'
