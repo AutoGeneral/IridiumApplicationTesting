@@ -189,6 +189,11 @@ public final class Constants {
 	 */
 	public static final Pattern ENABLED_HEADER = Pattern.compile("^#\\s*Enabled:\\s*(?<value>.+)");
 
+	/**
+	 * How long to wait for an element to be available
+	 */
+	public static final int WAIT = 2;
+
 	private Constants() {
 	}
 

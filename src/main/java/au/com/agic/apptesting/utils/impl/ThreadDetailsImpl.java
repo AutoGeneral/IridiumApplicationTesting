@@ -30,6 +30,8 @@ public class ThreadDetailsImpl implements ThreadDetails {
 	private final String reportDirectory;
 	private boolean failed;
 	private List<ProxyDetails<?>> proxies;
+	private long sleep;
+
 	/**
 	 * The ZAP client api interface
 	 */
@@ -50,6 +52,16 @@ public class ThreadDetailsImpl implements ThreadDetails {
 		this.dataset.putAll(dataset);
 		this.reportDirectory = reportDirectory;
 		this.proxies = new ArrayList<>(proxies);
+	}
+
+	@Override
+	public void setDefaultSleep(long sleep) {
+		this.sleep = sleep;
+	}
+
+	@Override
+	public long getDefaultSleep() {
+		return sleep;
 	}
 
 	@Override

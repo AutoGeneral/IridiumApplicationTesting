@@ -16,6 +16,18 @@ import javax.validation.constraints.NotNull;
 public interface ThreadDetails {
 
 	/**
+	 *
+	 * @param sleep How long to sleep between steps
+     */
+	void setDefaultSleep(final long sleep);
+
+	/**
+	 *
+	 * @return How long to sleep between steps
+     */
+	long getDefaultSleep();
+
+	/**
 	 * @return The url associated with this instance of the test
 	 */
 	UrlMapping getUrlDetails();
@@ -65,7 +77,7 @@ public interface ThreadDetails {
 
 	/**
 	 *
-	 * @param proxyInterface The optional details of the proxy being used
+	 * @param proxies The optional details of the proxy being used
 	 */
 	void setProxyInterface(final List<ProxyDetails<?>> proxies);
 }
