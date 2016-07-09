@@ -220,8 +220,6 @@ public class ZAPStepDefinitions {
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Given("a scanner with all policies enabled")
 	public void enableAllScanners() throws ClientApiException {
-		checkState(threadDetails.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
-
 		final ClientApi clientApi = getClientApi();
 		clientApi.pscan.enableAllScanners(ZAP_API_KEY);
 		clientApi.ascan.enableAllScanners(ZAP_API_KEY, null);
@@ -239,8 +237,6 @@ public class ZAPStepDefinitions {
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Given("a scanner with all policies disabled")
 	public void disableAllScanners() throws ClientApiException {
-		checkState(threadDetails.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
-
 		final ClientApi clientApi = getClientApi();
 		clientApi.pscan.disableAllScanners(ZAP_API_KEY);
 		clientApi.ascan.disableAllScanners(ZAP_API_KEY, null);

@@ -1,7 +1,10 @@
 package au.com.agic.apptesting.steps;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import au.com.agic.apptesting.exception.WebElementException;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 
@@ -54,6 +57,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -164,6 +171,8 @@ public class StepDefinitions {
 			LOGGER.error("There was an error saving or copying the screenshot.", ex);
 		}
 	}
+
+	// </editor-fold>
 
 	// <editor-fold desc="Debugging">
 
@@ -1217,6 +1226,53 @@ public class StepDefinitions {
 	// <editor-fold desc="Clicking">
 
 	/**
+	 * A simplified step that will click on an element found by ID attribute, name attribue,
+	 * class attribute, xpath or CSS selector. The first element to satisfy any of those
+	 * conditions will be the one that the step interacts with. It is up to the caller
+	 * to ensure that the selection is unique.
+	 *
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, this
+	 *                      value is found from the data set. Otherwise it is a literal value.
+	 * @param exists        If this text is set, an error that would be thrown because the element was not found is
+	 *                      ignored. Essentially setting this text makes this an optional statement.
+	 * @throws ExecutionException
+	 * @throws InterruptedException
+     */
+	@When("^I click (?:a|an|the) element found by( alias)? \"([^\"]*)\"( if it exists)?$")
+	public void clickElementSimpleStep(
+			final String alias,
+			final String selectorValue,
+			final String exists) throws ExecutionException, InterruptedException {
+		try {
+			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+
+			final WebElement element = getClickableElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue).get();
+
+			/*
+				Account for PhantomJS issues clicking certain types of elements
+			 */
+			final boolean treatAsHiddenElement = BROWSER_INTEROP_UTILS.treatElementAsHidden(
+				threadDetails.getWebDriver(), element, js);
+
+			if (treatAsHiddenElement) {
+				interactHiddenElement(element, "click", js);
+			} else {
+				element.click();
+			}
+
+			sleep(defaultWait);
+
+		}  catch (final WebElementException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
 	 * Clicks on an element
 	 *
 	 * @param selector      Either ID, class, xpath, name or css selector
@@ -1246,11 +1302,12 @@ public class StepDefinitions {
 				threadDetails.getWebDriver(), element, js);
 
 			if (treatAsHiddenElement) {
-				clickHiddenElementStep(selector, alias, selectorValue, exists);
+				interactHiddenElement(element, "click", js);
 			} else {
 				element.click();
-				sleep(defaultWait);
 			}
+
+			sleep(defaultWait);
 		} catch (final TimeoutException ex) {
 			if (!" if it exists".equals(exists)) {
 				throw ex;
@@ -1286,16 +1343,7 @@ public class StepDefinitions {
 				PhantomJS doesn't support the click method, so "element.click()" won't work
 				here. We need to dispatch the event instead.
 			 */
-			js.executeScript("var ev = document.createEvent('MouseEvent');"
-				+ "    ev.initMouseEvent("
-				+ "        'click',"
-				+ "        true /* bubble */, true /* cancelable */,"
-				+ "        window, null,"
-				+ "        0, 0, 0, 0, /* coordinates */"
-				+ "        false, false, false, false, /* modifier keys */"
-				+ "        0 /*left*/, null"
-				+ "    );"
-				+ "    arguments[0].dispatchEvent(ev);", element);
+			interactHiddenElement(element, "click", js);
 			sleep(defaultWait);
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (!" if it exists".equals(exists)) {
@@ -1334,16 +1382,7 @@ public class StepDefinitions {
 			/*
 				Just like the click, sometimes we need to trigger mousedown events manually
 			 */
-			js.executeScript("var ev = document.createEvent('MouseEvent');"
-				+ "    ev.initMouseEvent("
-				+ "        '" + event + "',"
-				+ "        true /* bubble */, true /* cancelable */,"
-				+ "        window, null,"
-				+ "        0, 0, 0, 0, /* coordinates */"
-				+ "        false, false, false, false, /* modifier keys */"
-				+ "        0 /*left*/, null"
-				+ "    );"
-				+ "    arguments[0].dispatchEvent(ev);", element);
+			interactHiddenElement(element, event, js);
 			sleep(defaultWait);
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (!" if it exists".equals(exists)) {
@@ -1819,6 +1858,8 @@ public class StepDefinitions {
 	// <editor-fold desc="Util Methods">
 
 	private void sleep(final int sleep) {
+		checkArgument(sleep >= 0);
+
 		try {
 			Thread.sleep(sleep);
 		} catch (final InterruptedException ignored) {
@@ -1826,6 +1867,41 @@ public class StepDefinitions {
 				We don't actually care about this exception
 			 */
 		}
+	}
+
+	private CompletableFuture<WebElement> getClickableElementFoundBy(final boolean valueAlias, final String value) {
+		final CompletableFuture<WebElement> retValue = new CompletableFuture<>();
+		final AtomicInteger failures = new AtomicInteger(0);
+		final List<Thread> threads = new CopyOnWriteArrayList<>();
+
+		final By by = getBy("ID", valueAlias, value);
+		final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), WAIT);
+		final Thread byIDThread = new Thread(new GetElement(wait, by, failures, retValue, threads));
+		threads.add(byIDThread);
+
+		final By byXpath = getBy("xpath", valueAlias, value);
+		final WebDriverWait waitXpath = new WebDriverWait(threadDetails.getWebDriver(), WAIT);
+		final Thread byXpathThread = new Thread(new GetElement(waitXpath, byXpath, failures, retValue, threads));
+		threads.add(byXpathThread);
+
+		final By byName = getBy("name", valueAlias, value);
+		final WebDriverWait waitName = new WebDriverWait(threadDetails.getWebDriver(), WAIT);
+		final Thread byNameThread = new Thread(new GetElement(waitName, byName, failures, retValue, threads));
+		threads.add(byNameThread);
+
+		final By byClass = getBy("class", valueAlias, value);
+		final WebDriverWait waitClass = new WebDriverWait(threadDetails.getWebDriver(), WAIT);
+		final Thread byClassThread = new Thread(new GetElement(waitClass, byClass, failures, retValue, threads));
+		threads.add(byClassThread);
+
+		final By bySelector = getBy("css selector", valueAlias, value);
+		final WebDriverWait waitSelector = new WebDriverWait(threadDetails.getWebDriver(), WAIT);
+		final Thread bySelectorThread = new Thread(new GetElement(waitSelector, bySelector, failures, retValue, threads));
+		threads.add(bySelectorThread);
+
+		threads.stream().forEach(Thread::start);
+
+		return retValue;
 	}
 
 	/**
@@ -1862,6 +1938,32 @@ public class StepDefinitions {
 		}
 
 		throw new InvalidInputException("Unexpected selector");
+	}
+
+	/**
+	 * use JavaScript to simulate a click on an element
+	 * @param element The element to click
+	 * @param event The type of event to simulate
+	 * @param js The JavaScript executor
+     */
+	private void interactHiddenElement(final WebElement element, final String event, final JavascriptExecutor js) {
+		checkNotNull(element);
+		checkNotNull(js);
+
+		/*
+				PhantomJS doesn't support the click method, so "element.click()" won't work
+				here. We need to dispatch the event instead.
+			 */
+		js.executeScript("var ev = document.createEvent('MouseEvent');"
+			+ "    ev.initMouseEvent("
+			+ "        '" + event + "',"
+			+ "        true /* bubble */, true /* cancelable */,"
+			+ "        window, null,"
+			+ "        0, 0, 0, 0, /* coordinates */"
+			+ "        false, false, false, false, /* modifier keys */"
+			+ "        0 /*left*/, null"
+			+ "    );"
+			+ "    arguments[0].dispatchEvent(ev);", element);
 	}
 
 	// </editor-fold>
@@ -1968,4 +2070,72 @@ public class StepDefinitions {
 	}
 
 	// </editor-fold>
+
+	/**
+	 * Represents a thread that is running trying to find an element. The first one to succeed
+	 * will set the value of a CompletableFuture, while the last one to fail after all others
+	 * have failed will set the CompletableFuture to throw an exception.
+	 */
+	private static class GetElement implements Runnable {
+		private final WebDriverWait wait;
+		private final By by;
+		private final AtomicInteger failures;
+		private final CompletableFuture<WebElement> returnValue;
+		private final List<Thread> threads;
+
+		public GetElement(
+				final WebDriverWait wait,
+				final By by,
+				final AtomicInteger failures,
+				final CompletableFuture<WebElement> returnValue,
+				final List<Thread> threads) {
+
+			checkNotNull(wait);
+			checkNotNull(by);
+			checkNotNull(failures);
+			checkNotNull(returnValue);
+			checkNotNull(threads);
+
+			this.wait = wait;
+			this.by = by;
+			this.failures = failures;
+			this.returnValue = returnValue;
+			this.threads = threads;
+		}
+
+		@Override
+		public void run() {
+			try {
+				final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
+				/*
+					The first thread to succeed will be the value that is returned
+				 */
+				synchronized (returnValue) {
+					if (!returnValue.isDone()) {
+						/*
+							All of the other threads no longer need to keep running
+						 */
+						threads.stream().forEach(Thread::interrupt);
+						/*
+							Return the element
+						 */
+						returnValue.complete(element);
+					}
+				}
+			} catch (final Exception ex) {
+				/*
+					If all threads failed, throw an exception
+				 */
+				final int failureCount = failures.incrementAndGet();
+				if (failureCount >= threads.size()) {
+					synchronized (returnValue) {
+						if (!returnValue.isDone()) {
+							returnValue.completeExceptionally(
+								new WebElementException("All attempts to find element failed"));
+						}
+					}
+				}
+			}
+		}
+	}
 }
