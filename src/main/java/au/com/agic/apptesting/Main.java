@@ -23,7 +23,7 @@ public final class Main {
 				Execute the tests
 			 */
 			new TestRunner();
-		} catch (final NoFeaturesException ex) {
+		} catch (final Exception ex) {
 			LOGGER.error(
 				"An exception was raised while attempting to run the Cucumber test scripts", ex);
 		}

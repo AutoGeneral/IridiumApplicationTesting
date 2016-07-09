@@ -110,16 +110,17 @@ public class TestRunner {
 
 				throw ex;
 			}
-
-			threadPool.stop();
 		} catch (final Exception ex) {
 			EXCEPTION_WRITER.saveException(reportOutput, ex);
 			throw ex;
 		} finally {
+			threadPool.stop();
+
 			/*
 				Clean up temp files
 			 */
-			tempFiles.stream().forEach(File::delete);
+			tempFiles.stream()
+				.forEach(File::delete);
 		}
 	}
 
