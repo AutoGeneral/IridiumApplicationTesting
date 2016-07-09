@@ -416,7 +416,7 @@ public class StepDefinitions {
 	 *                        this value is found from the data set. Otherwise it is a literal value.
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be found
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by( alias)? of \"([^\"]*)\" to be displayed"
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by( alias)? \"([^\"]*)\" to be displayed"
 		+ "(,? ignoring timeouts?)?")
 	public void displaySimpleWaitStep(
 		final String waitDuration,
@@ -489,7 +489,7 @@ public class StepDefinitions {
 	 *                      value is found from the data set. Otherwise it is a literal value.
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by( alias)? of \"([^\"]*)\" "
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by( alias)? \"([^\"]*)\" "
 		+ "to be present(,? ignoring timeouts?)?")
 	public void presentSimpleWaitStep(
 			final String waitDuration,
@@ -647,6 +647,27 @@ public class StepDefinitions {
 	// <editor-fold desc="Save Field">
 
 	/**
+	 * Saves the text value of an element against an alias using simple selection. Retrieves the "value" attribute content
+	 *
+	 * @param alias            If this word is found in the step, it means the selectorValue is found from the data
+	 *                         set.
+	 * @param selectorValue    The value used in conjunction with the selector to match the element. If alias was set, '
+	 *                         this value is found from the data set. Otherwise it is a literal value.
+	 * @param destinationAlias The name of the alias to save the text content against
+	 * @param exists           If this text is set, an error that would be thrown because the element was not found is
+	 *                         ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I save the value of (?:a|an|the) element found by( alias)? "
+		+ "\"([^\"]*)\" to the alias \"([^\"]*)\"( if it exists)?")
+	public void saveSimpleValueAttribute(
+		final String alias,
+		final String selectorValue,
+		final String destinationAlias,
+		final String exists) throws ExecutionException, InterruptedException {
+		saveSimpleAttributeContent("value", alias, selectorValue, destinationAlias, exists);
+	}
+
+	/**
 	 * Saves the text value of an element against an alias. Retrieves the "value" attribute content
 	 *
 	 * @param selector         Either ID, class, xpath, name or css selector
@@ -667,6 +688,42 @@ public class StepDefinitions {
 			final String destinationAlias,
 			final String exists) {
 		saveAttributeContent("value", selector, alias, selectorValue, destinationAlias, exists);
+	}
+
+	/**
+	 * Saves the text value of an element attribute against an alias
+	 *
+	 * @param attribute		   The name of the attribute to select
+	 * @param alias            If this word is found in the step, it means the selectorValue is found from the data
+	 *                         set.
+	 * @param selectorValue    The value used in conjunction with the selector to match the element. If alias was set, '
+	 *                         this value is found from the data set. Otherwise it is a literal value.
+	 * @param destinationAlias The name of the alias to save the text content against
+	 * @param exists           If this text is set, an error that would be thrown because the element was not found is
+	 *                         ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I save the attribute content of \"([^\"]*)\" from (?:a|an|the) element found by( alias)? \"([^\"]*)\" "
+		+ "to the alias \"([^\"]*)\"( if it exists)?")
+	public void saveSimpleAttributeContent(
+		final String attribute,
+		final String alias,
+		final String selectorValue,
+		final String destinationAlias,
+		final String exists) throws ExecutionException, InterruptedException {
+		try {
+			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				threadDetails).get();
+
+			final Map<String, String> dataSet = threadDetails.getDataSet();
+			dataSet.put(destinationAlias, element.getAttribute(attribute));
+			threadDetails.setDataSet(dataSet);
+		} catch (final TimeoutException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
 	}
 
 	/**
@@ -710,6 +767,40 @@ public class StepDefinitions {
 	/**
 	 * Saves the text content of an element against an alias
 	 *
+	 * @param alias            If this word is found in the step, it means the selectorValue is found from the data
+	 *                         set.
+	 * @param selectorValue    The value used in conjunction with the selector to match the element. If alias was set, '
+	 *                         this value is found from the data set. Otherwise it is a literal value.
+	 * @param destinationAlias The name of the alias to save the text content against
+	 * @param exists           If this text is set, an error that would be thrown because the element was not found is
+	 *                         ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I save the text content of (?:a|an|the) element found by( alias)? \"([^\"]*)\" to the alias "
+		+ "\"([^\"]*)\"( if it exists)?")
+	public void saveSimpleTextContent(
+			final String alias,
+			final String selectorValue,
+			final String destinationAlias,
+			final String exists) throws ExecutionException, InterruptedException {
+		try {
+			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				threadDetails).get();
+
+			final Map<String, String> dataSet = threadDetails.getDataSet();
+			dataSet.put(destinationAlias, element.getText());
+			threadDetails.setDataSet(dataSet);
+		} catch (final TimeoutException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Saves the text content of an element against an alias
+	 *
 	 * @param selector         Either ID, class, xpath, name or css selector
 	 * @param alias            If this word is found in the step, it means the selectorValue is found from the data
 	 *                         set.
@@ -723,11 +814,11 @@ public class StepDefinitions {
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" to the alias "
 		+ "\"([^\"]*)\"( if it exists)?")
 	public void saveTextContent(
-		final String selector,
-		final String alias,
-		final String selectorValue,
-		final String destinationAlias,
-		final String exists) {
+			final String selector,
+			final String alias,
+			final String selectorValue,
+			final String destinationAlias,
+			final String exists) {
 		try {
 			final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, threadDetails);
 			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
@@ -735,6 +826,44 @@ public class StepDefinitions {
 
 			final Map<String, String> dataSet = threadDetails.getDataSet();
 			dataSet.put(destinationAlias, element.getText());
+			threadDetails.setDataSet(dataSet);
+		} catch (final TimeoutException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Saves the text content of an element against an alias using simple selection. This version extracts
+	 * the value using javascript, which means it can return content when the method above does not.
+	 *
+	 * @param alias            If this word is found in the step, it means the selectorValue is found from the data
+	 *                         set.
+	 * @param selectorValue    The value used in conjunction with the selector to match the element. If alias was set, '
+	 *                         this value is found from the data set. Otherwise it is a literal value.
+	 * @param destinationAlias The name of the alias to save the text content against
+	 * @param exists           If this text is set, an error that would be thrown because the element was not found is
+	 *                         ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I save the text content of (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\" to the alias \"([^\"]*)\""
+		+ "( if it exists)?")
+	public void saveSimpleHiddenTextContent(
+			final String alias,
+			final String selectorValue,
+			final String destinationAlias,
+			final String exists) throws ExecutionException, InterruptedException {
+		try {
+			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				threadDetails).get();
+
+			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+			final String text = js.executeScript("return arguments[0].textContent;", element).toString();
+
+			final Map<String, String> dataSet = threadDetails.getDataSet();
+			dataSet.put(destinationAlias, text);
 			threadDetails.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -760,11 +889,11 @@ public class StepDefinitions {
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" to the alias \"([^\"]*)\""
 		+ "( if it exists)?")
 	public void saveHiddenTextContent(
-		final String selector,
-		final String alias,
-		final String selectorValue,
-		final String destinationAlias,
-		final String exists) {
+			final String selector,
+			final String alias,
+			final String selectorValue,
+			final String destinationAlias,
+			final String exists) {
 		try {
 			final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, threadDetails);
 			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
@@ -786,6 +915,23 @@ public class StepDefinitions {
 	// </editor-fold>
 
 	// <editor-fold desc="Text Entry">
+
+	/**
+	 * Clears the contents of an element using simple selection
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set,
+	 *                      this value is found from the data set. Otherwise it is a literal value.
+	 */
+	@When("^I clear (?:a|an|the) element found by( alias)? \"([^\"]*)\"")
+	public void clearElement(
+			final String alias,
+			final String selectorValue) throws ExecutionException, InterruptedException {
+		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+			StringUtils.isNotBlank(alias),
+			selectorValue,
+			threadDetails).get();
+		element.clear();
+	}
 
 	/**
 	 * Clears the contents of an element
@@ -892,6 +1038,28 @@ public class StepDefinitions {
 	 * sendKeys will often not trigger the key up event, which some elements of the page need in order to complete their
 	 * processing. <p> Calling this step after you have populated the field can be used as a workaround.
 	 *
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set,
+	 *                      this value is found from the data set. Otherwise it is a literal value.
+	 */
+	@When("I dispatch a key up event on (?:a|an|the) element found by( alias)? \"([^\"]*)\"")
+	public void triggetKeyUp(
+			final String alias,
+			final String selectorValue) throws ExecutionException, InterruptedException {
+		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+			StringUtils.isNotBlank(alias),
+			selectorValue,
+			threadDetails).get();
+
+		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keyup\"));", element);
+		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+	}
+
+	/**
+	 * sendKeys will often not trigger the key up event, which some elements of the page need in order to complete their
+	 * processing. <p> Calling this step after you have populated the field can be used as a workaround.
+	 *
 	 * @param selector      Either ID, class, xpath, name or css selector
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set,
@@ -905,6 +1073,27 @@ public class StepDefinitions {
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
 		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keyup\"));", element);
+		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+	}
+
+	/**
+	 * sendKeys will often not trigger the key events, which some elements of the page need in order to complete their
+	 * processing. <p> Calling this step after you have populated the field can be used as a workaround.
+	 *
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set,
+	 *                      this value is found from the data set. Otherwise it is a literal value.
+	 */
+	@When("I dispatch a key press event on (?:a|an|the) element found by( alias)? \"([^\"]*)\"")
+	public void triggetSimpleKeyPress(
+			final String alias,
+			final String selectorValue) throws ExecutionException, InterruptedException {
+		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+			StringUtils.isNotBlank(alias),
+			selectorValue,
+			threadDetails).get();
+		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keypress\"));", element);
 		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 	}
 
@@ -932,6 +1121,27 @@ public class StepDefinitions {
 	 * sendKeys will often not trigger the key down event, which some elements of the page need in order to complete
 	 * their processing. <p> Calling this step after you have populated the field can be used as a workaround.
 	 *
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set,
+	 *                      this value is found from the data set. Otherwise it is a literal value.
+	 */
+	@When("I dispatch a key down event (?:a|an|the) element found by( alias)? \"([^\"]*)\"")
+	public void triggetSimpleKeyDown(
+			final String alias,
+			final String selectorValue) throws ExecutionException, InterruptedException {
+		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+			StringUtils.isNotBlank(alias),
+			selectorValue,
+			threadDetails).get();
+		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keydown\"));", element);
+		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+	}
+
+	/**
+	 * sendKeys will often not trigger the key down event, which some elements of the page need in order to complete
+	 * their processing. <p> Calling this step after you have populated the field can be used as a workaround.
+	 *
 	 * @param selector      Either ID, class, xpath, name or css selector
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set,
@@ -946,6 +1156,53 @@ public class StepDefinitions {
 		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
 		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keydown\"));", element);
 		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+	}
+
+	/**
+	 * Populate an element with some text, and submits it.
+	 *
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set,
+	 *                      this value is found from the data set. Otherwise it is a literal value.
+	 * @param contentAlias  If this word is found in the step, it means the content is found from the data set.
+	 * @param content       The content to populate the element with. If contentAlias was set, this value is found from
+	 *                      the data set. Otherwise it is a literal value.
+	 * @param exists        If this text is set, an error that would be thrown because the element was not found is
+	 *                      ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I populate (?:a|an|the) element found by( alias)? "
+		+ "\"([^\"]*)\" with( alias)? \"([^\"]*)\" and submit( if it exists)?$")
+	public void populateSimpleElementAndSubmitStep(
+			final String alias,
+			final String selectorValue,
+			final String contentAlias,
+			final String content,
+			final String exists) throws ExecutionException, InterruptedException {
+		try {
+			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				threadDetails).get();
+
+			// Simulate key presses
+			final String value = " alias".equals(contentAlias)
+				? threadDetails.getDataSet().get(content) : content;
+
+			checkState(value != null, "the aliased content value does not exist");
+
+			for (final Character character : value.toCharArray()) {
+				SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+				element.sendKeys(character.toString());
+			}
+
+			SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+			element.submit();
+			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		} catch (final TimeoutException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
 	}
 
 	/**
@@ -997,6 +1254,70 @@ public class StepDefinitions {
 	}
 
 	/**
+	 * Populate an element with some text with simple selectiom
+	 *
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, '
+	 *                      this value is found from the data set. Otherwise it is a literal value.
+	 * @param contentAlias  If this word is found in the step, it means the content is found from the data set.
+	 * @param content       The content to populate the element with. If contentAlias was set, this value is found from
+	 *                      the data set. Otherwise it is a literal value.
+	 * @param exists        If this text is set, an error that would be thrown because the element was not found is
+	 *                      ignored. Essentially setting this text makes this an optional statement.
+	 * @param empty         Skips the step if the element is not empty
+	 * @param delay			An optional value that defines how long to wait before each simulated keypress. This is
+	 *                      useful for setting a longer delay fields that perform ajax request in response to key pressed.
+	 */
+	@SuppressWarnings("checkstyle:parameternumber")
+	@When("^I populate (?:a|an|the) element found by( alias)? "
+		+ "\"([^\"]*)\" with( alias)? \"([^\"]*)\"( if it exists)?( if it is empty)?"
+		+ "(?: with a keystroke delay of \"(\\d+)\" milliseconds)?$")
+	public void populateElementStep(
+		final String alias,
+		final String selectorValue,
+		final String contentAlias,
+		final String content,
+		final String exists,
+		final String empty,
+		final Integer delay) throws ExecutionException, InterruptedException {
+		try {
+			final Integer fixedDelay = delay == null ? KEY_STROKE_DELAY : delay;
+
+			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				threadDetails).get();
+
+			/*
+				See if the element is blank, or contains only underscores (as you might find in
+				an empty phone number field for example
+			 */
+
+			final boolean processElement = !" if it is empty".equals(empty)
+				|| StringUtils.isBlank(element.getAttribute("value"))
+				|| BLANK_OR_MASKED_RE.matcher(element.getAttribute("value")).matches();
+
+			if (processElement) {
+				// Simulate key presses
+				final String textValue = " alias".equals(contentAlias)
+					? threadDetails.getDataSet().get(content) : content;
+
+				checkState(textValue != null, "the aliased text value does not exist");
+
+				for (final Character character : textValue.toCharArray()) {
+					SLEEP_UTILS.sleep(fixedDelay);
+					element.sendKeys(character.toString());
+				}
+				SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			}
+		} catch (final TimeoutException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
 	 * Populate an element with some text
 	 *
 	 * @param selector      Either ID, class, xpath, name or css selector
@@ -1017,14 +1338,14 @@ public class StepDefinitions {
 		+ "\"([^\"]*)\" with( alias)? \"([^\"]*)\"( if it exists)?( if it is empty)?"
 		+ "(?: with a keystroke delay of \"(\\d+)\" milliseconds)?$")
 	public void populateElementStep(
-		final String selector,
-		final String alias,
-		final String selectorValue,
-		final String contentAlias,
-		final String content,
-		final String exists,
-		final String empty,
-		final Integer delay) {
+			final String selector,
+			final String alias,
+			final String selectorValue,
+			final String contentAlias,
+			final String content,
+			final String exists,
+			final String empty,
+			final Integer delay) {
 		try {
 			final Integer fixedDelay = delay == null ? KEY_STROKE_DELAY : delay;
 
@@ -1147,6 +1468,70 @@ public class StepDefinitions {
 	 *                         ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@SuppressWarnings("checkstyle:parameternumber")
+	@When("^I populate (?:a|an|the) element found by( alias)? "
+		+ "\"([^\"]*)\" with a random number between( alias)? \"([^\"]*)\" and( alias)? "
+		+ "\"([^\"]*)\"( if it exists)?$")
+	public void populateElementWithRandomNumberStep(
+			final String alias,
+			final String selectorValue,
+			final String randomStartAlias,
+			final String randomStart,
+			final String randomEndAlias,
+			final String randomEnd,
+			final String exists) throws ExecutionException, InterruptedException {
+		try {
+			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				threadDetails).get();
+
+			final String startValue = " alias".equals(randomStartAlias)
+				? threadDetails.getDataSet().get(randomStart) : randomStart;
+			final String endValue = " alias".equals(randomEndAlias)
+				? threadDetails.getDataSet().get(randomEnd) : randomEnd;
+
+			checkState(startValue != null, "the aliased start value does not exist");
+			checkState(endValue != null, "the aliased end value does not exist");
+
+			final Integer int1 = Integer.parseInt(startValue);
+			final Integer int2 = Integer.parseInt(endValue);
+			final Integer random = SecureRandom.getInstance("SHA1PRNG")
+				.nextInt(Math.abs(int2 - int1)) + Math.min(int1, int2);
+
+			// Simulate key presses
+			for (final Character character : random.toString().toCharArray()) {
+				SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+				element.sendKeys(character.toString());
+			}
+			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		} catch (final TimeoutException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		} catch (final NoSuchAlgorithmException ex) {
+			/*
+				This shouldn't happen
+			 */
+			LOGGER.error("Exception thrown when trying to create a SecureRandom instance", ex);
+		}
+	}
+
+	/**
+	 * Populates an element with a random number
+	 *
+	 * @param selector         Either ID, class, xpath, name or css selector
+	 * @param alias            If this word is found in the step, it means the selectorValue is found from the data
+	 *                         set.
+	 * @param selectorValue    The value used in conjunction with the selector to match the element. If alias was set,
+	 *                         this value is found from the data set. Otherwise it is a literal value.
+	 * @param randomStartAlias If this word is found in the step, it means the randomStart is found from the data set.
+	 * @param randomStart      The start of the range of random numbers to select from
+	 * @param randomEndAlias   If this word is found in the step, it means the randomEnd is found from the data set.
+	 * @param randomEnd        The end of the range of random numbers to select from
+	 * @param exists           If this text is set, an error that would be thrown because the element was not found is
+	 *                         ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@SuppressWarnings("checkstyle:parameternumber")
 	@When("^I populate (?:a|an|the) element with (?:a|an|the) (ID|class|xpath|name|css selector)( alias)? "
 		+ "of \"([^\"]*)\" with a random number between( alias)? \"([^\"]*)\" and( alias)? "
 		+ "\"([^\"]*)\"( if it exists)?$")
@@ -1199,6 +1584,51 @@ public class StepDefinitions {
 	/**
 	 * Populate an element with some text, and submits it.
 	 *
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, '
+	 *                      this value is found from the data set. Otherwise it is a literal value.
+	 * @param contentAlias  If this word is found in the step, it means the content is found from the data set.
+	 * @param content       The content to populate the element with. If contentAlias was set, this value is found from
+	 *                      the data set. Otherwise it is a literal value.
+	 * @param exists        If this text is set, an error that would be thrown because the element was not found is
+	 *                      ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I populate (?:a|an|the) hidden element found by( alias)? "
+		+ "\"([^\"]*)\" with( alias)? \"([^\"]*)\"( if it exists)?$")
+	public void populateHiddenElementAndSubmitStep(
+		final String alias,
+		final String selectorValue,
+		final String contentAlias,
+		final String content,
+		final String exists) throws ExecutionException, InterruptedException {
+		try {
+			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				threadDetails).get();
+
+			final String textValue = " alias".equals(contentAlias)
+				? threadDetails.getDataSet().get(content) : content;
+
+			checkState(textValue != null, "the aliased text value does not exist");
+
+			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+			js.executeScript(
+				"arguments[0].value = '"
+					+ SINGLE_QUOTE_RE.matcher(textValue).replaceAll("\\'")
+					+ "';", element);
+
+			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		} catch (final TimeoutException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Populate an element with some text, and submits it.
+	 *
 	 * @param selector      Either ID, class, xpath, name or css selector
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, '
@@ -1245,6 +1675,38 @@ public class StepDefinitions {
 	// </editor-fold>
 
 	// <editor-fold desc="Selection and Focus">
+
+	/**
+	 * Focuses on an element. <p> Often with text fields that have some kind of mask you need to first focus on the
+	 * element before populating it, otherwise you might not enter all characters correctly.
+	 *
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, this
+	 *                      value is found from the data set. Otherwise it is a literal value.
+	 * @param exists        If this text is set, an error that would be thrown because the element was not found is
+	 *                      ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I focus(?: on)? (?:a|an|the) element found by( alias)? "
+		+ "\"([^\"]*)\"( if it exists)?$")
+	public void focusElementStep(
+		final String alias,
+		final String selectorValue,
+		final String exists) throws ExecutionException, InterruptedException {
+		try {
+			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				threadDetails).get();
+
+			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+			js.executeScript("arguments[0].focus();", element);
+			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		} catch (final TimeoutException | NoSuchElementException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
 
 	/**
 	 * Focuses on an element. <p> Often with text fields that have some kind of mask you need to first focus on the
