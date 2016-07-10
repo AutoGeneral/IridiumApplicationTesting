@@ -22,16 +22,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.Assert;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.security.UserAndPassword;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -2668,6 +2659,17 @@ public class StepDefinitions {
 	public void maximiseWindow() {
 		threadDetails.getWebDriver().manage().window().maximize();
 		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+	}
+
+	/**
+	 * Sets the dimensions of the browser window
+	 * @param width The width of the browser window
+	 * @param height The height of the browser window
+     */
+	@When("I set the window size to \"(\\d+)x(\\d+)\"")
+	public void setWindowSize(final Integer width, final Integer height) {
+		threadDetails.getWebDriver().manage().window().setPosition(new Point(0,0));
+		threadDetails.getWebDriver().manage().window().setSize(new Dimension(width,height));
 	}
 
 	// </editor-fold>
