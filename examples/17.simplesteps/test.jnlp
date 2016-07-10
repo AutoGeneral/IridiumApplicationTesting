@@ -3,6 +3,8 @@
     <information>
         <title>Iridium Web Application Tester</title>
         <vendor>Auto and General</vendor>
+        <homepage href="https://autogeneral.gitbooks.io/iridiumapplicationtesting-gettingstartedguide/content/"/>
+        <offline-allowed/>
     </information>
     <resources>
         <!-- Application Resources -->
