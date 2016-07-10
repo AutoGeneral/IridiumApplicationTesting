@@ -1,2 +1,3 @@
-This example demonstrates how to test a web site with the Zed Attack Proxy, using the Bodgeit store
-(https://github.com/psiinon/bodgeit) as the target.
+This is an example that tests DZone using simplified steps that rely on Iridium matching elements
+based on their xpath, id, css selector, name attribute or class without the test specifically
+defining which method to use.
