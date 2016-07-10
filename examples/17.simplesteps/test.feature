@@ -19,3 +19,27 @@ Feature: Open an application
 		And I click the element found by alias "NoProfileImage"
 	 	# Click on an element referencing the aliased class name we set above
 		And I click the element found by alias "LoginBackground"
+
+	Scenario: Navigate the main links
+		And I click the link with the text content of "REFCARDZ"
+		And I click the link with the text content of "GUIDES"
+		And I click the link with the text content of "ZONES"
+		And I click the link with the text content of "AGILE"
+		And I click the link with the text content of "BIGDATA"
+		And I click the link with the text content of "CLOUD"
+		And I click the link with the text content of "DATABASE"
+		And I click the link with the text content of "DEVOPS"
+		And I click the link with the text content of "INTEGRATION"
+		And I click the link with the text content of "IOT"
+		And I click the link with the text content of "JAVA"
+		And I click the link with the text content of "MOBILE"
+		And I click the link with the text content of "PERFORMANCE"
+		And I click the link with the text content of "WEB DEV"
+
+	Scenario: Open some refcardz
+		And I click the link with the text content of "Learn Swift"
+		And I go back
+		And I click the link with the text content of "Learn Microservices"
+		And I go back
+		And I click the link with the text content of "Learn Scrum"
+		And I go back

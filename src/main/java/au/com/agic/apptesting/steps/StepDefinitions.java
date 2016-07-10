@@ -2686,5 +2686,17 @@ public class StepDefinitions {
 
 	// </editor-fold>
 
+	// <editor-fold desc="Navigation">
 
+	@When("I go back")
+	public void goBack() {
+		threadDetails.getWebDriver().navigate().forward();
+	}
+
+	@When("I go forward")
+	public void goForward() {
+		threadDetails.getWebDriver().navigate().forward();
+	}
+
+	// </editor-fold>
 }
