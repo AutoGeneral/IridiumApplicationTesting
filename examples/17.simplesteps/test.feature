@@ -4,6 +4,7 @@ Feature: Open an application
 	# css selectors that this test will be interacting with.
 	Scenario: Generate Page Object
 		Given the alias mappings
+			| HomeLink 			| //*[@id="ng-app"]/body/div[1]/div/div/div[1]/div/div[1]/div/a			|
 			| NoProfileImage 	| //*[@id="ng-app"]/body/div[1]/div/div/div[1]/div/div[2]/div[3]/i 		|
 			| ProfileImage 		| //*[@id="ng-app"]/body/div[1]/div/div/div[1]/div/div[2]/div[3]/img 	|
 			| LoginBackground 	| ngdialog-overlay			                                      		|
@@ -12,6 +13,7 @@ Feature: Open an application
   	Scenario: Launch App
 		And I set the default wait time between steps to "2"
 		And I open the application
+		And I maximise the window
 
 	# Open the login dialog and close it again
 	Scenario: Open Profile
@@ -37,9 +39,15 @@ Feature: Open an application
 		And I click the link with the text content of "WEB DEV"
 
 	Scenario: Open some refcardz
-		And I click the link with the text content of "Learn Swift"
+		And I click the element found by alias "HomeLink"
+		# WebDriver considers this link to be obscured by another element, so
+		# we use a special step to click these "hidden" links
+		And I click the hidden link with the text content of "Learn Swift"
 		And I go back
-		And I click the link with the text content of "Learn Microservices"
+		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
+		And I click the hidden link with the text content of "Learn Microservices"
 		And I go back
-		And I click the link with the text content of "Learn Scrum"
+		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
+		And I click the hidden link with the text content of "Learn Scrum"
 		And I go back
+		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed

@@ -2661,6 +2661,15 @@ public class StepDefinitions {
 		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 	}
 
+	/**
+	 * Maximise the browser window
+	 */
+	@When("I maximi(?:s|z)e the window")
+	public void maximiseWindow() {
+		threadDetails.getWebDriver().manage().window().maximize();
+		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="Debugging">
@@ -2688,14 +2697,22 @@ public class StepDefinitions {
 
 	// <editor-fold desc="Navigation">
 
+	/**
+	 * Go back
+	 */
 	@When("I go back")
 	public void goBack() {
-		threadDetails.getWebDriver().navigate().forward();
+		threadDetails.getWebDriver().navigate().back();
+		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 	}
 
+	/**
+	 * Go forward
+	 */
 	@When("I go forward")
 	public void goForward() {
 		threadDetails.getWebDriver().navigate().forward();
+		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 	}
 
 	// </editor-fold>
