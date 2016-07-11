@@ -60,7 +60,8 @@ public class DesiredCapabilitiesLoaderImpl implements DesiredCapabilitiesLoader 
 
 		if (desiredCapabilities.getCapability() != null) {
 			desiredCapabilities.getCapability().stream()
-				.filter(e -> StringUtils.isNotBlank(e.getName()) && StringUtils.isNotBlank(e.getValue()))
+				.filter(e ->
+					StringUtils.isNotBlank(e.getName()) && StringUtils.isNotBlank(e.getValue()))
 				.forEach(e -> seleniumDesiredCapabilities.setCapability(e.getName(), e.getValue()));
 		}
 

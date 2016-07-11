@@ -49,6 +49,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
 	private static final int PHANTOM_JS_SCREEN_WIDTH = 1280;
 	private static final int PHANTOM_JS_SCREEN_HEIGHT = 1024;
+	private static final int PHNATOMJS_TIMEOUTS = 30;
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
 	/**
@@ -255,8 +256,8 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 				Give the dev servers a large timeout
 			 */
 			retValue.manage().timeouts()
-				.pageLoadTimeout(30, TimeUnit.SECONDS)
-				.implicitlyWait(30, TimeUnit.SECONDS);
+				.pageLoadTimeout(PHNATOMJS_TIMEOUTS, TimeUnit.SECONDS)
+				.implicitlyWait(PHNATOMJS_TIMEOUTS, TimeUnit.SECONDS);
 
 			return retValue;
 		}

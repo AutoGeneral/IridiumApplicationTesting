@@ -8,7 +8,6 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FileSystemUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.URIBuilder;
 

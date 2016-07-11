@@ -91,8 +91,8 @@ public class StepDefinitions {
 
 	/**
 	 * If any scenario failed, we throw an exception which prevents the new scenario from loading. This prevents a
-	 * situation where the test script continues to run after some earlier failure, which doesn't make sense in end to
-	 * end tests.
+	 * situation where the test script continues to run after some earlier failure, which doesn't make sense in
+	 * end to end tests.
 	 */
 	@Before
 	public void setup() {
@@ -2668,8 +2668,8 @@ public class StepDefinitions {
      */
 	@When("I set the window size to \"(\\d+)x(\\d+)\"")
 	public void setWindowSize(final Integer width, final Integer height) {
-		threadDetails.getWebDriver().manage().window().setPosition(new Point(0,0));
-		threadDetails.getWebDriver().manage().window().setSize(new Dimension(width,height));
+		threadDetails.getWebDriver().manage().window().setPosition(new Point(0, 0));
+		threadDetails.getWebDriver().manage().window().setSize(new Dimension(width, height));
 	}
 
 	// </editor-fold>

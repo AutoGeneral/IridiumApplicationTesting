@@ -1,7 +1,5 @@
 package au.com.agic.apptesting;
 
-import au.com.agic.apptesting.exception.NoFeaturesException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -53,7 +53,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!chromeWebDriverSet) {
 				System.setProperty(
 					Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/win32/chrome/chromedriver.exe", "chrome.exe", tempFiles));
+					extractDriver(
+						"/drivers/win32/chrome/chromedriver.exe",
+						"chrome.exe",
+						tempFiles));
 			}
 
 			final boolean operaWebDriverSet =
@@ -63,7 +66,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!operaWebDriverSet) {
 				System.setProperty(
 					Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/win64/opera/operadriver.exe", "opera.exe", tempFiles));
+					extractDriver(
+						"/drivers/win64/opera/operadriver.exe",
+						"opera.exe",
+						tempFiles));
 			}
 
 			final boolean ieWebDriverSet =
@@ -73,7 +79,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!operaWebDriverSet) {
 				System.setProperty(
 					Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/win64/ie/IEDriverServer.exe", "ie.exe", tempFiles));
+					extractDriver(
+						"/drivers/win64/ie/IEDriverServer.exe",
+						"ie.exe",
+						tempFiles));
 			}
 
 			final boolean phantomWebDriverSet =
@@ -83,7 +92,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
-					extractZipDriver("/drivers/win32/phantomjs/phantomjs.exe.gz", "phantomjs.exe", tempFiles));
+					extractZipDriver(
+						"/drivers/win32/phantomjs/phantomjs.exe.gz",
+						"phantomjs.exe",
+						tempFiles));
 			}
 
 		} catch (final Exception ex) {
@@ -100,7 +112,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!chromeWebDriverSet) {
 				System.setProperty(
 					Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/mac32/chrome/chromedriver", "chrome", tempFiles));
+					extractDriver(
+						"/drivers/mac32/chrome/chromedriver",
+						"chrome",
+						tempFiles));
 			}
 
 			final boolean operaWebDriverSet =
@@ -110,7 +125,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!operaWebDriverSet) {
 				System.setProperty(
 					Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/mac64/opera/operadriver", "opera", tempFiles));
+					extractDriver(
+						"/drivers/mac64/opera/operadriver",
+						"opera",
+						tempFiles));
 			}
 
 			final boolean phantomWebDriverSet =
@@ -120,7 +138,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
-					extractZipDriver("/drivers/mac64/phantomjs/phantomjs.gz", "phantomjs", tempFiles));
+					extractZipDriver(
+						"/drivers/mac64/phantomjs/phantomjs.gz",
+						"phantomjs",
+						tempFiles));
 			}
 
 		} catch (final Exception ex) {
@@ -137,7 +158,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!chromeWebDriverSet) {
 				System.setProperty(
 					Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/linux64/chrome/chromedriver", "chrome", tempFiles));
+					extractDriver(
+						"/drivers/linux64/chrome/chromedriver",
+						"chrome",
+						tempFiles));
 			}
 
 			final boolean operaWebDriverSet =
@@ -147,7 +171,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!operaWebDriverSet) {
 				System.setProperty(
 					Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-					extractDriver("/drivers/linux64/opera/operadriver", "opera", tempFiles));
+					extractDriver(
+						"/drivers/linux64/opera/operadriver",
+						"opera",
+						tempFiles));
 			}
 
 			final boolean phantomWebDriverSet =
@@ -157,7 +184,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			if (!phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
-					extractZipDriver("/drivers/linux64/phantomjs/phantomjs.gz", "phantomjs", tempFiles));
+					extractZipDriver(
+						"/drivers/linux64/phantomjs/phantomjs.gz",
+						"phantomjs",
+						tempFiles));
 			}
 
 		} catch (final DriverException ex) {

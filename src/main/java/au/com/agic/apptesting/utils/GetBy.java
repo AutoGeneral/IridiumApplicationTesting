@@ -15,5 +15,9 @@ public interface GetBy {
 	 * @param threadDetails The current thread's state object
 	 * @return The Selenium selection object
 	 */
-	By getBy(final String selector, final boolean valueAlias, final String value, final ThreadDetails threadDetails);
+	By getBy(
+		final String selector,
+		final boolean valueAlias,
+		final String value,
+		final ThreadDetails threadDetails);
 }

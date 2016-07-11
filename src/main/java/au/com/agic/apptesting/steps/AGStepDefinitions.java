@@ -30,10 +30,10 @@ public class AGStepDefinitions {
 			Thread.currentThread().getName());
 
 	/**
-	 * The postcode suggestion box is a pain in the ass. It won't be triggered without a keyup event, and browsers like
-	 * Firefox and Safari don't seem to trigger this event if the browser is no focused. It also fails to trigger in
-	 * Browserstack. <p> So, to work around this, we use a utility method from the branding project in jquery.address.js
-	 * to set the value of the post code.
+	 * The postcode suggestion box is a pain in the ass. It won't be triggered without a keyup event,
+	 * and browsers like Firefox and Safari don't seem to trigger this event if the browser is no focused.
+	 * It also fails to trigger in Browserstack. <p> So, to work around this, we use a utility method from
+	 * the branding project in jquery.address.js to set the value of the post code.
 	 *
 	 * @param postcode The postcode to enter into the suburb text box
 	 * @param alias Include this text if the value to be added to the postcode box is an alias

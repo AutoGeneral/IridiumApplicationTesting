@@ -30,7 +30,6 @@ import org.zaproxy.clientapi.core.ClientApiException;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -541,7 +540,7 @@ public class ZAPStepDefinitions {
 	 * Starts the ZAP spider.
 	 * @param depth How far to search into the application
 	 * @param timeout How long to wait for a timeout
-	 * @throws ClientApiException
+	 * @throws ClientApiException When the ZAP API threw an exception
 	 */
 	@SuppressWarnings({"unchecked", "OptionalGetWithoutIsPresent"})
 	@And("^the application is spidered(?: to a depth of\"(\\d+)\")?(?: timing out after \"(\\d+)\" seconds)?$")
@@ -566,7 +565,7 @@ public class ZAPStepDefinitions {
 			}
 
 			final int fixedDepth = depth == null ? DEFAULT_SPIDER_DEPTH : depth;
-			final long fixedTimeout = (long)(timeout == null ? ZAP_SPIDER_TIMEOUT : timeout) * 1000;
+			final long fixedTimeout = (long) (timeout == null ? ZAP_SPIDER_TIMEOUT : timeout) * 1000;
 			clientApi.spider.setOptionMaxDepth(ZAP_API_KEY, fixedDepth);
 			clientApi.spider.setOptionThreadCount(ZAP_API_KEY, DEFAULT_SPIDER_THREAD_COUNT);
 
