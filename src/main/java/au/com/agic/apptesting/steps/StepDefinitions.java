@@ -1931,7 +1931,7 @@ public class StepDefinitions {
 			interactHiddenElement(element, event, js);
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -1970,7 +1970,7 @@ public class StepDefinitions {
 			interactHiddenElement(element, event, js);
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2002,7 +2002,7 @@ public class StepDefinitions {
 			element.click();
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2035,7 +2035,7 @@ public class StepDefinitions {
 			js.executeScript("arguments[0].click();", element);
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2078,7 +2078,7 @@ public class StepDefinitions {
 			element.click();
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2136,7 +2136,7 @@ public class StepDefinitions {
 			element.click();
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		} catch (final NoSuchAlgorithmException ignored) {
@@ -2189,7 +2189,7 @@ public class StepDefinitions {
 			element.click();
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2234,7 +2234,7 @@ public class StepDefinitions {
 
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2277,7 +2277,7 @@ public class StepDefinitions {
 
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2329,7 +2329,7 @@ public class StepDefinitions {
 
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2369,7 +2369,7 @@ public class StepDefinitions {
 			select.selectByIndex(Integer.parseInt(selection));
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2410,7 +2410,7 @@ public class StepDefinitions {
 			select.selectByIndex(Integer.parseInt(selection));
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2460,7 +2460,7 @@ public class StepDefinitions {
 			select.selectByIndex(Integer.parseInt(selection));
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2518,7 +2518,7 @@ public class StepDefinitions {
 			Assert.assertTrue(Iterables.contains(split, className));
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2563,7 +2563,7 @@ public class StepDefinitions {
 			Assert.assertTrue(Iterables.contains(split, className));
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
@@ -2618,7 +2618,7 @@ public class StepDefinitions {
 			final Alert alert = wait.until(ExpectedConditions.alertIsPresent());
 			alert.authenticateUsing(new UserAndPassword(username, password));
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isNotBlank(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}
