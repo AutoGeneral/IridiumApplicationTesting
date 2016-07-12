@@ -158,6 +158,8 @@ public class TestRunner {
 			Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY);
 		SYSTEM_PROPERTY_UTILS.copyVariableToDefaultLocation(
 			Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
+		SYSTEM_PROPERTY_UTILS.copyVariableToDefaultLocation(
+			Constants.FIREFOX_PROFILE_SYSTEM_PROPERTY);
 	}
 
 	/**

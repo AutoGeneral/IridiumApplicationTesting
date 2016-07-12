@@ -192,22 +192,34 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		}
 
 		if (Constants.FIREFOX.equalsIgnoreCase(browser)) {
-			final FirefoxProfile profile = new FirefoxProfile();
+			final String firefoxProfile = SYSTEM_PROPERTY_UTILS.getProperty(
+				Constants.FIREFOX_PROFILE_SYSTEM_PROPERTY);
 
 			/*
-				Set the proxy
+				If we have not specified a profile via the system properties, go ahead
+				and create one here.
 			 */
-			if (mainProxy.isPresent()) {
+			if (StringUtils.isBlank(firefoxProfile)) {
+				final FirefoxProfile profile = new FirefoxProfile();
 
-				profile.setPreference("network.proxy.type", 1);
-				profile.setPreference("network.proxy.http", "localhost");
-				profile.setPreference("network.proxy.http_port", mainProxy.get().getPort());
-				profile.setPreference("network.proxy.ssl", "localhost");
-				profile.setPreference("network.proxy.ssl_port", mainProxy.get().getPort());
-				profile.setPreference("network.proxy.no_proxies_on", "");
+				/*
+					Set the proxy
+				 */
+				if (mainProxy.isPresent()) {
+
+					profile.setPreference("network.proxy.type", 1);
+					profile.setPreference("network.proxy.http", "localhost");
+					profile.setPreference("network.proxy.http_port", mainProxy.get().getPort());
+					profile.setPreference("network.proxy.ssl", "localhost");
+					profile.setPreference("network.proxy.ssl_port", mainProxy.get().getPort());
+					profile.setPreference("network.proxy.no_proxies_on", "");
+				}
+
+				return new FirefoxDriver(profile);
 			}
 
-			return new FirefoxDriver(profile);
+			return new FirefoxDriver(capabilities);
+
 		}
 
 		if (Constants.SAFARI.equalsIgnoreCase(browser)) {
