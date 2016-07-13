@@ -33,6 +33,7 @@
             <property name="javaws.phantomJSLoggingLevel" value="NONE"/>
             <property name="javaws.startInternalProxy" value=""/>
             <property name="jnlp.versionEnabled" value="true"/>
+			<property name="jnlp.webdriver.firefox.profile" value="selenium" />
             <jar href="webapptesting-signed.jar" main="true" version="0.0.5" />
     </resources>
     <application-desc
