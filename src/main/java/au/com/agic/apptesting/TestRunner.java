@@ -125,8 +125,7 @@ public class TestRunner {
 			/*
 				Clean up temp files
 			 */
-			tempFiles.stream()
-				.forEach(File::delete);
+			tempFiles.forEach(File::delete);
 		}
 	}
 
