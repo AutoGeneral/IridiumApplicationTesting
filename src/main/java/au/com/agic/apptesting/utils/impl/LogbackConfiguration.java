@@ -53,7 +53,8 @@ public class LogbackConfiguration implements LoggingConfiguration {
 			fileAppender.start();
 
 			// attach the rolling file appender to the logger of your choice
-			final Logger logbackLogger = (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
+			final Logger logbackLogger =
+				(Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
 			logbackLogger.addAppender(fileAppender);
 		} catch (final Exception ex) {
 			LOGGER.error("WEBAPPTESTER-BUG-0006: Could not configure Logback", ex);
@@ -64,7 +65,8 @@ public class LogbackConfiguration implements LoggingConfiguration {
 	public void logVersion() {
 		try {
 			final Optional<InputStream> inputStream =
-				Optional.ofNullable(getClass().getClassLoader().getResourceAsStream("build.properties"));
+				Optional.ofNullable(
+					getClass().getClassLoader().getResourceAsStream("build.properties"));
 
 			if (inputStream.isPresent()) {
 				final Properties prop = new Properties();

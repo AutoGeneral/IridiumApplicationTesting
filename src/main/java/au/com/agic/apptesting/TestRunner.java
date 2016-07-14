@@ -111,8 +111,8 @@ public class TestRunner {
 				mergeReports(reportOutput);
 			} catch (final FileProfileAccessException ex) {
 				LOGGER.error("WEBAPPTESTER-BUG-0003: There was an exception thrown while trying to run"
-					+ " the test scripts. This is most likely because of an invalid URL or path to the"
-					+ " feature scripts. The details of the error are shown below.", ex);
+					+ " the test scripts. This is most likely because of an invalid URL or path to "
+					+ " the feature scripts. The details of the error are shown below.", ex);
 
 				throw ex;
 			} catch (final Exception ex) {

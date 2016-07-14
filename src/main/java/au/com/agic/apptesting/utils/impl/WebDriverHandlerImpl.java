@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -57,14 +56,18 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 			Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 			Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY)
-			.forEach(x -> LOGGER.info("WEBAPPTESTER-INFO-0004: System property {}: {}", x, System.getProperty(x)));
+			.forEach(x -> LOGGER.info(
+				"WEBAPPTESTER-INFO-0004: System property {}: {}",
+				x,
+				System.getProperty(x)));
 	}
 
 	private void configureWindows(@NotNull final List<File> tempFiles) {
 		try {
 			final boolean chromeWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!chromeWebDriverSet) {
 				System.setProperty(
@@ -77,7 +80,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean operaWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!operaWebDriverSet) {
 				System.setProperty(
@@ -90,7 +94,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean ieWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!operaWebDriverSet) {
 				System.setProperty(
@@ -103,7 +108,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean phantomWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
 
 			if (!phantomWebDriverSet) {
 				System.setProperty(
@@ -123,7 +129,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		try {
 			final boolean chromeWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!chromeWebDriverSet) {
 				System.setProperty(
@@ -136,7 +143,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean operaWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!operaWebDriverSet) {
 				System.setProperty(
@@ -149,7 +157,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean phantomWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
 
 			if (!phantomWebDriverSet) {
 				System.setProperty(
@@ -169,7 +178,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		try {
 			final boolean chromeWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!chromeWebDriverSet) {
 				System.setProperty(
@@ -182,7 +192,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean operaWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!operaWebDriverSet) {
 				System.setProperty(
@@ -195,7 +206,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean phantomWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
 
 			if (!phantomWebDriverSet) {
 				System.setProperty(
