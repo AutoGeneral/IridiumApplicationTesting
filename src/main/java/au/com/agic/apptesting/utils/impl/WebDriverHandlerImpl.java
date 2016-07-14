@@ -5,6 +5,8 @@ import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverHandler;
 
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorInputStream;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
@@ -249,7 +251,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		final CompressorInputStream input = new CompressorStreamFactory()
 			.createCompressorInputStream(CompressorStreamFactory.GZIP, driverURL);
 
-		return copyDriver(input, name, tempFiles);
+		final TarArchiveInputStream tarInput = new TarArchiveInputStream(input);
+		final TarArchiveEntry entry = tarInput.getNextTarEntry();
+
+		return copyDriver(tarInput, name, tempFiles);
 	}
 
 	private String copyDriver(
@@ -267,7 +272,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 		final String driverPath = driverTemp.toAbsolutePath().toString();
 
-		LOGGER.info("Saving driver file to {}", driverPath);
+		LOGGER.info("Saving driver file {} to {}", name, driverPath);
 
 		return driverPath;
 	}
