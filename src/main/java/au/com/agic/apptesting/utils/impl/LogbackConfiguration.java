@@ -64,7 +64,7 @@ public class LogbackConfiguration implements LoggingConfiguration {
 	public void logVersion() {
 		try {
 			final Optional<InputStream> inputStream =
-				Optional.ofNullable(getClass().getClassLoader().getResourceAsStream("/build.properties"));
+				Optional.ofNullable(getClass().getClassLoader().getResourceAsStream("build.properties"));
 
 			if (inputStream.isPresent()) {
 				final Properties prop = new Properties();
