@@ -92,7 +92,7 @@ public class TestRunner {
 		try {
 
 			JAR_DOWNLOADER.downloadJar(tempFiles);
-			copySystemProperties();
+			SYSTEM_PROPERTY_UTILS.copyDependentSystemProperties();
 			WEB_DRIVER_HANDLER.configureWebDriver(tempFiles);
 			final List<ProxyDetails<?>> proxies = configureProxies(tempFiles);
 			cleanupOldReports();
@@ -150,22 +150,6 @@ public class TestRunner {
 		}
 
 		return proxies;
-	}
-
-	/**
-	 * Copy out any system properties used by webdriver passed in via webstart
-	 */
-	private void copySystemProperties() {
-		SYSTEM_PROPERTY_UTILS.copyVariableToDefaultLocation(
-			Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
-		SYSTEM_PROPERTY_UTILS.copyVariableToDefaultLocation(
-			Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
-		SYSTEM_PROPERTY_UTILS.copyVariableToDefaultLocation(
-			Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY);
-		SYSTEM_PROPERTY_UTILS.copyVariableToDefaultLocation(
-			Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
-		SYSTEM_PROPERTY_UTILS.copyVariableToDefaultLocation(
-			Constants.FIREFOX_PROFILE_SYSTEM_PROPERTY);
 	}
 
 	/**
