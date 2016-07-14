@@ -49,7 +49,7 @@ public class LogbackConfiguration implements LoggingConfiguration {
 			final Logger logbackLogger = (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
 			logbackLogger.addAppender(fileAppender);
 		} catch (final Exception ex) {
-			LOGGER.error("Could not configure Logback", ex);
+			LOGGER.error("WEBAPPTESTER-BUG-0006: Could not configure Logback", ex);
 		}
 	}
 }

@@ -55,7 +55,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 			Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 			Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY)
-			.forEach(x -> LOGGER.info("System property {}: {}", x, System.getProperty(x)));
+			.forEach(x -> LOGGER.info("WEBAPPTESTER-INFO-0004: System property {}: {}", x, System.getProperty(x)));
 	}
 
 	private void configureWindows(@NotNull final List<File> tempFiles) {
