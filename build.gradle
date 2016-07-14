@@ -59,9 +59,11 @@ shadowJar {
     Save the current date and time in the properties file
  */
 processResources {
-    filter ReplaceTokens, tokens: [
-            "Build": new Date().format("yyyyMMddHHmmss")
-    ]
+    filesMatching('**/build.properties') {
+        filter ReplaceTokens, tokens: [
+                "Build": new Date().format("yyyyMMddHHmmss")
+        ]
+    }
 }
 
 repositories {
