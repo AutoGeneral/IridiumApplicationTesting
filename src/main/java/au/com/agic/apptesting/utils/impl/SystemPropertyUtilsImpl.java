@@ -39,7 +39,7 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 
 		SYSTEM_PROPERTY_PREFIXES.stream()
 			.map(e -> System.getProperty(e + name))
-			.filter(Objects::nonNull)
+			.filter(StringUtils::isNotBlank)
 			.findFirst()
 			.ifPresent(e -> System.setProperty(name, e));
 	}

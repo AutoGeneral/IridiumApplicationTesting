@@ -11,13 +11,17 @@ import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.validation.constraints.NotNull;
 
@@ -29,6 +33,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class WebDriverHandlerImpl implements WebDriverHandler {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverHandlerImpl.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
 	@Override
@@ -42,6 +47,15 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		} else if (SystemUtils.IS_OS_LINUX) {
 			configureLinux(tempFiles);
 		}
+
+		/*
+			Log some details about the diver locations
+		 */
+		Stream.of(Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
+			Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
+			Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
+			Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY)
+			.forEach(x -> LOGGER.info("System property {}: {}", x, System.getProperty(x)));
 	}
 
 	private void configureWindows(@NotNull final List<File> tempFiles) {
@@ -251,6 +265,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 		tempFiles.add(driverTemp.toFile());
 
-		return driverTemp.toAbsolutePath().toString();
+		final String driverPath = driverTemp.toAbsolutePath().toString();
+
+		LOGGER.info("Saving driver file to {}", driverPath);
+
+		return driverPath;
 	}
 }

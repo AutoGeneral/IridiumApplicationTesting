@@ -48,6 +48,7 @@ public class TestRunner {
 	private static final LocalProxyUtils<?> BROWSERMOB_PROXY = new BrowsermobProxyUtilsImpl();
 	private static final WebDriverHandler WEB_DRIVER_HANDLER = new WebDriverHandlerImpl();
 	private static final JarDownloader JAR_DOWNLOADER = new JarDownloaderImpl();
+	private static final LoggingConfiguration LOGGING_CONFIGURATION = new LogbackConfiguration();
 	private static final String HTML_EXTENSION = ".html";
 	/**
 	 * Used to name threads that might be reused
@@ -77,6 +78,11 @@ public class TestRunner {
 		  This is the directory that will hold our reports
 		*/
 		final String reportOutput = FILE_SYSTEM_UTILS.buildReportDirectoryName() + File.separator;
+
+		/*
+			Configure the logging
+		*/
+		LOGGING_CONFIGURATION.configureLogging(reportOutput + "/log.txt");
 
 		/*
 			A list of files to clean up one the test is complete
