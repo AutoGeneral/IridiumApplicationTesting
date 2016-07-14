@@ -107,7 +107,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
 					extractZipDriver(
-						"/drivers/win32/phantomjs/phantomjs.exe.gz",
+						"/drivers/win32/phantomjs/phantomjs.exe.tar.gz",
 						"phantomjs.exe",
 						tempFiles));
 			}
@@ -153,7 +153,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
 					extractZipDriver(
-						"/drivers/mac64/phantomjs/phantomjs.gz",
+						"/drivers/mac64/phantomjs/phantomjs.tar.gz",
 						"phantomjs",
 						tempFiles));
 			}
@@ -199,7 +199,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
 					extractZipDriver(
-						"/drivers/linux64/phantomjs/phantomjs.gz",
+						"/drivers/linux64/phantomjs/phantomjs.tar.gz",
 						"phantomjs",
 						tempFiles));
 			}
