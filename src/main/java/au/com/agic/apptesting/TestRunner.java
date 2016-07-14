@@ -85,6 +85,11 @@ public class TestRunner {
 		LOGGING_CONFIGURATION.configureLogging(reportOutput + "/log.txt");
 
 		/*
+			Log the version of the tool for future debugging
+		 */
+		LOGGING_CONFIGURATION.logVersion();
+
+		/*
 			A list of files to clean up one the test is complete
 		 */
 		final List<File> tempFiles = new ArrayList<>();

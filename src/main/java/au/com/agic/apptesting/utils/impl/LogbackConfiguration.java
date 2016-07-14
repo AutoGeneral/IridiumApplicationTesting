@@ -3,11 +3,18 @@ package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+
+
 import au.com.agic.apptesting.utils.LoggingConfiguration;
 
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Optional;
+import java.util.Properties;
 
 import javax.validation.constraints.NotNull;
 
@@ -50,6 +57,22 @@ public class LogbackConfiguration implements LoggingConfiguration {
 			logbackLogger.addAppender(fileAppender);
 		} catch (final Exception ex) {
 			LOGGER.error("WEBAPPTESTER-BUG-0006: Could not configure Logback", ex);
+		}
+	}
+
+	@Override
+	public void logVersion() {
+		try {
+			final Optional<InputStream> inputStream =
+				Optional.ofNullable(getClass().getClassLoader().getResourceAsStream("/build.properties"));
+
+			if (inputStream.isPresent()) {
+				final Properties prop = new Properties();
+				prop.load(inputStream.get());
+				LOGGER.info("Version {}", prop.get("build"));
+			}
+		} catch (final IOException ex) {
+			LOGGER.error("Exception thrown while loading build.properties", ex);
 		}
 	}
 }

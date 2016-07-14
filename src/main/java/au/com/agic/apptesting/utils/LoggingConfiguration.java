@@ -7,4 +7,5 @@ import javax.validation.constraints.NotNull;
  */
 public interface LoggingConfiguration {
 	void configureLogging(@NotNull final String logfile);
+	void logVersion();
 }

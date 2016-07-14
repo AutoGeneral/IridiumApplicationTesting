@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens;
+
 buildscript {
     repositories {
 		maven {
@@ -51,6 +53,15 @@ javadoc {
 
 shadowJar {
     classifier = ''
+}
+
+/*
+    Save the current date and time in the properties file
+ */
+processResources {
+    filter ReplaceTokens, tokens: [
+            "Build": new Date().format("yyyyMMddHHmmss")
+    ]
 }
 
 repositories {
