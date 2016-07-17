@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="https://s3-ap-southeast-2.amazonaws.com/ag-iridium/">
+    <information>
+        <title>Iridium Web Application Tester</title>
+        <vendor>Auto and General</vendor>
+        <homepage href="https://autogeneral.gitbooks.io/iridiumapplicationtesting-gettingstartedguide/content/"/>
+        <offline-allowed/>
+    </information>
+    <resources>
+        <!-- Application Resources -->
+        <j2se version="1.8+" href="http://java.sun.com/products/autodl/j2se"/>
+            <property name="jnlp.packEnabled" value="true"/>
+            <property name="javaws.configuration" value=""/>
+            <property name="javaws.dataset" value=""/>
+            <property name="javaws.appURLOverride" value="https://dzone.com"/>
+            <property name="javaws.featureGroupName" value=""/>
+            <property name="javaws.testSource" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/19.modifyrequests/test.feature"/>
+            <property name="javaws.importBaseUrl" value=""/>
+            <property name="javaws.testDestination" value="FIREFOX"/>
+            <property name="javaws.webdriver.chrome.driver" value=""/>
+            <property name="javaws.webdriver.opera.driver" value=""/>
+            <property name="javaws.phantomjs.binary.path" value=""/>
+            <property name="javaws.leaveWindowsOpen" value="false"/>
+            <property name="javaws.openReportFile" value="true"/>
+            <property name="javaws.saveReportsInHomeDir" value="true"/>
+            <property name="javaws.webdriver.ie.driver" value=""/>
+            <property name="javaws.enableVideoCapture" value="false"/>
+            <property name="javaws.numberOfThreads" value="1"/>
+            <property name="javaws.numberURLs" value="1"/>
+            <property name="javaws.numberDataSets" value="1"/>
+            <property name="javaws.enableScenarioScreenshots" value="true"/>
+            <property name="javaws.tagsOverride" value=""/>
+            <property name="javaws.phantomJSLoggingLevel" value="NONE"/>
+            <property name="javaws.startInternalProxy" value=""/>
+            <property name="jnlp.versionEnabled" value="true"/>
+            <jar href="webapptesting-signed.jar" main="true" version="0.0.5" />
+    </resources>
+    <application-desc
+        name="Web Application tester"
+        main-class="au.com.agic.apptesting.Main"
+        width="300"
+        height="300">
+    </application-desc>
+    <update check="background"/>
+    <security>
+        <all-permissions/>
+    </security>
+</jnlp>
