@@ -56,5 +56,6 @@ Feature: Open an application
 		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
 
 	Scenario: Save the results
+		And the application is spidered timing out after "15" seconds
 		And the ZAP XML report is written to the file "zapreport.xml"
 		Then no "Low" or higher risk vulnerabilities should be present for the base url "^https://dzone.com"
