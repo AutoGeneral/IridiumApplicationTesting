@@ -19,4 +19,11 @@ public interface SystemPropertyUtils {
 	 * @param name The name of the variable, excluding the javaws prefix
 	 */
 	void copyVariableToDefaultLocation(final String name);
+
+	/**
+	 * Some system properties are defined by external dependencies that can't be passed in
+	 * directly by Web Start, so we copy them from the web start jnlp prefixed properties
+	 * to the standard properties
+	 */
+	void copyDependentSystemProperties();
 }

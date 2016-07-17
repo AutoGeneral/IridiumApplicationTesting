@@ -586,6 +586,8 @@ public class ZAPStepDefinitions {
 		checkArgument(depth > 0);
 		checkArgument(timeout > 0);
 
+		final double millisPerSecond = 1000.0d;
+
 		final ClientApi clientApi = getClientApi();
 
 		int status = 0;
@@ -605,7 +607,7 @@ public class ZAPStepDefinitions {
 				.map(Integer::parseInt)
 				.orElse(0);
 
-			double timeoutIn = (timeout - (new Date().getTime() - start)) / 1000.0d;
+			double timeoutIn = (timeout - (new Date().getTime() - start)) / millisPerSecond;
 
 			LOGGER.info(
 				"Spidering {}% done. Timing out in {} seconds",

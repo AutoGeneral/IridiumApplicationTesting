@@ -2,6 +2,7 @@ package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,8 +40,17 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 
 		SYSTEM_PROPERTY_PREFIXES.stream()
 			.map(e -> System.getProperty(e + name))
-			.filter(Objects::nonNull)
+			.filter(StringUtils::isNotBlank)
 			.findFirst()
 			.ifPresent(e -> System.setProperty(name, e));
+	}
+
+	@Override
+	public void copyDependentSystemProperties() {
+		copyVariableToDefaultLocation(Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
+		copyVariableToDefaultLocation(Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
+		copyVariableToDefaultLocation(Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY);
+		copyVariableToDefaultLocation(Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
+		copyVariableToDefaultLocation(Constants.FIREFOX_PROFILE_SYSTEM_PROPERTY);
 	}
 }

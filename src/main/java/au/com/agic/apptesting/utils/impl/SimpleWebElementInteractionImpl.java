@@ -225,7 +225,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		private final List<Thread> threads;
 		private final ExpectedCondition<WebElement> expectedCondition;
 
-		public GetElement(
+		GetElement(
 			final WebDriverWait wait,
 			final ExpectedCondition<WebElement> expectedCondition,
 			final AtomicInteger failures,
