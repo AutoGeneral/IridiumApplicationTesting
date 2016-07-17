@@ -11,7 +11,7 @@ Feature: Open an application
 
  	# Open up the web page
   	Scenario: Launch App
-		Given the passive scanner is enabled
+		Given a scanner with all policies enabled
 		And I set the default wait time between steps to "2"
 		# Speed up tests by blocking thumbnails
 		And I block access to the URL regex ".*?thumbnail.*" with response "500"
