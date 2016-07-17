@@ -7,6 +7,7 @@ import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,20 +84,23 @@ public class DebuggingStepDefinitions {
 		threadDetails.getWebDriver().manage().deleteAllCookies();
 	}
 
-	// </editor-fold>
-
-	// <editor-fold desc="Initialisation">
+	@When("I dump the alias map to the console$")
+	public void dumpAliasMap() {
+		LOGGER.info("Dump of the alias map.");
+		for (final String key : threadDetails.getDataSet().keySet()) {
+			LOGGER.info("{}: {}", key, threadDetails.getDataSet().get(key));
+		}
+	}
 
 	/**
-	 * This step can be used to define the amount of time each additional step will wait before continuing.
-	 * This is useful for web applications that pop new elements into the page in response to user
-	 * interaction, as there can be a delay before those elements are available. <p> Set this to 0 to make
-	 * each step execute immediately after the last one.
-	 *
-	 * @param numberOfSeconds The number of seconds to wait before each step completes
+	 * When comparing the performance of a page in a recorded video, it is useful to have some kind of
+	 * visual indication when the script is started. This step dumps some text to a blank page before a
+	 * URL is loaded.
 	 */
-	@When("^I set the default wait time between steps to \"(\\d+)\"(?: seconds)?$")
-	public void setDefaultWaitTime(final String numberOfSeconds) {
-		threadDetails.setDefaultSleep(Integer.parseInt(numberOfSeconds) * MILLISECONDS_PER_SECOND);
+	@When("I display a starting marker$")
+	public void displayStartingMarker() {
+		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+		js.executeScript("javascript:window.document.body.innerHTML = "
+			+ "'<div style=\"margin: 50px; font-size: 20px\">Starting</div>'");
 	}
 }
