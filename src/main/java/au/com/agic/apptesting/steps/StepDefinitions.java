@@ -3,46 +3,31 @@ package au.com.agic.apptesting.steps;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.BrowserInteropUtils;
 import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.ProxyDetails;
+import au.com.agic.apptesting.utils.ScreenshotUtils;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.impl.BrowserInteropUtilsImpl;
-import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
+import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 
-import net.lightbody.bmp.BrowserMobProxy;
-import net.lightbody.bmp.filters.RequestFilter;
-import net.lightbody.bmp.util.HttpMessageContents;
-import net.lightbody.bmp.util.HttpMessageInfo;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
-import org.junit.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.security.UserAndPassword;
@@ -52,29 +37,18 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.HttpResponse;
 
 /**
  * Implementations of the Cucumber steps.
@@ -89,8 +63,7 @@ public class StepDefinitions {
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
-
-	private static final String SCREENSHOT_DATE_FORMAT = "YYYYMMddHHmmssSSS";
+	private static final ScreenshotUtils SCREENSHOT_UTILS = new ScreenshotUtilsImpl();
 
 	private static final Pattern BLANK_OR_MASKED_RE = Pattern.compile("^(_|\\s)+$");
 	private static final Pattern SINGLE_QUOTE_RE = Pattern.compile("'");
@@ -131,233 +104,16 @@ public class StepDefinitions {
 	@After
 	public void teardown(final Scenario scenario) {
 		if (!threadDetails.getFailed()) {
-			takeScreenshot(" " + scenario.getName());
+			SCREENSHOT_UTILS.takeScreenshot(" " + scenario.getName(), threadDetails);
 		}
 
 		threadDetails.setFailed(scenario.isFailed());
 	}
 
-	private void takeScreenshot(final String suffix) {
-		/*
-			Take a screenshot if we have enabled the setting
-		 */
-		final boolean enabledScreenshots = Boolean.parseBoolean(
-			SYSTEM_PROPERTY_UTILS.getProperty(Constants.ENABLE_SCREENSHOTS));
-
-		try {
-			if (enabledScreenshots) {
-				if (threadDetails.getWebDriver() instanceof TakesScreenshot) {
-					final File screenshot =
-						((TakesScreenshot) threadDetails.getWebDriver())
-							.getScreenshotAs(OutputType.FILE);
-
-					/*
-						Screenshot filenames are the time that it was taken to allow for easy
-						sorting.
-					 */
-					final String filename = new SimpleDateFormat(SCREENSHOT_DATE_FORMAT)
-						.format(new Date()) + suffix + ".png";
-
-					final File reportFile =
-						new File(threadDetails.getReportDirectory() + "/" + filename);
-
-					FileUtils.copyFile(screenshot, reportFile);
-					LOGGER.info("Saved screenshot to {}", reportFile.getAbsolutePath());
-				}
-			}
-		} catch (final IOException ex) {
-			LOGGER.error("There was an error saving or copying the screenshot.", ex);
-		}
-	}
 
 	// </editor-fold>
 
-	// <editor-fold desc="Debugging">
 
-	/**
-	 * Block access to all urls that match the regex
-	 *
-	 * @param url      A regular expression that matches URLs to be blocked
-	 * @param response The response code to send back when a matching URL is accessed
-	 */
-	@When("^I block access to the URL regex \"(.*?)\" with response \"(\\d+)\"$")
-	public void blockUrl(final String url, final Integer response) {
-		final Optional<ProxyDetails<?>> proxy =
-			threadDetails.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
-		if (proxy.isPresent()) {
-			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
-			browserMobProxy.blacklistRequests(url, response);
-		}
-	}
-
-	/**
-	 * Block access to all urls that match the regex
-	 *
-	 * @param url      A regular expression that matches URLs to be blocked
-	 * @param response The response code to send back when a matching URL is accessed
-	 * @param type     The http type of request to block (CONNECT, GET, PUT etc)
-	 */
-	@When("^I block access to the URL regex \"(.*?)\" of the type \"(.*?)\" with response \"(\\d+)\"$")
-	public void blockUrl(final String url, final String type, final Integer response) {
-		final Optional<ProxyDetails<?>> proxy =
-			threadDetails.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
-		if (proxy.isPresent()) {
-			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
-			browserMobProxy.blacklistRequests(url, response, type);
-		}
-	}
-
-	/**
-	 * Apps like life express will often include AWSELB cookies from both the root "/" context and the
-	 * application "/life-express" context. Supplying both cookies means that requests are sent to a EC2
-	 * instance that didn't generate the initial session, and so the request fails. This step allows us to
-	 * remove these duplicated cookies from the request.
-	 *
-	 * @param url The regex that matches URLs that should have duplicate AWSELB cookies removed
-	 */
-	@When("^I remove root AWSELB cookie from the request to the URL regex \"(.*?)\"$")
-	public void stripHeaders(final String url) {
-		final Optional<ProxyDetails<?>> proxy =
-			threadDetails.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
-		if (proxy.isPresent()) {
-			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
-			browserMobProxy.addRequestFilter(new RequestFilter() {
-				@Override
-				public HttpResponse filterRequest(
-					final HttpRequest request,
-					final HttpMessageContents contents,
-					final HttpMessageInfo messageInfo) {
-					if (messageInfo.getOriginalRequest().getUri().matches(url)) {
-						final Optional<String> cookies =
-							Optional.ofNullable(request.headers().get("Cookie"));
-
-						/*
-							Only proceed if we have supplied some cookies
-						 */
-						if (cookies.isPresent()) {
-							/*
-								Find the root context cookie
-							 */
-							final Optional<Cookie> awselb =
-								threadDetails.getWebDriver().manage().getCookies()
-									.stream()
-									.filter(x -> "AWSELB".equals(x.getName()))
-									.filter(x -> "/".equals(x.getPath()))
-									.findFirst();
-
-							/*
-								If we have a root context cookie,
-								remove it from the request
-							 */
-							if (awselb.isPresent()) {
-
-								LOGGER.info(
-									"WEBAPPTESTER-INFO-0002: "
-									+ "Removing AWSELB cookie with value {}",
-									awselb.get().getValue());
-
-								final String newCookie =
-									cookies.get().replaceAll(awselb.get().getName()
-										+ "="
-										+ awselb.get().getValue() + ";"
-										+ "( "
-										+ "GMT=; "
-										+ "\\d+-\\w+-\\d+=\\d+:\\d+:\\d+;"
-										+ ")?",
-										"");
-
-								request.headers().set("Cookie", newCookie);
-							}
-
-							final int awsElbCookieCount = StringUtils.countMatches(
-								request.headers().get("Cookie"),
-								"AWSELB");
-
-							if (awsElbCookieCount != 1) {
-								LOGGER.info(
-									"WEBAPPTESTER-INFO-0003: "
-									+ "{} AWSELB cookies found",
-									awsElbCookieCount);
-							}
-						}
-
-					}
-
-					return null;
-				}
-			});
-		}
-	}
-
-	/**
-	 * Manually save a screenshot
-	 *
-	 * @param filename The optional filename to use for the screenshot
-	 */
-	@When("^I take a screenshot(?:(?: called)? \"(.*?)\")?$")
-	public void takeScreenshotStep(final String filename) {
-		takeScreenshot(StringUtils.defaultIfBlank(filename, ""));
-	}
-
-	/**
-	 * Dumps the value of a cookie to the logger
-	 *
-	 * @param cookieName The name of the cookie to dump
-	 */
-	@When("^I dump the value of the cookie called \"(.*?)\"$")
-	public void dumpCookieName(final String cookieName) {
-		threadDetails.getWebDriver().manage().getCookies().stream()
-			.filter(e -> StringUtils.equals(cookieName, e.getName()))
-			.forEach(e -> LOGGER.info("Dumping cookie {}", e));
-	}
-
-	/**
-	 * Deletes a cookie with the name and path
-	 *
-	 * @param cookieName The name of the cookie to delete
-	 * @param path       The optional path of the cookie to delete. If omitted, all cookies with the
-	 *                   cookieName are deleted.
-	 */
-	@When("^I delete cookies called \"(.*?)\"(?: with the path \"(.*?)\")?$")
-	public void deleteCookie(final String cookieName, final String path) {
-		final List<Cookie> deleteCookies = threadDetails.getWebDriver().manage().getCookies().stream()
-			.filter(e -> StringUtils.equals(cookieName, e.getName()))
-			.filter(e -> StringUtils.isBlank(path) || StringUtils.equals(path, e.getPath()))
-			.collect(Collectors.toList());
-
-		deleteCookies.stream()
-			.forEach(e -> {
-				LOGGER.info("Removing cookie {}", e);
-				threadDetails.getWebDriver().manage().deleteCookie(e);
-			});
-	}
-
-	/**
-	 * Deletes all cookies
-	 */
-	@When("^I delete all cookies$")
-	public void deleteAllCookie() {
-		threadDetails.getWebDriver().manage().deleteAllCookies();
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="Initialisation">
-
-	/**
-	 * This step can be used to define the amount of time each additional step will wait before continuing.
-	 * This is useful for web applications that pop new elements into the page in response to user
-	 * interaction, as there can be a delay before those elements are available. <p> Set this to 0 to make
-	 * each step execute immediately after the last one.
-	 *
-	 * @param numberOfSeconds The number of seconds to wait before each step completes
-	 */
-	@When("^I set the default wait time between steps to \"(\\d+)\"(?: seconds)?$")
-	public void setDefaultWaitTime(final String numberOfSeconds) {
-		threadDetails.setDefaultSleep(Integer.parseInt(numberOfSeconds) * MILLISECONDS_PER_SECOND);
-	}
-
-	// </editor-fold>
 
 	// <editor-fold desc="Open Page">
 
@@ -2746,117 +2502,7 @@ public class StepDefinitions {
 
 	// </editor-fold>
 
-	// <editor-fold desc="Validation">
 
-	/**
-	 * Verify the title in the browser
-	 *
-	 * @param browserTitle Defines what the browser title should be
-	 */
-	@Then("^the browser title should be \"([^\"]*)\"$")
-	public void checkBrowserTitleStep(final String browserTitle) {
-		Assert.assertEquals(browserTitle, threadDetails.getWebDriver().getTitle());
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * Verify that an element has the specified class using simple selection
-	 *
-	 * @param selectorAlias If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 * @param classAlias    If this word is found in the step, it means the classValue is found from the data
-	 *                      set.
-	 * @param classValue    The class value
-	 * @param exists        If this text is set, an error that would be thrown because the element was not
-	 *                      found is ignored. Essentially setting this text makes this an optional statement.
-	 */
-	@Then("^the element found by( alias)? \"([^\"]*)\" should have a "
-		+ "class( alias)? of \"([^\"]*)\"( if it exists)?$")
-	public void checkElementClassStep(
-		final String selectorAlias,
-		final String selectorValue,
-		final String classAlias,
-		final String classValue,
-		final String exists) throws ExecutionException, InterruptedException {
-		try {
-			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
-				StringUtils.isNotBlank(selectorAlias),
-				selectorValue,
-				threadDetails).get();
-
-			final String className = StringUtils.isNotBlank(classAlias)
-				? threadDetails.getDataSet().get(classValue) : classValue;
-
-			checkState(className != null, "the aliased class name does not exist");
-
-			final Iterable<String> split = Splitter.on(' ')
-				.trimResults()
-				.omitEmptyStrings()
-				.split(element.getAttribute("class"));
-
-			Assert.assertTrue(Iterables.contains(split, className));
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isBlank(exists)) {
-				throw ex;
-			}
-		}
-	}
-
-	/**
-	 * Verify that an element has the specified class
-	 *
-	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param selectorAlias If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 * @param classAlias    If this word is found in the step, it means the classValue is found from the data
-	 *                      set.
-	 * @param classValue    The class value
-	 * @param exists        If this text is set, an error that would be thrown because the element was not
-	 *                      found is ignored. Essentially setting this text makes this an optional statement.
-	 */
-	@Then("^the element with the (ID|class|xpath|name|css selector)( alias)? \"([^\"]*)\" should have a "
-		+ "class( alias)? of \"([^\"]*)\"( if it exists)?$")
-	public void checkElementClassStep(
-		final String selector,
-		final String selectorAlias,
-		final String selectorValue,
-		final String classAlias,
-		final String classValue,
-		final String exists) {
-		try {
-			final By by = GET_BY.getBy(
-				selector,
-				StringUtils.isNotBlank(selectorAlias),
-				selectorValue,
-				threadDetails);
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
-			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
-
-			final String className = " alias".equals(classAlias)
-				? threadDetails.getDataSet().get(classValue) : classValue;
-
-			checkState(className != null, "the aliased class name does not exist");
-
-			final Iterable<String> split = Splitter.on(' ')
-				.trimResults()
-				.omitEmptyStrings()
-				.split(element.getAttribute("class"));
-
-			Assert.assertTrue(Iterables.contains(split, className));
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isBlank(exists)) {
-				throw ex;
-			}
-		}
-	}
-
-	// </editor-fold>
 
 	// <editor-fold desc="Util Methods">
 
@@ -2918,54 +2564,7 @@ public class StepDefinitions {
 
 	// </editor-fold>
 
-	// <editor-fold desc="Tabs and Windows">
 
-	/**
-	 * Switchs to the specified tab. This is useful when you open a link that opens in a new window.
-	 *
-	 * @param tabIndex The index of the new tab. Usually 1 (the original tab will be 0)
-	 */
-	@When("I switch to tab \"(\\d+)\"$")
-	public void switchTabs(final String tabIndex) {
-		List<String> tabs2 = new ArrayList<>(threadDetails.getWebDriver().getWindowHandles());
-		threadDetails.getWebDriver().switchTo().window(tabs2.get(Integer.parseInt(tabIndex)));
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * Switchs to the specified window. This is useful when you open a link that opens in a new window.
-	 */
-	@When("I switch to new window")
-	public void switchWindows() {
-		threadDetails.getWebDriver().getWindowHandles().stream()
-			.filter(e -> !e.equals(threadDetails.getWebDriver().getWindowHandle()))
-			.forEach(e -> threadDetails.getWebDriver().switchTo().window(e));
-
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * Maximise the browser window
-	 */
-	@When("I maximi(?:s|z)e the window")
-	public void maximiseWindow() {
-		threadDetails.getWebDriver().manage().window().maximize();
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * Sets the dimensions of the browser window
-	 *
-	 * @param width  The width of the browser window
-	 * @param height The height of the browser window
-	 */
-	@When("I set the window size to \"(\\d+)x(\\d+)\"")
-	public void setWindowSize(final Integer width, final Integer height) {
-		threadDetails.getWebDriver().manage().window().setPosition(new Point(0, 0));
-		threadDetails.getWebDriver().manage().window().setSize(new Dimension(width, height));
-	}
-
-	// </editor-fold>
 
 	// <editor-fold desc="Debugging">
 
