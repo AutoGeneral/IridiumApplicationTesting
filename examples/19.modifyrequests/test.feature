@@ -29,7 +29,7 @@ Feature: Open an application
 		And I click the link with the text content of "GUIDES"
 		And I click the link with the text content of "ZONES"
 		And I click the link with the text content of "AGILE"
-		And I click the link with the text content of "BIGDATA"
+		And I click the link with the text content of "BIG DATA"
 		And I click the link with the text content of "CLOUD"
 		And I click the link with the text content of "DATABASE"
 		And I click the link with the text content of "DEVOPS"
