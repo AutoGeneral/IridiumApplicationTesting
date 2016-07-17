@@ -14,7 +14,7 @@
             <property name="javaws.dataset" value=""/>
             <property name="javaws.appURLOverride" value="https://dzone.com"/>
             <property name="javaws.featureGroupName" value=""/>
-            <property name="javaws.testSource" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/19.modifyrequests/test.feature"/>
+            <property name="javaws.testSource" value="https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/19.modifyrequests/test.feature"/>
             <property name="javaws.importBaseUrl" value=""/>
             <property name="javaws.testDestination" value="FIREFOX"/>
             <property name="javaws.webdriver.chrome.driver" value=""/>
