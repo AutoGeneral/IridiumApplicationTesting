@@ -48,6 +48,8 @@ public class TestRunner {
 	private static final LocalProxyUtils<?> BROWSERMOB_PROXY = new BrowsermobProxyUtilsImpl();
 	private static final WebDriverHandler WEB_DRIVER_HANDLER = new WebDriverHandlerImpl();
 	private static final JarDownloader JAR_DOWNLOADER = new JarDownloaderImpl();
+	private static final LoggingConfiguration LOGGING_CONFIGURATION = new LogbackConfiguration();
+	private static final ProxyManager PROXY_MANAGER = new ProxyManagerImpl();
 	private static final String HTML_EXTENSION = ".html";
 	/**
 	 * Used to name threads that might be reused
@@ -79,6 +81,16 @@ public class TestRunner {
 		final String reportOutput = FILE_SYSTEM_UTILS.buildReportDirectoryName() + File.separator;
 
 		/*
+			Configure the logging
+		*/
+		LOGGING_CONFIGURATION.configureLogging(reportOutput + "/log.txt");
+
+		/*
+			Log the version of the tool for future debugging
+		 */
+		LOGGING_CONFIGURATION.logVersion();
+
+		/*
 			A list of files to clean up one the test is complete
 		 */
 		final List<File> tempFiles = new ArrayList<>();
@@ -86,9 +98,9 @@ public class TestRunner {
 		try {
 
 			JAR_DOWNLOADER.downloadJar(tempFiles);
-			copySystemProperties();
+			SYSTEM_PROPERTY_UTILS.copyDependentSystemProperties();
 			WEB_DRIVER_HANDLER.configureWebDriver(tempFiles);
-			final List<ProxyDetails<?>> proxies = configureProxies(tempFiles);
+			final List<ProxyDetails<?>> proxies = PROXY_MANAGER.configureProxies(tempFiles);
 			cleanupOldReports();
 			init(reportOutput, tempFiles, proxies);
 
@@ -100,8 +112,8 @@ public class TestRunner {
 				mergeReports(reportOutput);
 			} catch (final FileProfileAccessException ex) {
 				LOGGER.error("WEBAPPTESTER-BUG-0003: There was an exception thrown while trying to run"
-					+ " the test scripts. This is most likely because of an invalid URL or path to the"
-					+ " feature scripts. The details of the error are shown below.", ex);
+					+ " the test scripts. This is most likely because of an invalid URL or path to "
+					+ " the feature scripts. The details of the error are shown below.", ex);
 
 				throw ex;
 			} catch (final Exception ex) {
@@ -119,47 +131,8 @@ public class TestRunner {
 			/*
 				Clean up temp files
 			 */
-			tempFiles.stream()
-				.forEach(File::delete);
+			tempFiles.forEach(File::delete);
 		}
-	}
-
-	/**
-	 * We always create the browsermod proxy, and we optionally create the ZAP proxy
-	 */
-	private List<ProxyDetails<?>> configureProxies(final List<File> tempFiles) {
-		final Optional<ProxyDetails<?>> zapProxy = ZAP_PROXY.startProxy(tempFiles);
-		final Optional<ProxyDetails<?>> browermobProxy = BROWSERMOB_PROXY.startProxy(tempFiles);
-
-		final List<ProxyDetails<?>> proxies = new ArrayList<>();
-		proxies.add(browermobProxy.get());
-
-		/*
-			Forward browsermod to ZAP
-		 */
-		if (zapProxy.isPresent()) {
-			((BrowserMobProxy) browermobProxy.get().getInterface().get())
-				.setChainedProxy(new InetSocketAddress("localhost", zapProxy.get().getPort()));
-			proxies.add(zapProxy.get());
-		}
-
-		return proxies;
-	}
-
-	/**
-	 * Copy out any system properties used by webdriver passed in via webstart
-	 */
-	private void copySystemProperties() {
-		SYSTEM_PROPERTY_UTILS.copyVariableToDefaultLocation(
-			Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
-		SYSTEM_PROPERTY_UTILS.copyVariableToDefaultLocation(
-			Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
-		SYSTEM_PROPERTY_UTILS.copyVariableToDefaultLocation(
-			Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY);
-		SYSTEM_PROPERTY_UTILS.copyVariableToDefaultLocation(
-			Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
-		SYSTEM_PROPERTY_UTILS.copyVariableToDefaultLocation(
-			Constants.FIREFOX_PROFILE_SYSTEM_PROPERTY);
 	}
 
 	/**

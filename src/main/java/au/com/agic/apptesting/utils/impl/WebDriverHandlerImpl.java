@@ -5,12 +5,16 @@ import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverHandler;
 
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorInputStream;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +22,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.validation.constraints.NotNull;
 
@@ -29,6 +34,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class WebDriverHandlerImpl implements WebDriverHandler {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverHandlerImpl.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
 	@Override
@@ -42,13 +48,26 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		} else if (SystemUtils.IS_OS_LINUX) {
 			configureLinux(tempFiles);
 		}
+
+		/*
+			Log some details about the diver locations
+		 */
+		Stream.of(Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
+			Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
+			Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
+			Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY)
+			.forEach(x -> LOGGER.info(
+				"WEBAPPTESTER-INFO-0004: System property {}: {}",
+				x,
+				System.getProperty(x)));
 	}
 
 	private void configureWindows(@NotNull final List<File> tempFiles) {
 		try {
 			final boolean chromeWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!chromeWebDriverSet) {
 				System.setProperty(
@@ -61,7 +80,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean operaWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!operaWebDriverSet) {
 				System.setProperty(
@@ -74,7 +94,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean ieWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!operaWebDriverSet) {
 				System.setProperty(
@@ -87,13 +108,14 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean phantomWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
 
 			if (!phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
 					extractZipDriver(
-						"/drivers/win32/phantomjs/phantomjs.exe.gz",
+						"/drivers/win32/phantomjs/phantomjs.exe.tar.gz",
 						"phantomjs.exe",
 						tempFiles));
 			}
@@ -107,7 +129,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		try {
 			final boolean chromeWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!chromeWebDriverSet) {
 				System.setProperty(
@@ -120,7 +143,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean operaWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!operaWebDriverSet) {
 				System.setProperty(
@@ -133,13 +157,14 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean phantomWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
 
 			if (!phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
 					extractZipDriver(
-						"/drivers/mac64/phantomjs/phantomjs.gz",
+						"/drivers/mac64/phantomjs/phantomjs.tar.gz",
 						"phantomjs",
 						tempFiles));
 			}
@@ -153,7 +178,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		try {
 			final boolean chromeWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!chromeWebDriverSet) {
 				System.setProperty(
@@ -166,7 +192,8 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean operaWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
 			if (!operaWebDriverSet) {
 				System.setProperty(
@@ -179,13 +206,14 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 			final boolean phantomWebDriverSet =
 				StringUtils.isNotBlank(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
 
 			if (!phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
 					extractZipDriver(
-						"/drivers/linux64/phantomjs/phantomjs.gz",
+						"/drivers/linux64/phantomjs/phantomjs.tar.gz",
 						"phantomjs",
 						tempFiles));
 			}
@@ -235,7 +263,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		final CompressorInputStream input = new CompressorStreamFactory()
 			.createCompressorInputStream(CompressorStreamFactory.GZIP, driverURL);
 
-		return copyDriver(input, name, tempFiles);
+		final TarArchiveInputStream tarInput = new TarArchiveInputStream(input);
+		final TarArchiveEntry entry = tarInput.getNextTarEntry();
+
+		return copyDriver(tarInput, name, tempFiles);
 	}
 
 	private String copyDriver(
@@ -251,6 +282,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 		tempFiles.add(driverTemp.toFile());
 
-		return driverTemp.toAbsolutePath().toString();
+		final String driverPath = driverTemp.toAbsolutePath().toString();
+
+		LOGGER.info("Saving driver file {} to {}", name, driverPath);
+
+		return driverPath;
 	}
 }

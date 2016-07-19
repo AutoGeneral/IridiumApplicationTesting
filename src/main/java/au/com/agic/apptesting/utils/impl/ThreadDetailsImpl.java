@@ -55,8 +55,8 @@ public class ThreadDetailsImpl implements ThreadDetails {
 	}
 
 	@Override
-	public void setDefaultSleep(final long sleep) {
-		this.sleep = sleep;
+	public void setDefaultSleep(final long defaultSleep) {
+		this.sleep = defaultSleep;
 	}
 
 	@Override
