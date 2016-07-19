@@ -229,88 +229,6 @@ public class ClickingStepDefinitions {
 	}
 
 	/**
-	 * Some applications use mouse events instead of clicks, and PhantomJS will often need us to supply these
-	 * events manually. This step uses simple selection.
-	 *
-	 * @param event         The mouse event we want to generate (mousedown, mouseup etc)
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 * @param exists        If this text is set, an error that would be thrown because the element was not
-	 *                      found is ignored. Essentially setting this text makes this an optional statement.
-	 */
-	@When("^I \"(.*?)\" on (?:a|an|the) hidden element with( alias)? of \"([^\"]*)\"( if it exists)?$")
-	public void mouseEventSimpleHiddenElementStep(
-		final String event,
-		final String alias,
-		final String selectorValue,
-		final String exists) throws ExecutionException, InterruptedException {
-
-		try {
-			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
-				StringUtils.isNotBlank(alias),
-				selectorValue,
-				threadDetails).get();
-			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
-
-			/*
-				Just like the click, sometimes we need to trigger mousedown events manually
-			 */
-			interactHiddenElement(element, event, js);
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isBlank(exists)) {
-				throw ex;
-			}
-		}
-	}
-
-	/**
-	 * Some applications use mouse events instead of clicks, and PhantomJS will often need us to supply these
-	 * events manually.
-	 *
-	 * @param event         The mouse event we want to generate (mousedown, mouseup etc)
-	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 * @param exists        If this text is set, an error that would be thrown because the element was not
-	 *                      found is ignored. Essentially setting this text makes this an optional statement.
-	 */
-	@When("^I \"(.*?)\" on (?:a|an|the) hidden element with (?:a|an|the) "
-		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"( if it exists)?$")
-	public void mouseEventHiddenElementStep(
-		final String event,
-		final String selector,
-		final String alias,
-		final String selectorValue,
-		final String exists) {
-
-		try {
-			final By by = GET_BY.getBy(
-				selector,
-				StringUtils.isNotBlank(alias),
-				selectorValue,
-				threadDetails);
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
-			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
-
-			/*
-				Just like the click, sometimes we need to trigger mousedown events manually
-			 */
-			interactHiddenElement(element, event, js);
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isBlank(exists)) {
-				throw ex;
-			}
-		}
-	}
-
-	/**
 	 * Clicks a link on the page
 	 *
 	 * @param alias       If this word is found in the step, it means the linkContent is found from the data
@@ -486,47 +404,79 @@ public class ClickingStepDefinitions {
 	}
 
 	/**
-	 * Clicks an element on the page of the datepicker.
+	 * Some applications use mouse events instead of clicks, and PhantomJS will often need us to supply these
+	 * events manually. This step uses simple selection.
 	 *
-	 * @param attributeNameAlias  If this word is found in the step, it means the attributeName is found from
-	 *                            the data set.
-	 * @param attributeName       The name of the attribute to match.
-	 * @param attributeValueAlias If this word is found in the step, it means the attributeValue is found from
-	 *                            the data set.
-	 * @param attributeValue      The value of the attribute to match - Currently supported values are today
-	 *                            and tomorrow only.
-	 * @param exists              If this text is set, an error that would be thrown because the element was
-	 *                            not found is ignored. Essentially setting this text makes this an optional
-	 *                            statement.
+	 * @param event         The mouse event we want to generate (mousedown, mouseup etc)
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
+	 *                      data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
+	 *                      set, this value is found from the data set. Otherwise it is a literal value.
+	 * @param exists        If this text is set, an error that would be thrown because the element was not
+	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click (?:a|the) datepicker with (?:a|an|the) attribute( alias)? of \"([^\"]*)\" equal to( alias)? "
-		+ "\"([^\"]*)\"( if it exists)?$")
-	public void clickElementWithDatepicker(
-		final String attributeNameAlias,
-		final String attributeName,
-		final String attributeValueAlias,
-		final String attributeValue,
+	@When("^I \"(.*?)\" on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"( if it exists)?$")
+	public void mouseEventSimpleHiddenElementStep(
+		final String event,
+		final String alias,
+		final String selectorValue,
+		final String exists) throws ExecutionException, InterruptedException {
+
+		try {
+			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				threadDetails).get();
+			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+
+			/*
+				Just like the click, sometimes we need to trigger mousedown events manually
+			 */
+			interactHiddenElement(element, event, js);
+			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		} catch (final TimeoutException | NoSuchElementException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Some applications use mouse events instead of clicks, and PhantomJS will often need us to supply these
+	 * events manually.
+	 *
+	 * @param event         The mouse event we want to generate (mousedown, mouseup etc)
+	 * @param selector      Either ID, class, xpath, name or css selector
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
+	 *                      data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
+	 *                      set, this value is found from the data set. Otherwise it is a literal value.
+	 * @param exists        If this text is set, an error that would be thrown because the element was not
+	 *                      found is ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I \"(.*?)\" on (?:a|an|the) hidden element with (?:a|an|the) "
+		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"( if it exists)?$")
+	public void mouseEventHiddenElementStep(
+		final String event,
+		final String selector,
+		final String alias,
+		final String selectorValue,
 		final String exists) {
 
 		try {
-			final String attr = " alias".equals(attributeNameAlias)
-				? threadDetails.getDataSet().get(attributeName) : attributeName;
-			final String value = " alias".equals(attributeValueAlias)
-				? threadDetails.getDataSet().get(attributeValue) : attributeValue;
-
-			checkState(attr != null, "the aliased attribute name does not exist");
-			checkState(value != null, "the aliased attribute value does not exist");
-
-			LocalDate theDate = LocalDate.now();
-			int today = theDate.getDayOfMonth();
-			int tomorrow = theDate.getDayOfMonth() + 1;
-			int dateValue = "today".equals(value) ? today : tomorrow;
-
+			final By by = GET_BY.getBy(
+				selector,
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				threadDetails);
 			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
-			final WebElement element = wait.until(
-				ExpectedConditions.elementToBeClickable(
-					By.cssSelector("[" + attr + "='" + dateValue + "']")));
-			element.click();
+			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
+			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+
+			/*
+				Just like the click, sometimes we need to trigger mousedown events manually
+			 */
+			interactHiddenElement(element, event, js);
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {

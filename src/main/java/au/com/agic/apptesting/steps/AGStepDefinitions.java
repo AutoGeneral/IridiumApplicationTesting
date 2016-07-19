@@ -1,5 +1,7 @@
 package au.com.agic.apptesting.steps;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.GetBy;
@@ -11,9 +13,13 @@ import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.LocalDate;
 
 /**
  * Steps that are specific to A&G web apps
@@ -50,5 +56,55 @@ public class AGStepDefinitions {
 		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
 		js.executeScript("arguments[0].autoSelectSuburb('" + postcodeValue + "');", element);
 		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+	}
+
+	/**
+	 * Clicks an element on the page of the datepicker.
+	 *
+	 * @param attributeNameAlias  If this word is found in the step, it means the attributeName is found from
+	 *                            the data set.
+	 * @param attributeName       The name of the attribute to match.
+	 * @param attributeValueAlias If this word is found in the step, it means the attributeValue is found from
+	 *                            the data set.
+	 * @param attributeValue      The value of the attribute to match - Currently supported values are today
+	 *                            and tomorrow only.
+	 * @param exists              If this text is set, an error that would be thrown because the element was
+	 *                            not found is ignored. Essentially setting this text makes this an optional
+	 *                            statement.
+	 */
+	@When("^I click (?:a|the) datepicker with (?:a|an|the) attribute( alias)? of \"([^\"]*)\" equal to( alias)? "
+		+ "\"([^\"]*)\"( if it exists)?$")
+	public void clickElementWithDatepicker(
+		final String attributeNameAlias,
+		final String attributeName,
+		final String attributeValueAlias,
+		final String attributeValue,
+		final String exists) {
+
+		try {
+			final String attr = " alias".equals(attributeNameAlias)
+				? threadDetails.getDataSet().get(attributeName) : attributeName;
+			final String value = " alias".equals(attributeValueAlias)
+				? threadDetails.getDataSet().get(attributeValue) : attributeValue;
+
+			checkState(attr != null, "the aliased attribute name does not exist");
+			checkState(value != null, "the aliased attribute value does not exist");
+
+			LocalDate theDate = LocalDate.now();
+			int today = theDate.getDayOfMonth();
+			int tomorrow = theDate.getDayOfMonth() + 1;
+			int dateValue = "today".equals(value) ? today : tomorrow;
+
+			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+			final WebElement element = wait.until(
+				ExpectedConditions.elementToBeClickable(
+					By.cssSelector("[" + attr + "='" + dateValue + "']")));
+			element.click();
+			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		} catch (final TimeoutException | NoSuchElementException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
 	}
 }
