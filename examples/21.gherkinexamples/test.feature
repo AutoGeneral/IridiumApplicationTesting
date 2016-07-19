@@ -16,6 +16,7 @@ Feature: Open an application
 
 	Scenario Outline: Test the search box
         And I populate the element found by alias "SearchField" with "<search>"
+
         Examples:
           | search        |
           | Java          |
