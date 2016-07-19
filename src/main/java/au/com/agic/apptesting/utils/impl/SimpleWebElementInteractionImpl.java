@@ -10,7 +10,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -22,6 +25,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Implementation of the SimpleWebElementInteraction service
  */
 public class SimpleWebElementInteractionImpl implements SimpleWebElementInteraction {
+	private static final Logger LOGGER = LoggerFactory.getLogger(SimpleWebElementInteractionImpl.class);
 	private static final GetBy GET_BY = new GetByImpl();
 
 	@Override
@@ -242,7 +246,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			this.expectedCondition = expectedCondition;
 			this.failures = failures;
 			this.returnValue = returnValue;
-			this.threads = threads;
+			this.threads = new ArrayList<>(threads);
 		}
 
 		@Override
@@ -262,6 +266,12 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 							Return the element
 						 */
 						returnValue.complete(element);
+					} else {
+						LOGGER.error(
+							"WEBAPPTESTER-INFO-0005: "
+							+ "More than one simple selection method returned an element. "
+							+ "You may need to use a step that defines how an element is selected "
+							+ "instead of using the simple selection \"found by\" steps.");
 					}
 				}
 			} catch (final Exception ex) {
