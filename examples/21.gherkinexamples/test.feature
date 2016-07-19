@@ -15,7 +15,7 @@ Feature: Open an application
     And I click the element found by alias "SearchMenu"
 
   Scenario Outline: Test the search box
-    And I clear the hidden element found by alias "SearchField"
+    And I clear the hidden element with the ID alias of "SearchField"
     And I populate the element found by alias "SearchField" with "<search>"
 
     Examples:
