@@ -15,7 +15,7 @@ Feature: Open an application
 		And I maximise the window
         And I click the element found by alias "SearchMenu"
 
-	Scenario: Test the search box
+	Scenario Outline: Test the search box
         And I populate the element found by alias "SearchField" with "<search>"
         Examples:
           | search        |
