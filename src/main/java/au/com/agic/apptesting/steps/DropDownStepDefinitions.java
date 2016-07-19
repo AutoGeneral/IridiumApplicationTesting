@@ -28,7 +28,10 @@ import java.util.concurrent.ExecutionException;
 import cucumber.api.java.en.When;
 
 /**
- * Gherkin steps for working with drop down lists
+ * Gherkin steps for working with drop down lists.
+ *
+ * These steps have Atom snipptets that start with the prefix "select".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
 public class DropDownStepDefinitions {
 

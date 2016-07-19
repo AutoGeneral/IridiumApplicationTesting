@@ -24,7 +24,10 @@ import java.util.concurrent.ExecutionException;
 import cucumber.api.java.en.When;
 
 /**
- * Gherkin steps used to extract data from the web page
+ * Gherkin steps used to extract data from the web page.
+ *
+ * These steps have Atom snipptets that start with the prefix "save".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
 public class DataExtractionStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataExtractionStepDefinitions.class);
