@@ -14,7 +14,6 @@ import au.com.agic.apptesting.utils.FeatureLoader;
 import au.com.agic.apptesting.utils.FileSystemUtils;
 import au.com.agic.apptesting.utils.JUnitReportMerge;
 import au.com.agic.apptesting.utils.JarDownloader;
-import au.com.agic.apptesting.utils.LocalProxyUtils;
 import au.com.agic.apptesting.utils.LoggingConfiguration;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.ProxyManager;
@@ -24,7 +23,6 @@ import au.com.agic.apptesting.utils.TagAnalyser;
 import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.WebDriverHandler;
 import au.com.agic.apptesting.utils.impl.ApplicationUrlLoaderImpl;
-import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.DesiredCapabilitiesLoaderImpl;
 import au.com.agic.apptesting.utils.impl.DesktopInteractionImpl;
 import au.com.agic.apptesting.utils.impl.ExceptionWriterImpl;
@@ -38,7 +36,6 @@ import au.com.agic.apptesting.utils.impl.ScreenCaptureImpl;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.TagAnalyserImpl;
 import au.com.agic.apptesting.utils.impl.WebDriverHandlerImpl;
-import au.com.agic.apptesting.utils.impl.ZapProxyUtilsImpl;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -74,8 +71,6 @@ public class TestRunner {
 	private static final ScreenCapture SCREEN_CAPTURE = new ScreenCaptureImpl();
 	private static final DesktopInteraction DESKTOP_INTERACTION = new DesktopInteractionImpl();
 	private static final FileSystemUtils FILE_SYSTEM_UTILS = new FileSystemUtilsImpl();
-	private static final LocalProxyUtils<?> ZAP_PROXY = new ZapProxyUtilsImpl();
-	private static final LocalProxyUtils<?> BROWSERMOB_PROXY = new BrowsermobProxyUtilsImpl();
 	private static final WebDriverHandler WEB_DRIVER_HANDLER = new WebDriverHandlerImpl();
 	private static final JarDownloader JAR_DOWNLOADER = new JarDownloaderImpl();
 	private static final LoggingConfiguration LOGGING_CONFIGURATION = new LogbackConfiguration();
@@ -125,12 +120,17 @@ public class TestRunner {
 		 */
 		final List<File> tempFiles = new ArrayList<>();
 
+		/*
+			A collection of proxies configured for the run of this test
+		 */
+		List<ProxyDetails<?>> proxies = null;
+
 		try {
 
 			JAR_DOWNLOADER.downloadJar(tempFiles);
 			SYSTEM_PROPERTY_UTILS.copyDependentSystemProperties();
 			WEB_DRIVER_HANDLER.configureWebDriver(tempFiles);
-			final List<ProxyDetails<?>> proxies = PROXY_MANAGER.configureProxies(tempFiles);
+			proxies = PROXY_MANAGER.configureProxies(tempFiles);
 			cleanupOldReports();
 			init(reportOutput, tempFiles, proxies);
 
@@ -162,6 +162,11 @@ public class TestRunner {
 				Clean up temp files
 			 */
 			tempFiles.forEach(File::delete);
+
+			/*
+				Gracefully shutdown the proxies
+			 */
+			PROXY_MANAGER.stopProxies(proxies);
 		}
 	}
 

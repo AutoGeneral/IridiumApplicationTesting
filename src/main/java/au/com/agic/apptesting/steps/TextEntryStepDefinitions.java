@@ -75,6 +75,7 @@ public class TextEntryStepDefinitions {
 			selectorValue,
 			threadDetails).get();
 		element.clear();
+		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 	}
 
 	/**
@@ -97,6 +98,7 @@ public class TextEntryStepDefinitions {
 
 		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
 		js.executeScript("arguments[0].value='';", element);
+		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 	}
 
 	/**
@@ -115,6 +117,7 @@ public class TextEntryStepDefinitions {
 		final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		element.clear();
+		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 	}
 
 	/**
@@ -134,6 +137,7 @@ public class TextEntryStepDefinitions {
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
 		js.executeScript("arguments[0].value='';", element);
+		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 	}
 
 	/**
