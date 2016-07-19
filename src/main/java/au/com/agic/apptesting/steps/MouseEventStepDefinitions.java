@@ -30,7 +30,10 @@ import java.util.concurrent.ExecutionException;
 import cucumber.api.java.en.When;
 
 /**
- * Created by mcasperson on 20/07/2016.
+ * Gherkin steps for sending javascript events to elements.
+ *
+ * These steps have Atom snipptets that start with the prefix "mouse".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
 public class MouseEventStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MouseEventStepDefinitions.class);
