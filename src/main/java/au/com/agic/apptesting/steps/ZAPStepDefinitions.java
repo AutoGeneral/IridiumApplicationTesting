@@ -137,11 +137,6 @@ public class ZAPStepDefinitions {
 			Thread.currentThread().getName());
 
 	/**
-	 * Change this if you have set the apikey in ZAP via Options / API
-	 */
-	private static final String ZAP_API_KEY = null;
-
-	/**
 	 * The suffix of the directory that we will save zap report files in
 	 */
 	private static final String ZAP_REPORT_DIR_SUFFIX = "zap";
@@ -175,7 +170,7 @@ public class ZAPStepDefinitions {
 	public void startSession() throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
 		final String url = threadDetails.getUrlDetails().getDefaultUrl();
-		clientApi.httpSessions.createEmptySession(ZAP_API_KEY, url, "session");
+		clientApi.httpSessions.createEmptySession(Constants.ZAP_API_KEY, url, "session");
 	}
 
 	/**
@@ -186,7 +181,7 @@ public class ZAPStepDefinitions {
 	public void activeSession() throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
 		final String url = threadDetails.getUrlDetails().getDefaultUrl();
-		clientApi.httpSessions.addSessionToken(ZAP_API_KEY, url, "session");
+		clientApi.httpSessions.addSessionToken(Constants.ZAP_API_KEY, url, "session");
 	}
 
 	/**
@@ -199,7 +194,7 @@ public class ZAPStepDefinitions {
 	@When("the ZAP XML report is written to the file \"(.*?)\"")
 	public void writeXmlReport(final String path) throws IOException, ClientApiException {
 		final ClientApi clientApi = getClientApi();
-		final String report = new String(clientApi.core.xmlreport(ZAP_API_KEY));
+		final String report = new String(clientApi.core.xmlreport(Constants.ZAP_API_KEY));
 
 		final File reportDir = new File(threadDetails.getReportDirectory());
 		final File zapReportDir = new File(
@@ -220,8 +215,8 @@ public class ZAPStepDefinitions {
 	@Given("a scanner with all policies enabled")
 	public void enableAllScanners() throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
-		clientApi.pscan.enableAllScanners(ZAP_API_KEY);
-		clientApi.ascan.enableAllScanners(ZAP_API_KEY, null);
+		clientApi.pscan.enableAllScanners(Constants.ZAP_API_KEY);
+		clientApi.ascan.enableAllScanners(Constants.ZAP_API_KEY, null);
 
 		final Map<String, Object> properties = threadDetails.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties();
@@ -237,8 +232,8 @@ public class ZAPStepDefinitions {
 	@Given("a scanner with all policies disabled")
 	public void disableAllScanners() throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
-		clientApi.pscan.disableAllScanners(ZAP_API_KEY);
-		clientApi.ascan.disableAllScanners(ZAP_API_KEY, null);
+		clientApi.pscan.disableAllScanners(Constants.ZAP_API_KEY);
+		clientApi.ascan.disableAllScanners(Constants.ZAP_API_KEY, null);
 
 		final Map<String, Object> properties = threadDetails.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties();
@@ -256,8 +251,8 @@ public class ZAPStepDefinitions {
 		checkState(threadDetails.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
 
 		final ClientApi clientApi = getClientApi();
-		clientApi.pscan.enableAllScanners(ZAP_API_KEY);
-		clientApi.ascan.disableAllScanners(ZAP_API_KEY, null);
+		clientApi.pscan.enableAllScanners(Constants.ZAP_API_KEY);
+		clientApi.ascan.disableAllScanners(Constants.ZAP_API_KEY, null);
 
 		final Map<String, Object> properties = threadDetails.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties();
@@ -275,8 +270,8 @@ public class ZAPStepDefinitions {
 		checkState(threadDetails.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
 
 		final ClientApi clientApi = getClientApi();
-		clientApi.pscan.disableAllScanners(ZAP_API_KEY);
-		clientApi.ascan.enableAllScanners(ZAP_API_KEY, null);
+		clientApi.pscan.disableAllScanners(Constants.ZAP_API_KEY);
+		clientApi.ascan.enableAllScanners(Constants.ZAP_API_KEY, null);
 
 		final Map<String, Object> properties = threadDetails.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties();
@@ -312,7 +307,7 @@ public class ZAPStepDefinitions {
 		properties.put(SCANNER_IDS_KEY, scannerIds);
 		threadDetails.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
 
-		clientApi.ascan.enableScanners(ZAP_API_KEY, scannerIds, null);
+		clientApi.ascan.enableScanners(Constants.ZAP_API_KEY, scannerIds, null);
 	}
 
 	/**
@@ -330,7 +325,7 @@ public class ZAPStepDefinitions {
 				.forEach(t ->
 					Try.run(() ->
 						clientApi.ascan.setScannerAttackStrength(
-							ZAP_API_KEY,
+							Constants.ZAP_API_KEY,
 							t,
 							strength.toUpperCase(), null)
 					)
@@ -354,7 +349,7 @@ public class ZAPStepDefinitions {
 				.forEach(t ->
 					Try.run(() ->
 						clientApi.ascan.setScannerAlertThreshold(
-							ZAP_API_KEY,
+							Constants.ZAP_API_KEY,
 							t,
 							threshold.toUpperCase(),
 							null)
@@ -373,7 +368,7 @@ public class ZAPStepDefinitions {
 		final ClientApi clientApi = getClientApi();
 
 		for (String excluded : excludedRegexes) {
-			clientApi.ascan.excludeFromScan(ZAP_API_KEY, excluded);
+			clientApi.ascan.excludeFromScan(Constants.ZAP_API_KEY, excluded);
 		}
 	}
 
@@ -391,7 +386,7 @@ public class ZAPStepDefinitions {
 			: threadDetails.getUrlDetails().getDefaultUrl();
 
 		LOGGER.info("Scanning: {}", url);
-		clientApi.ascan.scan(ZAP_API_KEY, url, "true", "false", null, null, null);
+		clientApi.ascan.scan(Constants.ZAP_API_KEY, url, "true", "false", null, null, null);
 
 		final String scanId = Optional.of(clientApi.ascan.scans())
 			.map(e -> CastUtils.as(ApiResponseList.class, e))
@@ -560,17 +555,17 @@ public class ZAPStepDefinitions {
 			if (properties.containsKey(SPIDER_IGNORED_URLS)) {
 				final List<String> ignoredUrls = (List<String>) properties.get(SPIDER_IGNORED_URLS);
 				for (final String regex : ignoredUrls) {
-					clientApi.spider.excludeFromScan(ZAP_API_KEY, regex);
+					clientApi.spider.excludeFromScan(Constants.ZAP_API_KEY, regex);
 				}
 			}
 
 			final int fixedDepth = depth == null ? DEFAULT_SPIDER_DEPTH : depth;
 			final long fixedTimeout = (long) (timeout == null ? ZAP_SPIDER_TIMEOUT : timeout) * 1000;
-			clientApi.spider.setOptionMaxDepth(ZAP_API_KEY, fixedDepth);
-			clientApi.spider.setOptionThreadCount(ZAP_API_KEY, DEFAULT_SPIDER_THREAD_COUNT);
+			clientApi.spider.setOptionMaxDepth(Constants.ZAP_API_KEY, fixedDepth);
+			clientApi.spider.setOptionThreadCount(Constants.ZAP_API_KEY, DEFAULT_SPIDER_THREAD_COUNT);
 
 			clientApi.spider.scan(
-				ZAP_API_KEY,
+				Constants.ZAP_API_KEY,
 				threadDetails.getUrlDetails().getDefaultUrl(),
 				null,
 				null,

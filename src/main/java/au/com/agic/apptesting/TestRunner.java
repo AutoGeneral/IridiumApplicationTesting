@@ -49,6 +49,7 @@ public class TestRunner {
 	private static final WebDriverHandler WEB_DRIVER_HANDLER = new WebDriverHandlerImpl();
 	private static final JarDownloader JAR_DOWNLOADER = new JarDownloaderImpl();
 	private static final LoggingConfiguration LOGGING_CONFIGURATION = new LogbackConfiguration();
+	private static final ProxyManager PROXY_MANAGER = new ProxyManagerImpl();
 	private static final String HTML_EXTENSION = ".html";
 	/**
 	 * Used to name threads that might be reused
@@ -99,7 +100,7 @@ public class TestRunner {
 			JAR_DOWNLOADER.downloadJar(tempFiles);
 			SYSTEM_PROPERTY_UTILS.copyDependentSystemProperties();
 			WEB_DRIVER_HANDLER.configureWebDriver(tempFiles);
-			final List<ProxyDetails<?>> proxies = configureProxies(tempFiles);
+			final List<ProxyDetails<?>> proxies = PROXY_MANAGER.configureProxies(tempFiles);
 			cleanupOldReports();
 			init(reportOutput, tempFiles, proxies);
 
@@ -132,28 +133,6 @@ public class TestRunner {
 			 */
 			tempFiles.forEach(File::delete);
 		}
-	}
-
-	/**
-	 * We always create the browsermod proxy, and we optionally create the ZAP proxy
-	 */
-	private List<ProxyDetails<?>> configureProxies(final List<File> tempFiles) {
-		final Optional<ProxyDetails<?>> zapProxy = ZAP_PROXY.startProxy(tempFiles);
-		final Optional<ProxyDetails<?>> browermobProxy = BROWSERMOB_PROXY.startProxy(tempFiles);
-
-		final List<ProxyDetails<?>> proxies = new ArrayList<>();
-		proxies.add(browermobProxy.get());
-
-		/*
-			Forward browsermod to ZAP
-		 */
-		if (zapProxy.isPresent()) {
-			((BrowserMobProxy) browermobProxy.get().getInterface().get())
-				.setChainedProxy(new InetSocketAddress("localhost", zapProxy.get().getPort()));
-			proxies.add(zapProxy.get());
-		}
-
-		return proxies;
 	}
 
 	/**

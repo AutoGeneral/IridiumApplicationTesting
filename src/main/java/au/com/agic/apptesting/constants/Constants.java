@@ -194,6 +194,31 @@ public final class Constants {
 	 */
 	public static final int WAIT = 2;
 
+	/**
+	 * System property that holds the external proxy host name or ip address
+	 */
+	public static final String EXTERNAL_PROXY_HOST = "externalProxyHost";
+
+	/**
+	 * System property that holds the external proxy port
+	 */
+	public static final String EXTERNAL_PROXY_PORT = "externalProxyPort";
+
+	/**
+	 * System property that holds the external proxy username
+	 */
+	public static final String EXTERNAL_PROXY_USERNAME = "externalProxyUsername";
+
+	/**
+	 * System property that holds the external proxy password
+	 */
+	public static final String EXTERNAL_PROXY_PASSWORD = "externalProxyPassword";
+
+	/**
+	 * Change this if you have set the apikey in ZAP via Options / API
+	 */
+	public static final String ZAP_API_KEY = null;
+
 	private Constants() {
 	}
 

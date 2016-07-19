@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
  * An implementation of the browsermob proxy. This proxy allows us to block access to urls
  * and can work with an upstream proxy like ZAP.
  */
-public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
+public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy> {
 
 	public static final String PROXY_NAME = "BROWSERMOB";
 	private static final Logger LOGGER = LoggerFactory.getLogger(BrowsermobProxyUtilsImpl.class);
@@ -37,7 +37,7 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 	private static final int WAIT_FOR_START = 30000;
 
 	@Override
-	public Optional<ProxyDetails<?>> startProxy(@NotNull final List<File> tempFolders) {
+	public Optional<ProxyDetails<BrowserMobProxy>> startProxy(@NotNull final List<File> tempFolders) {
 		checkNotNull(tempFolders);
 
 		try {

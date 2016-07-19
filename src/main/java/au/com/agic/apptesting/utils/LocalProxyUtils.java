@@ -20,5 +20,5 @@ public interface LocalProxyUtils<T> {
 	 * @return Some kind of interface that can be used to access the proxy. This might be a port, or a client
 	 * api object.
 	 */
-	Optional<ProxyDetails<?>> startProxy(@NotNull final List<File> tempFolders);
+	Optional<ProxyDetails<T>> startProxy(@NotNull final List<File> tempFolders);
 }
