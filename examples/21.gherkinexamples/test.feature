@@ -9,7 +9,6 @@ Feature: Open an application
 
  	# Open up the web page
   	Scenario: Launch App
-		Given a scanner with all policies enabled
 		And I set the default wait time between steps to "2"
 		And I open the application
 		And I maximise the window
