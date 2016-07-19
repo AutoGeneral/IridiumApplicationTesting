@@ -22,5 +22,5 @@ Feature: Open an application
       | search |
       | Java   |
       | Devops |
-      | Agile  |
       | Linux  |
+      | Agile  |
