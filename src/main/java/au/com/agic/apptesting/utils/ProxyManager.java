@@ -18,4 +18,10 @@ public interface ProxyManager {
 	 * @return A list of proxies created
 	 */
 	List<ProxyDetails<?>> configureProxies(@NotNull final List<File> tempFiles);
+
+	/**
+	 * Gracefully shutdown proxies before we exit the app
+	 * @param proxies
+	 */
+	void stopProxies(@NotNull final List<ProxyDetails<?>> proxies);
 }

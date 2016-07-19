@@ -1,11 +1,42 @@
 package au.com.agic.apptesting;
 
+import static au.com.agic.apptesting.constants.Constants.OPEN_REPORT_FILE_SYSTEM_PROPERTY;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
 import au.com.agic.apptesting.exception.RunScriptsException;
-import au.com.agic.apptesting.utils.*;
-import au.com.agic.apptesting.utils.impl.*;
-import net.lightbody.bmp.BrowserMobProxy;
+import au.com.agic.apptesting.utils.ApplicationUrlLoader;
+import au.com.agic.apptesting.utils.DesktopInteraction;
+import au.com.agic.apptesting.utils.ExceptionWriter;
+import au.com.agic.apptesting.utils.FeatureLoader;
+import au.com.agic.apptesting.utils.FileSystemUtils;
+import au.com.agic.apptesting.utils.JUnitReportMerge;
+import au.com.agic.apptesting.utils.JarDownloader;
+import au.com.agic.apptesting.utils.LoggingConfiguration;
+import au.com.agic.apptesting.utils.ProxyDetails;
+import au.com.agic.apptesting.utils.ProxyManager;
+import au.com.agic.apptesting.utils.ScreenCapture;
+import au.com.agic.apptesting.utils.SystemPropertyUtils;
+import au.com.agic.apptesting.utils.TagAnalyser;
+import au.com.agic.apptesting.utils.ThreadDetails;
+import au.com.agic.apptesting.utils.WebDriverHandler;
+import au.com.agic.apptesting.utils.impl.ApplicationUrlLoaderImpl;
+import au.com.agic.apptesting.utils.impl.DesiredCapabilitiesLoaderImpl;
+import au.com.agic.apptesting.utils.impl.DesktopInteractionImpl;
+import au.com.agic.apptesting.utils.impl.ExceptionWriterImpl;
+import au.com.agic.apptesting.utils.impl.FileSystemUtilsImpl;
+import au.com.agic.apptesting.utils.impl.JUnitReportMergeImpl;
+import au.com.agic.apptesting.utils.impl.JarDownloaderImpl;
+import au.com.agic.apptesting.utils.impl.LocalPathFeatureLoaderImpl;
+import au.com.agic.apptesting.utils.impl.LogbackConfiguration;
+import au.com.agic.apptesting.utils.impl.ProxyManagerImpl;
+import au.com.agic.apptesting.utils.impl.ScreenCaptureImpl;
+import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
+import au.com.agic.apptesting.utils.impl.TagAnalyserImpl;
+import au.com.agic.apptesting.utils.impl.WebDriverHandlerImpl;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.StringUtils;
@@ -15,18 +46,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
 import java.io.File;
-import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static au.com.agic.apptesting.constants.Constants.OPEN_REPORT_FILE_SYSTEM_PROPERTY;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import javax.validation.constraints.NotNull;
 
 /**
  * Typically Cucumber tests are run as jUnit tests. However, in our configuration we run Cucumber as a standalone
@@ -44,8 +71,6 @@ public class TestRunner {
 	private static final ScreenCapture SCREEN_CAPTURE = new ScreenCaptureImpl();
 	private static final DesktopInteraction DESKTOP_INTERACTION = new DesktopInteractionImpl();
 	private static final FileSystemUtils FILE_SYSTEM_UTILS = new FileSystemUtilsImpl();
-	private static final LocalProxyUtils<?> ZAP_PROXY = new ZapProxyUtilsImpl();
-	private static final LocalProxyUtils<?> BROWSERMOB_PROXY = new BrowsermobProxyUtilsImpl();
 	private static final WebDriverHandler WEB_DRIVER_HANDLER = new WebDriverHandlerImpl();
 	private static final JarDownloader JAR_DOWNLOADER = new JarDownloaderImpl();
 	private static final LoggingConfiguration LOGGING_CONFIGURATION = new LogbackConfiguration();
@@ -95,12 +120,17 @@ public class TestRunner {
 		 */
 		final List<File> tempFiles = new ArrayList<>();
 
+		/*
+			A collection of proxies configured for the run of this test
+		 */
+		List<ProxyDetails<?>> proxies = null;
+
 		try {
 
 			JAR_DOWNLOADER.downloadJar(tempFiles);
 			SYSTEM_PROPERTY_UTILS.copyDependentSystemProperties();
 			WEB_DRIVER_HANDLER.configureWebDriver(tempFiles);
-			final List<ProxyDetails<?>> proxies = PROXY_MANAGER.configureProxies(tempFiles);
+			proxies = PROXY_MANAGER.configureProxies(tempFiles);
 			cleanupOldReports();
 			init(reportOutput, tempFiles, proxies);
 
@@ -132,6 +162,11 @@ public class TestRunner {
 				Clean up temp files
 			 */
 			tempFiles.forEach(File::delete);
+
+			/*
+				Gracefully shutdown the proxies
+			 */
+			PROXY_MANAGER.stopProxies(proxies);
 		}
 	}
 

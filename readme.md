@@ -14,3 +14,5 @@ Some articles on Iridium:
 * [Modifying Network Requests With Iridium] (dzone.com/articles/modifying-network-requests-with-iridium)
 
 * [Security Testing With ZAP and Iridium](dzone.com/articles/security-testing-with-zap-and-iridium)
+
+* [Integration Testing With Iridium](https://dzone.com/articles/integration-testing-with-iridium)

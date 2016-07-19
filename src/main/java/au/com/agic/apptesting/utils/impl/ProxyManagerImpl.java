@@ -98,6 +98,15 @@ public class ProxyManagerImpl implements ProxyManager {
 		}
 	}
 
+	@Override
+	public void stopProxies(@NotNull final List<ProxyDetails<?>> proxies) {
+		checkNotNull(proxies);
+
+		proxies.stream()
+			.filter(BrowsermobProxyUtilsImpl.PROXY_NAME::equals)
+			.forEach(x -> BrowserMobProxy.class.cast(x.getInterface().get()).stop());
+	}
+
 	private void forwardBrowserMobToExternalProxy(
 			@NotNull final ProxyDetails<BrowserMobProxy> browserMobProxy,
 			@NotNull final Optional<String> hostname,
