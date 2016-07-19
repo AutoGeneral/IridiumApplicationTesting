@@ -79,6 +79,25 @@ public class TextEntryStepDefinitions {
 	}
 
 	/**
+	 * Clears the contents of an element
+	 *
+	 * @param selector      Either ID, class, xpath, name or css selector
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
+	 *                      data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
+	 *                      set, this value is found from the data set. Otherwise it is a literal value.
+	 */
+	@When("^I clear (?:a|an|the) element with (?:a|an|the) "
+		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
+	public void clearElement(final String selector, final String alias, final String selectorValue) {
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, threadDetails);
+		final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
+		element.clear();
+		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+	}
+
+	/**
 	 * Clears the contents of a hidden element using simple selection
 	 *
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
@@ -98,25 +117,6 @@ public class TextEntryStepDefinitions {
 
 		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
 		js.executeScript("arguments[0].value='';", element);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * Clears the contents of an element
-	 *
-	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("^I clear (?:a|an|the) element with (?:a|an|the) "
-		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
-	public void clearElement(final String selector, final String alias, final String selectorValue) {
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, threadDetails);
-		final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
-		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-		element.clear();
 		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 	}
 

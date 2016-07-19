@@ -270,8 +270,9 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 						LOGGER.error(
 							"WEBAPPTESTER-INFO-0005: "
 							+ "More than one simple selection method returned an element. "
-							+ "You may need to use a step that defines how an element is selected "
-							+ "instead of using the simple selection \"found by\" steps.");
+							+ "You may need to use a step that defines how an element is "
+							+ "selected instead of using the simple selection "
+							+ "\"found by\" steps.");
 					}
 				}
 			} catch (final Exception ex) {
