@@ -31,7 +31,10 @@ import java.util.concurrent.ExecutionException;
 import cucumber.api.java.en.Then;
 
 /**
- * Contains Gherkin step definitions for checking the current state of the web page
+ * Contains Gherkin step definitions for checking the current state of the web page.
+ *
+ * These steps have Atom snipptets that start with the prefix "verify".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
 public class ValidationStepDefinitions {
 
@@ -53,7 +56,7 @@ public class ValidationStepDefinitions {
 	 *
 	 * @param browserTitle Defines what the browser title should be
 	 */
-	@Then("^the browser title should be \"([^\"]*)\"$")
+	@Then("^(?:I verify that )?the browser title should be \"([^\"]*)\"$")
 	public void checkBrowserTitleStep(final String browserTitle) {
 		Assert.assertEquals(browserTitle, threadDetails.getWebDriver().getTitle());
 		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
@@ -72,7 +75,7 @@ public class ValidationStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@Then("^the element found by( alias)? \"([^\"]*)\" should have a "
+	@Then("^(?:I verify that )?the element found by( alias)? \"([^\"]*)\" should have a "
 		+ "class( alias)? of \"([^\"]*)\"( if it exists)?$")
 	public void checkElementClassStep(
 		final String selectorAlias,
@@ -119,7 +122,7 @@ public class ValidationStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@Then("^the element with the (ID|class|xpath|name|css selector)( alias)? \"([^\"]*)\" should have a "
+	@Then("^(?:I verify that )?the element with the (ID|class|xpath|name|css selector)( alias)? \"([^\"]*)\" should have a "
 		+ "class( alias)? of \"([^\"]*)\"( if it exists)?$")
 	public void checkElementClassStep(
 		final String selector,
