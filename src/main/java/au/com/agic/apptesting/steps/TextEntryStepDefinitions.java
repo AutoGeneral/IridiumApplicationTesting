@@ -12,12 +12,9 @@ import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -33,7 +30,10 @@ import java.util.regex.Pattern;
 import cucumber.api.java.en.When;
 
 /**
- * Contains Gherkin steps for enterting text
+ * Contains Gherkin steps for enterting text.
+ *
+ * These steps have Atom snipptets that start with the prefix "populate".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
 public class TextEntryStepDefinitions {
 

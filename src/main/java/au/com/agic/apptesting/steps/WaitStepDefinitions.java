@@ -22,7 +22,10 @@ import java.util.concurrent.ExecutionException;
 import cucumber.api.java.en.When;
 
 /**
- * This class contains Gherkin steps that define wait conditions
+ * This class contains Gherkin steps that define wait conditions.
+ *
+ * These steps have Atom snipptets that start with the prefix "wait".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
 public class WaitStepDefinitions {
 
@@ -290,96 +293,16 @@ public class WaitStepDefinitions {
 	 * element does not have to be visible just present in the HTML.
 	 *
 	 * @param waitDuration The maximum amount of time to wait for
+	 * @param alias           If this word is found in the step, it means the linkContent is found from the
+	 *                        data set.
 	 * @param linkContent  The text content of the link we are wait for
 	 */
-	@When("^I wait \"(\\d+)\" seconds for a link with the text content of \"([^\"]*)\" to be present")
-	public void presentLinkStep(final String waitDuration, final String linkContent) {
+	@When("^I wait \"(\\d+)\" seconds for a link with the text content of( alias) \"([^\"]*)\" to be present")
+	public void presentLinkStep(final String waitDuration, final String alias, final String linkContent) {
+		final String content = StringUtils.isNotBlank(alias)
+			? threadDetails.getDataSet().get(linkContent) : linkContent;
 		final WebDriverWait wait = new WebDriverWait(
 			threadDetails.getWebDriver(), Integer.parseInt(waitDuration));
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText(linkContent)));
-	}
-
-	/**
-	 * Waits the given amount of time for an element with the supplied attribute and attribute value to be
-	 * displayed (i.e. to be visible) on the page.
-	 *
-	 * @param waitDuration    The maximum amount of time to wait for
-	 * @param attribute       The attribute to use to select the element with
-	 * @param alias           If this word is found in the step, it means the selectorValue is found from the
-	 *                        data set.
-	 * @param selectorValue   The value used in conjunction with the selector to match the element. If alias
-	 *                        was set, this value is found from the data set. Otherwise it is a literal
-	 *                        value.
-	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
-	 *                        present
-	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
-		+ "equal to( alias)? \"([^\"]*)\" to be displayed(,? ignoring timeouts?)?")
-	public void displayAttrWait(
-		final String waitDuration,
-		final String attribute,
-		final String alias,
-		final String selectorValue,
-		final String ignoringTimeout) {
-		final String attributeValue = StringUtils.isNotBlank(alias)
-			? threadDetails.getDataSet().get(selectorValue) : selectorValue;
-
-		checkState(attributeValue != null, "the aliased attribute value does not exist");
-
-		try {
-			final WebDriverWait wait = new WebDriverWait(
-				threadDetails.getWebDriver(), Integer.parseInt(waitDuration));
-			wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.cssSelector("[" + attribute + "='" + attributeValue + "']")));
-		} catch (final TimeoutException ex) {
-			/*
-				Rethrow if we have not ignored errors
-			 */
-			if (StringUtils.isBlank(ignoringTimeout)) {
-				throw ex;
-			}
-		}
-	}
-
-	/**
-	 * Waits the given amount of time for an element with the supplied attribute and attribute value to be
-	 * displayed (i.e. to be visible) on the page.
-	 *
-	 * @param waitDuration    The maximum amount of time to wait for
-	 * @param attribute       The attribute to use to select the element with
-	 * @param alias           If this word is found in the step, it means the selectorValue is found from the
-	 *                        data set.
-	 * @param selectorValue   The value used in conjunction with the selector to match the element. If alias
-	 *                        was set, this value is found from the data set. Otherwise it is a literal
-	 *                        value.
-	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
-	 *                        present
-	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
-		+ "equal to( alias)? \"([^\"]*)\" to be present(,? ignoring timeouts?)?")
-	public void presentAttrWait(
-		final String waitDuration,
-		final String attribute,
-		final String alias,
-		final String selectorValue,
-		final String ignoringTimeout) {
-		final String attributeValue = StringUtils.isNotBlank(alias)
-			? threadDetails.getDataSet().get(selectorValue) : selectorValue;
-
-		checkState(attributeValue != null, "the aliased attribute value does not exist");
-
-		try {
-			final WebDriverWait wait = new WebDriverWait(
-				threadDetails.getWebDriver(), Integer.parseInt(waitDuration));
-			wait.until(ExpectedConditions.presenceOfElementLocated(
-				By.cssSelector("[" + attribute + "='" + attributeValue + "']")));
-		} catch (final TimeoutException ex) {
-			/*
-				Rethrow if we have not ignored errors
-			 */
-			if (StringUtils.isBlank(ignoringTimeout)) {
-				throw ex;
-			}
-		}
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText(content)));
 	}
 }
