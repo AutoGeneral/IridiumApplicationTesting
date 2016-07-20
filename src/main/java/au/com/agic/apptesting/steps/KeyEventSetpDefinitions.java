@@ -27,7 +27,10 @@ import java.util.concurrent.ExecutionException;
 import cucumber.api.java.en.When;
 
 /**
- * Gherkin steps for simulating key presses and other key events
+ * Gherkin steps for simulating key presses and other key events.
+ *
+ * These steps have Atom snipptets that start with the prefix "disptach" and "press".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
 public class KeyEventSetpDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(KeyEventSetpDefinitions.class);
@@ -78,7 +81,7 @@ public class KeyEventSetpDefinitions {
 		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 	}
 
-	@When("^I press Delete on the active element(?: \"(\\d+)\" times)?")
+	@When("^I press(?: the)? Delete(?: key)? on the active element(?: \"(\\d+)\" times)?")
 	public void pressDeleteStep(final Integer times) {
 		final WebElement element = threadDetails.getWebDriver().switchTo().activeElement();
 
@@ -91,7 +94,7 @@ public class KeyEventSetpDefinitions {
 	/**
 	 * Press the tab key on the active element
 	 */
-	@When("^I press tab on the active element")
+	@When("^I press(?: the)? tab(?: key)? on the active element")
 	public void pressTabStep() {
 		final WebElement element = threadDetails.getWebDriver().switchTo().activeElement();
 		element.sendKeys(Keys.TAB);
