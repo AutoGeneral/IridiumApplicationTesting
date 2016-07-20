@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import cucumber.api.java.en.When;
 
 /**
- * Created by mcasperson on 18/07/2016.
+ * Gherkin steps used to debug a test script.
  */
 public class DebuggingStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DebuggingStepDefinitions.class);

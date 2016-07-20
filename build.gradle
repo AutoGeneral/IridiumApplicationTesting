@@ -198,7 +198,11 @@ def passThroughProperties = [
         "numberURLs",
         "enableVideoCapture",
         "enableScenarioScreenshots",
-        "startInternalProxy"
+        "startInternalProxy",
+        "externalProxyHost",
+        "externalProxyPort",
+        "externalProxyUsername",
+        "externalProxyPassword"
 ]
 
 test {
