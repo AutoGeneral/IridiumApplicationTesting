@@ -36,6 +36,17 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 	}
 
 	@Override
+	public String getPropertyEmptyAsNull(String name) {
+		checkArgument(StringUtils.isNotBlank(name));
+
+		return SYSTEM_PROPERTY_PREFIXES.stream()
+			.map(e -> System.getProperty(e + name))
+			.filter(StringUtils::isNotBlank)
+			.findFirst()
+			.orElse(null);
+	}
+
+	@Override
 	public void copyVariableToDefaultLocation(final String name) {
 
 		SYSTEM_PROPERTY_PREFIXES.stream()
