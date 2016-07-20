@@ -1,7 +1,5 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.BrowserInteropUtils;
@@ -31,13 +29,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 
 /**
@@ -54,8 +50,6 @@ public class StepDefinitions {
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
 	private static final ScreenshotUtils SCREENSHOT_UTILS = new ScreenshotUtilsImpl();
-
-	private static final long MILLISECONDS_PER_SECOND = 1000;
 
 	/**
 	 * Get the web driver for this thread
@@ -91,41 +85,6 @@ public class StepDefinitions {
 
 		threadDetails.setFailed(scenario.isFailed());
 	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="Initialisation">
-
-	/**
-	 * This step can be used to define the amount of time each additional step will wait before continuing.
-	 * This is useful for web applications that pop new elements into the page in response to user
-	 * interaction, as there can be a delay before those elements are available. <p> Set this to 0 to make
-	 * each step execute immediately after the last one.
-	 *
-	 * @param numberOfSeconds The number of seconds to wait before each step completes
-	 */
-	@When("^I set the default wait time between steps to \"(\\d+)\"(?: seconds)?$")
-	public void setDefaultWaitTime(final String numberOfSeconds) {
-		threadDetails.setDefaultSleep(Integer.parseInt(numberOfSeconds) * MILLISECONDS_PER_SECOND);
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="Open Page">
-
-	/**
-	 * Takes a gerkin table and saves the key value pairs (key being alias names referenced in other steps).
-	 *
-	 * @param aliasTable The key value pairs
-	 */
-	@Given("^the alias mappings")
-	public void pageObjectMappings(final Map<String, String> aliasTable) {
-		final Map<String, String> dataset = threadDetails.getDataSet();
-		dataset.putAll(aliasTable);
-		threadDetails.setDataSet(dataset);
-	}
-
-
 
 	// </editor-fold>
 
