@@ -214,8 +214,7 @@ public class ValidationStepDefinitions {
 	@Then("I verify that the alias \"([^\"]*)\" matches the regex \"([^\"]*)\"")
 	public void verifyMatchesRegex(final String alias, final String regex) {
 		final String value = threadDetails.getDataSet().get(alias);
-		final Pattern pattern = Pattern.compile(regex);
-		Assert.assertTrue(regex.matches(value));
+		Assert.assertTrue(Pattern.matches(regex, value));
 	}
 
 	/**
@@ -227,7 +226,7 @@ public class ValidationStepDefinitions {
 	public void verifyNotMatchesRegex(final String alias, final String regex) {
 		final String value = threadDetails.getDataSet().get(alias);
 		final Pattern pattern = Pattern.compile(regex);
-		Assert.assertFalse(regex.matches(value));
+		Assert.assertFalse(Pattern.matches(regex, value));
 	}
 
 	/**
