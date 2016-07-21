@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
 
 import cucumber.api.java.en.Then;
 
@@ -157,5 +158,97 @@ public class ValidationStepDefinitions {
 				throw ex;
 			}
 		}
+	}
+
+	/**
+	 * Verify that an aliased value a blank string
+	 * @param alias The aliased value to check
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is empty")
+	public void verifyBlank(final String alias) {
+		final String value = threadDetails.getDataSet().get(alias);
+		Assert.assertTrue(StringUtils.isBlank(value));
+	}
+
+	/**
+	 * Verify that an aliased value is not a blank string
+	 * @param alias The aliased value to check
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is not empty")
+	public void verifyNotBlank(final String alias) {
+		final String value = threadDetails.getDataSet().get(alias);
+		Assert.assertTrue(StringUtils.isNotBlank(value));
+	}
+
+	/**
+	 * Verify that an aliased value is a number
+	 * @param alias The aliased value to check
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is a number")
+	public void verifyIsNumber(final String alias) {
+		final String value = threadDetails.getDataSet().get(alias);
+		Double.parseDouble(alias);
+	}
+
+	/**
+	 * Verify that an aliased value is not a number
+	 * @param alias The aliased value to check
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is not a number")
+	public void verifyIsNotNumber(final String alias) {
+		final String value = threadDetails.getDataSet().get(alias);
+		try {
+			Double.parseDouble(alias);
+		} catch (final NumberFormatException ex) {
+			return;
+		}
+
+		throw new AssertionError("Alias " + alias + " value of " + value + " was a number");
+	}
+
+	/**
+	 * Verify that an aliased value matches the regex
+	 * @param alias The aliased value to check
+	 * @param regex The regex to match against the aliased value
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" matches the regex \"([^\"]*)\"")
+	public void verifyMatchesRegex(final String alias, final String regex) {
+		final String value = threadDetails.getDataSet().get(alias);
+		final Pattern pattern = Pattern.compile(regex);
+		Assert.assertTrue(regex.matches(value));
+	}
+
+	/**
+	 * Verify that an aliased value does not match the regex
+	 * @param alias The aliased value to check
+	 * @param regex The regex to match against the aliased value
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" does not match the regex \"([^\"]*)\"")
+	public void verifyNotMatchesRegex(final String alias, final String regex) {
+		final String value = threadDetails.getDataSet().get(alias);
+		final Pattern pattern = Pattern.compile(regex);
+		Assert.assertFalse(regex.matches(value));
+	}
+
+	/**
+	 * Verify that an aliased value is equal to the supplied string
+	 * @param alias The aliased value to check
+	 * @param expectedValue The value that the aliased value is expected to equal
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is equal to \"([^\"]*)\"")
+	public void verifyIsEqual(final String alias, final String expectedValue) {
+		final String value = threadDetails.getDataSet().get(alias);
+		Assert.assertEquals(expectedValue, value);
+	}
+
+	/**
+	 * Verify that an aliased value is not equal to the supplied string
+	 * @param alias The aliased value to check
+	 * @param expectedValue The value that the aliased value is expected to equal
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is not equal to \"([^\"]*)\"")
+	public void verifyIsNotEqual(final String alias, final String expectedValue) {
+		final String value = threadDetails.getDataSet().get(alias);
+		Assert.assertNotEquals(expectedValue, value);
 	}
 }
