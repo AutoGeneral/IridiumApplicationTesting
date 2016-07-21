@@ -34,7 +34,7 @@
             <property name="javaws.startInternalProxy" value=""/>
             <property name="jnlp.versionEnabled" value="true"/>
 			<property name="jnlp.webdriver.firefox.profile" value="selenium" />
-            <jar href="webapptesting-signed.jar" main="true" version="0.0.7" />
+            <jar href="webapptesting-signed.jar" main="true" version="0.0.8" />
     </resources>
     <application-desc
         name="Web Application tester"
