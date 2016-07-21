@@ -187,7 +187,7 @@ public class ValidationStepDefinitions {
 	@Then("I verify that the alias \"([^\"]*)\" is a number")
 	public void verifyIsNumber(final String alias) {
 		final String value = threadDetails.getDataSet().get(alias);
-		Double.parseDouble(alias);
+		Double.parseDouble(value);
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class ValidationStepDefinitions {
 	public void verifyIsNotNumber(final String alias) {
 		final String value = threadDetails.getDataSet().get(alias);
 		try {
-			Double.parseDouble(alias);
+			Double.parseDouble(value);
 		} catch (final NumberFormatException ex) {
 			return;
 		}
