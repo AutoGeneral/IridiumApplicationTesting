@@ -10,6 +10,7 @@ import au.com.agic.apptesting.utils.LoggingConfiguration;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,6 +57,8 @@ public class LogbackConfiguration implements LoggingConfiguration {
 			final Logger logbackLogger =
 				(Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
 			logbackLogger.addAppender(fileAppender);
+
+			SLF4JBridgeHandler.install();
 		} catch (final Exception ex) {
 			LOGGER.error("WEBAPPTESTER-BUG-0006: Could not configure Logback", ex);
 		}
