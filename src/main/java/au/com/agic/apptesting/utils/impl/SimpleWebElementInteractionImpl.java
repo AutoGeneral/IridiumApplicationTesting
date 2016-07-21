@@ -267,15 +267,16 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 
 					} else {
 						/*
+							Return the element
+						 */
+						returnValue.complete(element);
+
+						/*
 							All of the other threads no longer need to keep running
 						 */
 						threads.stream()
 							.filter(x -> x != Thread.currentThread())
 							.forEach(Thread::interrupt);
-						/*
-							Return the element
-						 */
-						returnValue.complete(element);
 					}
 				}
 			} catch (final Exception ex) {
