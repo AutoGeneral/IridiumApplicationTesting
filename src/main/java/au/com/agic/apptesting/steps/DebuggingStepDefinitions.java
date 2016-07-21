@@ -18,6 +18,9 @@ import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps used to debug a test script.
+ *
+ * These steps have Atom snipptets that start with the prefix "dump" and "delete".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
 public class DebuggingStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DebuggingStepDefinitions.class);
