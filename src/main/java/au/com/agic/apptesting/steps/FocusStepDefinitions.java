@@ -1,55 +1,37 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.constants.Constants;
-import au.com.agic.apptesting.utils.BrowserInteropUtils;
 import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.ScreenshotUtils;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.ThreadDetails;
-import au.com.agic.apptesting.utils.impl.BrowserInteropUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
-import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.security.UserAndPassword;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutionException;
 
-import cucumber.api.Scenario;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.When;
 
 /**
- * Implementations of the Cucumber steps.
+ * Gherkin steps used to focus elements
+ *
+ * These steps have Atom snipptets that start with the prefix "focus".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
-public class StepDefinitions {
+public class FocusStepDefinitions {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(StepDefinitions.class);
-
-	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
-	private static final BrowserInteropUtils BROWSER_INTEROP_UTILS = new BrowserInteropUtilsImpl();
-	private static final GetBy GET_BY = new GetByImpl();
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	private static final GetBy GET_BY = new GetByImpl();
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
-	private static final ScreenshotUtils SCREENSHOT_UTILS = new ScreenshotUtilsImpl();
 
 	/**
 	 * Get the web driver for this thread
@@ -57,38 +39,6 @@ public class StepDefinitions {
 	private final ThreadDetails threadDetails =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
 			Thread.currentThread().getName());
-
-	// <editor-fold desc="Events">
-
-	/**
-	 * If any scenario failed, we throw an exception which prevents the new scenario from loading. This
-	 * prevents a situation where the test script continues to run after some earlier failure, which doesn't
-	 * make sense in end to end tests.
-	 */
-	@Before
-	public void setup() {
-		if (threadDetails.getFailed()) {
-			throw new IllegalStateException("Previous scenario failed!");
-		}
-	}
-
-	/**
-	 * If this scenario failed, note this in the thread details so subsequent scenarios are not run
-	 *
-	 * @param scenario The cucumber scenario
-	 */
-	@After
-	public void teardown(final Scenario scenario) {
-		if (!threadDetails.getFailed()) {
-			SCREENSHOT_UTILS.takeScreenshot(" " + scenario.getName(), threadDetails);
-		}
-
-		threadDetails.setFailed(scenario.isFailed());
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="Selection and Focus">
 
 	/**
 	 * Focuses on an element. <p> Often with text fields that have some kind of mask you need to first focus
@@ -159,53 +109,4 @@ public class StepDefinitions {
 		}
 	}
 
-	// </editor-fold>
-
-	// <editor-fold desc="Login">
-
-	/**
-	 * This code is supposed to populate the login dialog, but it actually doesn't work with most modern
-	 * browsers.
-	 *
-	 * @param username The username
-	 * @param password The password
-	 * @param exists   If this text is set, an error that would be thrown because the element was not found is
-	 *                 ignored. Essentially setting this text makes this an optional statement.
-	 */
-	@When("I log in with username \"([^\"]*)\" and password \"([^\"]*)\"( if it exists)?$")
-	public void login(final String username, final String password, final String exists) {
-		try {
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
-			final Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-			alert.authenticateUsing(new UserAndPassword(username, password));
-		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isBlank(exists)) {
-				throw ex;
-			}
-		}
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="Navigation">
-
-	/**
-	 * Go back
-	 */
-	@When("I go back")
-	public void goBack() {
-		threadDetails.getWebDriver().navigate().back();
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * Go forward
-	 */
-	@When("I go forward")
-	public void goForward() {
-		threadDetails.getWebDriver().navigate().forward();
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	// </editor-fold>
 }
