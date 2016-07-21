@@ -11,6 +11,7 @@ Feature: Buy Concert Tickets on TicketMonster
       | Checkout | submit |
       | First Ticket Number | //*[@id="content"]/div[2]/div[2]/div/table/tbody/tr[1]/td[1] |
       | Second Ticket Number | //*[@id="content"]/div[2]/div[2]/div/table/tbody/tr[2]/td[1] |
+      | Created on | //*[@id="content"]/div[2]/div[1]/div/p[5] |
 
   Scenario: Open Application
     When I set the default wait time between steps to "2" seconds
@@ -38,5 +39,8 @@ Feature: Buy Concert Tickets on TicketMonster
   Scenario: Verify Checkout
     And I save the text content of the element found by alias "First Ticket Number" to the alias "First Ticket Number Value"
     And I save the text content of the element found by alias "Second Ticket Number" to the alias "Second Ticket Number Value"
+    And I save the text content of the element found by alias "Created on" to the alias "Created on Value"
+    And I dump the alias map to the console
     Then I verify that the alias "First Ticket Number Value" is a number
     Then I verify that the alias "Second Ticket Number Value" is a number
+    Then I verify that the alias "Created on Value" matches the regex "Created on: \w+ \d+ \w+ \d+ at \d+:\d+"

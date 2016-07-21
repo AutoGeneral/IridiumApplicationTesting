@@ -257,22 +257,25 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 					The first thread to succeed will be the value that is returned
 				 */
 				synchronized (returnValue) {
-					if (!returnValue.isDone()) {
+					if (returnValue.isDone()) {
+						LOGGER.error(
+							"WEBAPPTESTER-INFO-0005: "
+								+ "More than one simple selection method returned an element. "
+								+ "You may need to use a step that defines how an element is "
+								+ "selected instead of using the simple selection "
+								+ "\"found by\" steps.");
+
+					} else {
 						/*
 							All of the other threads no longer need to keep running
 						 */
-						threads.stream().forEach(Thread::interrupt);
+						threads.stream()
+							.filter(x -> x != Thread.currentThread())
+							.forEach(Thread::interrupt);
 						/*
 							Return the element
 						 */
 						returnValue.complete(element);
-					} else {
-						LOGGER.error(
-							"WEBAPPTESTER-INFO-0005: "
-							+ "More than one simple selection method returned an element. "
-							+ "You may need to use a step that defines how an element is "
-							+ "selected instead of using the simple selection "
-							+ "\"found by\" steps.");
 					}
 				}
 			} catch (final Exception ex) {
