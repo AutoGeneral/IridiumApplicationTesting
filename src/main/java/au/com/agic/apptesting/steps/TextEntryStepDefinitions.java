@@ -12,12 +12,9 @@ import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -33,7 +30,10 @@ import java.util.regex.Pattern;
 import cucumber.api.java.en.When;
 
 /**
- * Contains Gherkin steps for enterting text
+ * Contains Gherkin steps for enterting text.
+ *
+ * These steps have Atom snipptets that start with the prefix "populate".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
 public class TextEntryStepDefinitions {
 
@@ -79,6 +79,25 @@ public class TextEntryStepDefinitions {
 	}
 
 	/**
+	 * Clears the contents of an element
+	 *
+	 * @param selector      Either ID, class, xpath, name or css selector
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
+	 *                      data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
+	 *                      set, this value is found from the data set. Otherwise it is a literal value.
+	 */
+	@When("^I clear (?:a|an|the) element with (?:a|an|the) "
+		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
+	public void clearElement(final String selector, final String alias, final String selectorValue) {
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, threadDetails);
+		final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
+		element.clear();
+		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+	}
+
+	/**
 	 * Clears the contents of a hidden element using simple selection
 	 *
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
@@ -110,25 +129,6 @@ public class TextEntryStepDefinitions {
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
 	 *                      set, this value is found from the data set. Otherwise it is a literal value.
 	 */
-	@When("^I clear (?:a|an|the) element with (?:a|an|the) "
-		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
-	public void clearElement(final String selector, final String alias, final String selectorValue) {
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, threadDetails);
-		final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
-		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-		element.clear();
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * Clears the contents of an element
-	 *
-	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
 	@When("^I clear (?:a|an|the) hidden element with (?:a|an|the) "
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
 	public void clearHiddenElement(final String selector, final String alias, final String selectorValue) {
@@ -140,226 +140,7 @@ public class TextEntryStepDefinitions {
 		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 	}
 
-	/**
-	 * Press the CTRL-A keys to the active element
-	 */
-	@When("^I press CTRL-A on the active element")
-	public void pressCtrlAStep() {
-		final WebElement element = threadDetails.getWebDriver().switchTo().activeElement();
-		element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
 
-	/**
-	 * Press the CMD-A keys to the active element
-	 */
-	@When("^I press CMD-A on the active element")
-	public void pressCmdAStep() {
-		final WebElement element = threadDetails.getWebDriver().switchTo().activeElement();
-		element.sendKeys(Keys.chord(Keys.COMMAND, "a"));
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * Press the CMD-A or CTRL-A keys to the active element depending on the client os
-	 */
-	@When("^I select all the text in the active element")
-	public void pressCmdOrCtrlAStep() {
-		final WebElement element = threadDetails.getWebDriver().switchTo().activeElement();
-
-		if (SystemUtils.IS_OS_MAC) {
-			element.sendKeys(Keys.chord(Keys.COMMAND, "a"));
-		} else {
-			element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-		}
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	@When("^I press Delete on the active element(?: \"(\\d+)\" times)?")
-	public void pressDeleteStep(final Integer times) {
-		final WebElement element = threadDetails.getWebDriver().switchTo().activeElement();
-
-		for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
-			element.sendKeys(Keys.DELETE);
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-		}
-	}
-
-	/**
-	 * Press the tab key on the active element
-	 */
-	@When("^I press tab on the active element")
-	public void pressTabStep() {
-		final WebElement element = threadDetails.getWebDriver().switchTo().activeElement();
-		element.sendKeys(Keys.TAB);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * Press the tab key on the active element
-	 */
-	@When("^I press(?: the)? down arrow(?: key)? on the active element")
-	public void pressDownArrowStep() {
-		final WebElement element = threadDetails.getWebDriver().switchTo().activeElement();
-		element.sendKeys(Keys.ARROW_DOWN);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * Presses the backspace key on the active element
-	 */
-	@When("^I press(?: the)? backspace(?: key)? on the active element")
-	public void pressBackspaceStep() {
-		final WebElement element = threadDetails.getWebDriver().switchTo().activeElement();
-		element.sendKeys(Keys.BACK_SPACE);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * Presses the enter key on the active element
-	 */
-	@When("^I press(?: the)? enter(?: key)? on the active element")
-	public void pressEnterStep() {
-		final WebElement element = threadDetails.getWebDriver().switchTo().activeElement();
-		element.sendKeys(Keys.ENTER);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * sendKeys will often not trigger the key up event, which some elements of the page need in order to
-	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
-	 * workaround.
-	 *
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I dispatch a key up event on (?:a|an|the) element found by( alias)? \"([^\"]*)\"")
-	public void triggetKeyUp(
-		final String alias,
-		final String selectorValue) throws ExecutionException, InterruptedException {
-		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
-			StringUtils.isNotBlank(alias),
-			selectorValue,
-			threadDetails).get();
-
-		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
-		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keyup\"));", element);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * sendKeys will often not trigger the key up event, which some elements of the page need in order to
-	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
-	 * workaround.
-	 *
-	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I dispatch a key up event on (?:a|an|the) element with (?:a|an|the) "
-		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
-	public void triggetKeyUp(final String selector, final String alias, final String selectorValue) {
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, threadDetails);
-		final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
-		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
-		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keyup\"));", element);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * sendKeys will often not trigger the key events, which some elements of the page need in order to
-	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
-	 * workaround.
-	 *
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I dispatch a key press event on (?:a|an|the) element found by( alias)? \"([^\"]*)\"")
-	public void triggetSimpleKeyPress(
-		final String alias,
-		final String selectorValue) throws ExecutionException, InterruptedException {
-		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
-			StringUtils.isNotBlank(alias),
-			selectorValue,
-			threadDetails).get();
-		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
-		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keypress\"));", element);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * sendKeys will often not trigger the key events, which some elements of the page need in order to
-	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
-	 * workaround.
-	 *
-	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I dispatch a key press event on (?:a|an|the) element with (?:a|an|the) "
-		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
-	public void triggetKeyPress(final String selector, final String alias, final String selectorValue) {
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, threadDetails);
-		final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
-		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
-		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keypress\"));", element);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * sendKeys will often not trigger the key down event, which some elements of the page need in order to
-	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
-	 * workaround.
-	 *
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I dispatch a key down event (?:a|an|the) element found by( alias)? \"([^\"]*)\"")
-	public void triggetSimpleKeyDown(
-		final String alias,
-		final String selectorValue) throws ExecutionException, InterruptedException {
-		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
-			StringUtils.isNotBlank(alias),
-			selectorValue,
-			threadDetails).get();
-		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
-		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keydown\"));", element);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
-
-	/**
-	 * sendKeys will often not trigger the key down event, which some elements of the page need in order to
-	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
-	 * workaround.
-	 *
-	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I dispatch a key down event (?:a|an|the) element with (?:a|an|the) "
-		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
-	public void triggetKeyDown(final String selector, final String alias, final String selectorValue) {
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, threadDetails);
-		final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
-		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
-		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keydown\"));", element);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-	}
 
 	/**
 	 * Populate an element with some text, and submits it.
@@ -592,78 +373,6 @@ public class TextEntryStepDefinitions {
 
 				for (final Character character : textValue.toCharArray()) {
 					SLEEP_UTILS.sleep(fixedDelay);
-					element.sendKeys(character.toString());
-				}
-				SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-			}
-		} catch (final TimeoutException ex) {
-			if (StringUtils.isBlank(exists)) {
-				throw ex;
-			}
-		}
-	}
-
-	/**
-	 * Populate an element with some text
-	 *
-	 * @param attributeNameAlias  If this word is found in the step, it means the attributeName is found from
-	 *                            the data set.
-	 * @param attributeName       The name of the attribute to match.
-	 * @param attributeValueAlias If this word is found in the step, it means the attributeValue is found from
-	 *                            the data set.
-	 * @param attributeValue      The value of the attribute to match
-	 * @param contentAlias        If this word is found in the step, it means the content is found from the
-	 *                            data set.
-	 * @param content             The content to populate the element with
-	 * @param exists              If this text is set, an error that would be thrown because the element was
-	 *                            not found is ignored. Essentially setting this text makes this an optional
-	 *                            statement.
-	 * @param empty               If this phrase exists, the step will be skipped if the element is not empty
-	 */
-	@SuppressWarnings("checkstyle:parameternumber")
-	@When("^I populate (?:a|an|the) element with (?:a|an|the) attribute( alias)? of \"([^\"]*)\" "
-		+ "equal to( alias)? \"([^\"]*)\" with( alias)? \"([^\"]*)\""
-		+ "( if it exists)?( if it is empty)?$")
-	public void populateElementWithAttrStep(
-		final String attributeNameAlias,
-		final String attributeName,
-		final String attributeValueAlias,
-		final String attributeValue,
-		final String contentAlias,
-		final String content,
-		final String exists,
-		final String empty) {
-		try {
-			final String attr = " alias".equals(attributeNameAlias)
-				? threadDetails.getDataSet().get(attributeName) : attributeName;
-			final String value = " alias".equals(attributeValueAlias)
-				? threadDetails.getDataSet().get(attributeValue) : attributeValue;
-
-			checkState(attr != null, "the aliased attribute name does not exist");
-			checkState(value != null, "the aliased attribute value does not exist");
-
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
-			final WebElement element = wait.until(
-				ExpectedConditions.elementToBeClickable(
-					By.cssSelector("[" + attr + "='" + value + "']")));
-
-			/*
-				See if the element is blank, or contains only underscores (as you might find in
-				an empty phone number field for example
-			 */
-			final boolean processElement = !" if it is empty".equals(empty)
-				|| StringUtils.isBlank(element.getAttribute("value"))
-				|| BLANK_OR_MASKED_RE.matcher(element.getAttribute("value")).matches();
-
-			if (processElement) {
-				// Simulate key presses
-				final String textValue = " alias".equals(contentAlias)
-					? threadDetails.getDataSet().get(content) : content;
-
-				checkState(textValue != null, "the aliased text value does not exist");
-
-				for (final Character character : textValue.toCharArray()) {
-					SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
 					element.sendKeys(character.toString());
 				}
 				SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());

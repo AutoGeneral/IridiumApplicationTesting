@@ -10,6 +10,9 @@ import au.com.agic.apptesting.utils.LoggingConfiguration;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
+import org.slf4j.bridge.SLF4JBridgeHandler;
+
+import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +21,7 @@ import java.util.Properties;
 
 import javax.validation.constraints.NotNull;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
@@ -56,6 +60,24 @@ public class LogbackConfiguration implements LoggingConfiguration {
 			final Logger logbackLogger =
 				(Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
 			logbackLogger.addAppender(fileAppender);
+
+			/*
+				We only want to hear about errors from the libraries that are used by Iridium
+			 */
+			logbackLogger.setLevel(Level.ERROR);
+
+			/*
+				Our own code should be info level
+			 */
+			final Logger iridiumLogger =
+				(Logger) LoggerFactory.getLogger("au.com.agic");
+			iridiumLogger.setLevel(Level.INFO);
+
+			/*
+				Redirect java logging and sys out to slf4j
+			 */
+			SLF4JBridgeHandler.install();
+			SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();
 		} catch (final Exception ex) {
 			LOGGER.error("WEBAPPTESTER-BUG-0006: Could not configure Logback", ex);
 		}

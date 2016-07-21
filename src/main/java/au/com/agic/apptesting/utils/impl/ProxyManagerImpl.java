@@ -37,14 +37,14 @@ public class ProxyManagerImpl implements ProxyManager {
 
 		try {
 			final Optional<String> proxyHostname = Optional.ofNullable(
-				SYSTEM_PROPERTY_UTILS.getProperty(Constants.EXTERNAL_PROXY_HOST));
+				SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_HOST));
 			final Optional<String> proxyPort = Optional.ofNullable(
-				SYSTEM_PROPERTY_UTILS.getProperty(Constants.EXTERNAL_PROXY_PORT));
+				SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_PORT));
 
 			final Optional<String> proxyUsername = Optional.ofNullable(
-				SYSTEM_PROPERTY_UTILS.getProperty(Constants.EXTERNAL_PROXY_USERNAME));
+				SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_USERNAME));
 			final Optional<String> proxyPassword = Optional.ofNullable(
-				SYSTEM_PROPERTY_UTILS.getProperty(Constants.EXTERNAL_PROXY_PASSWORD));
+				SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_PASSWORD));
 
 			final Optional<ProxyDetails<ClientApi>> zapProxy =
 				ZAP_PROXY.startProxy(tempFiles);

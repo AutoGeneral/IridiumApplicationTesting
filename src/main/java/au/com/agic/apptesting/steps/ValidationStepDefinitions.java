@@ -27,11 +27,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
 
 import cucumber.api.java.en.Then;
 
 /**
- * Contains Gherkin step definitions for checking the current state of the web page
+ * Contains Gherkin step definitions for checking the current state of the web page.
+ *
+ * These steps have Atom snipptets that start with the prefix "verify".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
 public class ValidationStepDefinitions {
 
@@ -53,7 +57,7 @@ public class ValidationStepDefinitions {
 	 *
 	 * @param browserTitle Defines what the browser title should be
 	 */
-	@Then("^the browser title should be \"([^\"]*)\"$")
+	@Then("^(?:I verify that )?the browser title should be \"([^\"]*)\"$")
 	public void checkBrowserTitleStep(final String browserTitle) {
 		Assert.assertEquals(browserTitle, threadDetails.getWebDriver().getTitle());
 		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
@@ -72,7 +76,7 @@ public class ValidationStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@Then("^the element found by( alias)? \"([^\"]*)\" should have a "
+	@Then("^(?:I verify that )?the element found by( alias)? \"([^\"]*)\" should have a "
 		+ "class( alias)? of \"([^\"]*)\"( if it exists)?$")
 	public void checkElementClassStep(
 		final String selectorAlias,
@@ -119,7 +123,7 @@ public class ValidationStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@Then("^the element with the (ID|class|xpath|name|css selector)( alias)? \"([^\"]*)\" should have a "
+	@Then("^(?:I verify that )?the element with the (ID|class|xpath|name|css selector)( alias)? \"([^\"]*)\" should have a "
 		+ "class( alias)? of \"([^\"]*)\"( if it exists)?$")
 	public void checkElementClassStep(
 		final String selector,
@@ -154,5 +158,96 @@ public class ValidationStepDefinitions {
 				throw ex;
 			}
 		}
+	}
+
+	/**
+	 * Verify that an aliased value a blank string
+	 * @param alias The aliased value to check
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is empty")
+	public void verifyBlank(final String alias) {
+		final String value = threadDetails.getDataSet().get(alias);
+		Assert.assertTrue(StringUtils.isBlank(value));
+	}
+
+	/**
+	 * Verify that an aliased value is not a blank string
+	 * @param alias The aliased value to check
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is not empty")
+	public void verifyNotBlank(final String alias) {
+		final String value = threadDetails.getDataSet().get(alias);
+		Assert.assertTrue(StringUtils.isNotBlank(value));
+	}
+
+	/**
+	 * Verify that an aliased value is a number
+	 * @param alias The aliased value to check
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is a number")
+	public void verifyIsNumber(final String alias) {
+		final String value = threadDetails.getDataSet().get(alias);
+		Double.parseDouble(value);
+	}
+
+	/**
+	 * Verify that an aliased value is not a number
+	 * @param alias The aliased value to check
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is not a number")
+	public void verifyIsNotNumber(final String alias) {
+		final String value = threadDetails.getDataSet().get(alias);
+		try {
+			Double.parseDouble(value);
+		} catch (final NumberFormatException ex) {
+			return;
+		}
+
+		throw new AssertionError("Alias " + alias + " value of " + value + " was a number");
+	}
+
+	/**
+	 * Verify that an aliased value matches the regex
+	 * @param alias The aliased value to check
+	 * @param regex The regex to match against the aliased value
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" matches the regex \"([^\"]*)\"")
+	public void verifyMatchesRegex(final String alias, final String regex) {
+		final String value = threadDetails.getDataSet().get(alias);
+		Assert.assertTrue(Pattern.matches(regex, value));
+	}
+
+	/**
+	 * Verify that an aliased value does not match the regex
+	 * @param alias The aliased value to check
+	 * @param regex The regex to match against the aliased value
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" does not match the regex \"([^\"]*)\"")
+	public void verifyNotMatchesRegex(final String alias, final String regex) {
+		final String value = threadDetails.getDataSet().get(alias);
+		final Pattern pattern = Pattern.compile(regex);
+		Assert.assertFalse(Pattern.matches(regex, value));
+	}
+
+	/**
+	 * Verify that an aliased value is equal to the supplied string
+	 * @param alias The aliased value to check
+	 * @param expectedValue The value that the aliased value is expected to equal
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is equal to \"([^\"]*)\"")
+	public void verifyIsEqual(final String alias, final String expectedValue) {
+		final String value = threadDetails.getDataSet().get(alias);
+		Assert.assertEquals(expectedValue, value);
+	}
+
+	/**
+	 * Verify that an aliased value is not equal to the supplied string
+	 * @param alias The aliased value to check
+	 * @param expectedValue The value that the aliased value is expected to equal
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is not equal to \"([^\"]*)\"")
+	public void verifyIsNotEqual(final String alias, final String expectedValue) {
+		final String value = threadDetails.getDataSet().get(alias);
+		Assert.assertNotEquals(expectedValue, value);
 	}
 }

@@ -10,17 +10,17 @@ codebase="https://s3-ap-southeast-2.amazonaws.com/ag-iridium/">
 <j2se version="1.8+"
 href="http://java.sun.com/products/autodl/j2se"/>
     <property name="jnlp.packEnabled" value="true"/>
-    <property name="javaws.configuration" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/9.multipleenvironments/configuration.xml"/>
+    <property name="javaws.configuration" value=""/>
     <property name="javaws.dataset" value=""/>
-    <property name="javaws.appURLOverride" value=""/>
-    <property name="javaws.featureGroupName" value="CQS-ECOM"/>
-    <property name="javaws.testSource" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/9.multipleenvironments/test.feature"/>
+    <property name="javaws.appURLOverride" value="http://ticketmonster-jdf.rhcloud.com"/>
+    <property name="javaws.featureGroupName" value=""/>
+    <property name="javaws.testSource" value="https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/22.verification/test.feature"/>
     <property name="javaws.importBaseUrl" value=""/>
     <property name="javaws.testDestination" value="FIREFOX"/>
     <property name="javaws.webdriver.chrome.driver" value=""/>
     <property name="javaws.webdriver.opera.driver" value=""/>
     <property name="javaws.phantomjs.binary.path" value=""/>
-    <property name="javaws.leaveWindowsOpen" value="true"/>
+    <property name="javaws.leaveWindowsOpen" value="false"/>
     <property name="javaws.openReportFile" value="true"/>
     <property name="javaws.saveReportsInHomeDir" value="true"/>
     <property name="javaws.webdriver.ie.driver" value=""/>

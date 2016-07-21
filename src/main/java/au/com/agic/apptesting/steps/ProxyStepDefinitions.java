@@ -24,6 +24,9 @@ import io.netty.handler.codec.http.HttpResponse;
 /**
  * This class contains Gherkin step definitions relating to the use of the embedded
  * BrowserMob proxy.
+ *
+ * These steps have Atom snipptets that start with the prefix "block" and "delete".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
 public class ProxyStepDefinitions {
 
@@ -77,7 +80,7 @@ public class ProxyStepDefinitions {
 	 *
 	 * @param url The regex that matches URLs that should have duplicate AWSELB cookies removed
 	 */
-	@When("^I remove root AWSELB cookie from the request to the URL regex \"(.*?)\"$")
+	@When("^I (?:remove|delete) root AWSELB cookie from the request to the URL regex \"(.*?)\"$")
 	public void stripHeaders(final String url) {
 		final Optional<ProxyDetails<?>> proxy =
 			threadDetails.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);

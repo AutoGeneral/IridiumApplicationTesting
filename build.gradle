@@ -92,6 +92,7 @@ def zapAPIVersion = '1.0.0'
 def browsermobVersion = '2.1.1'
 def compressCommonsVersion = '1.12'
 def xmlApisVersion =  '1.4.01'
+def sysoutOverSLF4JVersion = '1.0.2';
 
 configurations.all {
 	resolutionStrategy {
@@ -125,6 +126,7 @@ dependencies {
     compile 'net.lightbody.bmp:browsermob-core:' + browsermobVersion
     compile group: 'org.apache.commons', name: 'commons-compress', version: compressCommonsVersion
 	compile group: 'xml-apis', name: 'xml-apis', version: xmlApisVersion
+    compile group: 'uk.org.lidalia', name: 'sysout-over-slf4j', version: sysoutOverSLF4JVersion
 
     /*
         The following are dependencies required by ZAP
@@ -198,7 +200,11 @@ def passThroughProperties = [
         "numberURLs",
         "enableVideoCapture",
         "enableScenarioScreenshots",
-        "startInternalProxy"
+        "startInternalProxy",
+        "externalProxyHost",
+        "externalProxyPort",
+        "externalProxyUsername",
+        "externalProxyPassword"
 ]
 
 test {

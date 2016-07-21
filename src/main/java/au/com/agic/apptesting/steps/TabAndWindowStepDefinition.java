@@ -44,7 +44,7 @@ public class TabAndWindowStepDefinition {
 	/**
 	 * Switchs to the specified window. This is useful when you open a link that opens in a new window.
 	 */
-	@When("I switch to new window")
+	@When("I switch to the new window")
 	public void switchWindows() {
 		threadDetails.getWebDriver().getWindowHandles().stream()
 			.filter(e -> !e.equals(threadDetails.getWebDriver().getWindowHandle()))

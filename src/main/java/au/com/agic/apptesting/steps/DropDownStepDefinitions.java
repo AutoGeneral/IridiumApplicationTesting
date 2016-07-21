@@ -28,7 +28,10 @@ import java.util.concurrent.ExecutionException;
 import cucumber.api.java.en.When;
 
 /**
- * Gherkin steps for working with drop down lists
+ * Gherkin steps for working with drop down lists.
+ *
+ * These steps have Atom snipptets that start with the prefix "select".
+ * See https://github.com/mcasperson/iridium-snippets for more details.
  */
 public class DropDownStepDefinitions {
 
@@ -140,60 +143,6 @@ public class DropDownStepDefinitions {
 	}
 
 	/**
-	 * Select an item from a drop down list
-	 *
-	 * @param itemAlias           If this word is found in the step, it means the itemName is found from the
-	 *                            data set.
-	 * @param itemName            The text of the item to select
-	 * @param attributeNameAlias  If this word is found in the step, it means the attributeName is found from
-	 *                            the data set.
-	 * @param attributeName       The name of the attribute to match.
-	 * @param attributeValueAlias If this word is found in the step, it means the attributeValue is found from
-	 *                            the data set.
-	 * @param attributeValue      The value of the attribute to match
-	 * @param exists              If this text is set, an error that would be thrown because the element was
-	 *                            not found is ignored. Essentially setting this text makes this an optional
-	 *                            statement.
-	 */
-	@When("^I select( alias)? \"([^\"]*)\" from (?:a|the) drop down list with (?:a|an|the) attribute of( alias)? "
-		+ "\"([^\"]*)\" equal to( alias)? \"([^\"]*)\"( if it exists)?$")
-	public void selectDropDownListAttrStep(
-		final String itemAlias,
-		final String itemName,
-		final String attributeNameAlias,
-		final String attributeName,
-		final String attributeValueAlias,
-		final String attributeValue,
-		final String exists) {
-
-		try {
-			final String selection = " alias".equals(itemAlias)
-				? threadDetails.getDataSet().get(itemName) : itemName;
-			final String attr = " alias".equals(attributeNameAlias)
-				? threadDetails.getDataSet().get(attributeName) : attributeName;
-			final String value = " alias".equals(attributeValueAlias)
-				? threadDetails.getDataSet().get(attributeValue) : attributeValue;
-
-			checkState(selection != null, "the aliased item name does not exist");
-			checkState(attr != null, "the aliased attribute name does not exist");
-
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
-			final WebElement element = wait.until(
-				ExpectedConditions.elementToBeClickable(
-					By.cssSelector("[" + attr + "='" + value + "']")));
-
-			final Select select = new Select(element);
-			select.selectByVisibleText(selection);
-
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isBlank(exists)) {
-				throw ex;
-			}
-		}
-	}
-
-	/**
 	 * Select an item index from a drop down list using simple selection
 	 *
 	 * @param itemAlias     If this word is found in the step, it means the itemName is found from the data
@@ -272,58 +221,6 @@ public class DropDownStepDefinitions {
 				threadDetails);
 			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
-
-			final Select select = new Select(element);
-			select.selectByIndex(Integer.parseInt(selection));
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (StringUtils.isBlank(exists)) {
-				throw ex;
-			}
-		}
-	}
-
-	/**
-	 * Select an item index from a drop down list
-	 *
-	 * @param itemAlias           If this word is found in the step, it means the itemName is found from the
-	 *                            data set.
-	 * @param itemIndex           The index of the item to select
-	 * @param attributeNameAlias  If this word is found in the step, it means the attributeName is found from
-	 *                            the data set.
-	 * @param attributeName       The name of the attribute to match.
-	 * @param attributeValueAlias If this word is found in the step, it means the attributeValue is found from
-	 *                            the data set.
-	 * @param attributeValue      The value of the attribute to match
-	 * @param exists              If this text is set, an error that would be thrown because the element was
-	 *                            not found is ignored. Essentially setting this text makes this an optional
-	 *                            statement.
-	 */
-	@When("^I select option(?: number)?( alias)? \"([^\"]*)\" from (?:a|the) drop down list with (?:a|an|the) "
-		+ "attribute of( alias)? \"([^\"]*)\" equal to( alias)? \"([^\"]*)\"( if it exists)?$")
-	public void selectDropDownListWithAttrItemStep(
-		final String itemAlias,
-		final String itemIndex,
-		final String attributeNameAlias,
-		final String attributeName,
-		final String attributeValueAlias,
-		final String attributeValue,
-		final String exists) {
-		try {
-			final String selection = " alias".equals(itemAlias)
-				? threadDetails.getDataSet().get(itemIndex) : itemIndex;
-			final String attr = " alias".equals(attributeNameAlias)
-				? threadDetails.getDataSet().get(attributeName) : attributeName;
-			final String value = " alias".equals(attributeValueAlias)
-				? threadDetails.getDataSet().get(attributeValue) : attributeValue;
-
-			checkState(selection != null, "the aliased item index does not exist");
-			checkState(attr != null, "the aliased attribute name does not exist");
-
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
-			final WebElement element = wait.until(
-				ExpectedConditions.elementToBeClickable(
-					By.cssSelector("[" + attr + "='" + value + "']")));
 
 			final Select select = new Select(element);
 			select.selectByIndex(Integer.parseInt(selection));
