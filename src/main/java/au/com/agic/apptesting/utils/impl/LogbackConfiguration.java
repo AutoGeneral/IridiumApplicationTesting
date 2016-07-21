@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import javax.validation.constraints.NotNull;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
@@ -59,6 +60,18 @@ public class LogbackConfiguration implements LoggingConfiguration {
 			final Logger logbackLogger =
 				(Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
 			logbackLogger.addAppender(fileAppender);
+
+			/*
+				We only want to hear about errors from the libraries that are used by Iridium
+			 */
+			logbackLogger.setLevel(Level.ERROR);
+
+			/*
+				Our own code should be info level
+			 */
+			final Logger iridiumLogger =
+				(Logger) LoggerFactory.getLogger("au.com.agic");
+			iridiumLogger.setLevel(Level.INFO);
 
 			/*
 				Redirect java logging and sys out to slf4j
