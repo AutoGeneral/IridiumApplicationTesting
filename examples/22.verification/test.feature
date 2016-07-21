@@ -25,12 +25,13 @@ Feature: Buy Concert Tickets on TicketMonster
 
   Scenario: Order tickets
     And I select "Sydney : Sydney Opera House" from the drop down list found by alias "Venue Selection Drop Down List"
+    Then I verify that the element found by alias "Order tickets Button" should have a class of "btn-primary"
     And I click the element found by alias "Order tickets Button"
 
   Scenario: Checkout
     And I select "S1 - Front left" from the drop down list found by alias "Section Selection Drop Down List"
     And I save the text content of the element found by alias "Adult Ticket Prices" to the alias "Adult Ticket Prices Value"
-    And I verify that the alias "Adult Ticket Prices Value" matches the regex "@ \$\d+\.\d{2}"
+    Then I verify that the alias "Adult Ticket Prices Value" matches the regex "@ \$\d+\.\d{2}"
     And I populate the element found by alias "Adult Ticket Count" with "2"
     And I click the element found by alias "Add tickets Button"
     And I populate the element found by alias "Email" with "a@a.com"
