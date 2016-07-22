@@ -16,3 +16,7 @@ Some articles on Iridium:
 * [Security Testing With ZAP and Iridium](dzone.com/articles/security-testing-with-zap-and-iridium)
 
 * [Integration Testing With Iridium](https://dzone.com/articles/integration-testing-with-iridium)
+
+* [Verifying Page Content and Styles With Iridium](http://dzone.com/articles/verifying-page-content-and-styles-with-iridium)
+
+* [Taking the Pain Out of Writing Iridium Test Scripts](https://dzone.com/articles/taking-the-pain-out-of-writing-iridium-test-script)
