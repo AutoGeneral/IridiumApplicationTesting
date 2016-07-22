@@ -13,6 +13,7 @@ import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tools.ant.taskdefs.Sleep;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
@@ -619,6 +620,76 @@ public class TextEntryStepDefinitions {
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Populate an element with some text
+	 *
+	 * @param attributeNameAlias  If this word is found in the step, it means the attributeName is found from the data
+	 *                            set.
+	 * @param attributeName       The name of the attribute to match.
+	 * @param attributeValueAlias If this word is found in the step, it means the attributeValue is found from the data
+	 *                            set.
+	 * @param attributeValue      The value of the attribute to match
+	 * @param contentAlias        If this word is found in the step, it means the content is found from the data set.
+	 * @param content             The content to populate the element with
+	 * @param exists              If this text is set, an error that would be thrown because the element was not found
+	 *                            is ignored. Essentially setting this text makes this an optional statement.
+	 * @param empty               If this phrase exists, the step will be skipped if the element is not empty
+	 */
+	@SuppressWarnings("checkstyle:parameternumber")
+	@When("^I populate (?:a|an|the) element with (?:a|an|the) attribute( alias)? of \"([^\"]*)\" "
+		+ "equal to( alias)? \"([^\"]*)\" with( alias)? \"([^\"]*)\""
+		+ "( if it exists)?( if it is empty)?$")
+	public void populateElementWithAttrStep(
+		final String attributeNameAlias,
+		final String attributeName,
+		final String attributeValueAlias,
+		final String attributeValue,
+		final String contentAlias,
+		final String content,
+		final String exists,
+		final String empty) {
+		try {
+			final String attr = " alias".equals(attributeNameAlias)
+				? threadDetails.getDataSet().get(attributeName) : attributeName;
+			final String value = " alias".equals(attributeValueAlias)
+				? threadDetails.getDataSet().get(attributeValue) : attributeValue;
+
+			checkState(attr != null, "the aliased attribute name does not exist");
+			checkState(value != null, "the aliased attribute value does not exist");
+
+			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+			final WebElement element = wait.until(
+				ExpectedConditions.elementToBeClickable(
+					By.cssSelector("[" + attr + "='" + value + "']")));
+
+			/*
+				See if the element is blank, or contains only underscores (as you might find in
+				an empty phone number field for example
+			 */
+			final boolean processElement = !" if it is empty".equals(empty)
+				|| StringUtils.isBlank(element.getAttribute("value"))
+				|| BLANK_OR_MASKED_RE.matcher(element.getAttribute("value")).matches();
+
+			if (processElement) {
+				// Simulate key presses
+				final String textValue = " alias".equals(contentAlias)
+					? threadDetails.getDataSet().get(content) : content;
+
+				checkState(textValue != null, "the aliased text value does not exist");
+
+				for (final Character character : textValue.toCharArray()) {
+					SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+					element.sendKeys(character.toString());
+				}
+				SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			}
+		} catch (final TimeoutException ex) {
+			if (!" if it exists".equals(exists)) {
 				throw ex;
 			}
 		}

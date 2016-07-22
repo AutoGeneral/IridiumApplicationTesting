@@ -28,6 +28,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.concurrent.ExecutionException;
 
 import cucumber.api.java.en.When;
@@ -294,6 +296,68 @@ public class ClickingStepDefinitions {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
+		}
+	}
+
+	/**
+	 * Clicks on an element with a random number
+	 *
+	 * @param attributeName      Either ID, class, xpath, name or css selector
+	 * @param attributeNameAlias If this word is found in the step, it means the selectorValue is found from the data
+	 *                           set.
+	 * @param randomStartAlias   If this word is found in the step, it means the randomStart is found from the data
+	 *                           set.
+	 * @param randomStart        The start of the range of random numbers to select from
+	 * @param randomEndAlias     If this word is found in the step, it means the randomEnd is found from the data set.
+	 * @param randomEnd          The end of the range of random numbers to select from
+	 * @param exists             If this text is set, an error that would be thrown because the element was not found is
+	 *                           ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I click (?:a|an|the) element with (?:a|an|the) attribute( alias)? of \"([^\"]*)\" "
+		+ "with a random number between( alias)? \"([^\"]*)\" and( alias)? \"([^\"]*)\""
+		+ "( if it exists)?$")
+	public void clickElementWithRandomNumberStep(
+		final String attributeNameAlias,
+		final String attributeName,
+		final String randomStartAlias,
+		final String randomStart,
+		final String randomEndAlias,
+		final String randomEnd,
+		final String exists) {
+
+		try {
+			final String attr = " alias".equals(attributeNameAlias)
+				? threadDetails.getDataSet().get(attributeName) : attributeName;
+			checkState(attr != null, "the aliased attribute name does not exist");
+
+			final String startValue = " alias".equals(randomStartAlias)
+				? threadDetails.getDataSet().get(randomStart) : randomStart;
+			final String endValue = " alias".equals(randomEndAlias)
+				? threadDetails.getDataSet().get(randomEnd) : randomEnd;
+
+			checkState(startValue != null, "the aliased start value does not exist");
+			checkState(endValue != null, "the aliased end value does not exist");
+
+			final Integer int1 = Integer.parseInt(startValue);
+			final Integer int2 = Integer.parseInt(endValue);
+			final Integer random = SecureRandom.getInstance("SHA1PRNG").nextInt(
+				Math.abs(int2 - int1)) + Math.min(int1, int2);
+
+			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+			final WebElement element = wait.until(
+				ExpectedConditions.elementToBeClickable(
+					By.cssSelector("[" + attr + "='" + random + "']")));
+
+			element.click();
+			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		} catch (final TimeoutException ex) {
+			if (!" if it exists".equals(exists)) {
+				throw ex;
+			}
+		} catch (final NoSuchAlgorithmException ignored) {
+			/*
+				This shouldn't happen
+			 */
 		}
 	}
 }
