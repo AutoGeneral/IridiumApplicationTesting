@@ -360,4 +360,47 @@ public class ClickingStepDefinitions {
 			 */
 		}
 	}
+
+	/**
+	 * Clicks an element on the page selected via its attributes
+	 *
+	 * @param attributeNameAlias  If this word is found in the step, it means the attributeName is found from the data
+	 *                            set.
+	 * @param attributeName       The name of the attribute to match.
+	 * @param attributeValueAlias If this word is found in the step, it means the attributeValue is found from the data
+	 *                            set.
+	 * @param attributeValue      The value of the attribute to match
+	 * @param exists              If this text is set, an error that would be thrown because the element was not found
+	 *                            is ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I click (?:a|an|the) element with (?:a|an|the) attribute( alias)? of \"([^\"]*)\" equal to( alias)? "
+		+ "\"([^\"]*)\"( if it exists)?$")
+	public void clickElementWithAttrStep(
+		final String attributeNameAlias,
+		final String attributeName,
+		final String attributeValueAlias,
+		final String attributeValue,
+		final String exists) {
+
+		try {
+			final String attr = " alias".equals(attributeNameAlias)
+				? threadDetails.getDataSet().get(attributeName) : attributeName;
+			final String value = " alias".equals(attributeValueAlias)
+				? threadDetails.getDataSet().get(attributeValue) : attributeValue;
+
+			checkState(attr != null, "the aliased attribute name does not exist");
+			checkState(value != null, "the aliased attribute value does not exist");
+
+			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+			final WebElement element = wait.until(
+				ExpectedConditions.elementToBeClickable(
+					By.cssSelector("[" + attr + "='" + value + "']")));
+			element.click();
+			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		} catch (final TimeoutException | NoSuchElementException ex) {
+			if (!" if it exists".equals(exists)) {
+				throw ex;
+			}
+		}
+	}
 }
