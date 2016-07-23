@@ -29,9 +29,9 @@ public interface ThreadWebDriverMap {
 	 * @param desiredCapabilities the list of capabilities that were loaded
 	 * @param applicationUrls     the list of urls assocaited with the application we are testing
 	 * @param datasets            the datasets that can be used by a test script
-	 * @param reportDirectory     The directory that holds reports and other test script outputs
-	 * @param tempFolders	      A list of directories that need to be deleted once the test is complete
-	 * @param proxies	  		  A list of the proxies that have been configured
+	 * @param myReportDirectory     The directory that holds reports and other test script outputs
+	 * @param myTempFolders	      A list of directories that need to be deleted once the test is complete
+	 * @param myProxies	  		  A list of the proxies that have been configured
 	 */
 	void initialise(
 		@NotNull final List<DesiredCapabilities> desiredCapabilities,
@@ -47,6 +47,14 @@ public interface ThreadWebDriverMap {
 	 */
 	@NotNull
 	ThreadDetails getDesiredCapabilitiesForThread(@NotNull final String name);
+
+	/**
+	 * @return The web driver and url associated with the current thread
+	 */
+	@NotNull
+	default ThreadDetails getDesiredCapabilitiesForThread() {
+		return getDesiredCapabilitiesForThread(Thread.currentThread().getName());
+	}
 
 	/**
 	 * @return The number of threads that should be run in order to conver all the defined

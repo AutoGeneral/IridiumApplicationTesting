@@ -45,16 +45,14 @@ public class DropDownStepDefinitions {
 	 * Get the web driver for this thread
 	 */
 	private final ThreadDetails threadDetails =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
-			Thread.currentThread().getName());
+		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
 	 * Select an item from a drop down list using simple selection
 	 *
 	 * @param itemAlias     If this word is found in the step, it means the itemName is found from the data
 	 *                      set.
-	 * @param itemIndex     The index of the item to select
-	 * @param selector      Either ID, class, xpath, name or css selector
+	 * @param itemName     The index of the item to select
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
 	 *                      data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
@@ -98,7 +96,7 @@ public class DropDownStepDefinitions {
 	 *
 	 * @param itemAlias     If this word is found in the step, it means the itemName is found from the data
 	 *                      set.
-	 * @param itemIndex     The index of the item to select
+	 * @param itemName     The index of the item to select
 	 * @param selector      Either ID, class, xpath, name or css selector
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
 	 *                      data set.
@@ -148,7 +146,6 @@ public class DropDownStepDefinitions {
 	 * @param itemAlias     If this word is found in the step, it means the itemName is found from the data
 	 *                      set.
 	 * @param itemIndex     The index of the item to select
-	 * @param selector      Either ID, class, xpath, name or css selector
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
 	 *                      data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
