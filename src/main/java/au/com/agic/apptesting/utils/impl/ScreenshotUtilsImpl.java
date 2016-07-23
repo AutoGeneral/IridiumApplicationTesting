@@ -71,7 +71,7 @@ public class ScreenshotUtilsImpl implements ScreenshotUtils {
 				LOGGER.error("Could nto save screenshot because of a know bug "
 					+ "with WebDriver and Firefox. See "
 					+ "https://github.com/seleniumhq/selenium/issues/1097 "
-					+ "for more details");
+					+ "for more details", ex);
 			} else {
 				throw ex;
 			}
