@@ -8,12 +8,18 @@ buildscript {
 		maven {
 			url 'http://prod-vm-fv-ag-snx-x1.budgetdirect.com.au:8081/nexus/content/groups/public'
 		}
+		maven {
+			url 'https://oss.sonatype.org/content/repositories/snapshots'
+		}
+		maven { url 'http://repo.spring.io/plugins-release' }
 		mavenCentral()
 		mavenLocal()
     }
 
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+		classpath 'com.matthewcasperson:build:0.0.1'
+		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.6'
     }
 }
 
@@ -25,11 +31,10 @@ def nexusProxy = 'http://prod-vm-fv-ag-snx-x1.budgetdirect.com.au:8081/nexus/con
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'checkstyle'
+apply plugin: 'com.matthewcasperson.build.iridium'
 
 mainClassName = "au.com.agic.apptesting.Main"
 archivesBaseName = "WebAppTesting"
-sourceCompatibility = 1.8
 
 jar {
     baseName = 'webapptesting'
@@ -45,10 +50,6 @@ jar {
                 "Implementation-Version": "2.5.0"
         )
     }
-}
-
-javadoc {
-    failOnError = false
 }
 
 shadowJar {
@@ -67,10 +68,7 @@ processResources {
 }
 
 repositories {
-    mavenLocal()
-	mavenCentral()
 	maven { url nexusProxy }
-	maven { url "http://repository.springsource.com/maven/bundles/external" }
 }
 
 def mysqlDriverVersion = '5.1.34'
@@ -93,12 +91,6 @@ def browsermobVersion = '2.1.1'
 def compressCommonsVersion = '1.12'
 def xmlApisVersion =  '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2';
-
-configurations.all {
-	resolutionStrategy {
-		force 'xml-apis:xml-apis:1.4.01'
-	}
-}
 
 dependencies {
     compile 'mysql:mysql-connector-java:' + mysqlDriverVersion
@@ -217,22 +209,4 @@ run {
     for (p in passThroughProperties) {
         systemProperty p, System.properties[p]
     }
-}
-
-checkstyle {
-	toolVersion = '6.18'
-	configFile = rootProject.file("checkstyle.xml");
-	showViolations = true
-	ignoreFailures = false
-}
-
-tasks.withType(Checkstyle) {
-	ignoreFailures = false
-	reports {
-		html.destination rootProject.file("${buildDir}/reports/checkstyle.html")
-	}
-}
-
-task wrapper(type: Wrapper) {
-	gradleVersion = '2.14'
 }
