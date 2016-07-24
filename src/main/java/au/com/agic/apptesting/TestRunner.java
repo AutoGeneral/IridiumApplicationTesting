@@ -7,35 +7,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
 import au.com.agic.apptesting.exception.RunScriptsException;
-import au.com.agic.apptesting.utils.ApplicationUrlLoader;
-import au.com.agic.apptesting.utils.DesktopInteraction;
-import au.com.agic.apptesting.utils.ExceptionWriter;
-import au.com.agic.apptesting.utils.FeatureLoader;
-import au.com.agic.apptesting.utils.FileSystemUtils;
-import au.com.agic.apptesting.utils.JUnitReportMerge;
-import au.com.agic.apptesting.utils.JarDownloader;
-import au.com.agic.apptesting.utils.LoggingConfiguration;
-import au.com.agic.apptesting.utils.ProxyDetails;
-import au.com.agic.apptesting.utils.ProxyManager;
-import au.com.agic.apptesting.utils.ScreenCapture;
-import au.com.agic.apptesting.utils.SystemPropertyUtils;
-import au.com.agic.apptesting.utils.TagAnalyser;
-import au.com.agic.apptesting.utils.ThreadDetails;
-import au.com.agic.apptesting.utils.WebDriverHandler;
-import au.com.agic.apptesting.utils.impl.ApplicationUrlLoaderImpl;
-import au.com.agic.apptesting.utils.impl.DesiredCapabilitiesLoaderImpl;
-import au.com.agic.apptesting.utils.impl.DesktopInteractionImpl;
-import au.com.agic.apptesting.utils.impl.ExceptionWriterImpl;
-import au.com.agic.apptesting.utils.impl.FileSystemUtilsImpl;
-import au.com.agic.apptesting.utils.impl.JUnitReportMergeImpl;
-import au.com.agic.apptesting.utils.impl.JarDownloaderImpl;
-import au.com.agic.apptesting.utils.impl.LocalPathFeatureLoaderImpl;
-import au.com.agic.apptesting.utils.impl.LogbackConfiguration;
-import au.com.agic.apptesting.utils.impl.ProxyManagerImpl;
-import au.com.agic.apptesting.utils.impl.ScreenCaptureImpl;
-import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-import au.com.agic.apptesting.utils.impl.TagAnalyserImpl;
-import au.com.agic.apptesting.utils.impl.WebDriverHandlerImpl;
+import au.com.agic.apptesting.utils.*;
+import au.com.agic.apptesting.utils.impl.*;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -75,6 +48,7 @@ public class TestRunner {
 	private static final JarDownloader JAR_DOWNLOADER = new JarDownloaderImpl();
 	private static final LoggingConfiguration LOGGING_CONFIGURATION = new LogbackConfiguration();
 	private static final ProxyManager PROXY_MANAGER = new ProxyManagerImpl();
+	private static final CucumberClassScanner CUCUMBER_CLASS_SCANNER = new CucumberClassScannerImpl();
 	private static final String HTML_EXTENSION = ".html";
 	/**
 	 * Used to name threads that might be reused
@@ -384,8 +358,9 @@ public class TestRunner {
 				args.add("pretty:" + reportDirectory + Thread.currentThread().getName() + ".txt");
 				args.add("--plugin");
 				args.add("junit:" + reportDirectory + Thread.currentThread().getName() + ".xml");
-				args.add("--glue");
-				args.add("au.com.agic.apptesting");
+
+				CUCUMBER_CLASS_SCANNER.getClassesContainingCucumberAnnotations()
+					.forEach(x -> {args.add("--glue"); args.add(x);});
 
 				addTags(args, threadDetails);
 
