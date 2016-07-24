@@ -21,8 +21,7 @@ buildscript {
 
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
-		classpath 'com.matthewcasperson:build:0.0.1'
-		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.6'
+		classpath 'com.matthewcasperson:build:0.+'
     }
 }
 
