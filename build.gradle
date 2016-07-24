@@ -37,11 +37,8 @@ apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'com.matthewcasperson.build.iridium'
 
 mainClassName = "au.com.agic.apptesting.Main"
-archivesBaseName = "WebAppTesting"
 
 jar {
-    baseName = 'webapptesting'
-    version = '2.0.0-SNAPSHOT'
     manifest {
         attributes(
                 "Permissions": "all-permissions",
