@@ -48,7 +48,6 @@ public class TestRunner {
 	private static final JarDownloader JAR_DOWNLOADER = new JarDownloaderImpl();
 	private static final LoggingConfiguration LOGGING_CONFIGURATION = new LogbackConfiguration();
 	private static final ProxyManager PROXY_MANAGER = new ProxyManagerImpl();
-	private static final CucumberClassScanner CUCUMBER_CLASS_SCANNER = new CucumberClassScannerImpl();
 	private static final String HTML_EXTENSION = ".html";
 	/**
 	 * Used to name threads that might be reused
@@ -358,9 +357,10 @@ public class TestRunner {
 				args.add("pretty:" + reportDirectory + Thread.currentThread().getName() + ".txt");
 				args.add("--plugin");
 				args.add("junit:" + reportDirectory + Thread.currentThread().getName() + ".xml");
-
-				CUCUMBER_CLASS_SCANNER.getClassesContainingCucumberAnnotations()
-					.forEach(x -> {args.add("--glue"); args.add(x);});
+				args.add("--glue");
+				args.add("au.com.agic.apptesting.steps");
+				args.add("--glue");
+				args.add("au.com.agic.apptestingext.steps");
 
 				addTags(args, threadDetails);
 

@@ -115,8 +115,6 @@ def browsermobVersion = '2.1.1'
 def compressCommonsVersion = '1.12'
 def xmlApisVersion =  '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2';
-def reflectionsVersion = '0.9.8';
-def javassistVersion = '3.20.0-GA';
 
 dependencies {
     compile 'mysql:mysql-connector-java:' + mysqlDriverVersion
@@ -145,10 +143,6 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-compress', version: compressCommonsVersion
 	compile group: 'xml-apis', name: 'xml-apis', version: xmlApisVersion
     compile group: 'uk.org.lidalia', name: 'sysout-over-slf4j', version: sysoutOverSLF4JVersion
-	compile (group: 'org.reflections', name: 'reflections-maven', version: reflectionsVersion) {
-		exclude group: 'org.jfrog.jade.plugins.common', module: 'jade-plugin-common'
-	}
-	compile group: 'org.javassist', name: 'javassist', version: javassistVersion
 
     /*
         The following are dependencies required by ZAP
