@@ -77,6 +77,15 @@ if (slimBuild) {
 }
 
 /*
+	This removes the distributions from the maven upload.
+	See https://discuss.gradle.org/t/how-to-exclude-zip-only-from-archives-for-maven-repo-upload/13354/2
+ */
+configurations.archives.with {
+	artifacts.remove artifacts.find { it.archiveTask.is distZip }
+	artifacts.remove artifacts.find { it.archiveTask.is distTar }
+}
+
+/*
 	A slim build has no divers and does not include ZAP
  */
 sourceSets {
