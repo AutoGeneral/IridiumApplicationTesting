@@ -71,6 +71,22 @@ repositories {
 	maven { url nexusProxy }
 }
 
+def slimBuild = hasProperty('slimBuild') && 'true'.equalsIgnoreCase(getProperty('slimBuild').toString());
+if (slimBuild) {
+	System.out.println("Slim Build Enabled");
+}
+
+/*
+	A slim build has no divers and does not include ZAP
+ */
+sourceSets {
+	main {
+		resources {
+			srcDir (slimBuild ? 'src/main/resources-slim' : 'src/main/resources-full')
+		}
+	}
+}
+
 def mysqlDriverVersion = '5.1.34'
 def guavaVersion = '19.0-SNAPSHOT'
 def seleniumVersion = '2.53.1'
