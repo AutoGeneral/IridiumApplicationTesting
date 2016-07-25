@@ -6,6 +6,14 @@ import org.openqa.selenium.By;
  * A service for creating WebDriver By objects
  */
 public interface GetBy {
+	String CSS_SELECTOR = "css selector";
+	String ID = "ID";
+	String XPATH = "xpath";
+	String NAME = "name";
+	String VALUE = "value";
+	String TEXT = "text";
+	String CLASS = "class";
+
 	/**
 	 * Map common selectors to Selenium selection objects
 	 *
