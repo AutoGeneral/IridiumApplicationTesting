@@ -8,12 +8,20 @@ buildscript {
 		maven {
 			url 'http://prod-vm-fv-ag-snx-x1.budgetdirect.com.au:8081/nexus/content/groups/public'
 		}
+		maven {
+			url 'https://oss.sonatype.org/content/repositories/snapshots'
+		}
+		maven {
+			url 'https://oss.sonatype.org/content/repositories/releases'
+		}
+		maven { url 'http://repo.spring.io/plugins-release' }
 		mavenCentral()
 		mavenLocal()
     }
 
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+		classpath 'com.matthewcasperson:build:0.+'
     }
 }
 
@@ -25,15 +33,11 @@ def nexusProxy = 'http://prod-vm-fv-ag-snx-x1.budgetdirect.com.au:8081/nexus/con
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'checkstyle'
+apply plugin: 'com.matthewcasperson.build.iridium'
 
 mainClassName = "au.com.agic.apptesting.Main"
-archivesBaseName = "WebAppTesting"
-sourceCompatibility = 1.8
 
 jar {
-    baseName = 'webapptesting'
-    version = '2.0.0-SNAPSHOT'
     manifest {
         attributes(
                 "Permissions": "all-permissions",
@@ -45,10 +49,6 @@ jar {
                 "Implementation-Version": "2.5.0"
         )
     }
-}
-
-javadoc {
-    failOnError = false
 }
 
 shadowJar {
@@ -67,10 +67,32 @@ processResources {
 }
 
 repositories {
-    mavenLocal()
-	mavenCentral()
 	maven { url nexusProxy }
-	maven { url "http://repository.springsource.com/maven/bundles/external" }
+}
+
+def slimBuild = hasProperty('slimBuild') && 'true'.equalsIgnoreCase(getProperty('slimBuild').toString());
+if (slimBuild) {
+	System.out.println("Slim Build Enabled");
+}
+
+/*
+	This removes the distributions from the maven upload.
+	See https://discuss.gradle.org/t/how-to-exclude-zip-only-from-archives-for-maven-repo-upload/13354/2
+ */
+configurations.archives.with {
+	artifacts.remove artifacts.find { it.archiveTask.is distZip }
+	artifacts.remove artifacts.find { it.archiveTask.is distTar }
+}
+
+/*
+	A slim build has no divers and does not include ZAP
+ */
+sourceSets {
+	main {
+		resources {
+			srcDir (slimBuild ? 'src/main/resources-slim' : 'src/main/resources-full')
+		}
+	}
 }
 
 def mysqlDriverVersion = '5.1.34'
@@ -93,12 +115,6 @@ def browsermobVersion = '2.1.1'
 def compressCommonsVersion = '1.12'
 def xmlApisVersion =  '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2';
-
-configurations.all {
-	resolutionStrategy {
-		force 'xml-apis:xml-apis:1.4.01'
-	}
-}
 
 dependencies {
     compile 'mysql:mysql-connector-java:' + mysqlDriverVersion
@@ -217,22 +233,4 @@ run {
     for (p in passThroughProperties) {
         systemProperty p, System.properties[p]
     }
-}
-
-checkstyle {
-	toolVersion = '6.18'
-	configFile = rootProject.file("checkstyle.xml");
-	showViolations = true
-	ignoreFailures = false
-}
-
-tasks.withType(Checkstyle) {
-	ignoreFailures = false
-	reports {
-		html.destination rootProject.file("${buildDir}/reports/checkstyle.html")
-	}
-}
-
-task wrapper(type: Wrapper) {
-	gradleVersion = '2.14'
 }

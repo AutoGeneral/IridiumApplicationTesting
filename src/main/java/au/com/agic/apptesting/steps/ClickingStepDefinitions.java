@@ -182,7 +182,7 @@ public class ClickingStepDefinitions {
 			 */
 			JAVA_SCRIPT_RUNNER.interactHiddenElement(element, "click", js);
 			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
-		} catch (final TimeoutException | NoSuchElementException ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
