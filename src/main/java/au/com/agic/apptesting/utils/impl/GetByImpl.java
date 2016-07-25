@@ -40,7 +40,8 @@ public class GetByImpl implements GetBy {
 		}
 
 		if (VALUE.equals(selector)) {
-			return By.cssSelector("[value=" + fixedValue + "]");
+			final String escaped = fixedValue.replaceAll("'", "\'");
+			return By.cssSelector("[value='" + escaped + "']");
 		}
 
 		if (CSS_SELECTOR.equals(selector)) {
