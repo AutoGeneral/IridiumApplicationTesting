@@ -3,6 +3,7 @@ package au.com.agic.apptesting.steps;
 import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
@@ -82,7 +83,7 @@ public class WaitStepDefinitions {
 				selectorValue,
 				threadDetails,
 				Long.parseLong(waitDuration)).get();
-		} catch (final TimeoutException ex) {
+		} catch (final WebElementException ex) {
 			/*
 				Rethrow if we have not ignored errors
 			 */
@@ -160,7 +161,7 @@ public class WaitStepDefinitions {
 				selectorValue,
 				threadDetails,
 				Long.parseLong(waitDuration)).get();
-		} catch (final TimeoutException ex) {
+		} catch (final WebElementException ex) {
 			/*
 				Rethrow if we have not ignored errors
 			 */
@@ -238,7 +239,7 @@ public class WaitStepDefinitions {
 				selectorValue,
 				threadDetails,
 				Long.parseLong(waitDuration)).get();
-		} catch (final TimeoutException ex) {
+		} catch (final WebElementException ex) {
 			/*
 				Rethrow if we have not ignored errors
 			 */
