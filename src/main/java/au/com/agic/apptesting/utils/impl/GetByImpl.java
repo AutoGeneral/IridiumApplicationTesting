@@ -23,24 +23,34 @@ public class GetByImpl implements GetBy {
 
 		checkState(StringUtils.isNotBlank(fixedValue), "Selector or alias is blank");
 
-		if ("ID".equals(selector)) {
+		if (ID.equals(selector)) {
 			return By.id(fixedValue);
 		}
 
-		if ("xpath".equals(selector)) {
+		if (XPATH.equals(selector)) {
 			return By.xpath(fixedValue);
 		}
 
-		if ("class".equals(selector)) {
+		if (CLASS.equals(selector)) {
 			return By.cssSelector("." + fixedValue);
 		}
 
-		if ("name".equals(selector)) {
+		if (NAME.equals(selector)) {
 			return By.name(fixedValue);
 		}
 
-		if ("css selector".equals(selector)) {
+		if (VALUE.equals(selector)) {
+			final String escaped = fixedValue.replaceAll("'", "\'");
+			return By.cssSelector("[value='" + escaped + "']");
+		}
+
+		if (CSS_SELECTOR.equals(selector)) {
 			return By.cssSelector(fixedValue);
+		}
+
+		if (TEXT.equals(selector)) {
+			final String escaped = fixedValue.replaceAll("'", "''");
+			return By.xpath("//*[contains(text(),'" + escaped + "')]");
 		}
 
 		throw new InvalidInputException("Unexpected selector");
