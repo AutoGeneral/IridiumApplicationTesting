@@ -148,7 +148,7 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by (ID|class|xpath|name|css selector)"
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by "
 		+ "( alias)? \"([^\"]*)\" to be clickable(,? ignoring timeouts?)?")
 	public void clickWaitStep(
 		final String waitDuration,
