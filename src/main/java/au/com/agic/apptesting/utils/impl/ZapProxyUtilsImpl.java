@@ -38,7 +38,7 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 	private static final int WAIT_FOR_START = 30000;
 
 	@Override
-	public Optional<ProxyDetails<ClientApi>> startProxy(@NotNull final List<File> tempFolders) {
+	public Optional<ProxyDetails<ClientApi>> initProxy(@NotNull final List<File> tempFolders) {
 		checkNotNull(tempFolders);
 
 		try {
@@ -57,6 +57,13 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 		} catch (final Exception ex) {
 			throw new ProxyException(ex);
 		}
+	}
+
+	@Override
+	public void startProxy(@NotNull final ProxyDetails<ClientApi> proxyDetails) {
+		/*
+			Nothing to see here
+		 */
 	}
 
 	/**

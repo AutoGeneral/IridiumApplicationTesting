@@ -49,7 +49,7 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 	private static final int WAIT_FOR_START = 30000;
 
 	@Override
-	public Optional<ProxyDetails<BrowserMobProxy>> startProxy(@NotNull final List<File> tempFolders) {
+	public Optional<ProxyDetails<BrowserMobProxy>> initProxy(@NotNull final List<File> tempFolders) {
 		checkNotNull(tempFolders);
 
 		try {
@@ -59,20 +59,26 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 		}
 	}
 
+	@Override
+	public void startProxy(@NotNull final ProxyDetails<BrowserMobProxy> proxyDetails) {
+		checkNotNull(proxyDetails);
+		proxyDetails.getInterface().get().start(0);
+		proxyDetails.setPort(proxyDetails.getInterface().get().getPort());
+	}
+
 	/**
 	 * Starts the Browsermob Proxy
 	 *
 	 * @return The port that the proxy is listening on
 	 */
 	private ProxyDetails<BrowserMobProxy> startBrowsermobProxy() throws Exception {
-		final BrowserMobProxy proxy = new BrowserMobProxyServer();
-		proxy.setTrustAllServers(true);
-		proxy.start(0);
+		final BrowserMobProxy browserMobProxy = new BrowserMobProxyServer();
+		browserMobProxy.setTrustAllServers(true);
 
 		final ProxyDetails<BrowserMobProxy> proxyDetails =
-			new ProxyDetailsImpl<>(proxy.getPort(), true, PROXY_NAME, proxy);
+			new ProxyDetailsImpl<>(true, PROXY_NAME, browserMobProxy);
 
-		trackErrorResponses(proxy, proxyDetails);
+		trackErrorResponses(browserMobProxy, proxyDetails);
 
 		return proxyDetails;
 	}

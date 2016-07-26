@@ -47,9 +47,9 @@ public class ProxyManagerImpl implements ProxyManager {
 				SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_PASSWORD));
 
 			final Optional<ProxyDetails<ClientApi>> zapProxy =
-				ZAP_PROXY.startProxy(tempFiles);
+				ZAP_PROXY.initProxy(tempFiles);
 			final Optional<ProxyDetails<BrowserMobProxy>> browermobProxy =
-				BROWSERMOB_PROXY.startProxy(tempFiles);
+				BROWSERMOB_PROXY.initProxy(tempFiles);
 
 			/*
 				We always enable the BrowserMob proxy
@@ -68,7 +68,7 @@ public class ProxyManagerImpl implements ProxyManager {
 				/*
 					Then forward ZAP to the external proxy
 				 */
-				if (proxyHostname.isPresent() && proxyPort.isPresent()) {
+ 				if (proxyHostname.isPresent() && proxyPort.isPresent()) {
 					forwardZAPToExternalProxy(
 						zapProxy.get(),
 						proxyHostname,
@@ -89,6 +89,11 @@ public class ProxyManagerImpl implements ProxyManager {
 						proxyPassword);
 				}
 			}
+
+			/*
+				Starting browsermob happens after the upstream proxies are configured
+			 */
+			BROWSERMOB_PROXY.startProxy(browermobProxy.get());
 
 			return proxies;
 		} catch (final Exception ex) {
