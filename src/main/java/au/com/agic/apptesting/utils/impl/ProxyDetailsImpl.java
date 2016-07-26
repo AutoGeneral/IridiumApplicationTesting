@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 public class ProxyDetailsImpl<T> implements ProxyDetails<T> {
 
 	private final boolean mainProxy;
-	private final int port;
+	private int port = -1;
 	private final Optional<T> interfaceObject;
 	private final String name;
 	private final Map<String, Object> properties = new HashMap<>();
@@ -63,6 +63,18 @@ public class ProxyDetailsImpl<T> implements ProxyDetails<T> {
 		this.interfaceObject = Optional.of(interfaceObject);
 	}
 
+	public ProxyDetailsImpl(
+		final boolean mainProxy,
+		@NotNull final String name,
+		@NotNull final T interfaceObject) {
+		checkNotNull(interfaceObject);
+		checkArgument(StringUtils.isNotBlank(name));
+
+		this.mainProxy = mainProxy;
+		this.name = name;
+		this.interfaceObject = Optional.of(interfaceObject);
+	}
+
 	@Override
 	public String getProxyName() {
 		return name;
@@ -71,6 +83,11 @@ public class ProxyDetailsImpl<T> implements ProxyDetails<T> {
 	@Override
 	public int getPort() {
 		return port;
+	}
+
+	@Override
+	public void setPort(final int port) {
+		this.port = port;
 	}
 
 	@Override

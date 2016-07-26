@@ -39,6 +39,8 @@
 /docker/*.war
 /CucumberThread*.xml
 /CucumberThread*.txt
+/CucumberThread*.json
+/*.png
 /MergedReport.xml
 /CucumberThread*.html
 /hs_err_pid*.log

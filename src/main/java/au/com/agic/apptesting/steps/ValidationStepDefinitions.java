@@ -7,13 +7,18 @@ import com.google.common.collect.Iterables;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.exception.HttpResponseException;
 import au.com.agic.apptesting.utils.GetBy;
+import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
 import au.com.agic.apptesting.utils.ThreadDetails;
+import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
+
+import net.lightbody.bmp.util.HttpMessageInfo;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
@@ -26,6 +31,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
@@ -248,5 +255,34 @@ public class ValidationStepDefinitions {
 	public void verifyIsNotEqual(final String alias, final String expectedValue) {
 		final String value = threadDetails.getDataSet().get(alias);
 		Assert.assertNotEquals(expectedValue, value);
+	}
+
+	/**
+	 * We track response codes in the BrowsermobProxyUtilsImpl class, and if any where in the
+	 * range 400 - 599, we output those as an error.
+	 */
+	@SuppressWarnings("unchecked")
+	@Then("I verify that there were no HTTP errors")
+	public void verifyHttpCodes() {
+		final Optional<ProxyDetails<?>> browserMob =
+			threadDetails.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+
+		if (browserMob.isPresent()) {
+			if (browserMob.get().getProperties().containsKey(BrowsermobProxyUtilsImpl.INVALID_REQUESTS)) {
+				final List<HttpMessageInfo> responses =
+					(List<HttpMessageInfo>)browserMob.get()
+						.getProperties().get(BrowsermobProxyUtilsImpl.INVALID_REQUESTS);
+
+				if (!responses.isEmpty()) {
+
+					final StringBuilder message =
+						new StringBuilder("The following URLs returned HTTP errors\n");
+
+					responses.stream().forEach(x -> message.append(x.getOriginalUrl() + "\n"));
+
+					throw new HttpResponseException(message.toString());
+				}
+			}
+		}
 	}
 }
