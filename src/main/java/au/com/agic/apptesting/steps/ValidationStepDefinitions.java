@@ -37,7 +37,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 import cucumber.api.java.en.Then;
-import io.netty.handler.codec.http.HttpResponse;
 
 /**
  * Contains Gherkin step definitions for checking the current state of the web page.
