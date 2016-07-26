@@ -45,3 +45,6 @@ Feature: Buy Concert Tickets on TicketMonster
     Then I verify that the alias "First Ticket Number Value" is a number
     Then I verify that the alias "Second Ticket Number Value" is a number
     Then I verify that the alias "Created on Value" matches the regex "Created on: \w+ \d+ \w+ \d+ at \d+:\d+"
+
+  Scenario: Verify Http Responses
+    Then I verify that there were no HTTP errors
