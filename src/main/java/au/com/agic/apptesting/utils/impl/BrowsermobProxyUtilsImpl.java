@@ -6,19 +6,23 @@ import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.FileSystemUtils;
 import au.com.agic.apptesting.utils.LocalProxyUtils;
 import au.com.agic.apptesting.utils.ProxyDetails;
+import au.com.agic.apptesting.utils.ProxySettings;
 import au.com.agic.apptesting.utils.ServerPortUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.filters.ResponseFilter;
+import net.lightbody.bmp.proxy.auth.AuthType;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,21 +53,16 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 	private static final int WAIT_FOR_START = 30000;
 
 	@Override
-	public Optional<ProxyDetails<BrowserMobProxy>> initProxy(@NotNull final List<File> tempFolders) {
+	public Optional<ProxyDetails<BrowserMobProxy>> initProxy(
+			@NotNull final List<File> tempFolders,
+			@NotNull final Optional<ProxySettings> upstreamProxy) {
 		checkNotNull(tempFolders);
 
 		try {
-			return Optional.of(startBrowsermobProxy());
+			return Optional.of(startBrowsermobProxy(upstreamProxy));
 		} catch (final Exception ex) {
 			throw new ProxyException(ex);
 		}
-	}
-
-	@Override
-	public void startProxy(@NotNull final ProxyDetails<BrowserMobProxy> proxyDetails) {
-		checkNotNull(proxyDetails);
-		proxyDetails.getInterface().get().start(0);
-		proxyDetails.setPort(proxyDetails.getInterface().get().getPort());
 	}
 
 	/**
@@ -71,12 +70,29 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 	 *
 	 * @return The port that the proxy is listening on
 	 */
-	private ProxyDetails<BrowserMobProxy> startBrowsermobProxy() throws Exception {
+	private ProxyDetails<BrowserMobProxy> startBrowsermobProxy(
+			@NotNull final Optional<ProxySettings> upstreamProxy) throws Exception {
+
 		final BrowserMobProxy browserMobProxy = new BrowserMobProxyServer();
 		browserMobProxy.setTrustAllServers(true);
 
+		if (upstreamProxy.isPresent()) {
+			browserMobProxy.setChainedProxy(new InetSocketAddress(
+				upstreamProxy.get().getHost(),
+				upstreamProxy.get().getPort()));
+
+			if (StringUtils.isNotBlank(upstreamProxy.get().getUsername())) {
+				browserMobProxy.chainedProxyAuthorization(
+					upstreamProxy.get().getUsername(),
+					upstreamProxy.get().getPassword(),
+					AuthType.BASIC);
+			}
+		}
+
+		browserMobProxy.start(0);
+
 		final ProxyDetails<BrowserMobProxy> proxyDetails =
-			new ProxyDetailsImpl<>(true, PROXY_NAME, browserMobProxy);
+			new ProxyDetailsImpl<>(browserMobProxy.getPort(), true, PROXY_NAME, browserMobProxy);
 
 		trackErrorResponses(browserMobProxy, proxyDetails);
 

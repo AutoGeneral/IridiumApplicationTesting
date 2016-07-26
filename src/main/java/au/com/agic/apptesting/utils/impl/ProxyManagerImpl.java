@@ -7,6 +7,7 @@ import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.LocalProxyUtils;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.ProxyManager;
+import au.com.agic.apptesting.utils.ProxySettings;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import net.lightbody.bmp.BrowserMobProxy;
@@ -36,20 +37,23 @@ public class ProxyManagerImpl implements ProxyManager {
 		checkNotNull(tempFiles);
 
 		try {
-			final Optional<String> proxyHostname = Optional.ofNullable(
-				SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_HOST));
-			final Optional<String> proxyPort = Optional.ofNullable(
-				SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_PORT));
+			final Optional<ProxySettings> proxySettings = ProxySettings.fromSystemProps();
 
-			final Optional<String> proxyUsername = Optional.ofNullable(
-				SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_USERNAME));
-			final Optional<String> proxyPassword = Optional.ofNullable(
-				SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_PASSWORD));
-
+			/*
+				ZAP always uses the upstream proxy if ZAP is enabled.
+			 */
 			final Optional<ProxyDetails<ClientApi>> zapProxy =
-				ZAP_PROXY.initProxy(tempFiles);
+				ZAP_PROXY.initProxy(tempFiles, proxySettings);
+
+			/*
+				Browsermob will upstream to zap if configured to do so
+			 */
+			final Optional<ProxySettings> browserMobUpstream = zapProxy.isPresent()
+				? Optional.of(new ProxySettings("localhost", zapProxy.get().getPort()))
+				: proxySettings;
+
 			final Optional<ProxyDetails<BrowserMobProxy>> browermobProxy =
-				BROWSERMOB_PROXY.initProxy(tempFiles);
+				BROWSERMOB_PROXY.initProxy(tempFiles, browserMobUpstream);
 
 			/*
 				We always enable the BrowserMob proxy
@@ -61,39 +65,8 @@ public class ProxyManagerImpl implements ProxyManager {
 				Forward browsermob to ZAP
 			 */
 			if (zapProxy.isPresent()) {
-				browermobProxy.get().getInterface().get()
-					.setChainedProxy(new InetSocketAddress("localhost", zapProxy.get().getPort()));
 				proxies.add(zapProxy.get());
-
-				/*
-					Then forward ZAP to the external proxy
-				 */
- 				if (proxyHostname.isPresent() && proxyPort.isPresent()) {
-					forwardZAPToExternalProxy(
-						zapProxy.get(),
-						proxyHostname,
-						proxyPort,
-						proxyUsername,
-						proxyPassword);
-				}
-			} else {
-				/*
-					Forward browsermob to the external proxy
-				 */
-				if (proxyHostname.isPresent() && proxyPort.isPresent()) {
-					forwardBrowserMobToExternalProxy(
-						browermobProxy.get(),
-						proxyHostname,
-						proxyPort,
-						proxyUsername,
-						proxyPassword);
-				}
 			}
-
-			/*
-				Starting browsermob happens after the upstream proxies are configured
-			 */
-			BROWSERMOB_PROXY.startProxy(browermobProxy.get());
 
 			return proxies;
 		} catch (final Exception ex) {
@@ -104,83 +77,12 @@ public class ProxyManagerImpl implements ProxyManager {
 	}
 
 	@Override
-	public void stopProxies(@NotNull final List<ProxyDetails<?>> proxies) {
-		checkNotNull(proxies);
+	public void stopProxies(final List<ProxyDetails<?>> proxies) {
 
-		proxies.stream()
-			.filter(BrowsermobProxyUtilsImpl.PROXY_NAME::equals)
-			.forEach(x -> BrowserMobProxy.class.cast(x.getInterface().get()).stop());
-	}
-
-	private void forwardBrowserMobToExternalProxy(
-			@NotNull final ProxyDetails<BrowserMobProxy> browserMobProxy,
-			@NotNull final Optional<String> hostname,
-			@NotNull final Optional<String> port,
-			@NotNull final Optional<String> username,
-			@NotNull final Optional<String> password) {
-
-		checkNotNull(browserMobProxy);
-		checkNotNull(hostname);
-		checkNotNull(port);
-		checkNotNull(username);
-		checkNotNull(password);
-
-		if (hostname.isPresent() && port.isPresent()) {
-
-			if (browserMobProxy.getInterface().isPresent()) {
-				final BrowserMobProxy proxyInterface = browserMobProxy.getInterface().get();
-
-				proxyInterface.setChainedProxy(new InetSocketAddress(
-					hostname.get(),
-					Integer.parseInt(port.get())));
-
-				if (username.isPresent() && password.isPresent()) {
-					proxyInterface.chainedProxyAuthorization(
-						username.get(),
-						password.get(),
-						AuthType.BASIC);
-				}
-			}
-		}
-	}
-
-	private void forwardZAPToExternalProxy(
-			@NotNull final ProxyDetails<ClientApi> zapProxy,
-			@NotNull final Optional<String> hostname,
-			@NotNull final Optional<String> port,
-			@NotNull final Optional<String> username,
-			@NotNull final Optional<String> password) throws ClientApiException {
-
-		checkNotNull(zapProxy);
-		checkNotNull(hostname);
-		checkNotNull(port);
-		checkNotNull(username);
-		checkNotNull(password);
-
-		if (zapProxy.getInterface().isPresent()) {
-			final ClientApi proxyInterface = zapProxy.getInterface().get();
-
-			proxyInterface.core.setOptionUseProxyChain(
-				Constants.ZAP_API_KEY,
-				true);
-
-			proxyInterface.core.setOptionProxyChainName(
-				Constants.ZAP_API_KEY,
-				hostname.get());
-
-			proxyInterface.core.setOptionProxyChainPort(
-				Constants.ZAP_API_KEY,
-				Integer.parseInt(port.get()));
-
-			if (username.isPresent() && password.isPresent()) {
-				proxyInterface.core.setOptionProxyChainUserName(
-					Constants.ZAP_API_KEY,
-					username.get());
-
-				proxyInterface.core.setOptionProxyChainPassword(
-					Constants.ZAP_API_KEY,
-					password.get());
-			}
+		if (proxies != null) {
+			proxies.stream()
+				.filter(BrowsermobProxyUtilsImpl.PROXY_NAME::equals)
+				.forEach(x -> BrowserMobProxy.class.cast(x.getInterface().get()).stop());
 		}
 	}
 }

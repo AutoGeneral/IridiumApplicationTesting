@@ -17,11 +17,6 @@ public interface ProxyDetails<T> {
 	int getPort();
 
 	/**
-	 * @param port The port that the proxy is run on
-	 */
-	void setPort(int port);
-
-	/**
 	 *
 	 * @return The interface (like a client API) that we can use to access the proxy, or an emoty result if
 	 * there is no such interface.
