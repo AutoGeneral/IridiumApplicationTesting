@@ -7,6 +7,7 @@ import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.FileSystemUtils;
 import au.com.agic.apptesting.utils.LocalProxyUtils;
 import au.com.agic.apptesting.utils.ProxyDetails;
+import au.com.agic.apptesting.utils.ProxySettings;
 import au.com.agic.apptesting.utils.ServerPortUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
@@ -19,6 +20,8 @@ import org.zaproxy.zap.ZAP;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,18 +41,22 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 	private static final int WAIT_FOR_START = 30000;
 
 	@Override
-	public Optional<ProxyDetails<ClientApi>> initProxy(@NotNull final List<File> tempFolders) {
+	public Optional<ProxyDetails<ClientApi>> initProxy(
+			@NotNull final List<File> tempFolders,
+			@NotNull final Optional<ProxySettings> upstreamProxy) {
+
 		checkNotNull(tempFolders);
+		checkNotNull(upstreamProxy);
 
 		try {
 			final String proxyName =
 				SYSTEM_PROPERTY_UTILS.getProperty(Constants.START_INTERNAL_PROXY);
 
 			if (StringUtils.equalsIgnoreCase(Constants.ZED_ATTACK_PROXY, proxyName)) {
-				return Optional.of(startZAPProxy(tempFolders));
+				return Optional.of(startZAPProxy(tempFolders, upstreamProxy));
 			}
 
-			LOGGER.info("The value assigned to the {} system property of {} was not recognised",
+			LOGGER.info("The value assigned to the {} system property of {} was empty or not recognised",
 				Constants.START_INTERNAL_PROXY,
 				proxyName);
 
@@ -59,21 +66,18 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 		}
 	}
 
-	@Override
-	public void startProxy(@NotNull final ProxyDetails<ClientApi> proxyDetails) {
-		/*
-			Nothing to see here
-		 */
-	}
-
 	/**
 	 * Starts the Zed Attack Proxy
 	 *
 	 * @param tempFolders A list of folders that need to be deleted once the app is finished
 	 * @return The port that the proxy is listening on
 	 */
-	private ProxyDetails<ClientApi> startZAPProxy(@NotNull final List<File> tempFolders) throws Exception {
+	private ProxyDetails<ClientApi> startZAPProxy(
+			@NotNull final List<File> tempFolders,
+			@NotNull final Optional<ProxySettings> upstreamProxy) throws Exception {
+
 		checkNotNull(tempFolders);
+		checkNotNull(upstreamProxy);
 
 		/*
 			There is a small chance that between the call to getFreePort() and the
@@ -114,15 +118,28 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 			FILE_SYSTEM_UTILS.copyFromJar(getClass().getResource("/zap").toURI(), zapdir);
 
 			/*
-				Run ZAP
+				Build up the command line args
 			 */
-			ZAP.main(new String[]{
+			final List<String> args = new ArrayList<String>(Arrays.asList(
 				"-daemon",
 				"-port", freePort.toString(),
 				"-dir", zapdir.toString(),
 				"-installdir", zapdir.toString(),
 				"-config", "api.disablekey=true"
-			});
+			));
+
+			if (upstreamProxy.isPresent()) {
+				args.addAll(Arrays.asList(
+					"-config", "connection.proxyChain.enabled=true",
+					"-config", "connection.proxyChain.hostName=" + upstreamProxy.get().getHost(),
+					"-config", "connection.proxyChain.port=" + upstreamProxy.get().getPort()
+				));
+			}
+
+			/*
+				Run ZAP
+			 */
+			ZAP.main(args.toArray(new String[args.size()]));
 
 			final ClientApi clientApi = new ClientApi("localhost", freePort);
 			clientApi.waitForSuccessfulConnectionToZap(WAIT_FOR_START);

@@ -18,15 +18,11 @@ public interface LocalProxyUtils<T> {
 	 * supported internal proxy, and starts it if a match was found.
 	 * @param tempFolders A collection that will be populate with any temporary folders to be cleaned up once the
 	 *                    test has completed
+	 * @param upstreamProxy The details of the upstream proxy
 	 * @return Some kind of interface that can be used to access the proxy. This might be a port, or a client
 	 * api object.
 	 */
-	Optional<ProxyDetails<T>> initProxy(@NotNull final List<File> tempFolders);
-
-	/**
-	 * We may need to do aditional configuration between initialising the proxy and starting it.
-	 * Starting the proxy is done here if the proxy supports it.
-	 * @param proxyDetails The details returned by initProxy
-	 */
-	void startProxy(final ProxyDetails<T> proxyDetails);
+	Optional<ProxyDetails<T>> initProxy(
+		@NotNull final List<File> tempFolders,
+		@NotNull final Optional<ProxySettings> upstreamProxy);
 }
