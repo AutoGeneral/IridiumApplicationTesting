@@ -8,8 +8,20 @@ import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import cucumber.api.java.en.When;
 
@@ -22,6 +34,8 @@ import cucumber.api.java.en.When;
 public class OpenStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OpenStepDefinitions.class);
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	private static final int LINK_OPEN_POOL_COUNT = 5;
+	private static final int TAB_OPEN_TIME = 2000;
 
 	/**
 	 * Get the web driver for this thread
@@ -78,5 +92,44 @@ public class OpenStepDefinitions {
 		}
 
 		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+	}
+
+	/**
+	 * Scans the page for all link elements, opens them in new tabs, and then closes the tabs. This
+	 * is most useful when used in conjunction with the "I verify that there were no HTTP errors" step
+	 * as a way of verifying that all links open valid pages.
+	 */
+	@When("^I open all links in new tabs and then close the tabs$")
+	public void openAllLinks() throws InterruptedException {
+		final JavascriptExecutor js = JavascriptExecutor.class.cast(threadDetails.getWebDriver());
+		final List<WebElement> links = threadDetails.getWebDriver().findElements(By.tagName("a"));
+		final ExecutorService executor = Executors.newFixedThreadPool(LINK_OPEN_POOL_COUNT);
+
+		final List<Callable<Object>> calls = links.stream()
+			.map(x -> new Callable<Object>() {
+				@Override
+				public Object call() throws Exception {
+					try {
+						final URL url = new URL(x.getAttribute("href"));
+						final String urlString = url.toString();
+						js.executeScript("(function() {"
+							+ "var newWindow = window.open('" + urlString + "','_blank'); "
+							+ "window.setTimeout(function(){newWindow.close()}, " + TAB_OPEN_TIME + ");"
+							+ "})()"
+						);
+
+						SLEEP_UTILS.sleep(TAB_OPEN_TIME);
+					} catch (final Exception ignored) {
+						/*
+							ignored because the link didn't contain a valid url
+						 */
+					}
+
+					return null;
+				}
+			})
+		.collect(Collectors.toList());
+
+		executor.invokeAll(calls);
 	}
 }

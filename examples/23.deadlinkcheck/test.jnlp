@@ -14,9 +14,9 @@
             <property name="javaws.dataset" value=""/>
             <property name="javaws.appURLOverride" value="https://dzone.com"/>
             <property name="javaws.featureGroupName" value=""/>
-            <property name="javaws.testSource" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/17.simplesteps/test.feature"/>
+            <property name="javaws.testSource" value="https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/23.deadlinkcheck/test.feature"/>
             <property name="javaws.importBaseUrl" value=""/>
-            <property name="javaws.testDestination" value="PHANTOMJS"/>
+            <property name="javaws.testDestination" value="CHROME"/>
             <property name="javaws.webdriver.chrome.driver" value=""/>
             <property name="javaws.webdriver.opera.driver" value=""/>
             <property name="javaws.phantomjs.binary.path" value=""/>
