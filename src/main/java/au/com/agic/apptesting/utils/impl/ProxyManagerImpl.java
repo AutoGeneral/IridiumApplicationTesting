@@ -8,6 +8,7 @@ import au.com.agic.apptesting.utils.LocalProxyUtils;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.ProxyManager;
 import au.com.agic.apptesting.utils.ProxySettings;
+import au.com.agic.apptesting.utils.SleepUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import net.lightbody.bmp.BrowserMobProxy;
@@ -31,6 +32,8 @@ public class ProxyManagerImpl implements ProxyManager {
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final LocalProxyUtils<ClientApi> ZAP_PROXY = new ZapProxyUtilsImpl();
 	private static final LocalProxyUtils<BrowserMobProxy> BROWSERMOB_PROXY = new BrowsermobProxyUtilsImpl();
+	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	private static final int PROXY_STOP_SLEEP = 1000;
 
 	@Override
 	public List<ProxyDetails<?>> configureProxies(@NotNull final List<File> tempFiles) {
@@ -83,6 +86,11 @@ public class ProxyManagerImpl implements ProxyManager {
 			proxies.stream()
 				.filter(BrowsermobProxyUtilsImpl.PROXY_NAME::equals)
 				.forEach(x -> BrowserMobProxy.class.cast(x.getInterface().get()).stop());
+
+			/*
+				Give the proxies time to actually stop
+			 */
+			SLEEP_UTILS.sleep(PROXY_STOP_SLEEP);
 		}
 	}
 }
