@@ -2,6 +2,7 @@ package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import au.com.agic.apptesting.browsermob.ExtendedBrowserMobProxyServer;
 import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.FileSystemUtils;
 import au.com.agic.apptesting.utils.LocalProxyUtils;
@@ -11,7 +12,6 @@ import au.com.agic.apptesting.utils.ServerPortUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import net.lightbody.bmp.BrowserMobProxy;
-import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.filters.ResponseFilter;
 import net.lightbody.bmp.proxy.auth.AuthType;
 import net.lightbody.bmp.util.HttpMessageContents;
@@ -73,7 +73,7 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 	private ProxyDetails<BrowserMobProxy> startBrowsermobProxy(
 			@NotNull final Optional<ProxySettings> upstreamProxy) throws Exception {
 
-		final BrowserMobProxy browserMobProxy = new BrowserMobProxyServer();
+		final BrowserMobProxy browserMobProxy = new ExtendedBrowserMobProxyServer();
 		browserMobProxy.setTrustAllServers(true);
 
 		if (upstreamProxy.isPresent()) {
