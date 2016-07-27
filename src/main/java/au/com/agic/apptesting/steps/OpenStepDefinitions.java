@@ -35,7 +35,11 @@ public class OpenStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OpenStepDefinitions.class);
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
 	private static final int LINK_OPEN_POOL_COUNT = 5;
-	private static final int TAB_OPEN_TIME = 2000;
+	/**
+	 * This has to be long enough to allow a request to be made, but too long
+	 * and testing a page with lots of links will take forever.
+	 */
+	private static final int TAB_OPEN_TIME = 5000;
 
 	/**
 	 * Get the web driver for this thread
