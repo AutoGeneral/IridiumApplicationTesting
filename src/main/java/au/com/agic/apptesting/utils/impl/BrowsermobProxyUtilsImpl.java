@@ -140,6 +140,7 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 						properties.put(INVALID_REQUESTS, new ArrayList<HttpMessageInfo>());
 					}
 					ArrayList.class.cast(properties.get(INVALID_REQUESTS)).add(messageInfo);
+					proxyDetails.setProperties(properties);
 				}
 			}
 		});
