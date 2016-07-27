@@ -220,7 +220,8 @@ def passThroughProperties = [
         "externalProxyHost",
         "externalProxyPort",
         "externalProxyUsername",
-        "externalProxyPassword"
+        "externalProxyPassword",
+        "externalProxyRealm"
 ]
 
 test {
