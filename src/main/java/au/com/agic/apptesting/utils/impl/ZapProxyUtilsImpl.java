@@ -56,7 +56,7 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 				return Optional.of(startZAPProxy(tempFolders, upstreamProxy));
 			}
 
-			LOGGER.info("The value assigned to the {} system property of {} was empty or not recognised",
+			LOGGER.info("The value assigned to the \"{}\" system property of \"{}\" was empty or not recognised",
 				Constants.START_INTERNAL_PROXY,
 				proxyName);
 
@@ -120,7 +120,7 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 			/*
 				Build up the command line args
 			 */
-			final List<String> args = new ArrayList<String>(Arrays.asList(
+			final List<String> args = new ArrayList<>(Arrays.asList(
 				"-daemon",
 				"-port", freePort.toString(),
 				"-dir", zapdir.toString(),
