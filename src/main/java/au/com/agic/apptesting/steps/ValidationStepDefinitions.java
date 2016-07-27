@@ -8,6 +8,7 @@ import com.google.common.collect.Iterables;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.HttpResponseException;
+import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
@@ -284,6 +285,24 @@ public class ValidationStepDefinitions {
 					throw new HttpResponseException(message.toString());
 				}
 			}
+		}
+	}
+
+	/**
+	 * Checks for the presence of some text on the page.
+	 * @param alias This text appears if the text is astucally an alias key
+	 * @param text The text to find on the page, or the alias to the text
+	 */
+	@Then("^I verify that the page contains the text( alias)? \"(.*?)\"")
+	public void verifyPageContent(final String alias, final String text) {
+		final String fixedtext = StringUtils.isNotBlank(alias)
+			? threadDetails.getDataSet().get(text) : text;
+
+		final String pageText =
+			threadDetails.getWebDriver().findElement(By.tagName("body")).getText();
+
+		if (!pageText.contains(fixedtext)) {
+			throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");
 		}
 	}
 }
