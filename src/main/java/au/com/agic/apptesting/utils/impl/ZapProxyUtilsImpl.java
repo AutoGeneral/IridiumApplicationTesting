@@ -141,6 +141,12 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 						"-config", "connection.proxyChain.password=" + upstreamProxy.get().getPassword()
 					));
 				}
+
+				if (StringUtils.isNotBlank(upstreamProxy.get().getRealm())) {
+					args.addAll(Arrays.asList(
+						"-config", "connection.proxyChain.realm=" + upstreamProxy.get().getRealm()
+					));
+				}
 			}
 
 			/*
