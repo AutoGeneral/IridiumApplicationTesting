@@ -12,12 +12,14 @@ import au.com.agic.apptesting.utils.ServerPortUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.filters.ResponseFilter;
 import net.lightbody.bmp.proxy.auth.AuthType;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
 import org.apache.commons.lang3.StringUtils;
+import org.littleshoot.proxy.HttpFiltersSourceAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,8 +75,27 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 	private ProxyDetails<BrowserMobProxy> startBrowsermobProxy(
 			@NotNull final Optional<ProxySettings> upstreamProxy) throws Exception {
 
-		final BrowserMobProxy browserMobProxy = new ExtendedBrowserMobProxyServer();
+		final BrowserMobProxy browserMobProxy = new BrowserMobProxyServer();
 		browserMobProxy.setTrustAllServers(true);
+
+		/*
+			Prevent errors like this:
+
+			09:58:29.348 [LittleProxy-0-ProxyToServerWorker-2] ERROR o.l.p.impl.ProxyToServerConnection -
+			(AWAITING_INITIAL) [id: 0x95af9921, L:/127.0.0.1:60359 - R:/127.0.0.1:3128]:
+			Caught an exception on ProxyToServerConnection io.netty.handler.codec.TooLongFrameException:
+			HTTP content length exceeded 2097152 bytes.
+		 */
+		browserMobProxy.addFirstHttpFilterFactory(new HttpFiltersSourceAdapter() {
+			@Override
+			public int getMaximumRequestBufferSizeInBytes() {
+				return Integer.MAX_VALUE;
+			}
+			@Override
+			public int getMaximumResponseBufferSizeInBytes() {
+				return Integer.MAX_VALUE;
+			}
+		});
 
 		if (upstreamProxy.isPresent()) {
 			browserMobProxy.setChainedProxy(new InetSocketAddress(
