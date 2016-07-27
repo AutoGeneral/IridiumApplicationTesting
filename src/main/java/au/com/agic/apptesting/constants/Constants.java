@@ -215,6 +215,11 @@ public final class Constants {
 	public static final String EXTERNAL_PROXY_PASSWORD = "externalProxyPassword";
 
 	/**
+	 * System property that holds the external proxy realm
+	 */
+	public static final String EXTERNAL_PROXY_REALM = "externalProxyRealm";
+
+	/**
 	 * Change this if you have set the apikey in ZAP via Options / API
 	 */
 	public static final String ZAP_API_KEY = null;

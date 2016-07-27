@@ -21,6 +21,7 @@ public class ProxySettings {
 	private final int port;
 	private final String username;
 	private final String password;
+	private final String realm;
 
 	/**
 	 *
@@ -56,6 +57,14 @@ public class ProxySettings {
 
 	/**
 	 *
+	 * @return The realm
+	 */
+	public String getRealm() {
+		return realm;
+	}
+
+	/**
+	 *
 	 * @param host The proxy hostname
 	 * @param port The proxy port
 	 */
@@ -66,6 +75,27 @@ public class ProxySettings {
 		this.port = port;
 		this.username = null;
 		this.password = null;
+		this.realm = null;
+	}
+
+	/**
+	 *
+	 * @param host The proxy hostname
+	 * @param port The proxy port
+	 * @param realm The realm
+	 */
+	public ProxySettings(
+			@NotNull final String host,
+			final int port,
+			final String realm) {
+
+		checkArgument(StringUtils.isNotBlank(host));
+
+		this.host = host;
+		this.port = port;
+		this.username = null;
+		this.password = null;
+		this.realm = realm;
 	}
 
 	/**
@@ -78,43 +108,63 @@ public class ProxySettings {
 	public ProxySettings(
 			@NotNull final String host,
 			final int port,
-			@NotNull final String username,
-			@NotNull final String password) {
+			final String username,
+			final String password) {
+
 		checkArgument(StringUtils.isNotBlank(host));
-		checkArgument(StringUtils.isNotBlank(username));
-		checkArgument(StringUtils.isNotBlank(password));
 
 		this.host = host;
 		this.port = port;
 		this.username = username;
 		this.password = password;
+		this.realm = null;
+	}
+	/**
+	 *
+	 * @param host The proxy hostname
+	 * @param port The proxy port
+	 * @param   username The proxy username
+	 * @param   password The proxy password
+	 * @param realm The realm
+	 */
+	public ProxySettings(
+			@NotNull final String host,
+			final int port,
+			final String realm,
+			final String username,
+			final String password) {
+
+		checkArgument(StringUtils.isNotBlank(host));
+
+		this.host = host;
+		this.port = port;
+		this.username = username;
+		this.password = password;
+		this.realm = realm;
 	}
 
 	public static Optional<ProxySettings> fromSystemProps() {
-		final Optional<String> proxyHostname = Optional.ofNullable(
-			SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_HOST));
-		final Optional<String> proxyPort = Optional.ofNullable(
-			SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_PORT));
+		final String proxyHostname =
+			SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_HOST);
+		final String proxyPort =
+			SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_PORT);
 
-		final Optional<String> proxyUsername = Optional.ofNullable(
-			SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_USERNAME));
-		final Optional<String> proxyPassword = Optional.ofNullable(
-			SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_PASSWORD));
+		final String proxyUsername =
+			SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_USERNAME);
+		final String proxyPassword =
+			SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_PASSWORD);
 
-		if (proxyHostname.isPresent() && proxyPort.isPresent()) {
-			if (proxyUsername.isPresent() && proxyPassword.isPresent()) {
-				return Optional.of(new ProxySettings(
-					proxyHostname.get(),
-					Integer.parseInt(proxyPort.get()),
-					proxyUsername.get(),
-					proxyPassword.get()
-				));
-			}
+		final String proxyRealm =
+			SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.EXTERNAL_PROXY_REALM);
 
+		if (StringUtils.isNotBlank(proxyHostname) && StringUtils.isNotBlank(proxyPort)) {
 			return Optional.of(new ProxySettings(
-				proxyHostname.get(),
-				Integer.parseInt(proxyPort.get())
-			));
+				proxyHostname,
+				Integer.parseInt(proxyPort),
+				proxyRealm,
+				proxyUsername,
+				proxyPassword)
+			);
 		}
 
 		return Optional.empty();
