@@ -135,12 +135,14 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 					Track anything other than a 200 range response
 				 */
 				if (response.getStatus().code() >= 400 && response.getStatus().code() <= 599) {
-					final Map<String, Object> properties = proxyDetails.getProperties();
-					if (!properties.containsKey(INVALID_REQUESTS)) {
-						properties.put(INVALID_REQUESTS, new ArrayList<HttpMessageInfo>());
+					synchronized (proxyDetails) {
+						final Map<String, Object> properties = proxyDetails.getProperties();
+						if (!properties.containsKey(INVALID_REQUESTS)) {
+							properties.put(INVALID_REQUESTS, new ArrayList<HttpMessageInfo>());
+						}
+						ArrayList.class.cast(properties.get(INVALID_REQUESTS)).add(messageInfo);
+						proxyDetails.setProperties(properties);
 					}
-					ArrayList.class.cast(properties.get(INVALID_REQUESTS)).add(messageInfo);
-					proxyDetails.setProperties(properties);
 				}
 			}
 		});
