@@ -2,7 +2,6 @@ package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import au.com.agic.apptesting.browsermob.ExtendedBrowserMobProxyServer;
 import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.FileSystemUtils;
 import au.com.agic.apptesting.utils.LocalProxyUtils;
