@@ -3,10 +3,7 @@ package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-
-
 import au.com.agic.apptesting.utils.LoggingConfiguration;
-
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;

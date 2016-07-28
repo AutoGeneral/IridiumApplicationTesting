@@ -1,12 +1,13 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import au.com.agic.apptesting.exception.InvalidInputException;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.ThreadDetails;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
-
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Implementation of the GetBy service

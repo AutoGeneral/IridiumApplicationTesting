@@ -2,7 +2,6 @@ package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.LocalProxyUtils;
 import au.com.agic.apptesting.utils.ProxyDetails;
@@ -12,13 +11,10 @@ import au.com.agic.apptesting.utils.SleepUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import net.lightbody.bmp.BrowserMobProxy;
-import net.lightbody.bmp.proxy.auth.AuthType;
 
 import org.zaproxy.clientapi.core.ClientApi;
-import org.zaproxy.clientapi.core.ClientApiException;
 
 import java.io.File;
-import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -1,5 +1,8 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
@@ -25,9 +28,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import javax.validation.constraints.NotNull;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A servoce that detects the OS, extracts the drivers and configures then as system properies

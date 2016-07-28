@@ -1,10 +1,13 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.ThreadDetails;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -18,8 +21,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Implementation of the SimpleWebElementInteraction service

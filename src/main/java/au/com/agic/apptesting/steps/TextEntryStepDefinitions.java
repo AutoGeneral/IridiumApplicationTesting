@@ -13,7 +13,6 @@ import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tools.ant.taskdefs.Sleep;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;

@@ -1,7 +1,5 @@
 package au.com.agic.apptesting.utils;
 
-import net.lightbody.bmp.BrowserMobProxy;
-
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
