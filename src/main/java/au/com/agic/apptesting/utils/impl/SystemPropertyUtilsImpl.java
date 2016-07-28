@@ -36,7 +36,7 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 	}
 
 	@Override
-	public String getPropertyEmptyAsNull(String name) {
+	public String getPropertyEmptyAsNull(final String name) {
 		checkArgument(StringUtils.isNotBlank(name));
 
 		return SYSTEM_PROPERTY_PREFIXES.stream()

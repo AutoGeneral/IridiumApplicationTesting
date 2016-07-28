@@ -627,15 +627,19 @@ public class TextEntryStepDefinitions {
 	/**
 	 * Populate an element with some text
 	 *
-	 * @param attributeNameAlias  If this word is found in the step, it means the attributeName is found from the data
+	 * @param attributeNameAlias  If this word is found in the step, it means the attributeName is found
+	 *                               from the data
 	 *                            set.
 	 * @param attributeName       The name of the attribute to match.
-	 * @param attributeValueAlias If this word is found in the step, it means the attributeValue is found from the data
+	 * @param attributeValueAlias If this word is found in the step, it means the attributeValue is found
+	 *                               from the data
 	 *                            set.
 	 * @param attributeValue      The value of the attribute to match
-	 * @param contentAlias        If this word is found in the step, it means the content is found from the data set.
+	 * @param contentAlias        If this word is found in the step, it means the content is found from the
+	 *                               data set.
 	 * @param content             The content to populate the element with
-	 * @param exists              If this text is set, an error that would be thrown because the element was not found
+	 * @param exists              If this text is set, an error that would be thrown because the element was
+	 *                               not found
 	 *                            is ignored. Essentially setting this text makes this an optional statement.
 	 * @param empty               If this phrase exists, the step will be skipped if the element is not empty
 	 */

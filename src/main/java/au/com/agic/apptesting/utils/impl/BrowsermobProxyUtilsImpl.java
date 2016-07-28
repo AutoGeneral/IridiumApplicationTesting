@@ -52,6 +52,8 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 	private static final FileSystemUtils FILE_SYSTEM_UTILS = new FileSystemUtilsImpl();
 
 	private static final int WAIT_FOR_START = 30000;
+	private static final int START_HTTP_ERROR = 400;
+	private static final int END_HTTP_ERROR = 599;
 
 	@Override
 	public Optional<ProxyDetails<BrowserMobProxy>> initProxy(
@@ -90,6 +92,7 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 			public int getMaximumRequestBufferSizeInBytes() {
 				return Integer.MAX_VALUE;
 			}
+
 			@Override
 			public int getMaximumResponseBufferSizeInBytes() {
 				return Integer.MAX_VALUE;
@@ -134,11 +137,15 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 				/*
 					Track anything other than a 200 range response
 				 */
-				if (response.getStatus().code() >= 400 && response.getStatus().code() <= 599) {
+				if (response.getStatus().code() >= START_HTTP_ERROR
+					&& response.getStatus().code() <= END_HTTP_ERROR) {
+
 					synchronized (proxyDetails) {
 						final Map<String, Object> properties = proxyDetails.getProperties();
 						if (!properties.containsKey(INVALID_REQUESTS)) {
-							properties.put(INVALID_REQUESTS, new ArrayList<HttpMessageInfo>());
+							properties.put(
+								INVALID_REQUESTS,
+								new ArrayList<HttpMessageInfo>());
 						}
 						ArrayList.class.cast(properties.get(INVALID_REQUESTS)).add(messageInfo);
 						proxyDetails.setProperties(properties);

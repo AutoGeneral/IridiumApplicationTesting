@@ -308,13 +308,15 @@ public class WaitStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element with the supplied attribute and attribute value to be displayed
-	 * (i.e. to be visible) on the page.
+	 * Waits the given amount of time for an element with the supplied attribute and attribute value to be
+	 * displayed (i.e. to be visible) on the page.
 	 *
 	 * @param waitDuration  The maximum amount of time to wait for
 	 * @param attribute     The attribute to use to select the element with
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, this
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
+	 *                         data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias
+	 *                         was set, this
 	 *                      value is found from the data set. Otherwise it is a literal value.
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
@@ -352,9 +354,11 @@ public class WaitStepDefinitions {
 	 *
 	 * @param waitDuration  The maximum amount of time to wait for
 	 * @param attribute     The attribute to use to select the element with
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, this
-	 *                      value is found from the data set. Otherwise it is a literal value.
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from
+	 *                         the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element.
+	 *                         If alias was set, this value is found from the data set. Otherwise it is a
+	 *                         literal value.
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
 	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "

@@ -119,6 +119,7 @@ public class ProxySettings {
 		this.password = password;
 		this.realm = null;
 	}
+
 	/**
 	 *
 	 * @param host The proxy hostname
