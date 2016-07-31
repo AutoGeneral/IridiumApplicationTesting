@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.utils.FeatureFileImporter;
 import au.com.agic.apptesting.utils.StringBuilderUtils;
@@ -40,9 +41,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 				Assume a null base url means we are looking for files relative
 				to the base feature file
 			 */
-			final String fixedBaseUrl = file.isLocalSource() || StringUtils.isBlank(baseUrl)
-				? file.getFile().getParentFile().getAbsolutePath() + "/"
-				: baseUrl;
+			final String fixedBaseUrl = getFixedBaseUrl(file, baseUrl);
 
 			/*
 				The contents of the new, processed file
@@ -118,5 +117,15 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 		final File copy = File.createTempFile("webapptester", ".feature");
 		FileUtils.copyURLToFile(new URL(path), copy);
 		return FileUtils.readFileToString(copy);
+	}
+
+	private String getFixedBaseUrl(@NotNull final FileDetails file, final String baseUrl) {
+		if (file.isLocalSource() || StringUtils.isBlank(baseUrl)) {
+			checkState(file.getFile() != null);
+			checkState(file.getFile().getParentFile() != null);
+			return file.getFile().getParentFile().getAbsolutePath() + "/";
+		}
+
+		return baseUrl;
 	}
 }
