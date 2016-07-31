@@ -60,6 +60,7 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 	public void copyDependentSystemProperties() {
 		copyVariableToDefaultLocation(Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
 		copyVariableToDefaultLocation(Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
+		copyVariableToDefaultLocation(Constants.EDGE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
 		copyVariableToDefaultLocation(Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY);
 		copyVariableToDefaultLocation(Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
 		copyVariableToDefaultLocation(Constants.FIREFOX_PROFILE_SYSTEM_PROPERTY);

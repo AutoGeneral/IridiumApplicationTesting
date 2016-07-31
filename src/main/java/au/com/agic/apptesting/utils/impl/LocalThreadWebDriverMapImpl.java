@@ -18,6 +18,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -232,6 +233,10 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
 		if (Constants.IE.equalsIgnoreCase(browser)) {
 			return new InternetExplorerDriver(capabilities);
+		}
+
+		if (Constants.EDGE.equalsIgnoreCase(browser)) {
+			return new EdgeDriver(capabilities);
 		}
 
 		if (Constants.PHANTOMJS.equalsIgnoreCase(browser)) {

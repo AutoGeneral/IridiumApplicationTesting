@@ -120,6 +120,8 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 	}
 
 	private String getFixedBaseUrl(@NotNull final FileDetails file, final String baseUrl) {
+		checkNotNull(file);
+
 		if (file.isLocalSource() || StringUtils.isBlank(baseUrl)) {
 			checkState(file.getFile() != null);
 			checkState(file.getFile().getParentFile() != null);

@@ -73,6 +73,11 @@ public final class Constants {
 	public static final String IE = "IE";
 	/**
 	 * The value assigned to the system property to indicate that the tests should
+	 * be run in Edge.
+	 */
+	public static final String EDGE = "Edge";
+	/**
+	 * The value assigned to the system property to indicate that the tests should
 	 * be run in the headless PhantomJS browser.
 	 */
 	public static final String PHANTOMJS = "PhantomJS";
@@ -92,6 +97,10 @@ public final class Constants {
 	 * The location of the opera webdriver executable https://github.com/operasoftware/operachromiumdriver/releases
 	 */
 	public static final String OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY = "webdriver.opera.driver";
+	/**
+	 * The location of the Edge webdriver executable
+     */
+	public static final String EDGE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY = "webdriver.edge.driver";
 	/**
 	 * The location of the phantomjs distribution https://github.com/detro/ghostdriver
 	 */
