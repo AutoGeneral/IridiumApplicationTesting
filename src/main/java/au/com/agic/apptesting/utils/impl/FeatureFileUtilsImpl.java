@@ -52,7 +52,7 @@ public class FeatureFileUtilsImpl implements FeatureFileUtils {
 			urls in these file methods.
 		 */
 		return Try.of(() -> {
-			if (Files.isDirectory(Paths.get(path))) {
+			if (Files.isDirectory(Paths.get(fixedPath))) {
 				/*
 					We know this is a local directory, so process the files.
 					We only return files that match the feature group header
@@ -64,12 +64,12 @@ public class FeatureFileUtilsImpl implements FeatureFileUtils {
 
 			}
 
-			if (Files.isRegularFile(Paths.get(path))) {
-					/*
-						We know this is a single file, so just return it. Note that we
-						ignore the supplied feature group when we are looking at
-						a single file
-					 */
+			if (Files.isRegularFile(Paths.get(fixedPath))) {
+				/*
+					We know this is a single file, so just return it. Note that we
+					ignore the supplied feature group when we are looking at
+					a single file
+				 */
 				return Arrays.asList(new FileDetails(new File(path), true));
 			}
 
