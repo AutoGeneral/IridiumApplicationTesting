@@ -8,7 +8,7 @@ Feature: Fill In Appointment Form
       | Service Selection List | servicelist |
       | Massage | Massage |
       | Appointment Date | calendar-day-2015-09-01 |
-      | Appointment Time List | time |
+      | Appointment Time List | timeList |
       | Subscribe To Mailing List | subscribe |
       | Comments | comments |
       | Submit Button | submit |
