@@ -25,4 +25,6 @@ Some articles on Iridium:
 
 * [Dead Link Checking With Iridium](https://dzone.com/articles/dead-link-checking-with-iridium)
 
+* [Sharing Scenarios in Iridium Test Scripts](https://dzone.com/articles/sharing-scenarios-in-iridium-test-scripts)
+
 * [Why You May Not Need (or Even Want) to Use Page Objects With Your Webdriver Tests](https://dzone.com/articles/why-you-may-not-need-or-even-want-to-use-page-obje)
