@@ -16,7 +16,7 @@ Feature: Fill In Appointment Form
     And I populate the element found by alias "Last Name" with "Smith"
     And I populate the element found by alias "Email Address" with "john@example.org"
     And I populate the element found by alias "Phone Number" with "0411111111"
-    And I select alias "Massage" from the drop down list found by alias "Service Selection List"
+    And I select "Massage" from the drop down list found by alias "Service Selection List"
     And I click the element found by alias "Appointment Date"
     And I select "6:00 PM" from the drop down list found by alias "Appointment Time List"
     And I click the element found by alias "Subscribe To Mailing List"
