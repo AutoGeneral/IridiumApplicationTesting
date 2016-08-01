@@ -24,8 +24,7 @@ public class StepEventHandling {
 	 * Get the web driver for this thread
 	 */
 	private final ThreadDetails threadDetails =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
-			Thread.currentThread().getName());
+		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
 	 * If any scenario failed, we throw an exception which prevents the new scenario from loading. This

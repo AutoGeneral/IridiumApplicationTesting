@@ -57,8 +57,7 @@ public class ValidationStepDefinitions {
 	 * Get the web driver for this thread
 	 */
 	private final ThreadDetails threadDetails =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
-			Thread.currentThread().getName());
+		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
 	 * Verify the title in the browser
@@ -131,8 +130,8 @@ public class ValidationStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@Then("^(?:I verify that )?the element with the (ID|class|xpath|name|css selector)( alias)? \"([^\"]*)\" "
-		+ "should have a class( alias)? of \"([^\"]*)\"( if it exists)?$")
+	@Then("^(?:I verify that )?the element with the (ID|class|xpath|name|css selector)( alias)? \"([^\"]*)\" should have a "
+		+ "class( alias)? of \"([^\"]*)\"( if it exists)?$")
 	public void checkElementClassStep(
 		final String selector,
 		final String selectorAlias,
@@ -272,7 +271,7 @@ public class ValidationStepDefinitions {
 		if (browserMob.isPresent()) {
 			if (browserMob.get().getProperties().containsKey(BrowsermobProxyUtilsImpl.INVALID_REQUESTS)) {
 				final List<HttpMessageInfo> responses =
-					(List<HttpMessageInfo>) browserMob.get()
+					(List<HttpMessageInfo>)browserMob.get()
 						.getProperties().get(BrowsermobProxyUtilsImpl.INVALID_REQUESTS);
 
 				if (!responses.isEmpty()) {

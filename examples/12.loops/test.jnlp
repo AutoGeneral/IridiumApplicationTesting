@@ -31,7 +31,7 @@
         <property name="javaws.phantomJSLoggingLevel" value="NONE"/>
         <property name="javaws.startInternalProxy" value=""/>
 		<property name="jnlp.versionEnabled" value="true"/>
-		<jar href="webapptesting-signed.jar" main="true" version="0.0.10" />
+		<jar href="webapptesting-signed.jar" main="true" version="0.0.11" />
     </resources>
     <application-desc
         name="Web Application tester"

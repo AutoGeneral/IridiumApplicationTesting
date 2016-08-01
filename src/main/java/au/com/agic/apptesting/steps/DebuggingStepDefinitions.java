@@ -25,14 +25,12 @@ import cucumber.api.java.en.When;
 public class DebuggingStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DebuggingStepDefinitions.class);
 	private static final ScreenshotUtils SCREENSHOT_UTILS = new ScreenshotUtilsImpl();
-	private static final long MILLISECONDS_PER_SECOND = 1000;
 
 	/**
 	 * Get the web driver for this thread
 	 */
 	private final ThreadDetails threadDetails =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
-			Thread.currentThread().getName());
+		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
 	 * Manually save a screenshot

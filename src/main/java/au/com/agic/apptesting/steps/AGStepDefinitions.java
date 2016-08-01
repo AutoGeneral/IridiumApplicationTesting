@@ -34,8 +34,7 @@ public class AGStepDefinitions {
 	 * Get the web driver for this thread
 	 */
 	private final ThreadDetails threadDetails =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
-			Thread.currentThread().getName());
+		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
 	 * The postcode suggestion box is a pain in the ass. It won't be triggered without a keyup event,

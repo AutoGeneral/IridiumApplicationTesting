@@ -10,6 +10,7 @@ import au.com.agic.apptesting.utils.ThreadDetails;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +61,19 @@ public class ScreenshotUtilsImpl implements ScreenshotUtils {
 					FileUtils.copyFile(screenshot, reportFile);
 					LOGGER.info("Saved screenshot to {}", reportFile.getAbsolutePath());
 				}
+			}
+		} catch (final WebDriverException ex) {
+			/*
+				There is a known bug when attempting to get screenshots in Windows
+				with Firefox, so don't let this exception break a test.
+			 */
+			if (ex.getMessage().contains("Could not convert screenshot to base64")) {
+				LOGGER.error("Could nto save screenshot because of a know bug "
+					+ "with WebDriver and Firefox. See "
+					+ "https://github.com/seleniumhq/selenium/issues/1097 "
+					+ "for more details", ex);
+			} else {
+				throw ex;
 			}
 		} catch (final IOException ex) {
 			LOGGER.error("There was an error saving or copying the screenshot.", ex);

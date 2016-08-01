@@ -43,8 +43,7 @@ public class KeyEventSetpDefinitions {
 	 * Get the web driver for this thread
 	 */
 	private final ThreadDetails threadDetails =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
-			Thread.currentThread().getName());
+		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
 	 * Press the CTRL-A keys to the active element

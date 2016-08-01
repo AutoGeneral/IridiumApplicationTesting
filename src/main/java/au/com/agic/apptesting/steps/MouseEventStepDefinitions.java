@@ -41,15 +41,13 @@ public class MouseEventStepDefinitions {
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
-	private static final BrowserInteropUtils BROWSER_INTEROP_UTILS = new BrowserInteropUtilsImpl();
 	private static final JavaScriptRunner JAVA_SCRIPT_RUNNER = new JavaScriptRunnerImpl();
 
 	/**
 	 * Get the web driver for this thread
 	 */
 	private final ThreadDetails threadDetails =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
-			Thread.currentThread().getName());
+		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
 	 * Some applications use mouse events instead of clicks, and PhantomJS will often need us to supply these

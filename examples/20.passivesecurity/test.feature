@@ -5,6 +5,8 @@ Feature: Open an application
 	Scenario: Generate Page Object
 		Given the alias mappings
 			| HomeLink 			| //*[@id="ng-app"]/body/div[1]/div/div/div[1]/div/div[1]/div/a			|
+			| NoProfileImage 	| //*[@id="ng-app"]/body/div[1]/div/div/div[1]/div/div[2]/div[3]/i 		|
+			| ProfileImage 		| //*[@id="ng-app"]/body/div[1]/div/div/div[1]/div/div[2]/div[3]/img 	|
 			| LoginBackground 	| ngdialog-overlay			                                      		|
 
  	# Open up the web page
@@ -15,6 +17,13 @@ Feature: Open an application
 		And I block access to the URL regex ".*?thumbnail.*" with response "500"
 		And I open the application
 		And I maximise the window
+
+	# Open the login dialog and close it again
+	Scenario: Open Profile
+		# Click on an element referencing the aliased xpath we set above
+		And I click the element found by alias "NoProfileImage"
+	 	# Click on an element referencing the aliased class name we set above
+		And I click the element found by alias "LoginBackground"
 
 	Scenario: Navigate the main links
 		And I click the link with the text content of "REFCARDZ"

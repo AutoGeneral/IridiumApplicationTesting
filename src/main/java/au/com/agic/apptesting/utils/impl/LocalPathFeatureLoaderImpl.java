@@ -72,7 +72,8 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 			final Path temp2 = Files.createTempDirectory(null);
 
 			filteredFiles.stream()
-				.map(e -> FEATURE_FILE_IMPORTER.processFeatureImportComments(e,
+				.map(e -> FEATURE_FILE_IMPORTER.processFeatureImportComments(
+					e,
 					SYSTEM_PROPERTY_UTILS.getProperty(Constants.IMPORT_BASE_URL)))
 				.forEach(e -> Try.run(() -> FileUtils.copyFileToDirectory(e, temp2.toFile())));
 

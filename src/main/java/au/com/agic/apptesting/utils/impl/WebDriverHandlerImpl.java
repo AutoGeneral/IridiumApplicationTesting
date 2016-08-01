@@ -92,6 +92,20 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 						tempFiles));
 			}
 
+			final boolean edgeWebDriverSet =
+				StringUtils.isNotBlank(
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						Constants.EDGE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
+
+			if (!edgeWebDriverSet) {
+				System.setProperty(
+					Constants.EDGE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
+					extractDriver(
+						"/drivers/win32/edge/MicrosoftWebDriver.exe",
+						"MicrosoftWebDriver.exe",
+						tempFiles));
+			}
+
 			final boolean ieWebDriverSet =
 				StringUtils.isNotBlank(
 					SYSTEM_PROPERTY_UTILS.getProperty(

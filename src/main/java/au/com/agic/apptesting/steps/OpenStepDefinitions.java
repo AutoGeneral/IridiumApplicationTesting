@@ -14,9 +14,11 @@ import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -43,8 +45,7 @@ public class OpenStepDefinitions {
 	 * Get the web driver for this thread
 	 */
 	private final ThreadDetails threadDetails =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
-			Thread.currentThread().getName());
+		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
 	 * Opens up the supplied URL.
@@ -117,8 +118,7 @@ public class OpenStepDefinitions {
 						final String urlString = url.toString();
 						js.executeScript("(function() {"
 							+ "var newWindow = window.open('" + urlString + "','_blank'); "
-							+ "window.setTimeout(function(){"
-							+ "newWindow.close()}, " + TAB_OPEN_TIME + ");"
+							+ "window.setTimeout(function(){newWindow.close()}, " + TAB_OPEN_TIME + ");"
 							+ "})()"
 						);
 
