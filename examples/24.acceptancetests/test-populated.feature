@@ -12,7 +12,6 @@ Feature: Fill In Appointment Form
       | Subscribe To Mailing List | subscribe |
       | Comments | comments |
       | Submit Button | submit |
-      | Success Message | success |
     And I open the application
     And I populate the element found by alias "First Name" with "John"
     And I populate the element found by alias "Last Name" with "Smith"
@@ -24,5 +23,4 @@ Feature: Fill In Appointment Form
     And I click the element found by alias "Subscribe To Mailing List"
     And I populate the element found by alias "Comments" with "Can I please get Alice again if she is available?"
     And I click the element found by alias "Submit Button"
-    Then I wait "30" seconds for the element found by alias "Success Message" to be displayed
-    And I verify that the page contains the text "Your booking was sucessfully submitted"
+    Then I verify that the page contains the text "Your booking was successfully submitted"
