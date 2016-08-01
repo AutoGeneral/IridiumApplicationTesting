@@ -20,3 +20,9 @@ Some articles on Iridium:
 * [Verifying Page Content and Styles With Iridium](http://dzone.com/articles/verifying-page-content-and-styles-with-iridium)
 
 * [Taking the Pain Out of Writing Iridium Test Scripts](https://dzone.com/articles/taking-the-pain-out-of-writing-iridium-test-script)
+
+* [Extending Iridium With Custom Step Definitions](https://dzone.com/articles/extending-iridium-with-custom-step-definitions)
+
+* [Dead Link Checking With Iridium](https://dzone.com/articles/dead-link-checking-with-iridium)
+
+* [Why You May Not Need (or Even Want) to Use Page Objects With Your Webdriver Tests](https://dzone.com/articles/why-you-may-not-need-or-even-want-to-use-page-obje)
