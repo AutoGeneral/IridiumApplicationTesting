@@ -13,7 +13,6 @@ Feature: Fill In Appointment Form
       | Comments | comments |
       | Submit Button | submit |
       | Success Message | success |
-    And I set the default wait time between steps to "2" seconds
     And I open the application
     And I populate the element found by alias "First Name" with "John"
     And I populate the element found by alias "Last Name" with "Smith"

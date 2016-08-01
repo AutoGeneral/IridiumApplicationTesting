@@ -24,13 +24,18 @@ import javax.validation.constraints.NotNull;
  */
 public class ThreadDetailsImpl implements ThreadDetails {
 
+	/**
+	 * Wait a second between steps by default
+     */
+	private static final int DEFAULT_WAIT_TIME = 1000;
+
 	private final UrlMapping url;
 	private final WebDriver webDriver;
 	private final Map<String, String> dataset = new HashMap<>();
 	private final String reportDirectory;
 	private boolean failed;
 	private List<ProxyDetails<?>> proxies;
-	private long sleep;
+	private long sleep = DEFAULT_WAIT_TIME;
 
 	/**
 	 * The ZAP client api interface

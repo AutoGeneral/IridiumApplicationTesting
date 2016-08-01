@@ -13,6 +13,7 @@ Feature: Fill In Appointment Form
       | Comments | |
       | Submit Button | |
       | Success Message | |
+  	And I open the application
     And I populate the element found by alias "First Name" with "John"
     And I populate the element found by alias "Last Name" with "Smith"
     And I populate the element found by alias "Email Address" with "john@example.org"
