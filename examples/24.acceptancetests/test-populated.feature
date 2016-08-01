@@ -6,7 +6,6 @@ Feature: Fill In Appointment Form
       | Email Address | email |
       | Phone Number | phone |
       | Service Selection List | servicelist |
-      | Massage | Massage |
       | Appointment Date | calendar-day-2015-09-01 |
       | Appointment Time List | timeList |
       | Subscribe To Mailing List | subscribe |
