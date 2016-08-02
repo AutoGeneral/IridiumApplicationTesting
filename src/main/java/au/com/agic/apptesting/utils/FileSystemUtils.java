@@ -1,11 +1,10 @@
 package au.com.agic.apptesting.utils;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * Defines utility methods for working with local files and folders

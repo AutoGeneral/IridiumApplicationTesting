@@ -1,24 +1,18 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import java.util.concurrent.ExecutionException;
-
-import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps used to focus elements
@@ -36,7 +30,7 @@ public class FocusStepDefinitions {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -60,11 +54,12 @@ public class FocusStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails).get();
+				featureState).get();
 
-			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript("arguments[0].focus();", element);
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -96,11 +91,12 @@ public class FocusStepDefinitions {
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails);
-			final WebElement element = threadDetails.getWebDriver().findElement(by);
-			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+				featureState);
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebElement element = webDriver.findElement(by);
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript("arguments[0].focus();", element);
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;

@@ -1,9 +1,8 @@
 package au.com.agic.apptesting.utils;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.List;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * A service that is used to create and configure the proxies reqyired to run a test

@@ -1,7 +1,5 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.profiles.FileProfileAccess;
 import au.com.agic.apptesting.profiles.configuration.Configuration;
@@ -12,20 +10,14 @@ import au.com.agic.apptesting.profiles.dataset.DatasetsRootElement;
 import au.com.agic.apptesting.profiles.dataset.Setting;
 import au.com.agic.apptesting.utils.ApplicationUrlLoader;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
-
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.constraints.NotNull;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Loads the application urls from configuration

@@ -1,11 +1,11 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-
 import cucumber.api.java.en.When;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Gherkin steps for navigating in the browser.
@@ -20,7 +20,7 @@ public class NavigationStepDefinitions {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -28,8 +28,9 @@ public class NavigationStepDefinitions {
 	 */
 	@When("I go back")
 	public void goBack() {
-		threadDetails.getWebDriver().navigate().back();
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		webDriver.navigate().back();
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -37,7 +38,8 @@ public class NavigationStepDefinitions {
 	 */
 	@When("I go forward")
 	public void goForward() {
-		threadDetails.getWebDriver().navigate().forward();
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		webDriver.navigate().forward();
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 }

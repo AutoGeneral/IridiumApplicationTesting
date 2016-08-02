@@ -1,35 +1,29 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ConfigurationException;
+import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.profiles.FileProfileAccess;
 import au.com.agic.apptesting.profiles.configuration.Configuration;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.ThreadWebDriverMap;
-
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.http.HttpClient;
-import org.openqa.selenium.remote.internal.ApacheHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkArgument;
 
 public class ThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
@@ -42,12 +36,15 @@ public class ThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	private static final FileProfileAccess<Configuration> PROFILE_ACCESS = new FileProfileAccess<>(
 		SYSTEM_PROPERTY_UTILS.getProperty(Constants.CONFIGURATION),
 		Configuration.class);
-	private static final HttpClient.Factory HTTP_CLIENT_FACTORY = new ApacheHttpClient.Factory();
+
 	/**
 	 * The mapping between thread ids and the webdrivers that they use for the tests
 	 */
-	private final Map<String, ThreadDetails> threadIdToCapMap =
-		new HashMap<>();
+	private final Map<String, FeatureState> threadIdToCapMap = new HashMap<>();
+	/**
+	 * The mapping between thread ids and the webdrivers that they use for the tests
+	 */
+	private final Map<String, WebDriver> threadIdToDriverMap = new HashMap<>();
 	/**
 	 * The browser stack username loaded from configuration
 	 */
@@ -121,7 +118,7 @@ public class ThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	}
 
 	@Override
-	public synchronized ThreadDetails getDesiredCapabilitiesForThread(@NotNull final String name) {
+	public synchronized FeatureState getDesiredCapabilitiesForThread(@NotNull final String name) {
 		try {
 			if (threadIdToCapMap.containsKey(name)) {
 				return threadIdToCapMap.get(name);
@@ -170,15 +167,17 @@ public class ThreadWebDriverMapImpl implements ThreadWebDriverMap {
 			 */
 			final String remoteAddress =
 				"http://" + browserStackUsername + ":" + browserStackAccessToken + URL;
-			final RemoteWebDriver remoteWebDriver = new RemoteWebDriver(
-				new URL(remoteAddress), desiredCapabilities);
 
-			final ThreadDetails threadDetails = new ThreadDetailsImpl(
-				url, dataSet, reportDirectory, new ArrayList<>(), remoteWebDriver);
+			final WebDriver webDriver = new RemoteWebDriver(new URL(remoteAddress), desiredCapabilities);
 
-			threadIdToCapMap.put(name, threadDetails);
+			threadIdToDriverMap.put(name, webDriver);
 
-			return threadDetails;
+			final FeatureState featureState = new FeatureStateImpl(
+				url, dataSet, reportDirectory, new ArrayList<>());
+
+			threadIdToCapMap.put(name, featureState);
+
+			return featureState;
 		} catch (final MalformedURLException ex) {
 			/*
 				This shouldn't happen
@@ -186,6 +185,16 @@ public class ThreadWebDriverMapImpl implements ThreadWebDriverMap {
 			throw new ConfigurationException(
 				"The url that was built to contact BrowserStack was invalid", ex);
 		}
+	}
+
+	public synchronized WebDriver getWebDriverForThread(@NotNull final String name) {
+		checkArgument(StringUtils.isNotEmpty(name));
+
+		if (threadIdToDriverMap.containsKey(name)) {
+			return threadIdToDriverMap.get(name);
+		}
+
+		throw new DriverException("Could not find the web driver for the thread " + name);
 	}
 
 	@Override
@@ -225,9 +234,9 @@ public class ThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
 	@Override
 	public synchronized void shutdown() {
-		for (final ThreadDetails webdriver : threadIdToCapMap.values()) {
+		for (final WebDriver webDriver : threadIdToDriverMap.values()) {
 			try {
-				webdriver.getWebDriver().quit();
+				webDriver.quit();
 			} catch (final Exception ignored) {
 				// do nothing and continue closing the other webdrivers
 			}
@@ -250,10 +259,15 @@ public class ThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		checkArgument(StringUtils.isNotBlank(name));
 
 		if (threadIdToCapMap.containsKey(name)) {
-			threadIdToCapMap.get(name).getWebDriver().quit();
 			threadIdToCapMap.remove(name);
 		}
 
-
+		if (threadIdToDriverMap.containsKey(name)) {
+			try {
+				threadIdToDriverMap.get(name).quit();
+			} catch (final Exception ignored) {
+				// do nothing and continue closing the other webdrivers
+			}
+		}
 	}
 }

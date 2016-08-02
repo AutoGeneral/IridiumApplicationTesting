@@ -2,20 +2,18 @@ package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.junit.Testsuite;
 import au.com.agic.apptesting.utils.JUnitReportMerge;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.util.List;
-import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * An implementation of JUnitReportMerge that uses JAXB to merge reports

@@ -1,8 +1,8 @@
 package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.exception.InvalidInputException;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 
@@ -17,9 +17,9 @@ public class GetByImpl implements GetBy {
 			final String selector,
 			final boolean valueAlias,
 			final String value,
-			final ThreadDetails threadDetails) {
+			final FeatureState featureState) {
 
-		final String fixedValue = valueAlias ? threadDetails.getDataSet().get(value) : value;
+		final String fixedValue = valueAlias ? featureState.getDataSet().get(value) : value;
 
 		checkState(StringUtils.isNotBlank(fixedValue), "Selector or alias is blank");
 

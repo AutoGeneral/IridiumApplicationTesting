@@ -1,12 +1,11 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.utils.ThreadDetails;
-
-import java.util.Map;
-
+import au.com.agic.apptesting.utils.FeatureState;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
+
+import java.util.Map;
 
 /**
  * Gherkin steps that are used to initialise the test script.
@@ -20,7 +19,7 @@ public class InitialisationStepDefinitions {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -33,7 +32,7 @@ public class InitialisationStepDefinitions {
 	 */
 	@When("^I set the default wait time between steps to \"(\\d+)\"(?: seconds)?$")
 	public void setDefaultWaitTime(final String numberOfSeconds) {
-		threadDetails.setDefaultSleep(Integer.parseInt(numberOfSeconds) * MILLISECONDS_PER_SECOND);
+		featureState.setDefaultSleep(Integer.parseInt(numberOfSeconds) * MILLISECONDS_PER_SECOND);
 	}
 
 	// </editor-fold>
@@ -47,8 +46,8 @@ public class InitialisationStepDefinitions {
 	 */
 	@Given("^(?:I set )?the alias mappings")
 	public void pageObjectMappings(final Map<String, String> aliasTable) {
-		final Map<String, String> dataset = threadDetails.getDataSet();
+		final Map<String, String> dataset = featureState.getDataSet();
 		dataset.putAll(aliasTable);
-		threadDetails.setDataSet(dataset);
+		featureState.setDataSet(dataset);
 	}
 }

@@ -1,16 +1,14 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Deals with the events that related to step and scenario handing
@@ -23,7 +21,7 @@ public class StepEventHandling {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -33,7 +31,7 @@ public class StepEventHandling {
 	 */
 	@Before
 	public void setup() {
-		if (threadDetails.getFailed()) {
+		if (featureState.getFailed()) {
 			throw new IllegalStateException("Previous scenario failed!");
 		}
 	}
@@ -45,10 +43,10 @@ public class StepEventHandling {
 	 */
 	@After
 	public void teardown(final Scenario scenario) {
-		if (!threadDetails.getFailed()) {
-			SCREENSHOT_UTILS.takeScreenshot(" " + scenario.getName(), threadDetails);
+		if (!featureState.getFailed()) {
+			SCREENSHOT_UTILS.takeScreenshot(" " + scenario.getName(), featureState);
 		}
 
-		threadDetails.setFailed(scenario.isFailed());
+		featureState.setFailed(scenario.isFailed());
 	}
 }

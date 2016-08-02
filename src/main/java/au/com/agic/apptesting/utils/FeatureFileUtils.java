@@ -2,9 +2,8 @@ package au.com.agic.apptesting.utils;
 
 import au.com.agic.apptesting.utils.impl.FileDetails;
 
-import java.util.List;
-
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Useful methods for dealing with feature files

@@ -1,25 +1,23 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
-
+import cucumber.api.java.en.When;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.filters.RequestFilter;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
-
-import cucumber.api.java.en.When;
-import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.HttpResponse;
 
 /**
  * This class contains Gherkin step definitions relating to the use of the embedded
@@ -35,7 +33,7 @@ public class ProxyStepDefinitions {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -47,7 +45,7 @@ public class ProxyStepDefinitions {
 	@When("^I block access to the URL regex \"(.*?)\" with response \"(\\d+)\"$")
 	public void blockUrl(final String url, final Integer response) {
 		final Optional<ProxyDetails<?>> proxy =
-			threadDetails.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 		if (proxy.isPresent()) {
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
 			browserMobProxy.blacklistRequests(url, response);
@@ -64,7 +62,7 @@ public class ProxyStepDefinitions {
 	@When("^I block access to the URL regex \"(.*?)\" of the type \"(.*?)\" with response \"(\\d+)\"$")
 	public void blockUrl(final String url, final String type, final Integer response) {
 		final Optional<ProxyDetails<?>> proxy =
-			threadDetails.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 		if (proxy.isPresent()) {
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
 			browserMobProxy.blacklistRequests(url, response, type);
@@ -82,7 +80,7 @@ public class ProxyStepDefinitions {
 	@When("^I (?:remove|delete) root AWSELB cookie from the request to the URL regex \"(.*?)\"$")
 	public void stripHeaders(final String url) {
 		final Optional<ProxyDetails<?>> proxy =
-			threadDetails.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 		if (proxy.isPresent()) {
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
 			browserMobProxy.addRequestFilter(new RequestFilter() {
@@ -102,8 +100,9 @@ public class ProxyStepDefinitions {
 							/*
 								Find the root context cookie
 							 */
+							final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 							final Optional<Cookie> awselb =
-								threadDetails.getWebDriver().manage().getCookies()
+								webDriver.manage().getCookies()
 									.stream()
 									.filter(x -> "AWSELB".equals(x.getName()))
 									.filter(x -> "/".equals(x.getPath()))

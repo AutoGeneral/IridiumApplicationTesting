@@ -1,16 +1,14 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
-
 import au.com.agic.apptesting.profiles.configuration.FeatureGroup;
 import au.com.agic.apptesting.utils.AttributeChecker;
-
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.NotNull;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * implementation of the attribute checker interface

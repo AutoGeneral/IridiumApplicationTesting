@@ -1,28 +1,13 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.BrowserInteropUtils;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.JavaScriptRunner;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
-import au.com.agic.apptesting.utils.impl.BrowserInteropUtilsImpl;
-import au.com.agic.apptesting.utils.impl.GetByImpl;
-import au.com.agic.apptesting.utils.impl.JavaScriptRunnerImpl;
-import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
-import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-
+import au.com.agic.apptesting.utils.*;
+import au.com.agic.apptesting.utils.impl.*;
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -32,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.concurrent.ExecutionException;
 
-import cucumber.api.java.en.When;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Gherkin steps used to click elements.
@@ -52,7 +37,7 @@ public class ClickingStepDefinitions {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -74,18 +59,19 @@ public class ClickingStepDefinitions {
 		final String selectorValue,
 		final String exists) throws ExecutionException, InterruptedException {
 		try {
-			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails).get();
+				featureState).get();
 
 			/*
 				Account for PhantomJS issues clicking certain types of elements
 			 */
 			final boolean treatAsHiddenElement = BROWSER_INTEROP_UTILS.treatElementAsHidden(
-				threadDetails.getWebDriver(), element, js);
+				webDriver, element, js);
 
 			if (treatAsHiddenElement) {
 				JAVA_SCRIPT_RUNNER.interactHiddenElement(element, "click", js);
@@ -93,7 +79,7 @@ public class ClickingStepDefinitions {
 				element.click();
 			}
 
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 
 		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -121,20 +107,21 @@ public class ClickingStepDefinitions {
 		final String selectorValue,
 		final String exists) {
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final By by = GET_BY.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails);
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+				featureState);
+			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
-			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			/*
 				Account for PhantomJS issues clicking certain types of elements
 			 */
 			final boolean treatAsHiddenElement = BROWSER_INTEROP_UTILS.treatElementAsHidden(
-				threadDetails.getWebDriver(), element, js);
+				webDriver, element, js);
 
 			if (treatAsHiddenElement) {
 				JAVA_SCRIPT_RUNNER.interactHiddenElement(element, "click", js);
@@ -142,7 +129,7 @@ public class ClickingStepDefinitions {
 				element.click();
 			}
 
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -169,19 +156,20 @@ public class ClickingStepDefinitions {
 		final String exists) throws ExecutionException, InterruptedException {
 
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails).get();
+				featureState).get();
 
-			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			/*
 				PhantomJS doesn't support the click method, so "element.click()" won't work
 				here. We need to dispatch the event instead.
 			 */
 			JAVA_SCRIPT_RUNNER.interactHiddenElement(element, "click", js);
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -209,21 +197,22 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final By by = GET_BY.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails);
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+				featureState);
+			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			/*
 				PhantomJS doesn't support the click method, so "element.click()" won't work
 				here. We need to dispatch the event instead.
 			 */
 			JAVA_SCRIPT_RUNNER.interactHiddenElement(element, "click", js);
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -248,15 +237,16 @@ public class ClickingStepDefinitions {
 
 		try {
 			final String text = StringUtils.isNotBlank(alias)
-				? threadDetails.getDataSet().get(linkContent) : linkContent;
+				? featureState.getDataSet().get(linkContent) : linkContent;
 
 			checkState(text != null, "the aliased link content does not exist");
 
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
 			final WebElement element = wait.until(
 				ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
 			element.click();
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -281,16 +271,17 @@ public class ClickingStepDefinitions {
 
 		try {
 			final String text = StringUtils.isNotBlank(alias)
-				? threadDetails.getDataSet().get(linkContent) : linkContent;
+				? featureState.getDataSet().get(linkContent) : linkContent;
 
 			checkState(text != null, "the aliased link content does not exist");
 
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
 			final WebElement element = wait.until(
 				ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
-			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript("arguments[0].click();", element);
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -326,13 +317,13 @@ public class ClickingStepDefinitions {
 
 		try {
 			final String attr = " alias".equals(attributeNameAlias)
-				? threadDetails.getDataSet().get(attributeName) : attributeName;
+				? featureState.getDataSet().get(attributeName) : attributeName;
 			checkState(attr != null, "the aliased attribute name does not exist");
 
 			final String startValue = " alias".equals(randomStartAlias)
-				? threadDetails.getDataSet().get(randomStart) : randomStart;
+				? featureState.getDataSet().get(randomStart) : randomStart;
 			final String endValue = " alias".equals(randomEndAlias)
-				? threadDetails.getDataSet().get(randomEnd) : randomEnd;
+				? featureState.getDataSet().get(randomEnd) : randomEnd;
 
 			checkState(startValue != null, "the aliased start value does not exist");
 			checkState(endValue != null, "the aliased end value does not exist");
@@ -342,13 +333,14 @@ public class ClickingStepDefinitions {
 			final Integer random = SecureRandom.getInstance("SHA1PRNG").nextInt(
 				Math.abs(int2 - int1)) + Math.min(int1, int2);
 
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
 			final WebElement element = wait.until(
 				ExpectedConditions.elementToBeClickable(
 					By.cssSelector("[" + attr + "='" + random + "']")));
 
 			element.click();
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException ex) {
 			if (!" if it exists".equals(exists)) {
 				throw ex;
@@ -383,19 +375,20 @@ public class ClickingStepDefinitions {
 
 		try {
 			final String attr = " alias".equals(attributeNameAlias)
-				? threadDetails.getDataSet().get(attributeName) : attributeName;
+				? featureState.getDataSet().get(attributeName) : attributeName;
 			final String value = " alias".equals(attributeValueAlias)
-				? threadDetails.getDataSet().get(attributeValue) : attributeValue;
+				? featureState.getDataSet().get(attributeValue) : attributeValue;
 
 			checkState(attr != null, "the aliased attribute name does not exist");
 			checkState(value != null, "the aliased attribute value does not exist");
 
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
 			final WebElement element = wait.until(
 				ExpectedConditions.elementToBeClickable(
 					By.cssSelector("[" + attr + "='" + value + "']")));
 			element.click();
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (!" if it exists".equals(exists)) {
 				throw ex;

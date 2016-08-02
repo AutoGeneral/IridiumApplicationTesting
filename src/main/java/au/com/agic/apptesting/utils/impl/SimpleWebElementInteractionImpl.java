@@ -1,11 +1,13 @@
 package au.com.agic.apptesting.utils.impl;
 
+import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -32,25 +34,26 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 	public CompletableFuture<WebElement> getClickableElementFoundBy(
 			final boolean valueAlias,
 			final String value,
-			final ThreadDetails threadDetails) {
+			final FeatureState featureState) {
 
-		return getClickableElementFoundBy(valueAlias, value, threadDetails, Constants.WAIT);
+		return getClickableElementFoundBy(valueAlias, value, featureState, Constants.WAIT);
 	}
 
 	@Override
 	public CompletableFuture<WebElement> getClickableElementFoundBy(
 			final boolean valueAlias,
 			final String value,
-			final ThreadDetails threadDetails,
+			final FeatureState featureState,
 			final long wait) {
 
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final CompletableFuture<WebElement> retValue = new CompletableFuture<>();
 		final AtomicInteger failures = new AtomicInteger(0);
 		final List<Thread> threads = new CopyOnWriteArrayList<>();
 
 		{
-			final By by = GET_BY.getBy(GetBy.ID, valueAlias, value, threadDetails);
-			final WebDriverWait waitId = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By by = GET_BY.getBy(GetBy.ID, valueAlias, value, featureState);
+			final WebDriverWait waitId = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionId = ExpectedConditions.elementToBeClickable(by);
 			final Thread byIDThread = new Thread(
 				new GetElement(waitId, conditionId, failures, retValue, threads));
@@ -58,8 +61,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byXpath = GET_BY.getBy(GetBy.XPATH, valueAlias, value, threadDetails);
-			final WebDriverWait waitXpath = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byXpath = GET_BY.getBy(GetBy.XPATH, valueAlias, value, featureState);
+			final WebDriverWait waitXpath = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionXpath = ExpectedConditions.elementToBeClickable(byXpath);
 			final Thread byXpathThread = new Thread(
 				new GetElement(waitXpath, conditionXpath, failures, retValue, threads));
@@ -67,8 +70,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byName = GET_BY.getBy(GetBy.NAME, valueAlias, value, threadDetails);
-			final WebDriverWait waitName = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byName = GET_BY.getBy(GetBy.NAME, valueAlias, value, featureState);
+			final WebDriverWait waitName = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionName = ExpectedConditions.elementToBeClickable(byName);
 			final Thread byNameThread = new Thread(
 				new GetElement(waitName, conditionName, failures, retValue, threads));
@@ -76,8 +79,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byValue = GET_BY.getBy(GetBy.VALUE, valueAlias, value, threadDetails);
-			final WebDriverWait waitValue = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byValue = GET_BY.getBy(GetBy.VALUE, valueAlias, value, featureState);
+			final WebDriverWait waitValue = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionValue = ExpectedConditions.elementToBeClickable(byValue);
 			final Thread byValueThread = new Thread(
 				new GetElement(waitValue, conditionValue, failures, retValue, threads));
@@ -85,8 +88,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byText = GET_BY.getBy(GetBy.TEXT, valueAlias, value, threadDetails);
-			final WebDriverWait waitText = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byText = GET_BY.getBy(GetBy.TEXT, valueAlias, value, featureState);
+			final WebDriverWait waitText = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionText = ExpectedConditions.elementToBeClickable(byText);
 			final Thread byTextThread = new Thread(
 				new GetElement(waitText, conditionText, failures, retValue, threads));
@@ -94,8 +97,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byClass = GET_BY.getBy(GetBy.CLASS, valueAlias, value, threadDetails);
-			final WebDriverWait waitClass = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byClass = GET_BY.getBy(GetBy.CLASS, valueAlias, value, featureState);
+			final WebDriverWait waitClass = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionClass = ExpectedConditions.elementToBeClickable(byClass);
 			final Thread byClassThread = new Thread(
 				new GetElement(waitClass, conditionClass, failures, retValue, threads));
@@ -103,8 +106,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By bySelector = GET_BY.getBy(GetBy.CSS_SELECTOR, valueAlias, value, threadDetails);
-			final WebDriverWait waitSelector = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By bySelector = GET_BY.getBy(GetBy.CSS_SELECTOR, valueAlias, value, featureState);
+			final WebDriverWait waitSelector = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionSelector =
 				ExpectedConditions.elementToBeClickable(bySelector);
 			final Thread bySelectorThread = new Thread(
@@ -121,25 +124,26 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 	public CompletableFuture<WebElement> getVisibleElementFoundBy(
 			final boolean valueAlias,
 			final String value,
-			final ThreadDetails threadDetails) {
+			final FeatureState featureState) {
 
-		return getVisibleElementFoundBy(valueAlias, value, threadDetails, Constants.WAIT);
+		return getVisibleElementFoundBy(valueAlias, value, featureState, Constants.WAIT);
 	}
 
 	@Override
 	public CompletableFuture<WebElement> getVisibleElementFoundBy(
 			final boolean valueAlias,
 			final String value,
-			final ThreadDetails threadDetails,
+			final FeatureState featureState,
 			final long wait) {
 
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final CompletableFuture<WebElement> retValue = new CompletableFuture<>();
 		final AtomicInteger failures = new AtomicInteger(0);
 		final List<Thread> threads = new CopyOnWriteArrayList<>();
 
 		{
-			final By by = GET_BY.getBy(GetBy.ID, valueAlias, value, threadDetails);
-			final WebDriverWait waitId = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By by = GET_BY.getBy(GetBy.ID, valueAlias, value, featureState);
+			final WebDriverWait waitId = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionId =
 				ExpectedConditions.visibilityOfElementLocated(by);
 			final Thread byIDThread = new Thread(
@@ -148,8 +152,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byXpath = GET_BY.getBy(GetBy.XPATH, valueAlias, value, threadDetails);
-			final WebDriverWait waitXpath = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byXpath = GET_BY.getBy(GetBy.XPATH, valueAlias, value, featureState);
+			final WebDriverWait waitXpath = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionXpath =
 				ExpectedConditions.visibilityOfElementLocated(byXpath);
 			final Thread byXpathThread = new Thread(
@@ -158,8 +162,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byName = GET_BY.getBy(GetBy.NAME, valueAlias, value, threadDetails);
-			final WebDriverWait waitName = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byName = GET_BY.getBy(GetBy.NAME, valueAlias, value, featureState);
+			final WebDriverWait waitName = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionName =
 				ExpectedConditions.visibilityOfElementLocated(byName);
 			final Thread byNameThread = new Thread(
@@ -168,8 +172,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byValue = GET_BY.getBy(GetBy.VALUE, valueAlias, value, threadDetails);
-			final WebDriverWait waitValue = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byValue = GET_BY.getBy(GetBy.VALUE, valueAlias, value, featureState);
+			final WebDriverWait waitValue = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionValue = ExpectedConditions.visibilityOfElementLocated(byValue);
 			final Thread byValueThread = new Thread(
 				new GetElement(waitValue, conditionValue, failures, retValue, threads));
@@ -177,8 +181,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byText = GET_BY.getBy(GetBy.TEXT, valueAlias, value, threadDetails);
-			final WebDriverWait waitText = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byText = GET_BY.getBy(GetBy.TEXT, valueAlias, value, featureState);
+			final WebDriverWait waitText = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionText = ExpectedConditions.visibilityOfElementLocated(byText);
 			final Thread byTextThread = new Thread(
 				new GetElement(waitText, conditionText, failures, retValue, threads));
@@ -186,8 +190,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byClass = GET_BY.getBy(GetBy.CLASS, valueAlias, value, threadDetails);
-			final WebDriverWait waitClass = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byClass = GET_BY.getBy(GetBy.CLASS, valueAlias, value, featureState);
+			final WebDriverWait waitClass = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionClass =
 				ExpectedConditions.visibilityOfElementLocated(byClass);
 			final Thread byClassThread = new Thread(
@@ -196,8 +200,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By bySelector = GET_BY.getBy(GetBy.CSS_SELECTOR, valueAlias, value, threadDetails);
-			final WebDriverWait waitSelector = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By bySelector = GET_BY.getBy(GetBy.CSS_SELECTOR, valueAlias, value, featureState);
+			final WebDriverWait waitSelector = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionSelector =
 				ExpectedConditions.visibilityOfElementLocated(bySelector);
 			final Thread bySelectorThread = new Thread(
@@ -214,23 +218,25 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 	public CompletableFuture<WebElement> getPresenceElementFoundBy(
 			final boolean valueAlias,
 			final String value,
-			final ThreadDetails threadDetails) {
-		return getPresenceElementFoundBy(valueAlias, value, threadDetails, Constants.WAIT);
+			final FeatureState featureState) {
+		return getPresenceElementFoundBy(valueAlias, value, featureState, Constants.WAIT);
 	}
 
 	@Override
 	public CompletableFuture<WebElement> getPresenceElementFoundBy(
 			final boolean valueAlias,
 			final String value,
-			final ThreadDetails threadDetails,
+			final FeatureState featureState,
 			final long wait) {
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final CompletableFuture<WebElement> retValue = new CompletableFuture<>();
 		final AtomicInteger failures = new AtomicInteger(0);
 		final List<Thread> threads = new CopyOnWriteArrayList<>();
 
 		{
-			final By by = GET_BY.getBy(GetBy.ID, valueAlias, value, threadDetails);
-			final WebDriverWait waitId = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By by = GET_BY.getBy(GetBy.ID, valueAlias, value, featureState);
+			final WebDriverWait waitId = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionId =
 				ExpectedConditions.presenceOfElementLocated(by);
 			final Thread byIDThread = new Thread(
@@ -239,8 +245,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byXpath = GET_BY.getBy(GetBy.XPATH, valueAlias, value, threadDetails);
-			final WebDriverWait waitXpath = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byXpath = GET_BY.getBy(GetBy.XPATH, valueAlias, value, featureState);
+			final WebDriverWait waitXpath = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionXpath =
 				ExpectedConditions.presenceOfElementLocated(byXpath);
 			final Thread byXpathThread = new Thread(
@@ -249,8 +255,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byName = GET_BY.getBy(GetBy.NAME, valueAlias, value, threadDetails);
-			final WebDriverWait waitName = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byName = GET_BY.getBy(GetBy.NAME, valueAlias, value, featureState);
+			final WebDriverWait waitName = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionName =
 				ExpectedConditions.presenceOfElementLocated(byName);
 			final Thread byNameThread = new Thread(
@@ -259,8 +265,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byValue = GET_BY.getBy(GetBy.VALUE, valueAlias, value, threadDetails);
-			final WebDriverWait waitValue = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byValue = GET_BY.getBy(GetBy.VALUE, valueAlias, value, featureState);
+			final WebDriverWait waitValue = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionValue = ExpectedConditions.presenceOfElementLocated(byValue);
 			final Thread byValueThread = new Thread(
 				new GetElement(waitValue, conditionValue, failures, retValue, threads));
@@ -268,8 +274,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byText = GET_BY.getBy(GetBy.TEXT, valueAlias, value, threadDetails);
-			final WebDriverWait waitText = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byText = GET_BY.getBy(GetBy.TEXT, valueAlias, value, featureState);
+			final WebDriverWait waitText = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionText = ExpectedConditions.presenceOfElementLocated(byText);
 			final Thread byTextThread = new Thread(
 				new GetElement(waitText, conditionText, failures, retValue, threads));
@@ -277,8 +283,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By byClass = GET_BY.getBy(GetBy.CLASS, valueAlias, value, threadDetails);
-			final WebDriverWait waitClass = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By byClass = GET_BY.getBy(GetBy.CLASS, valueAlias, value, featureState);
+			final WebDriverWait waitClass = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionClass =
 				ExpectedConditions.presenceOfElementLocated(byClass);
 			final Thread byClassThread = new Thread(
@@ -287,8 +293,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		{
-			final By bySelector = GET_BY.getBy(GetBy.CSS_SELECTOR, valueAlias, value, threadDetails);
-			final WebDriverWait waitSelector = new WebDriverWait(threadDetails.getWebDriver(), wait);
+			final By bySelector = GET_BY.getBy(GetBy.CSS_SELECTOR, valueAlias, value, featureState);
+			final WebDriverWait waitSelector = new WebDriverWait(webDriver, wait);
 			final ExpectedCondition<WebElement> conditionSelector =
 				ExpectedConditions.presenceOfElementLocated(bySelector);
 			final Thread bySelectorThread = new Thread(

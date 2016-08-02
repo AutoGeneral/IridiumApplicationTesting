@@ -1,19 +1,18 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-
+import cucumber.api.java.en.When;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cucumber.api.java.en.When;
 
 /**
  * This class contains Gherkin step definitions for working with tabs and windows
@@ -25,7 +24,7 @@ public class TabAndWindowStepDefinition {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -35,9 +34,10 @@ public class TabAndWindowStepDefinition {
 	 */
 	@When("I switch to tab \"(\\d+)\"$")
 	public void switchTabs(final String tabIndex) {
-		List<String> tabs2 = new ArrayList<>(threadDetails.getWebDriver().getWindowHandles());
-		threadDetails.getWebDriver().switchTo().window(tabs2.get(Integer.parseInt(tabIndex)));
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final List<String> tabs2 = new ArrayList<>(webDriver.getWindowHandles());
+		webDriver.switchTo().window(tabs2.get(Integer.parseInt(tabIndex)));
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -45,11 +45,12 @@ public class TabAndWindowStepDefinition {
 	 */
 	@When("I switch to the new window")
 	public void switchWindows() {
-		threadDetails.getWebDriver().getWindowHandles().stream()
-			.filter(e -> !e.equals(threadDetails.getWebDriver().getWindowHandle()))
-			.forEach(e -> threadDetails.getWebDriver().switchTo().window(e));
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		webDriver.getWindowHandles().stream()
+			.filter(e -> !e.equals(webDriver.getWindowHandle()))
+			.forEach(e -> webDriver.switchTo().window(e));
 
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -57,8 +58,9 @@ public class TabAndWindowStepDefinition {
 	 */
 	@When("I maximi(?:s|z)e the window")
 	public void maximiseWindow() {
-		threadDetails.getWebDriver().manage().window().maximize();
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		webDriver.manage().window().maximize();
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -69,7 +71,8 @@ public class TabAndWindowStepDefinition {
 	 */
 	@When("I set the window size to \"(\\d+)x(\\d+)\"")
 	public void setWindowSize(final Integer width, final Integer height) {
-		threadDetails.getWebDriver().manage().window().setPosition(new Point(0, 0));
-		threadDetails.getWebDriver().manage().window().setSize(new Dimension(width, height));
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		webDriver.manage().window().setPosition(new Point(0, 0));
+		webDriver.manage().window().setSize(new Dimension(width, height));
 	}
 }

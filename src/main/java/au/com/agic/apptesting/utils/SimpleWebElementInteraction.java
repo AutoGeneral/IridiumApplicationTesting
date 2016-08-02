@@ -18,13 +18,13 @@ public interface SimpleWebElementInteraction {
 	 *
 	 * @param valueAlias True if the value an alias, false otherwise
 	 * @param value The string used to find the element
-	 * @param threadDetails The current thread's state object
+	 * @param featureState The current thread's state object
 	 * @return A promise that will have the element, or throw an exception
 	 */
 	CompletableFuture<WebElement> getClickableElementFoundBy(
 		final boolean valueAlias,
 		final String value,
-		final ThreadDetails threadDetails);
+		final FeatureState featureState);
 
 	/**
 	 * This method queries the web page for elements that can be found by the supplied value.
@@ -36,14 +36,14 @@ public interface SimpleWebElementInteraction {
 	 *
 	 * @param valueAlias True if the value an alias, false otherwise
 	 * @param value The string used to find the element
-	 * @param threadDetails The current thread's state object
+	 * @param featureState The current thread's state object
 	 * @param wait How long to wait for
 	 * @return A promise that will have the element, or throw an exception
 	 */
 	CompletableFuture<WebElement> getClickableElementFoundBy(
 		final boolean valueAlias,
 		final String value,
-		final ThreadDetails threadDetails,
+		final FeatureState featureState,
 		final long wait);
 
 	/**
@@ -56,13 +56,13 @@ public interface SimpleWebElementInteraction {
 	 *
 	 * @param valueAlias True if the value an alias, false otherwise
 	 * @param value The string used to find the element
-	 * @param threadDetails The current thread's state object
+	 * @param featureState The current thread's state object
 	 * @return A promise that will have the element, or throw an exception
 	 */
 	CompletableFuture<WebElement> getVisibleElementFoundBy(
 		final boolean valueAlias,
 		final String value,
-		final ThreadDetails threadDetails);
+		final FeatureState featureState);
 
 	/**
 	 * This method queries the web page for elements that can be found by the supplied value.
@@ -74,14 +74,14 @@ public interface SimpleWebElementInteraction {
 	 *
 	 * @param valueAlias True if the value an alias, false otherwise
 	 * @param value The string used to find the element
-	 * @param threadDetails The current thread's state object
+	 * @param featureState The current thread's state object
 	 * @param wait How long to wait for
 	 * @return A promise that will have the element, or throw an exception
 	 */
 	CompletableFuture<WebElement> getVisibleElementFoundBy(
 		final boolean valueAlias,
 		final String value,
-		final ThreadDetails threadDetails,
+		final FeatureState featureState,
 		final long wait);
 
 	/**
@@ -94,13 +94,13 @@ public interface SimpleWebElementInteraction {
 	 *
 	 * @param valueAlias True if the value an alias, false otherwise
 	 * @param value The string used to find the element
-	 * @param threadDetails The current thread's state object
+	 * @param featureState The current thread's state object
 	 * @return A promise that will have the element, or throw an exception
 	 */
 	CompletableFuture<WebElement> getPresenceElementFoundBy(
 		final boolean valueAlias,
 		final String value,
-		final ThreadDetails threadDetails);
+		final FeatureState featureState);
 
 	/**
 	 * This method queries the web page for elements that can be found by the supplied value.
@@ -112,13 +112,13 @@ public interface SimpleWebElementInteraction {
 	 *
 	 * @param valueAlias True if the value an alias, false otherwise
 	 * @param value The string used to find the element
-	 * @param threadDetails The current thread's state object
+	 * @param featureState The current thread's state object
 	 * @param wait How long to wait for
 	 * @return A promise that will have the element, or throw an exception
 	 */
 	CompletableFuture<WebElement> getPresenceElementFoundBy(
 		final boolean valueAlias,
 		final String value,
-		final ThreadDetails threadDetails,
+		final FeatureState featureState,
 		final long wait);
 }

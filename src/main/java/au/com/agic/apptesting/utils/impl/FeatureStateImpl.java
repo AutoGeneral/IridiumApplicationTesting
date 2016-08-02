@@ -1,28 +1,20 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
-import au.com.agic.apptesting.utils.ThreadDetails;
-
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.WebDriver;
-import org.zaproxy.clientapi.core.ClientApi;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
+import java.util.*;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Represents the details required by a feature to run
  */
-public class ThreadDetailsImpl implements ThreadDetails {
+public class FeatureStateImpl implements FeatureState {
 
 	/**
 	 * Wait a second between steps by default
@@ -30,29 +22,20 @@ public class ThreadDetailsImpl implements ThreadDetails {
 	private static final int DEFAULT_WAIT_TIME = 1000;
 
 	private final UrlMapping url;
-	private final WebDriver webDriver;
 	private final Map<String, String> dataset = new HashMap<>();
 	private final String reportDirectory;
 	private boolean failed;
 	private List<ProxyDetails<?>> proxies;
 	private long sleep = DEFAULT_WAIT_TIME;
 
-	/**
-	 * The ZAP client api interface
-	 */
-	private ClientApi zapClientApi;
-
-	public ThreadDetailsImpl(
+	public FeatureStateImpl(
 		@NotNull final UrlMapping url,
 		@NotNull final Map<String, String> dataset,
 		@NotNull final String reportDirectory,
-		@NotNull final List<ProxyDetails<?>> proxies,
-		@NotNull final WebDriver webDriver) {
+		@NotNull final List<ProxyDetails<?>> proxies) {
 		checkNotNull(url);
-		checkNotNull(webDriver);
 
 		this.url = url;
-		this.webDriver = webDriver;
 		this.dataset.clear();
 		this.dataset.putAll(dataset);
 		this.reportDirectory = reportDirectory;
@@ -72,11 +55,6 @@ public class ThreadDetailsImpl implements ThreadDetails {
 	@Override
 	public UrlMapping getUrlDetails() {
 		return url;
-	}
-
-	@Override
-	public WebDriver getWebDriver() {
-		return webDriver;
 	}
 
 	@Override

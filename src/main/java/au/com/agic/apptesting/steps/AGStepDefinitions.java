@@ -1,27 +1,21 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.LocalDate;
 
-import cucumber.api.java.en.When;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Steps that are specific to A&G web apps
@@ -33,7 +27,7 @@ public class AGStepDefinitions {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -47,16 +41,17 @@ public class AGStepDefinitions {
 	 */
 	@When("I autoselect the post code of( alias)? \"([^\"]*)\"")
 	public void autoselectPostcode(final String alias, final String postcode) {
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final String postcodeValue = StringUtils.isNotBlank(alias)
-			? threadDetails.getDataSet().get(postcode) : postcode;
+			? featureState.getDataSet().get(postcode) : postcode;
 
-		final By by = GET_BY.getBy("class", false, Constants.POSTCODE_CLASS, threadDetails);
-		final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+		final By by = GET_BY.getBy("class", false, Constants.POSTCODE_CLASS, featureState);
+		final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
 
 		final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
-		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("arguments[0].autoSelectSuburb('" + postcodeValue + "');", element);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -84,24 +79,26 @@ public class AGStepDefinitions {
 
 		try {
 			final String attr = " alias".equals(attributeNameAlias)
-				? threadDetails.getDataSet().get(attributeName) : attributeName;
+				? featureState.getDataSet().get(attributeName) : attributeName;
 			final String value = " alias".equals(attributeValueAlias)
-				? threadDetails.getDataSet().get(attributeValue) : attributeValue;
+				? featureState.getDataSet().get(attributeValue) : attributeValue;
 
 			checkState(attr != null, "the aliased attribute name does not exist");
 			checkState(value != null, "the aliased attribute value does not exist");
+
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
 			LocalDate theDate = LocalDate.now();
 			int today = theDate.getDayOfMonth();
 			int tomorrow = theDate.getDayOfMonth() + 1;
 			int dateValue = "today".equals(value) ? today : tomorrow;
 
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
 			final WebElement element = wait.until(
 				ExpectedConditions.elementToBeClickable(
 					By.cssSelector("[" + attr + "='" + dateValue + "']")));
 			element.click();
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;

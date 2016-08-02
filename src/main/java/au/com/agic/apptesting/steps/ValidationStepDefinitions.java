@@ -1,32 +1,21 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkState;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.HttpResponseException;
 import au.com.agic.apptesting.exception.ValidationException;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.ProxyDetails;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
+import au.com.agic.apptesting.utils.*;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
+import cucumber.api.java.en.Then;
 import net.lightbody.bmp.util.HttpMessageInfo;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -37,7 +26,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
-import cucumber.api.java.en.Then;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Contains Gherkin step definitions for checking the current state of the web page.
@@ -56,7 +45,7 @@ public class ValidationStepDefinitions {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -66,8 +55,9 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^(?:I verify that )?the browser title should be \"([^\"]*)\"$")
 	public void checkBrowserTitleStep(final String browserTitle) {
-		Assert.assertEquals(browserTitle, threadDetails.getWebDriver().getTitle());
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		Assert.assertEquals(browserTitle, webDriver.getTitle());
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -95,10 +85,10 @@ public class ValidationStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(selectorAlias),
 				selectorValue,
-				threadDetails).get();
+				featureState).get();
 
 			final String className = StringUtils.isNotBlank(classAlias)
-				? threadDetails.getDataSet().get(classValue) : classValue;
+				? featureState.getDataSet().get(classValue) : classValue;
 
 			checkState(className != null, "the aliased class name does not exist");
 
@@ -108,7 +98,7 @@ public class ValidationStepDefinitions {
 				.split(element.getAttribute("class"));
 
 			Assert.assertTrue(Iterables.contains(split, className));
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -144,12 +134,13 @@ public class ValidationStepDefinitions {
 				selector,
 				StringUtils.isNotBlank(selectorAlias),
 				selectorValue,
-				threadDetails);
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+				featureState);
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			final String className = " alias".equals(classAlias)
-				? threadDetails.getDataSet().get(classValue) : classValue;
+				? featureState.getDataSet().get(classValue) : classValue;
 
 			checkState(className != null, "the aliased class name does not exist");
 
@@ -159,7 +150,7 @@ public class ValidationStepDefinitions {
 				.split(element.getAttribute("class"));
 
 			Assert.assertTrue(Iterables.contains(split, className));
-			SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -173,7 +164,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("I verify that the alias \"([^\"]*)\" is empty")
 	public void verifyBlank(final String alias) {
-		final String value = threadDetails.getDataSet().get(alias);
+		final String value = featureState.getDataSet().get(alias);
 		Assert.assertTrue(StringUtils.isBlank(value));
 	}
 
@@ -183,7 +174,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("I verify that the alias \"([^\"]*)\" is not empty")
 	public void verifyNotBlank(final String alias) {
-		final String value = threadDetails.getDataSet().get(alias);
+		final String value = featureState.getDataSet().get(alias);
 		Assert.assertTrue(StringUtils.isNotBlank(value));
 	}
 
@@ -193,7 +184,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("I verify that the alias \"([^\"]*)\" is a number")
 	public void verifyIsNumber(final String alias) {
-		final String value = threadDetails.getDataSet().get(alias);
+		final String value = featureState.getDataSet().get(alias);
 		Double.parseDouble(value);
 	}
 
@@ -203,7 +194,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("I verify that the alias \"([^\"]*)\" is not a number")
 	public void verifyIsNotNumber(final String alias) {
-		final String value = threadDetails.getDataSet().get(alias);
+		final String value = featureState.getDataSet().get(alias);
 		try {
 			Double.parseDouble(value);
 		} catch (final NumberFormatException ex) {
@@ -220,7 +211,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("I verify that the alias \"([^\"]*)\" matches the regex \"([^\"]*)\"")
 	public void verifyMatchesRegex(final String alias, final String regex) {
-		final String value = threadDetails.getDataSet().get(alias);
+		final String value = featureState.getDataSet().get(alias);
 		Assert.assertTrue(Pattern.matches(regex, value));
 	}
 
@@ -231,7 +222,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("I verify that the alias \"([^\"]*)\" does not match the regex \"([^\"]*)\"")
 	public void verifyNotMatchesRegex(final String alias, final String regex) {
-		final String value = threadDetails.getDataSet().get(alias);
+		final String value = featureState.getDataSet().get(alias);
 		final Pattern pattern = Pattern.compile(regex);
 		Assert.assertFalse(Pattern.matches(regex, value));
 	}
@@ -243,7 +234,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("I verify that the alias \"([^\"]*)\" is equal to \"([^\"]*)\"")
 	public void verifyIsEqual(final String alias, final String expectedValue) {
-		final String value = threadDetails.getDataSet().get(alias);
+		final String value = featureState.getDataSet().get(alias);
 		Assert.assertEquals(expectedValue, value);
 	}
 
@@ -254,7 +245,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("I verify that the alias \"([^\"]*)\" is not equal to \"([^\"]*)\"")
 	public void verifyIsNotEqual(final String alias, final String expectedValue) {
-		final String value = threadDetails.getDataSet().get(alias);
+		final String value = featureState.getDataSet().get(alias);
 		Assert.assertNotEquals(expectedValue, value);
 	}
 
@@ -266,7 +257,7 @@ public class ValidationStepDefinitions {
 	@Then("I verify that there were no HTTP errors")
 	public void verifyHttpCodes() {
 		final Optional<ProxyDetails<?>> browserMob =
-			threadDetails.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 
 		if (browserMob.isPresent()) {
 			if (browserMob.get().getProperties().containsKey(BrowsermobProxyUtilsImpl.INVALID_REQUESTS)) {
@@ -295,10 +286,11 @@ public class ValidationStepDefinitions {
 	@Then("^I verify that the page contains the text( alias)? \"(.*?)\"")
 	public void verifyPageContent(final String alias, final String text) {
 		final String fixedtext = StringUtils.isNotBlank(alias)
-			? threadDetails.getDataSet().get(text) : text;
+			? featureState.getDataSet().get(text) : text;
 
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final String pageText =
-			threadDetails.getWebDriver().findElement(By.tagName("body")).getText();
+			webDriver.findElement(By.tagName("body")).getText();
 
 		if (!pageText.contains(fixedtext)) {
 			throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");

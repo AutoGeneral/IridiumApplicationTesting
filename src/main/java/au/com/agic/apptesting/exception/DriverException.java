@@ -1,7 +1,8 @@
 package au.com.agic.apptesting.exception;
 
 /**
- * Represents an error extracting the webdriver driver executables
+ * Represents an error extracting the webdriver driver executables, or returning
+ * a web driver for use with the feature.
  */
 public class DriverException extends RuntimeException {
 
