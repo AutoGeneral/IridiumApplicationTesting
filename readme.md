@@ -11,7 +11,7 @@ Some articles on Iridium:
 
 * [CI Testing With Iridium and PhantomJS](https://dzone.com/articles/ci-testing-with-iridium-and-phantomjs)
 
-* [Modifying Network Requests With Iridium] (https://dzone.com/articles/modifying-network-requests-with-iridium)
+* [Modifying Network Requests With Iridium](https://dzone.com/articles/modifying-network-requests-with-iridium)
 
 * [Security Testing With ZAP and Iridium](https://dzone.com/articles/security-testing-with-zap-and-iridium)
 
