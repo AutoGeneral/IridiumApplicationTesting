@@ -210,7 +210,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	public synchronized void shutdown() {
 		for (final WebDriver webdriver : threadIdToDriverMap.values()) {
 			try {
-				if (!leaveWindowsOpen()) {
+				if (!WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
 					webdriver.quit();
 				}
 			} catch (final Exception ignored) {
@@ -240,24 +240,11 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		checkArgument(StringUtils.isNotBlank(name));
 
 		if (threadIdToCapMap.containsKey(name)) {
-			if (!leaveWindowsOpen()) {
+			if (!WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
 				threadIdToDriverMap.get(name).quit();
 			}
 
 			threadIdToCapMap.remove(name);
 		}
-	}
-
-	private boolean leaveWindowsOpen() {
-		final String leaveWindowsOpen =
-			SYSTEM_PROPERTY_UTILS.getProperty(Constants.LEAVE_WINDOWS_OPEN_SYSTEM_PROPERTY);
-		final String browser =
-			SYSTEM_PROPERTY_UTILS.getProperty(Constants.TEST_DESTINATION_SYSTEM_PROPERTY);
-
-		/*
-			We can't leave the window open for headless browsers
-		 */
-		return Boolean.parseBoolean(leaveWindowsOpen)
-			&& !Constants.PHANTOMJS.equalsIgnoreCase(browser);
 	}
 }

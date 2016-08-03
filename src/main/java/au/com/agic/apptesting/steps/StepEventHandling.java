@@ -5,8 +5,10 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
+import au.com.agic.apptesting.utils.WebDriverFactory;
 import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
+import au.com.agic.apptesting.utils.impl.WebDriverFactoryImpl;
 import com.sun.tools.internal.jxc.ap.Const;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -23,6 +25,7 @@ public class StepEventHandling {
 	private static final Logger LOGGER = LoggerFactory.getLogger(StepEventHandling.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final ScreenshotUtils SCREENSHOT_UTILS = new ScreenshotUtilsImpl();
+	private static final WebDriverFactory WEB_DRIVER_FACTORY = new WebDriverFactoryImpl();
 
 	/**
 	 * Get the web driver for this thread
@@ -67,8 +70,11 @@ public class StepEventHandling {
 		final boolean clearDriver =
 			Boolean.parseBoolean(
 				SYSTEM_PROPERTY_UTILS.getProperty(Constants.NEW_BROWSER_PER_SCENARIO));
+
 		if (clearDriver) {
-			State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread().quit();
+			if (!WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
+				State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread().quit();
+			}
 			State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread();
 		}
 	}
