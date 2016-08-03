@@ -70,11 +70,13 @@ public class StepEventHandling {
 			Boolean.parseBoolean(
 				SYSTEM_PROPERTY_UTILS.getProperty(Constants.NEW_BROWSER_PER_SCENARIO));
 
-		if (clearDriver) {
-			if (!WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
-				State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread().quit();
+		synchronized (State.THREAD_DESIRED_CAPABILITY_MAP) {
+			if (clearDriver) {
+				if (!WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
+					State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread().quit();
+				}
+				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread();
 			}
-			State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread();
 		}
 	}
 }

@@ -241,7 +241,9 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
 		if (threadIdToCapMap.containsKey(name)) {
 			if (!WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
-				threadIdToDriverMap.get(name).quit();
+				if (threadIdToDriverMap.containsKey(name)) {
+					threadIdToDriverMap.get(name).quit();
+				}
 			}
 
 			threadIdToCapMap.remove(name);
