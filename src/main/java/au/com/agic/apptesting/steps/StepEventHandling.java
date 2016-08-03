@@ -7,9 +7,11 @@ import au.com.agic.apptesting.utils.ScreenshotUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
+import com.sun.tools.internal.jxc.ap.Const;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +37,12 @@ public class StepEventHandling {
 	 */
 	@Before
 	public void setup() {
-		if (featureState.getFailed()) {
+		final String endAfterFirstError =
+			SYSTEM_PROPERTY_UTILS.getProperty(Constants.FAIL_ALL_AFTER_FIRST_SCENARIO_ERROR);
+		final boolean endAfterFirstErrorBool = StringUtils.isBlank(endAfterFirstError)
+			|| Boolean.parseBoolean(SYSTEM_PROPERTY_UTILS.getProperty(Constants.FAIL_ALL_AFTER_FIRST_SCENARIO_ERROR));
+
+		if (endAfterFirstErrorBool && featureState.getFailed()) {
 			throw new IllegalStateException("Previous scenario failed!");
 		}
 	}

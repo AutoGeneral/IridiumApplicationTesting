@@ -222,7 +222,8 @@ def passThroughProperties = [
         "externalProxyUsername",
         "externalProxyPassword",
         "externalProxyRealm",
-		"newBrowserPerScenario"
+		"newBrowserPerScenario",
+		"failAllAfterFirstScenarioError"
 ]
 
 test {

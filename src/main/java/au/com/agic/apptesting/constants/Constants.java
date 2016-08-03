@@ -13,6 +13,11 @@ public final class Constants {
      */
 	public static final String NEW_BROWSER_PER_SCENARIO = "newBrowserPerScenario";
 	/**
+	 * If set to true, or not set at all, this system property instructs Iridium to fail
+	 * all scenarios after the first error. Otherwise, scenarios will continue independently.
+     */
+	public static final String FAIL_ALL_AFTER_FIRST_SCENARIO_ERROR = "failAllAfterFirstScenarioError";
+	/**
 	 * This system property hold the name of an internal proxy to start before the tests are run
 	 */
 	public static final String START_INTERNAL_PROXY = "startInternalProxy";
