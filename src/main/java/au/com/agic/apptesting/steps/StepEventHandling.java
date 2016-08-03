@@ -1,9 +1,12 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
+import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
+import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -16,6 +19,7 @@ import org.slf4j.LoggerFactory;
 public class StepEventHandling {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StepEventHandling.class);
+	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final ScreenshotUtils SCREENSHOT_UTILS = new ScreenshotUtilsImpl();
 
 	/**
@@ -48,5 +52,17 @@ public class StepEventHandling {
 		}
 
 		featureState.setFailed(scenario.isFailed());
+
+		/*
+			At the end of the scenario, the user may have choosen to destroy the
+			web driver.
+		 */
+		final boolean clearDriver =
+			Boolean.parseBoolean(
+				SYSTEM_PROPERTY_UTILS.getProperty(Constants.NEW_BROWSER_PER_SCENARIO));
+		if (clearDriver) {
+			State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread().quit();
+			State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread();
+		}
 	}
 }

@@ -25,13 +25,13 @@ import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class ThreadWebDriverMapImpl implements ThreadWebDriverMap {
+public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
 	/**
 	 * The end of the URL we use to connect remotely to browserstack
 	 */
 	private static final String URL = "@hub.browserstack.com/wd/hub";
-	private static final Logger LOGGER = LoggerFactory.getLogger(ThreadWebDriverMapImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RemoteThreadWebDriverMapImpl.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final FileProfileAccess<Configuration> PROFILE_ACCESS = new FileProfileAccess<>(
 		SYSTEM_PROPERTY_UTILS.getProperty(Constants.CONFIGURATION),
@@ -80,7 +80,7 @@ public class ThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
 	private String reportDirectory;
 
-	public ThreadWebDriverMapImpl() {
+	public RemoteThreadWebDriverMapImpl() {
 		loadBrowserStackSettings();
 	}
 
@@ -195,6 +195,15 @@ public class ThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		}
 
 		throw new DriverException("Could not find the web driver for the thread " + name);
+	}
+
+	@Override
+	public synchronized void clearWebDriverForThread(@NotNull final String name) {
+		checkArgument(StringUtils.isNotEmpty(name));
+
+		if (threadIdToDriverMap.containsKey(name)) {
+			threadIdToDriverMap.remove(name);
+		}
 	}
 
 	@Override

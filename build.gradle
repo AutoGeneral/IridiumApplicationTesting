@@ -221,7 +221,8 @@ def passThroughProperties = [
         "externalProxyPort",
         "externalProxyUsername",
         "externalProxyPassword",
-        "externalProxyRealm"
+        "externalProxyRealm",
+		"newBrowserPerScenario"
 ]
 
 test {

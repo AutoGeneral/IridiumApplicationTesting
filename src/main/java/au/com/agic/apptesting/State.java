@@ -5,7 +5,7 @@ import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.ThreadWebDriverMap;
 import au.com.agic.apptesting.utils.impl.LocalThreadWebDriverMapImpl;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-import au.com.agic.apptesting.utils.impl.ThreadWebDriverMapImpl;
+import au.com.agic.apptesting.utils.impl.RemoteThreadWebDriverMapImpl;
 
 /**
  * Maintains the state of the system. Threads will call into this state to get their connection
@@ -22,7 +22,7 @@ public final class State {
 		 */
 		THREAD_DESIRED_CAPABILITY_MAP = Constants.REMOTE_TESTS.equalsIgnoreCase(
 			SYSTEM_PROPERTY_UTILS.getProperty(Constants.TEST_DESTINATION_SYSTEM_PROPERTY))
-			? new ThreadWebDriverMapImpl()
+			? new RemoteThreadWebDriverMapImpl()
 			: new LocalThreadWebDriverMapImpl();
 	}
 

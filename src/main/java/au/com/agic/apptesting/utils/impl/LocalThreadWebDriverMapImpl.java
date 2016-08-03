@@ -165,6 +165,15 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	}
 
 	@Override
+	public synchronized void clearWebDriverForThread(@NotNull final String name) {
+		checkArgument(StringUtils.isNotEmpty(name));
+
+		if (threadIdToDriverMap.containsKey(name)) {
+			threadIdToDriverMap.remove(name);
+		}
+	}
+
+	@Override
 	public synchronized int getNumberCapabilities() {
 		if (originalApplicationUrls.isEmpty()) {
 			throw new ConfigurationException("No application URL specified");

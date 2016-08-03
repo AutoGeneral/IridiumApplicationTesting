@@ -8,6 +8,11 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * If this system property is set to true, a new web driver (and therefor a new browser window)
+	 * will be created for every scenario.
+     */
+	public static final String NEW_BROWSER_PER_SCENARIO = "newBrowserPerScenario";
+	/**
 	 * This system property hold the name of an internal proxy to start before the tests are run
 	 */
 	public static final String START_INTERNAL_PROXY = "startInternalProxy";

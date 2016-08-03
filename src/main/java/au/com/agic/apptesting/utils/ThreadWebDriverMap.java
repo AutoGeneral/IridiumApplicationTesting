@@ -66,7 +66,21 @@ public interface ThreadWebDriverMap {
 	/**
 	 *
 	 * @return The web driver for the current thread
+	 */
+	void clearWebDriverForThread(@NotNull final String name);
+
+	/**
+	 *
+	 * Clears the web driver assigned to a thread.
      */
+	default void clearWebDriverForThread() {
+		clearWebDriverForThread(Thread.currentThread().getName());
+	}
+
+	/**
+	 *
+	 * @return The web driver for the current thread
+	 */
 	@NotNull
 	default WebDriver getWebDriverForThread() {
 		return getWebDriverForThread(Thread.currentThread().getName());
