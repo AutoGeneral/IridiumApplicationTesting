@@ -12,6 +12,7 @@ Feature: Open an application
 	And I maximise the window
 	And I wait "30" seconds for the element found by alias "SearchMenu" to be displayed
 	And I click the element found by alias "SearchMenu"
+	And I wait "30" seconds for the element with the ID alias of "SearchMenu" to be displayed
     And I clear the hidden element with the ID alias of "SearchField"
     And I populate the element with the ID alias of "SearchField" with "<search>"
     Examples:
