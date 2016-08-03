@@ -71,10 +71,8 @@ public class StepEventHandling {
 			Boolean.parseBoolean(
 				SYSTEM_PROPERTY_UTILS.getProperty(Constants.NEW_BROWSER_PER_SCENARIO));
 
-		synchronized (State.THREAD_DESIRED_CAPABILITY_MAP) {
-			if (clearDriver) {
-				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
-			}
+		if (clearDriver) {
+			State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
 		}
 	}
 }
