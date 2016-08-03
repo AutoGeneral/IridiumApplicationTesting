@@ -19,13 +19,9 @@
             <property name="javaws.testSource" value="https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/25.driverperscenario/test.feature"/>
             <property name="javaws.importBaseUrl" value=""/>
             <property name="javaws.testDestination" value="FIREFOX"/>
-            <property name="javaws.webdriver.chrome.driver" value=""/>
-            <property name="javaws.webdriver.opera.driver" value=""/>
-            <property name="javaws.phantomjs.binary.path" value=""/>
             <property name="javaws.leaveWindowsOpen" value="false"/>
             <property name="javaws.openReportFile" value="true"/>
             <property name="javaws.saveReportsInHomeDir" value="true"/>
-            <property name="javaws.webdriver.ie.driver" value=""/>
             <property name="javaws.enableVideoCapture" value="false"/>
             <property name="javaws.numberOfThreads" value="1"/>
             <property name="javaws.numberURLs" value="1"/>
