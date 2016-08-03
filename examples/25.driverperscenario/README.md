@@ -1,2 +1,2 @@
-This example shows how Gherkin expamples can be used to repeat a scenario
-across multiple inputs.
+This example shows the settings required to run scenarios as independent
+tests.
