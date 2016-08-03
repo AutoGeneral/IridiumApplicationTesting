@@ -10,6 +10,7 @@ Feature: Open an application
   Scenario Outline: Test the search box
 	And I open the application
 	And I maximise the window
+	And I wait "30" seconds for the element found by "SearchMenu" to be displayed
 	And I click the element found by alias "SearchMenu"
     And I clear the hidden element with the ID alias of "SearchField"
     And I populate the element found by alias "SearchField" with "<search>"
