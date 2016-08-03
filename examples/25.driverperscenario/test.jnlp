@@ -11,6 +11,7 @@
         <j2se version="1.8+" href="http://java.sun.com/products/autodl/j2se"/>
             <property name="jnlp.packEnabled" value="true"/>
 			<porperty name="javaws.newBrowserPerScenario" value="true"/>
+			<property name="javaws.failAllAfterFirstScenarioError" value="false"/>
             <property name="javaws.configuration" value=""/>
             <property name="javaws.dataset" value=""/>
             <property name="javaws.appURLOverride" value="https://dzone.com"/>
