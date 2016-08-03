@@ -187,7 +187,7 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		}
 	}
 
-	public synchronized WebDriver getWebDriverForThread(@NotNull final String name) {
+	public synchronized WebDriver getWebDriverForThread(@NotNull final String name, final boolean createIfMissing) {
 		checkArgument(StringUtils.isNotEmpty(name));
 
 		if (threadIdToDriverMap.containsKey(name)) {

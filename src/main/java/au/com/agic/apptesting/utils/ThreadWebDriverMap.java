@@ -52,10 +52,11 @@ public interface ThreadWebDriverMap {
 	/**
 	 *
 	 * @param name The name of the currently executing thread
+	 * @param  createIfMissing set to true to create a web driver if one doesn't exist
 	 * @return The web driver and url associated with the thread
      */
 	@NotNull
-	WebDriver getWebDriverForThread(@NotNull final String name);
+	WebDriver getWebDriverForThread(@NotNull final String name, final boolean createIfMissing);
 
 	/**
 	 * @return The web driver and url associated with the current thread
@@ -80,12 +81,21 @@ public interface ThreadWebDriverMap {
 	}
 
 	/**
+	 * @param  createIfMissing set to true to create a web driver if one doesn't exist
+	 * @return The web driver for the current thread
+	 */
+	@NotNull
+	default WebDriver getWebDriverForThread(final boolean createIfMissing) {
+		return getWebDriverForThread(Thread.currentThread().getName(), createIfMissing);
+	}
+
+	/**
 	 *
 	 * @return The web driver for the current thread
 	 */
 	@NotNull
 	default WebDriver getWebDriverForThread() {
-		return getWebDriverForThread(Thread.currentThread().getName());
+		return getWebDriverForThread(Thread.currentThread().getName(), true);
 	}
 
 	/**

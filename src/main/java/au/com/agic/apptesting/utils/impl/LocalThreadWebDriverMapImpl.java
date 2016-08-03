@@ -151,17 +151,22 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		return featureState;
 	}
 
-	public synchronized WebDriver getWebDriverForThread(@NotNull final String name) {
+	public synchronized WebDriver getWebDriverForThread(@NotNull final String name, final boolean createIfMissing) {
 		checkArgument(StringUtils.isNotEmpty(name));
 
 		if (threadIdToDriverMap.containsKey(name)) {
 			return threadIdToDriverMap.get(name);
 		}
 
-		final WebDriver webDriver = WEB_DRIVER_FACTORY.createWebDriver(proxies);
-		threadIdToDriverMap.put(name, webDriver);
+		if (createIfMissing) {
 
-		return webDriver;
+			final WebDriver webDriver = WEB_DRIVER_FACTORY.createWebDriver(proxies);
+			threadIdToDriverMap.put(name, webDriver);
+
+			return webDriver;
+		}
+
+		return null;
 	}
 
 	@Override
@@ -246,7 +251,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 				}
 			}
 
-			threadIdToCapMap.remove(name);
+			this.clearWebDriverForThread(name);
 		}
 	}
 }

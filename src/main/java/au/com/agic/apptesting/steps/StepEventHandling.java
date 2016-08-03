@@ -13,6 +13,7 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +74,10 @@ public class StepEventHandling {
 		synchronized (State.THREAD_DESIRED_CAPABILITY_MAP) {
 			if (clearDriver) {
 				if (!WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
-					State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread().quit();
+					final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread(false);
+					if (webDriver != null) {
+						webDriver.quit();
+					}
 				}
 				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread();
 			}
