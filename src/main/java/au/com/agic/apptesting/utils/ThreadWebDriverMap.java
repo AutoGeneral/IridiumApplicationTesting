@@ -67,17 +67,18 @@ public interface ThreadWebDriverMap {
 	}
 
 	/**
-	 *
+	 * @param quitDriver true if the driver should quit before it is cleared
 	 * @return The web driver for the current thread
 	 */
-	void clearWebDriverForThread(@NotNull final String name);
+	void clearWebDriverForThread(@NotNull final String name, final boolean quitDriver);
 
 	/**
 	 *
 	 * Clears the web driver assigned to a thread.
+	 * @param quitDriver true if the driver should quit before it is cleared
      */
-	default void clearWebDriverForThread() {
-		clearWebDriverForThread(Thread.currentThread().getName());
+	default void clearWebDriverForThread(final boolean quitDriver) {
+		clearWebDriverForThread(Thread.currentThread().getName(), quitDriver);
 	}
 
 	/**

@@ -170,10 +170,13 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	}
 
 	@Override
-	public synchronized void clearWebDriverForThread(@NotNull final String name) {
+	public synchronized void clearWebDriverForThread(@NotNull final String name, final boolean quitDriver) {
 		checkArgument(StringUtils.isNotEmpty(name));
 
 		if (threadIdToDriverMap.containsKey(name)) {
+			if (quitDriver) {
+				threadIdToDriverMap.get(name).quit();
+			}
 			threadIdToDriverMap.remove(name);
 		}
 	}
@@ -245,13 +248,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		checkArgument(StringUtils.isNotBlank(name));
 
 		if (threadIdToCapMap.containsKey(name)) {
-			if (!WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
-				if (threadIdToDriverMap.containsKey(name)) {
-					threadIdToDriverMap.get(name).quit();
-				}
-			}
-
-			this.clearWebDriverForThread(name);
+			this.clearWebDriverForThread(name, !WEB_DRIVER_FACTORY.leaveWindowsOpen());
 		}
 	}
 }

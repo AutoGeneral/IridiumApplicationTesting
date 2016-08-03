@@ -198,10 +198,13 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	}
 
 	@Override
-	public synchronized void clearWebDriverForThread(@NotNull final String name) {
+	public synchronized void clearWebDriverForThread(@NotNull final String name, final boolean quitDriver) {
 		checkArgument(StringUtils.isNotEmpty(name));
 
 		if (threadIdToDriverMap.containsKey(name)) {
+			if (quitDriver) {
+				threadIdToDriverMap.get(name).quit();
+			}
 			threadIdToDriverMap.remove(name);
 		}
 	}

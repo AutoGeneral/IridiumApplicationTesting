@@ -73,13 +73,7 @@ public class StepEventHandling {
 
 		synchronized (State.THREAD_DESIRED_CAPABILITY_MAP) {
 			if (clearDriver) {
-				if (!WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
-					final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread(false);
-					if (webDriver != null) {
-						webDriver.quit();
-					}
-				}
-				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread();
+				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
 			}
 		}
 	}
