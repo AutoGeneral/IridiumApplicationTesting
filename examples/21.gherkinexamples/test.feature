@@ -16,7 +16,7 @@ Feature: Open an application
 
   Scenario Outline: Test the search box
     And I clear the hidden element with the ID alias of "SearchField"
-    And I populate the element found by alias "SearchField" with "<search>"
+    And I populate the element with the ID alias of "SearchField" with "<search>"
 
     Examples:
       | search |
