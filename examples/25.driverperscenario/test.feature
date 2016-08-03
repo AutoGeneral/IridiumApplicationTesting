@@ -13,7 +13,7 @@ Feature: Open an application
 	And I wait "30" seconds for the element found by alias "SearchMenu" to be displayed
 	And I click the element found by alias "SearchMenu"
     And I clear the hidden element with the ID alias of "SearchField"
-    And I populate the element with the ID of alias "SearchField" with "<search>"
+    And I populate the element with the ID alias of "SearchField" with "<search>"
     Examples:
       | search |
       | Java   |
