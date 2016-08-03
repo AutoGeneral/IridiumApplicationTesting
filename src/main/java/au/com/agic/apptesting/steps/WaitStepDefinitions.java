@@ -16,6 +16,8 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutionException;
 
@@ -29,6 +31,7 @@ import static com.google.common.base.Preconditions.checkState;
  */
 public class WaitStepDefinitions {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(WaitStepDefinitions.class);
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
 	private static final GetBy GET_BY = new GetByImpl();
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
@@ -81,7 +84,7 @@ public class WaitStepDefinitions {
 				selectorValue,
 				featureState,
 				Long.parseLong(waitDuration)).get();
-		} catch (final WebElementException ex) {
+		} catch (final Exception ex) {
 			/*
 				Rethrow if we have not ignored errors
 			 */

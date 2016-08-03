@@ -229,6 +229,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
         /*
             Clear the map
          */
+		threadIdToDriverMap.clear();
 		threadIdToCapMap.clear();
 
 		/*

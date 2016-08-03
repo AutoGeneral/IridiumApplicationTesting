@@ -4,8 +4,8 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.ThreadWebDriverMap;
 import au.com.agic.apptesting.utils.impl.LocalThreadWebDriverMapImpl;
-import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.RemoteThreadWebDriverMapImpl;
+import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 
 /**
  * Maintains the state of the system. Threads will call into this state to get their connection

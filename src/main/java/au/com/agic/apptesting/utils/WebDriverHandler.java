@@ -1,8 +1,5 @@
 package au.com.agic.apptesting.utils;
 
-import au.com.agic.apptesting.constants.Constants;
-import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.List;
