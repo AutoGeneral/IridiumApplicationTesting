@@ -9,7 +9,6 @@ import au.com.agic.apptesting.utils.WebDriverFactory;
 import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.WebDriverFactoryImpl;
-import com.sun.tools.internal.jxc.ap.Const;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
