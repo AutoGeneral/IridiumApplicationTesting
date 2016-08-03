@@ -71,7 +71,11 @@ public class StepEventHandling {
 				SYSTEM_PROPERTY_UTILS.getProperty(Constants.NEW_BROWSER_PER_SCENARIO));
 
 		if (clearDriver) {
-			State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
+			if (WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
+				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(false);
+			} else {
+				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
+			}
 		}
 	}
 }
