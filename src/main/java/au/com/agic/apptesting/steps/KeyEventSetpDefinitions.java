@@ -150,7 +150,7 @@ public class KeyEventSetpDefinitions {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
-			featureState).get();
+			featureState);
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -200,7 +200,7 @@ public class KeyEventSetpDefinitions {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
-			featureState).get();
+			featureState);
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keypress\"));", element);
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
@@ -248,7 +248,7 @@ public class KeyEventSetpDefinitions {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
-			featureState).get();
+			featureState);
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keydown\"));", element);
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());

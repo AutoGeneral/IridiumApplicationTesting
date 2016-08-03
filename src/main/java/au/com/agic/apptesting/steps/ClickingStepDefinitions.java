@@ -65,7 +65,7 @@ public class ClickingStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState).get();
+				featureState);
 
 			/*
 				Account for PhantomJS issues clicking certain types of elements
@@ -160,7 +160,7 @@ public class ClickingStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState).get();
+				featureState);
 
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 

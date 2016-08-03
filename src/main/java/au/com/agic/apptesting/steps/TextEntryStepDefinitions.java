@@ -67,7 +67,7 @@ public class TextEntryStepDefinitions {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
-			featureState).get();
+			featureState);
 		element.clear();
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
@@ -109,7 +109,7 @@ public class TextEntryStepDefinitions {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
-			featureState).get();
+			featureState);
 
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("arguments[0].value='';", element);
@@ -165,7 +165,7 @@ public class TextEntryStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState).get();
+				featureState);
 
 			// Simulate key presses
 			final String value = " alias".equals(contentAlias)
@@ -279,7 +279,7 @@ public class TextEntryStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState).get();
+				featureState);
 
 			/*
 				See if the element is blank, or contains only underscores (as you might find in
@@ -417,7 +417,7 @@ public class TextEntryStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState).get();
+				featureState);
 
 			final String startValue = " alias".equals(randomStartAlias)
 				? featureState.getDataSet().get(randomStart) : randomStart;
@@ -550,7 +550,7 @@ public class TextEntryStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState).get();
+				featureState);
 
 			final String textValue = " alias".equals(contentAlias)
 				? featureState.getDataSet().get(content) : content;

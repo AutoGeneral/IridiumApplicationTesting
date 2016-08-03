@@ -85,7 +85,7 @@ public class ValidationStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(selectorAlias),
 				selectorValue,
-				featureState).get();
+				featureState);
 
 			final String className = StringUtils.isNotBlank(classAlias)
 				? featureState.getDataSet().get(classValue) : classValue;

@@ -83,7 +83,7 @@ public class WaitStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState,
-				Long.parseLong(waitDuration)).get();
+				Long.parseLong(waitDuration));
 		} catch (final Exception ex) {
 			/*
 				Rethrow if we have not ignored errors
@@ -162,7 +162,7 @@ public class WaitStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState,
-				Long.parseLong(waitDuration)).get();
+				Long.parseLong(waitDuration));
 		} catch (final WebElementException ex) {
 			/*
 				Rethrow if we have not ignored errors
@@ -242,7 +242,7 @@ public class WaitStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState,
-				Long.parseLong(waitDuration)).get();
+				Long.parseLong(waitDuration));
 		} catch (final WebElementException ex) {
 			/*
 				Rethrow if we have not ignored errors

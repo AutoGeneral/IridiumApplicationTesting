@@ -61,7 +61,7 @@ public class MouseEventStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState).get();
+				featureState);
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			/*

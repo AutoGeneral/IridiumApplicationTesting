@@ -73,7 +73,7 @@ public class DropDownStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState).get();
+				featureState);
 
 			final Select select = new Select(element);
 			select.selectByVisibleText(selection);
@@ -166,7 +166,7 @@ public class DropDownStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState).get();
+				featureState);
 
 			final Select select = new Select(element);
 			select.selectByIndex(Integer.parseInt(selection));

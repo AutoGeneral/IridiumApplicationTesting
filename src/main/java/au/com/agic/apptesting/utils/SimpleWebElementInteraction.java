@@ -21,7 +21,7 @@ public interface SimpleWebElementInteraction {
 	 * @param featureState The current thread's state object
 	 * @return A promise that will have the element, or throw an exception
 	 */
-	CompletableFuture<WebElement> getClickableElementFoundBy(
+	WebElement getClickableElementFoundBy(
 		final boolean valueAlias,
 		final String value,
 		final FeatureState featureState);
@@ -40,7 +40,7 @@ public interface SimpleWebElementInteraction {
 	 * @param wait How long to wait for
 	 * @return A promise that will have the element, or throw an exception
 	 */
-	CompletableFuture<WebElement> getClickableElementFoundBy(
+	WebElement getClickableElementFoundBy(
 		final boolean valueAlias,
 		final String value,
 		final FeatureState featureState,
@@ -59,7 +59,7 @@ public interface SimpleWebElementInteraction {
 	 * @param featureState The current thread's state object
 	 * @return A promise that will have the element, or throw an exception
 	 */
-	CompletableFuture<WebElement> getVisibleElementFoundBy(
+	WebElement getVisibleElementFoundBy(
 		final boolean valueAlias,
 		final String value,
 		final FeatureState featureState);
@@ -78,7 +78,7 @@ public interface SimpleWebElementInteraction {
 	 * @param wait How long to wait for
 	 * @return A promise that will have the element, or throw an exception
 	 */
-	CompletableFuture<WebElement> getVisibleElementFoundBy(
+	WebElement getVisibleElementFoundBy(
 		final boolean valueAlias,
 		final String value,
 		final FeatureState featureState,
@@ -97,7 +97,7 @@ public interface SimpleWebElementInteraction {
 	 * @param featureState The current thread's state object
 	 * @return A promise that will have the element, or throw an exception
 	 */
-	CompletableFuture<WebElement> getPresenceElementFoundBy(
+	WebElement getPresenceElementFoundBy(
 		final boolean valueAlias,
 		final String value,
 		final FeatureState featureState);
@@ -116,7 +116,7 @@ public interface SimpleWebElementInteraction {
 	 * @param wait How long to wait for
 	 * @return A promise that will have the element, or throw an exception
 	 */
-	CompletableFuture<WebElement> getPresenceElementFoundBy(
+	WebElement getPresenceElementFoundBy(
 		final boolean valueAlias,
 		final String value,
 		final FeatureState featureState,

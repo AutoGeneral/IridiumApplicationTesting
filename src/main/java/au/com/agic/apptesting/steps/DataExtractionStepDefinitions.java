@@ -111,7 +111,7 @@ public class DataExtractionStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState).get();
+				featureState);
 
 			final Map<String, String> dataSet = featureState.getDataSet();
 			dataSet.put(destinationAlias, element.getAttribute(attribute));
@@ -192,7 +192,7 @@ public class DataExtractionStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState).get();
+				featureState);
 
 			final Map<String, String> dataSet = featureState.getDataSet();
 			dataSet.put(destinationAlias, element.getText());
@@ -272,7 +272,7 @@ public class DataExtractionStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState).get();
+				featureState);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
