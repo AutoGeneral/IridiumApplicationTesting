@@ -9,6 +9,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
@@ -28,6 +30,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(LocalThreadWebDriverMapImpl.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final WebDriverFactory WEB_DRIVER_FACTORY = new WebDriverFactoryImpl();
 
@@ -159,7 +162,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		}
 
 		if (createIfMissing) {
-
+			LOGGER.info("WEBAPPTESTER-INFO-0006: Creating WebDriver");
 			final WebDriver webDriver = WEB_DRIVER_FACTORY.createWebDriver(proxies);
 			threadIdToDriverMap.put(name, webDriver);
 
@@ -175,6 +178,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
 		if (threadIdToDriverMap.containsKey(name)) {
 			if (quitDriver) {
+				LOGGER.info("WEBAPPTESTER-INFO-0007: Quitting WebDriver");
 				threadIdToDriverMap.get(name).quit();
 			}
 			threadIdToDriverMap.remove(name);
