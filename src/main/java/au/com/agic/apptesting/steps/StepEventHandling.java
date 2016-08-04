@@ -42,7 +42,7 @@ public class StepEventHandling {
 		final String endAfterFirstError =
 			SYSTEM_PROPERTY_UTILS.getProperty(Constants.FAIL_ALL_AFTER_FIRST_SCENARIO_ERROR);
 		final boolean endAfterFirstErrorBool = StringUtils.isBlank(endAfterFirstError)
-			|| Boolean.parseBoolean(SYSTEM_PROPERTY_UTILS.getProperty(Constants.FAIL_ALL_AFTER_FIRST_SCENARIO_ERROR));
+			|| Boolean.parseBoolean(endAfterFirstError);
 
 		if (endAfterFirstErrorBool && featureState.getFailed()) {
 			throw new IllegalStateException("Previous scenario failed!");
@@ -56,19 +56,12 @@ public class StepEventHandling {
 	 */
 	@After
 	public void teardown(final Scenario scenario) {
-		if (!featureState.getFailed()) {
-			SCREENSHOT_UTILS.takeScreenshot(" " + scenario.getName(), featureState);
-		}
-
-		featureState.setFailed(scenario.isFailed());
-
 		/*
-			At the end of the scenario, the user may have choosen to destroy the
+			At the end of the scenario, the user may have chosen to destroy the
 			web driver.
 		 */
-		final boolean clearDriver =
-			Boolean.parseBoolean(
-				SYSTEM_PROPERTY_UTILS.getProperty(Constants.NEW_BROWSER_PER_SCENARIO));
+		final String newDriverPerScenario = SYSTEM_PROPERTY_UTILS.getProperty(Constants.NEW_BROWSER_PER_SCENARIO);
+		final boolean clearDriver = Boolean.parseBoolean(newDriverPerScenario);
 
 		if (clearDriver) {
 			if (WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
@@ -77,5 +70,14 @@ public class StepEventHandling {
 				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
 			}
 		}
+
+		/*
+			Take a screenshot
+		 */
+		if (!featureState.getFailed()) {
+			SCREENSHOT_UTILS.takeScreenshot(" " + scenario.getName(), featureState);
+		}
+
+		featureState.setFailed(scenario.isFailed());
 	}
 }

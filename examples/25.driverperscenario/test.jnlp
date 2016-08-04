@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="1.0+" codebase="https://s3-ap-southeast-2.amazonaws.com/ag-iridium/">
+<jnlp spec="1.0+" codebase="http://127.0.0.1:9000">
     <information>
         <title>Iridium Web Application Tester</title>
         <vendor>Auto and General</vendor>
@@ -10,7 +10,7 @@
         <!-- Application Resources -->
         <j2se version="1.8+" href="http://java.sun.com/products/autodl/j2se"/>
             <property name="jnlp.packEnabled" value="true"/>
-			<porperty name="javaws.newBrowserPerScenario" value="true"/>
+			<property name="javaws.newBrowserPerScenario" value="true"/>
 			<property name="javaws.failAllAfterFirstScenarioError" value="false"/>
             <property name="javaws.configuration" value=""/>
             <property name="javaws.dataset" value=""/>
@@ -30,8 +30,8 @@
             <property name="javaws.tagsOverride" value=""/>
             <property name="javaws.phantomJSLoggingLevel" value="NONE"/>
             <property name="javaws.startInternalProxy" value=""/>
-            <property name="jnlp.versionEnabled" value="true"/>
-            <jar href="webapptesting-signed.jar" main="true" version="0.0.14" />
+            <property name="jnlp.versionEnabled" value="false"/>
+            <jar href="webapptesting-signed.jar" main="true"  />
     </resources>
     <application-desc
         name="Web Application tester"

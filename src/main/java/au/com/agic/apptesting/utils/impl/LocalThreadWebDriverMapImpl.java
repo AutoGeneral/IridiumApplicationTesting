@@ -252,8 +252,6 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	public synchronized void shutdown(@NotNull final String name) {
 		checkArgument(StringUtils.isNotBlank(name));
 
-		if (threadIdToCapMap.containsKey(name)) {
-			this.clearWebDriverForThread(name, !WEB_DRIVER_FACTORY.leaveWindowsOpen());
-		}
+		this.clearWebDriverForThread(name, !WEB_DRIVER_FACTORY.leaveWindowsOpen());
 	}
 }
