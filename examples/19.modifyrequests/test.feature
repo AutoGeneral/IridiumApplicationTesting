@@ -50,6 +50,6 @@ Feature: Open an application
 		And I click the hidden link with the text content of "Learn Microservices in Java"
 		And I go back
 		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
-		And I click the hidden link with the text content of "Learn Scrum"
+		And I click the hidden link with the text content of "Swift Essentials"
 		And I go back
 		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
