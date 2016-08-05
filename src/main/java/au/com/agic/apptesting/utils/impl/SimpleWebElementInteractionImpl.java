@@ -67,11 +67,12 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 
 		while (time < waitTime * MILLIS_IN_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
-				final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
-				final WebDriverWait wait = new WebDriverWait(webDriver, 0, TIME_SLICE);
-				final ExpectedCondition<WebElement> condition =
-					ExpectedConditions.elementToBeClickable(by);
 				try {
+					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
+					final WebDriverWait wait = new WebDriverWait(webDriver, 0, TIME_SLICE);
+					final ExpectedCondition<WebElement> condition =
+						ExpectedConditions.elementToBeClickable(by);
+
 					final WebElement element = wait.until(condition);
 					return element;
 				} catch (final Exception ignored) {
@@ -108,11 +109,12 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 
 		while (time < waitTime * MILLIS_IN_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
-				final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
-				final WebDriverWait wait = new WebDriverWait(webDriver, 0, TIME_SLICE);
-				final ExpectedCondition<WebElement> condition =
-					ExpectedConditions.visibilityOfElementLocated(by);
 				try {
+					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
+					final WebDriverWait wait = new WebDriverWait(webDriver, 0, TIME_SLICE);
+					final ExpectedCondition<WebElement> condition =
+						ExpectedConditions.visibilityOfElementLocated(by);
+
 					final WebElement element = wait.until(condition);
 					return element;
 				} catch (final Exception ignored) {
@@ -149,11 +151,12 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 
 		while (time < waitTime * MILLIS_IN_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
-				final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
-				final WebDriverWait wait = new WebDriverWait(webDriver, 0, TIME_SLICE);
-				final ExpectedCondition<WebElement> condition =
-					ExpectedConditions.presenceOfElementLocated(by);
 				try {
+					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
+					final WebDriverWait wait = new WebDriverWait(webDriver, 0, TIME_SLICE);
+					final ExpectedCondition<WebElement> condition =
+						ExpectedConditions.presenceOfElementLocated(by);
+
 					final WebElement element = wait.until(condition);
 					return element;
 				} catch (final Exception ignored) {
