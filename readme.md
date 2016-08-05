@@ -28,3 +28,5 @@ Some articles on Iridium:
 * [Sharing Scenarios in Iridium Test Scripts](https://dzone.com/articles/sharing-scenarios-in-iridium-test-scripts)
 
 * [Why You May Not Need (or Even Want) to Use Page Objects With Your Webdriver Tests](https://dzone.com/articles/why-you-may-not-need-or-even-want-to-use-page-obje)
+
+* [Are Cucumber Features and Scenarios to Be Taken Literally?](https://dzone.com/articles/do-you-need-to-take-a-literal-view-of-features-and)
