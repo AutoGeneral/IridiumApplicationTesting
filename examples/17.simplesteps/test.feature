@@ -11,7 +11,7 @@ Feature: Open an application
 
  	# Open up the web page
   	Scenario: Launch App
-		And I set the default wait time between steps to "2"
+		And I set the default wait time between steps to "5"
 		And I open the application
 		And I maximise the window
 
