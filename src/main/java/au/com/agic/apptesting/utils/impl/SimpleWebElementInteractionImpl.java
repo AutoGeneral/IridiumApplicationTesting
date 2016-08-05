@@ -35,7 +35,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 	 * each of the different element location methods in short time slices to emulate
 	 * a parallel search.
      */
-	private static final int TIME_SLICE = 100;
+	private static final int TIME_SLICE = 1;
 	private static final int MILLIS_IN_SECOND = 1000;
 	private static final List<String> LOCATION_METHODS = Arrays.asList(
 		GetBy.ID,
@@ -69,7 +69,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWait wait = new WebDriverWait(webDriver, 0, TIME_SLICE);
+					final WebDriverWait wait = new WebDriverWait(webDriver, TIME_SLICE);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.elementToBeClickable(by);
 
@@ -111,7 +111,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWait wait = new WebDriverWait(webDriver, 0, TIME_SLICE);
+					final WebDriverWait wait = new WebDriverWait(webDriver, TIME_SLICE);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.visibilityOfElementLocated(by);
 
@@ -153,7 +153,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWait wait = new WebDriverWait(webDriver, 0, TIME_SLICE);
+					final WebDriverWait wait = new WebDriverWait(webDriver, TIME_SLICE);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.presenceOfElementLocated(by);
 
