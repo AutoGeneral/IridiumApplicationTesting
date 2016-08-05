@@ -46,10 +46,10 @@ Feature: Open an application
 		# we use a special step to click these "hidden" links
 		And I click the hidden link with the text content of "Learn Swift"
 		And I go back
-		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
+		And I wait "30" seconds for the element found by "Learn Microservices in Java" to be displayed
 		And I click the hidden link with the text content of "Learn Microservices in Java"
 		And I go back
-		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
+		And I wait "30" seconds for the element found by "Learn Swift" to be displayed
 		And I click the hidden link with the text content of "Learn Swift"
 		And I go back
 		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
