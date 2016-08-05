@@ -74,7 +74,7 @@ public class ProxyStepDefinitions {
 	 *
 	 * @param response      The response code for all whitelisted urls
 	 */
-	@When("^I enable the whitelist with response \"(\\d+)\"$")
+	@When("^I enable the whitelist with responding with \"(\\d+)\" for unmatched requests$")
 	public void enableWhitelist(final Integer response) {
 		final Optional<ProxyDetails<?>> proxy =
 			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
