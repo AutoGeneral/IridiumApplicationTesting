@@ -70,6 +70,21 @@ public class ProxyStepDefinitions {
 	}
 
 	/**
+	 * Allow access to all urls that match the regex
+	 *
+	 * @param url      A regular expression that matches URLs to be allowed
+	 */
+	@When("^I allow access to the URL regex \"(.*?)\"$")
+	public void allowUrl(final String url) {
+		final Optional<ProxyDetails<?>> proxy =
+			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+		if (proxy.isPresent()) {
+			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
+			browserMobProxy.addWhitelistPattern(url);
+		}
+	}
+
+	/**
 	 * Apps like life express will often include AWSELB cookies from both the root "/" context and the
 	 * application "/life-express" context. Supplying both cookies means that requests are sent to a EC2
 	 * instance that didn't generate the initial session, and so the request fails. This step allows us to
