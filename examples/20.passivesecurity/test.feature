@@ -13,10 +13,11 @@ Feature: Open an application
   	Scenario: Launch App
 		Given a scanner with all policies enabled
 		And I set the default wait time between steps to "5"
-		# Speed up tests by blocking thumbnails
+   # Allow all traffic to the main domain
+		And I enable the whitelist with responding with "500" for unmatched requests
+		And I allow access to the URL regex ".*?dzone.*"
+	  # Speed up tests by blocking thumbnails
 		And I block access to the URL regex ".*?thumbnail.*" with response "500"
-	 	# Remove some tracking sites
-		And I block access to the URL regex ".*?adnsx.*" with response "500"
 		And I open the application
 		And I maximise the window
 
