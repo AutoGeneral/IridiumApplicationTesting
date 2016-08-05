@@ -13,6 +13,7 @@ Feature: Open an application
   	Scenario: Launch App
 		And I set the default wait time between steps to "5"
 		# Allow all traffic to the main domain
+		And I enable the whitelist with response "200"
 		And I allow access to the URL regex ".*?dzone.*"
    		# Speed up tests by blocking thumbnails
 		And I block access to the URL regex ".*?thumbnail.*" with response "500"

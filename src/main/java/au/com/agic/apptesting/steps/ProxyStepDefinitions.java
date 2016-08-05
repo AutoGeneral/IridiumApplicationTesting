@@ -72,6 +72,21 @@ public class ProxyStepDefinitions {
 	/**
 	 * Allow access to all urls that match the regex
 	 *
+	 * @param response      The response code for all whitelisted urls
+	 */
+	@When("^I enable the whitelist with response \"(\\d+)\"$")
+	public void enableWhitelist(final Integer response) {
+		final Optional<ProxyDetails<?>> proxy =
+			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+		if (proxy.isPresent()) {
+			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
+			browserMobProxy.enableEmptyWhitelist(response);
+		}
+	}
+
+	/**
+	 * Allow access to all urls that match the regex
+	 *
 	 * @param url      A regular expression that matches URLs to be allowed
 	 */
 	@When("^I allow access to the URL regex \"(.*?)\"$")
