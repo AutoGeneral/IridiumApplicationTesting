@@ -36,7 +36,6 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 	 * a parallel search.
      */
 	private static final int TIME_SLICE = 1;
-	private static final int MILLIS_IN_SECOND = 1000;
 	private static final List<String> LOCATION_METHODS = Arrays.asList(
 		GetBy.ID,
 		GetBy.CLASS,
@@ -65,7 +64,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
-		while (time < waitTime * MILLIS_IN_SECOND) {
+		while (time < waitTime) {
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
@@ -107,7 +106,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
-		while (time < waitTime * MILLIS_IN_SECOND) {
+		while (time < waitTime) {
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
@@ -149,7 +148,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
-		while (time < waitTime * MILLIS_IN_SECOND) {
+		while (time < waitTime) {
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
