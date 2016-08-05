@@ -50,7 +50,7 @@ public class GetByImpl implements GetBy {
 
 		if (TEXT.equals(selector)) {
 			final String escaped = fixedValue.replaceAll("'", "''");
-			return By.xpath("//*[text()='" + escaped + "')");
+			return By.xpath("//*[text()='" + escaped + "']");
 		}
 
 		throw new InvalidInputException("Unexpected selector");
