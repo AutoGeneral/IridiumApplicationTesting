@@ -135,8 +135,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 				Give the dev servers a large timeout
 			 */
 			retValue.manage().timeouts()
-				.pageLoadTimeout(PHNATOMJS_TIMEOUTS, TimeUnit.SECONDS)
-				.implicitlyWait(PHNATOMJS_TIMEOUTS, TimeUnit.SECONDS);
+				.pageLoadTimeout(PHNATOMJS_TIMEOUTS, TimeUnit.SECONDS);
 
 			return retValue;
 		}
