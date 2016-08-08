@@ -5,9 +5,6 @@ Feature: Open an application
 	Scenario: Generate Page Object
 		Given the alias mappings
 			| HomeLink 			| //*[@id="ng-app"]/body/div[1]/div/div/div[1]/div/div[1]/div/a			|
-			| NoProfileImage 	| //*[@id="ng-app"]/body/div[1]/div/div/div[1]/div/div[2]/div[3]/i 		|
-			| ProfileImage 		| //*[@id="ng-app"]/body/div[1]/div/div/div[1]/div/div[2]/div[3]/img 	|
-			| LoginBackground 	| ngdialog-overlay			                                      		|
 
  	# Open up the web page
   	Scenario: Launch App
