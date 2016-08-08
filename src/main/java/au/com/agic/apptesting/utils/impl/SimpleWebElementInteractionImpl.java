@@ -11,18 +11,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import au.com.agic.apptesting.webdriver.WebDriverWaitEx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation of the SimpleWebElementInteraction service
@@ -35,7 +30,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 	 * each of the different element location methods in short time slices to emulate
 	 * a parallel search.
      */
-	private static final int TIME_SLICE = 1;
+	private static final int TIME_SLICE = 100;
+	private static final int MILLISECONDS_PER_SECOND = 1000;
 	private static final List<String> LOCATION_METHODS = Arrays.asList(
 		GetBy.ID,
 		GetBy.CLASS,
@@ -64,11 +60,11 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
-		while (time < waitTime) {
+		while (time < waitTime * MILLISECONDS_PER_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWait wait = new WebDriverWait(webDriver, TIME_SLICE);
+					final WebDriverWaitEx wait = new WebDriverWaitEx(webDriver, TIME_SLICE, TimeUnit.MILLISECONDS);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.elementToBeClickable(by);
 
@@ -106,11 +102,11 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
-		while (time < waitTime) {
+		while (time < waitTime * MILLISECONDS_PER_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWait wait = new WebDriverWait(webDriver, TIME_SLICE);
+					final WebDriverWaitEx wait = new WebDriverWaitEx(webDriver, TIME_SLICE, TimeUnit.MILLISECONDS);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.visibilityOfElementLocated(by);
 
@@ -148,11 +144,11 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
-		while (time < waitTime) {
+		while (time < waitTime * MILLISECONDS_PER_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWait wait = new WebDriverWait(webDriver, TIME_SLICE);
+					final WebDriverWaitEx wait = new WebDriverWaitEx(webDriver, TIME_SLICE, TimeUnit.MILLISECONDS);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.presenceOfElementLocated(by);
 
