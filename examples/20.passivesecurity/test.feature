@@ -16,7 +16,7 @@ Feature: Open an application
    # Allow all traffic to the main domain
 		And I enable the whitelist with responding with "500" for unmatched requests
 		And I allow access to the URL regex ".*?dzone.*"
-	  # Speed up tests by blocking thumbnails
+	    # Speed up tests by blocking thumbnails
 		And I block access to the URL regex ".*?thumbnail.*" with response "500"
 		And I open the application
 		And I maximise the window
@@ -26,6 +26,7 @@ Feature: Open an application
 		# Click on an element referencing the aliased xpath we set above
 		And I wait "30" seconds for the element found by alias "NoProfileImage" to be displayed
 		And I click the element found by alias "NoProfileImage"
+		And I take a screenshot
 	 	# Click on an element referencing the aliased class name we set above
 		And I wait "30" seconds for the element found by alias "LoginBackground" to be displayed
 		And I click the element found by alias "LoginBackground"
