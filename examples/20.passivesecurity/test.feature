@@ -21,16 +21,6 @@ Feature: Open an application
 		And I open the application
 		And I maximise the window
 
-	# Open the login dialog and close it again
-	Scenario: Open Profile
-		# Click on an element referencing the aliased xpath we set above
-		And I wait "30" seconds for the element found by alias "NoProfileImage" to be displayed
-		And I click the element found by alias "NoProfileImage"
-		And I take a screenshot
-	 	# Click on an element referencing the aliased class name we set above
-		And I wait "30" seconds for the element found by alias "LoginBackground" to be displayed
-		And I click the element found by alias "LoginBackground"
-
 	Scenario: Navigate the main links
 		And I click the link with the text content of "REFCARDZ"
 		And I click the link with the text content of "GUIDES"
