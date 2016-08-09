@@ -24,6 +24,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static au.com.agic.apptesting.constants.Constants.PHANTOMJS_LOGGING_LEVEL_SYSTEM_PROPERTY;
+import static au.com.agic.apptesting.constants.Constants.PHANTON_JS_USER_AGENT_SYSTEM_PROPERTY;
 
 /**
  * An implementation of the web driver factory
@@ -121,6 +122,16 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 				"--ignore-ssl-errors=true",
 				"--webdriver-loglevel=" + loggingLevel};
 			capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, cliArgs);
+
+			/*
+				Configure a custom user agent
+			 */
+			final String userAgent = SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(
+				PHANTON_JS_USER_AGENT_SYSTEM_PROPERTY);
+
+			if (StringUtils.isNotBlank(userAgent)) {
+				capabilities.setCapability("phantomjs.page.settings.userAgent", userAgent);
+			}
 
 			final PhantomJSDriver retValue = new PhantomJSDriver(capabilities);
 

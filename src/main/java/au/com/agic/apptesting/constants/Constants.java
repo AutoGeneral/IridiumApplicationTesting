@@ -96,6 +96,10 @@ public final class Constants {
 	 */
 	public static final String PHANTOMJS_LOGGING_LEVEL_SYSTEM_PROPERTY = "phantomJSLoggingLevel";
 	/**
+	 * The system property that defines the phantom js user agent
+	 */
+	public static final String PHANTON_JS_USER_AGENT_SYSTEM_PROPERTY = "phantomJSUserAgent";
+	/**
 	 * The default phantom js logging level
 	 */
 	public static final String DEFAULT_PHANTOM_JS_LOGGING_LEVEL = "NONE";
