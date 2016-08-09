@@ -31,7 +31,7 @@ import static au.com.agic.apptesting.constants.Constants.PHANTOMJS_LOGGING_LEVEL
 public class WebDriverFactoryImpl implements WebDriverFactory {
 	private static final int PHANTOM_JS_SCREEN_WIDTH = 1280;
 	private static final int PHANTOM_JS_SCREEN_HEIGHT = 1024;
-	private static final int PHNATOMJS_TIMEOUTS = 30;
+	private static final int PHANTOMJS_TIMEOUTS = 60;
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
 	@Override
@@ -135,7 +135,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 				Give the dev servers a large timeout
 			 */
 			retValue.manage().timeouts()
-				.pageLoadTimeout(PHNATOMJS_TIMEOUTS, TimeUnit.SECONDS);
+				.pageLoadTimeout(PHANTOMJS_TIMEOUTS, TimeUnit.SECONDS);
 
 			return retValue;
 		}
