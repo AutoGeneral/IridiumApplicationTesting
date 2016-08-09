@@ -133,6 +133,10 @@ public final class Constants {
 	 */
 	public static final String FIREFOX_PROFILE_SYSTEM_PROPERTY = "webdriver.firefox.profile";
 	/**
+	 * The location of the firefox executable
+	 */
+	public static final String FIREFOX_EXECUTABLE_LOCATION_SYSTEM_PROPERTY = "webdriver.firefox.bin";
+	/**
 	 * The maximum number of data sets to run
 	 */
 	public static final String NUMBER_DATA_SETS_SYSTEM_PROPERTY = "numberDataSets";
