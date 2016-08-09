@@ -279,6 +279,36 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
+	 * We track response codes in the BrowsermobProxyUtilsImpl class, and if any where in the
+	 * range 400 - 599, we report them. Note that we don't throw an error, so the scenario won't
+	 * fail
+	 */
+	@SuppressWarnings("unchecked")
+	@Then("I report any HTTP errors")
+	public void reportHttpCodes() {
+		final Optional<ProxyDetails<?>> browserMob =
+			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+
+		if (browserMob.isPresent()) {
+			if (browserMob.get().getProperties().containsKey(BrowsermobProxyUtilsImpl.INVALID_REQUESTS)) {
+				final List<HttpMessageInfo> responses =
+					(List<HttpMessageInfo>)browserMob.get()
+						.getProperties().get(BrowsermobProxyUtilsImpl.INVALID_REQUESTS);
+
+				if (!responses.isEmpty()) {
+
+					final StringBuilder message =
+						new StringBuilder("The following URLs returned HTTP errors\n");
+
+					responses.stream().forEach(x -> message.append(x.getOriginalUrl() + "\n"));
+
+					LOGGER.info(message.toString());
+				}
+			}
+		}
+	}
+
+	/**
 	 * Checks for the presence of some text on the page.
 	 * @param alias This text appears if the text is astucally an alias key
 	 * @param text The text to find on the page, or the alias to the text

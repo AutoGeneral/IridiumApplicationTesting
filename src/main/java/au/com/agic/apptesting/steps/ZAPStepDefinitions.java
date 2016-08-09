@@ -472,6 +472,22 @@ public class ZAPStepDefinitions {
 	 */
 	@Then("^no \"(.*?)\" or higher risk vulnerabilities should be present(?: for the base url \"(.*?)\")?$")
 	public void checkVulnerabilities(final String risk, final String baseUrl) throws ClientApiException {
+		processVulnerabilities(risk, baseUrl, false);
+	}
+
+	/**
+	 * Report any risks were identified during the scan without throwing an error
+	 *
+	 * @param risk    The level of risk. Either HIGH, MEDIUM or LOW
+	 * @param baseUrl An optional regex that can be used to match the url that a risk is assoicated with
+	 * @throws ClientApiException When the ZAP API threw an exception
+	 */
+	@Then("^I report any \"(.*?)\" or higher risk vulnerabilities (?: for the base url \"(.*?)\")?$")
+	public void reportVulnerabilities(final String risk, final String baseUrl) throws ClientApiException {
+		processVulnerabilities(risk, baseUrl, true);
+	}
+
+	public void processVulnerabilities(final String risk, final String baseUrl, final boolean reportOnly) throws ClientApiException {
 
 		final ClientApi clientApi = getClientApi();
 
@@ -504,11 +520,16 @@ public class ZAPStepDefinitions {
 			.orElse(new ArrayList<>());
 		final String details = getAlertDetails(filteredAlerts);
 
-		/*
-			Throw an exception if there are any identified risks
-		 */
-		assertThat(filteredAlerts.size() + " " + risk + " vulnerabilities found.\nDetails:\n" + details,
-			filteredAlerts.size(), equalTo(0));
+		if (reportOnly) {
+			LOGGER.info(filteredAlerts.size() + " " + risk + " vulnerabilities found.\nDetails:\n" + details);
+		} else {
+			/*
+				Throw an exception if there are any identified risks
+		 	*/
+			assertThat(filteredAlerts.size() + " " + risk + " vulnerabilities found.\nDetails:\n" + details,
+				filteredAlerts.size(), equalTo(0));
+		}
+
 	}
 
 	/**
