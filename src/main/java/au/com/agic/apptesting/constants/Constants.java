@@ -108,6 +108,10 @@ public final class Constants {
 	 */
 	public static final String CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY = "webdriver.chrome.driver";
 	/**
+	 * The location of the chrome executable
+	 */
+	public static final String CHROME_EXECUTABLE_LOCATION_SYSTEM_PROPERTY = "webdriver.chrome.bin";
+	/**
 	 * The location of the opera webdriver executable https://github.com/operasoftware/operachromiumdriver/releases
 	 */
 	public static final String OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY = "webdriver.opera.driver";
