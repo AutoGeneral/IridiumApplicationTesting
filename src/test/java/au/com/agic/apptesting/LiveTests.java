@@ -7,24 +7,38 @@ import org.junit.Test;
  * Runs examples as unit tests
  */
 public class LiveTests {
+	private static final int RETRY_COUNT = 3;
+
 	@Test
 	public void launchAcceptanceTest() {
-		setCommonProperties();
-		System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/app.html");
-		System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/24.acceptancetests/test-populated.feature");
-		System.setProperty("testDestination", "PhantomJS");
+		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
+			setCommonProperties();
+			System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/app.html");
+			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/24.acceptancetests/test-populated.feature");
+			System.setProperty("testDestination", "PhantomJS");
+			final int failures = new TestRunner().run();
+			if (failures == 0) {
+				return;
+			}
+		}
 
-		Assert.assertEquals(0, new TestRunner().run());
+		Assert.fail();
 	}
 
 	@Test
 	public void launchVerificationTest() {
-		setCommonProperties();
-		System.setProperty("appURLOverride", "http://ticketmonster-jdf.rhcloud.com");
-		System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/22.verification/test.feature");
-		System.setProperty("testDestination", "Firefox");
+		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
+			setCommonProperties();
+			System.setProperty("appURLOverride", "http://ticketmonster-jdf.rhcloud.com");
+			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/22.verification/test.feature");
+			System.setProperty("testDestination", "Firefox");
+			final int failures = new TestRunner().run();
+			if (failures == 0) {
+				return;
+			}
+		}
 
-		Assert.assertEquals(0, new TestRunner().run());
+		Assert.fail();
 	}
 
 	private void setCommonProperties() {
