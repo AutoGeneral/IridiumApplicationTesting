@@ -4,6 +4,7 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.*;
 import org.apache.commons.lang3.StringUtils;
+import org.parosproxy.paros.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zaproxy.clientapi.core.ClientApi;
@@ -11,6 +12,7 @@ import org.zaproxy.zap.ZAP;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -141,6 +143,14 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 					));
 				}
 			}
+
+			/*
+				ZAP throws an exception if this value is set twice (see setLowMemoryOption()),
+				which might happen if tests are rerun, so we force the value to null.
+			 */
+			final Field field = Constant.class.getDeclaredField("lowMemoryOption");
+			field.setAccessible(true);
+			field.set(null, null);
 
 			/*
 				Run ZAP
