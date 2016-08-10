@@ -1,7 +1,9 @@
 package au.com.agic.apptesting.utils.impl;
 
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.*;
+import javaslang.control.Try;
 import net.lightbody.bmp.BrowserMobProxy;
 import org.zaproxy.clientapi.core.ClientApi;
 
@@ -70,8 +72,14 @@ public class ProxyManagerImpl implements ProxyManager {
 
 		if (proxies != null) {
 			proxies.stream()
-				.filter(BrowsermobProxyUtilsImpl.PROXY_NAME::equals)
 				.forEach(x -> BrowserMobProxy.class.cast(x.getInterface().get()).stop());
+
+			proxies.stream()
+				.filter(ZapProxyUtilsImpl.PROXY_NAME::equals)
+				.map(x ->
+					Try.of(() ->
+						ClientApi.class.cast(x.getInterface().get())
+							.core.shutdown(Constants.ZAP_API_KEY)));
 		}
 	}
 }
