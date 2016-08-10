@@ -190,6 +190,10 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 		zapInstall.setAccessible(true);
 		zapInstall.set(null, null);
 
+		final Field zapStd = Constant.class.getDeclaredField("zapStd");
+		zapStd.setAccessible(true);
+		zapStd.set(null, null);
+
 		/*
 			We also need to remove any old singletons of the constant class
 			before we create a new ZAP instance.
