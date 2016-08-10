@@ -2,11 +2,14 @@ package au.com.agic.apptesting;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Runs examples as unit tests
  */
 public class LiveTests {
+	private static final Logger LOGGER = LoggerFactory.getLogger(LiveTests.class);
 	private static final int RETRY_COUNT = 3;
 
 	@Test
@@ -18,6 +21,7 @@ public class LiveTests {
 			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
+				LOGGER.info("Passed modifyRequests19()");
 				return;
 			}
 		}
@@ -35,6 +39,7 @@ public class LiveTests {
 			System.setProperty("startInternalProxy", "zap");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
+				LOGGER.info("Passed passiveSecurity20()");
 				return;
 			}
 		}
@@ -51,6 +56,7 @@ public class LiveTests {
 			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
+				LOGGER.info("Passed gherkinExamples21()");
 				return;
 			}
 		}
@@ -67,6 +73,7 @@ public class LiveTests {
 			System.setProperty("testDestination", "Chrome");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
+				LOGGER.info("Passed verificationTest22()");
 				return;
 			}
 		}
@@ -83,6 +90,7 @@ public class LiveTests {
 			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
+				LOGGER.info("Passed deadLinkCheck23()");
 				return;
 			}
 		}
@@ -99,6 +107,7 @@ public class LiveTests {
 			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
+				LOGGER.info("Passed acceptanceTest24()");
 				return;
 			}
 		}
@@ -115,6 +124,7 @@ public class LiveTests {
 			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
+				LOGGER.info("Passed driverPerScenario25()");
 				return;
 			}
 		}

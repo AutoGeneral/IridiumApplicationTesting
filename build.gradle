@@ -228,7 +228,8 @@ def passThroughProperties = [
 ]
 
 test {
-    for (p in passThroughProperties) {
+	testLogging.showStandardStreams = true
+	for (p in passThroughProperties) {
         systemProperty p, System.properties[p]
     }
 }
