@@ -8,4 +8,4 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 addons:
-  firefox: "47.0.1"
+  firefox: "48.0"
