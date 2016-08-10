@@ -1,6 +1,6 @@
 language: java
 jdk:
-  - oraclejdk8
+- oraclejdk8
 env:
-  - ossrhUsername=username
-  - ossrhPassword=password
+- ossrhUsername=username
+- ossrhPassword=password
