@@ -43,6 +43,7 @@
 /*.png
 /MergedReport.xml
 /CucumberThread*.html
+/CucumberThread*.zap
 /hs_err_pid*.log
 /packages
 /classes
