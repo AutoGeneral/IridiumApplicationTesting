@@ -5,20 +5,22 @@ import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.parosproxy.paros.Constant;
+import org.parosproxy.paros.control.Control;
+import org.parosproxy.paros.extension.ExtensionLoader;
+import org.parosproxy.paros.model.Model;
+import org.parosproxy.paros.view.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zaproxy.clientapi.core.ClientApi;
 import org.zaproxy.zap.ZAP;
+import org.zaproxy.zap.control.ExtensionFactory;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -35,11 +37,19 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 
 	private static final int WAIT_FOR_START = 30000;
 
+	/**
+	 * ZAP is not designed to be started and restarted, so we create one instance
+	 * and share it across tests.
+	 */
+	private static ProxyDetailsImpl<ClientApi> zapSingleton;
+
 	@Override
 	public Optional<ProxyDetails<ClientApi>> initProxy(
+			@NotNull final List<File> globalTempFiles,
 			@NotNull final List<File> tempFolders,
 			@NotNull final Optional<ProxySettings> upstreamProxy) {
 
+		checkNotNull(globalTempFiles);
 		checkNotNull(tempFolders);
 		checkNotNull(upstreamProxy);
 
@@ -48,7 +58,7 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 				SYSTEM_PROPERTY_UTILS.getProperty(Constants.START_INTERNAL_PROXY);
 
 			if (StringUtils.equalsIgnoreCase(Constants.ZED_ATTACK_PROXY, proxyName)) {
-				return Optional.of(startZAPProxy(tempFolders, upstreamProxy));
+				return Optional.of(startZAPProxy(globalTempFiles, upstreamProxy));
 			}
 
 			LOGGER.info("The value assigned to the \"{}\" system property of \"{}\" was empty or not recognised",
@@ -73,6 +83,10 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 
 		checkNotNull(tempFolders);
 		checkNotNull(upstreamProxy);
+
+		if (zapSingleton != null) {
+			return zapSingleton;
+		}
 
 		/*
 			There is a small chance that between the call to getFreePort() and the
@@ -144,8 +158,6 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 				}
 			}
 
-			resetZapConstants();
-
 			/*
 				Run ZAP
 			 */
@@ -154,53 +166,14 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 			final ClientApi clientApi = new ClientApi("localhost", freePort);
 			clientApi.waitForSuccessfulConnectionToZap(WAIT_FOR_START);
 
-			return new ProxyDetailsImpl<>(
+			zapSingleton = new ProxyDetailsImpl<>(
 				freePort,
 				false,
 				PROXY_NAME,
 				new ClientApi("localhost", freePort));
+
+			return zapSingleton;
 		}
-	}
-
-	/**
-	 * ZAP has a configuration class that holds onto static values under the assumption that
-	 * ZAP will only be run once and then closed. We need to clear some of these values
-	 * because Iridium can be called over and over as part of a test, and ZAP may be
-	 * created and destroyed as part of that process.
-	 * @throws IllegalAccessException
-	 * @throws NoSuchFieldException
-	 */
-	private void resetZapConstants() throws IllegalAccessException, NoSuchFieldException {
-		/*
-			ZAP throws an exception if this value is set twice (see setLowMemoryOption()),
-			which might happen if tests are rerun, so we force the value to null.
-		 */
-		final Field field = Constant.class.getDeclaredField("lowMemoryOption");
-		field.setAccessible(true);
-		field.set(null, null);
-
-		/*
-			Some directory references need to be cleared
-		 */
-		final Field zapHome = Constant.class.getDeclaredField("zapHome");
-		zapHome.setAccessible(true);
-		zapHome.set(null, null);
-
-		final Field zapInstall = Constant.class.getDeclaredField("zapInstall");
-		zapInstall.setAccessible(true);
-		zapInstall.set(null, null);
-
-		final Field zapStd = Constant.class.getDeclaredField("zapStd");
-		zapStd.setAccessible(true);
-		zapStd.set(null, null);
-
-		/*
-			We also need to remove any old singletons of the constant class
-			before we create a new ZAP instance.
-		 */
-		final Field instanceField = Constant.class.getDeclaredField("instance");
-		instanceField.setAccessible(true);
-		instanceField.set(null, null);
 	}
 }
 

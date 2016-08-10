@@ -70,7 +70,7 @@ public class TestRunner {
 	 */
 	private int failure = 0;
 
-	public int run() {
+	public int run(final List<File> globalTempFiles) {
 		/*
 		  This is the directory that will hold our reports
 		*/
@@ -101,7 +101,7 @@ public class TestRunner {
 			JAR_DOWNLOADER.downloadJar(tempFiles);
 			SYSTEM_PROPERTY_UTILS.copyDependentSystemProperties();
 			WEB_DRIVER_HANDLER.configureWebDriver(tempFiles);
-			proxies = PROXY_MANAGER.configureProxies(tempFiles);
+			proxies = PROXY_MANAGER.configureProxies(globalTempFiles, tempFiles);
 			cleanupOldReports();
 			init(reportOutput, tempFiles, proxies);
 

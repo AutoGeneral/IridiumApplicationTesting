@@ -13,6 +13,7 @@ public interface LocalProxyUtils<T> {
 	/**
 	 * Attempts to match the value assigned to the startInternalProxy system property with a
 	 * supported internal proxy, and starts it if a match was found.
+	 * @param globalTempFiles Tempoarry files to be cleaned up once Iridium is closed
 	 * @param tempFolders A collection that will be populate with any temporary folders to be cleaned up once the
 	 *                    test has completed
 	 * @param upstreamProxy The details of the upstream proxy
@@ -20,6 +21,7 @@ public interface LocalProxyUtils<T> {
 	 * api object.
 	 */
 	Optional<ProxyDetails<T>> initProxy(
+		@NotNull final List<File> globalTempFiles,
 		@NotNull final List<File> tempFolders,
 		@NotNull final Optional<ProxySettings> upstreamProxy);
 }

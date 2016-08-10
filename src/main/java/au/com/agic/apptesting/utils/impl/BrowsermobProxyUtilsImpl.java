@@ -48,9 +48,13 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 
 	@Override
 	public Optional<ProxyDetails<BrowserMobProxy>> initProxy(
+			@NotNull final List<File> globalTempFiles,
 			@NotNull final List<File> tempFolders,
 			@NotNull final Optional<ProxySettings> upstreamProxy) {
+
+		checkNotNull(globalTempFiles);
 		checkNotNull(tempFolders);
+		checkNotNull(upstreamProxy);
 
 		try {
 			return Optional.of(startBrowsermobProxy(upstreamProxy));

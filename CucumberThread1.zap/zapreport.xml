@@ -1,4 +1,4 @@
-<?xml version="1.0"?><OWASPZAPReport version="Dev Build" generated="Tue, 9 Aug 2016 08:37:12">
+<?xml version="1.0"?><OWASPZAPReport version="Dev Build" generated="Thu, 11 Aug 2016 07:57:32">
 <site name="https://dz2cdn1.dzone.com" host="dz2cdn1.dzone.com" port="443" ssl="true"><alerts></alerts></site><site name="https://dz2cdn2.dzone.com" host="dz2cdn2.dzone.com" port="443" ssl="true"><alerts><alertitem>
   <pluginid>10015</pluginid>
   <alert>Incomplete or No Cache-control and Pragma HTTP Header Set</alert>
@@ -9,19 +9,19 @@
   <desc>&lt;p&gt;The cache-control and pragma HTTP header have not been set properly or are missing allowing the browser and proxies to cache content.&lt;/p&gt;</desc>
   <instances>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675062-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771545-combined.js</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675066-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771533-combined.js</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675072-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771559-combined.js</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675097-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771626-combined.js</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675093-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771561-combined.js</uri>
   </instance>
   </instances>
   <count>5</count>
@@ -40,19 +40,19 @@
   <desc>&lt;p&gt;Web Browser XSS Protection is not enabled, or is disabled by the configuration of the &apos;X-XSS-Protection&apos; HTTP response header on the web server&lt;/p&gt;</desc>
   <instances>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675062-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771545-combined.js</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675066-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771533-combined.js</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675072-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771559-combined.js</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675097-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771626-combined.js</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675093-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771561-combined.js</uri>
   </instance>
   </instances>
   <count>5</count>
@@ -72,19 +72,19 @@
   <desc>&lt;p&gt;The Anti-MIME-Sniffing header X-Content-Type-Options was not set to &apos;nosniff&apos;. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.&lt;/p&gt;</desc>
   <instances>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675062-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771545-combined.js</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675066-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771533-combined.js</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675072-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771559-combined.js</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675097-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771626-combined.js</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn2.dzone.com/storage/pub/2675093-combined.js</uri>
+  <uri>https://dz2cdn2.dzone.com/storage/pub/2771561-combined.js</uri>
   </instance>
   </instances>
   <count>5</count>
@@ -104,22 +104,22 @@
   <desc>&lt;p&gt;Web Browser XSS Protection is not enabled, or is disabled by the configuration of the &apos;X-XSS-Protection&apos; HTTP response header on the web server&lt;/p&gt;</desc>
   <instances>
   <instance>
-  <uri>https://dz2cdn3.dzone.com/storage/pub/2733493-combined.css</uri>
+  <uri>https://dz2cdn3.dzone.com/storage/pub/2771531-combined.css</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn3.dzone.com/storage/pub/2733497-combined.css</uri>
+  <uri>https://dz2cdn3.dzone.com/storage/pub/2771532-combined.css</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn3.dzone.com/storage/pub/2733498-combined.css</uri>
+  <uri>https://dz2cdn3.dzone.com/storage/pub/2771633-combined.css</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn3.dzone.com/storage/pub/2733520-combined.css</uri>
+  <uri>https://dz2cdn3.dzone.com/storage/pub/2771625-combined.css</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn3.dzone.com/storage/pub/2733494-combined.css</uri>
+  <uri>https://dz2cdn3.dzone.com/storage/pub/2771558-combined.css</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn3.dzone.com/storage/pub/2735892-combined.css</uri>
+  <uri>https://dz2cdn3.dzone.com/storage/pub/2771546-combined.css</uri>
   </instance>
   </instances>
   <count>6</count>
@@ -139,22 +139,22 @@
   <desc>&lt;p&gt;The Anti-MIME-Sniffing header X-Content-Type-Options was not set to &apos;nosniff&apos;. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.&lt;/p&gt;</desc>
   <instances>
   <instance>
-  <uri>https://dz2cdn3.dzone.com/storage/pub/2733493-combined.css</uri>
+  <uri>https://dz2cdn3.dzone.com/storage/pub/2771531-combined.css</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn3.dzone.com/storage/pub/2733497-combined.css</uri>
+  <uri>https://dz2cdn3.dzone.com/storage/pub/2771532-combined.css</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn3.dzone.com/storage/pub/2733498-combined.css</uri>
+  <uri>https://dz2cdn3.dzone.com/storage/pub/2771633-combined.css</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn3.dzone.com/storage/pub/2733520-combined.css</uri>
+  <uri>https://dz2cdn3.dzone.com/storage/pub/2771625-combined.css</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn3.dzone.com/storage/pub/2733494-combined.css</uri>
+  <uri>https://dz2cdn3.dzone.com/storage/pub/2771558-combined.css</uri>
   </instance>
   <instance>
-  <uri>https://dz2cdn3.dzone.com/storage/pub/2735892-combined.css</uri>
+  <uri>https://dz2cdn3.dzone.com/storage/pub/2771546-combined.css</uri>
   </instance>
   </instances>
   <count>6</count>
@@ -231,10 +231,10 @@
   <uri>https://dzone.com/sitemap.xml</uri>
   </instance>
   <instance>
-  <uri>https://dzone.com/services/widget/sidebar-content-list/DEFAULT</uri>
+  <uri>https://dzone.com/themes</uri>
   </instance>
   </instances>
-  <count>70</count>
+  <count>56</count>
   <solution>&lt;p&gt;Whenever possible ensure the cache-control HTTP header is set with no-cache, no-store, must-revalidate, private; and that the pragma HTTP header is set with no-cache.&lt;/p&gt;</solution>
   <reference>&lt;p&gt;https://www.owasp.org/index.php/Session_Management_Cheat_Sheet#Web_Content_Caching&lt;/p&gt;</reference>
   <cweid>525</cweid>
@@ -256,101 +256,101 @@
   </instance>
   <instance>
   <uri>https://dzone.com/robots.txt</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/sitemap.xml</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/portals</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/guides</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/refcardz</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/sitemap.xml</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/cloud-computing-tutorials-tools-news</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/big-data-analytics-tutorials-tools-news</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/database-sql-nosql-tutorials-tools-news</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/iot-developer-tutorials-tools-news-reviews</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/agile-methodology-training-tools-news</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/enterprise-integration-training-tools-news</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/apm-tools-performance-monitoring-optimization</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/devops-tutorials-tools-news</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/services/widget/sidebar-content-list/DEFAULT</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/themes/dz20</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/webinar-1.xml</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/mobile-app-developer-tutorials-tools-news</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/java-jdk-development-tutorials-tools-news</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/iot-developer-tutorials-tools-news-reviews</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/mobile-app-developer-tutorials-tools-news</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/portals</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/themes</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/big-data-analytics-tutorials-tools-news</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/enterprise-integration-training-tools-news</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/services/widget/sidebar-content-list/DEFAULT</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/refcardz/swift-essentials</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/themes/dz20</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/refcardz/learn-microservices-in-java</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/users/2607662/unsecuredloans4u.html</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/users/jacobaiden</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
   </instance>
   </instances>
-  <count>99</count>
+  <count>91</count>
   <solution>&lt;p&gt;Ensure that the HttpOnly flag is set for all cookies.&lt;/p&gt;</solution>
   <reference>&lt;p&gt;http://www.owasp.org/index.php/HttpOnly&lt;/p&gt;</reference>
   <cweid>16</cweid>
@@ -367,8 +367,8 @@
   <instances>
   <instance>
   <uri>https://dzone.com/</uri>
-  <param>TH_CSRF=-4101108256437701238; path=/; HttpOnly</param>
-  <evidence>TH_CSRF=-4101108256437701238; path=/; HttpOnly</evidence>
+  <param>TH_CSRF=5463956696958448388; path=/; HttpOnly</param>
+  <evidence>TH_CSRF=5463956696958448388; path=/; HttpOnly</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/</uri>
@@ -377,96 +377,96 @@
   </instance>
   <instance>
   <uri>https://dzone.com/robots.txt</uri>
-  <param>TH_CSRF=-9176682793050888974; path=/; HttpOnly</param>
-  <evidence>TH_CSRF=-9176682793050888974; path=/; HttpOnly</evidence>
+  <param>TH_CSRF=-1705148082499074996; path=/; HttpOnly</param>
+  <evidence>TH_CSRF=-1705148082499074996; path=/; HttpOnly</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/robots.txt</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/sitemap.xml</uri>
-  <param>TH_CSRF=2811387532522380104; path=/; HttpOnly</param>
-  <evidence>TH_CSRF=2811387532522380104; path=/; HttpOnly</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/sitemap.xml</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/portals</uri>
-  <param>TH_CSRF=-6117892349617950884; path=/; HttpOnly</param>
-  <evidence>TH_CSRF=-6117892349617950884; path=/; HttpOnly</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/portals</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/guides</uri>
-  <param>TH_CSRF=1635764487004535541; path=/; HttpOnly</param>
-  <evidence>TH_CSRF=1635764487004535541; path=/; HttpOnly</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/guides</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/refcardz</uri>
-  <param>TH_CSRF=1942079425416738551; path=/; HttpOnly</param>
-  <evidence>TH_CSRF=1942079425416738551; path=/; HttpOnly</evidence>
+  <param>TH_CSRF=3263963968311142207; path=/; HttpOnly</param>
+  <evidence>TH_CSRF=3263963968311142207; path=/; HttpOnly</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/refcardz</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C2B9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/sitemap.xml</uri>
+  <param>TH_CSRF=-8163878530945244089; path=/; HttpOnly</param>
+  <evidence>TH_CSRF=-8163878530945244089; path=/; HttpOnly</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/sitemap.xml</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/cloud-computing-tutorials-tools-news</uri>
-  <param>TH_CSRF=583968747634815868; path=/; HttpOnly</param>
-  <evidence>TH_CSRF=583968747634815868; path=/; HttpOnly</evidence>
+  <param>TH_CSRF=1009248786681909511; path=/; HttpOnly</param>
+  <evidence>TH_CSRF=1009248786681909511; path=/; HttpOnly</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/cloud-computing-tutorials-tools-news</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
   </instance>
   <instance>
-  <uri>https://dzone.com/big-data-analytics-tutorials-tools-news</uri>
-  <param>TH_CSRF=4068970598683353760; path=/; HttpOnly</param>
-  <evidence>TH_CSRF=4068970598683353760; path=/; HttpOnly</evidence>
+  <uri>https://dzone.com/devops-tutorials-tools-news</uri>
+  <param>TH_CSRF=-3145944147738190536; path=/; HttpOnly</param>
+  <evidence>TH_CSRF=-3145944147738190536; path=/; HttpOnly</evidence>
   </instance>
   <instance>
-  <uri>https://dzone.com/big-data-analytics-tutorials-tools-news</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  <uri>https://dzone.com/devops-tutorials-tools-news</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
   </instance>
   <instance>
-  <uri>https://dzone.com/database-sql-nosql-tutorials-tools-news</uri>
-  <param>TH_CSRF=1817271287369226449; path=/; HttpOnly</param>
-  <evidence>TH_CSRF=1817271287369226449; path=/; HttpOnly</evidence>
+  <uri>https://dzone.com/java-jdk-development-tutorials-tools-news</uri>
+  <param>TH_CSRF=2164713441387681382; path=/; HttpOnly</param>
+  <evidence>TH_CSRF=2164713441387681382; path=/; HttpOnly</evidence>
   </instance>
   <instance>
-  <uri>https://dzone.com/database-sql-nosql-tutorials-tools-news</uri>
-  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
-  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410AC86A745EDA3D5E5B5933513825C48A4C21CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
-  </instance>
-  <instance>
-  <uri>https://dzone.com/</uri>
-  <param>TH_CSRF=-1830784781192199299; path=/; HttpOnly</param>
-  <evidence>TH_CSRF=-1830784781192199299; path=/; HttpOnly</evidence>
+  <uri>https://dzone.com/java-jdk-development-tutorials-tools-news</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/iot-developer-tutorials-tools-news-reviews</uri>
-  <param>TH_CSRF=-5267206167114928609; path=/; HttpOnly</param>
-  <evidence>TH_CSRF=-5267206167114928609; path=/; HttpOnly</evidence>
+  <param>TH_CSRF=-9193169670628524161; path=/; HttpOnly</param>
+  <evidence>TH_CSRF=-9193169670628524161; path=/; HttpOnly</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/iot-developer-tutorials-tools-news-reviews</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/mobile-app-developer-tutorials-tools-news</uri>
+  <param>TH_CSRF=7204353420681856574; path=/; HttpOnly</param>
+  <evidence>TH_CSRF=7204353420681856574; path=/; HttpOnly</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/mobile-app-developer-tutorials-tools-news</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DEB9CAAB18587D03EA3C2E6AB18062E087DC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/</uri>
+  <param>TH_CSRF=4647798542021557914; path=/; HttpOnly</param>
+  <evidence>TH_CSRF=4647798542021557914; path=/; HttpOnly</evidence>
+  </instance>
+  <instance>
+  <uri>https://dzone.com/</uri>
+  <param>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</param>
+  <evidence>AWSELB=2B23F73512874A984846CB61011FAE4304C7C410ACB7A001DFD8BD306C8ECA8B8503C945DE1CD9ED772FB7AFD298970DD47A751F6CDC0D49F5C212D54F76E02DCDD2B1A2FE;PATH=/</evidence>
   </instance>
   </instances>
-  <count>196</count>
+  <count>179</count>
   <solution>&lt;p&gt;Whenever a cookie contains sensitive information or is a session token, then it should always be passed using an encrypted channel. Ensure that the secure flag is set for cookies containing such sensitive information.&lt;/p&gt;</solution>
   <reference>&lt;p&gt;http://www.owasp.org/index.php/Testing_for_cookies_attributes_(OWASP-SM-002)&lt;/p&gt;</reference>
   <cweid>614</cweid>
@@ -483,106 +483,106 @@
   <instances>
   <instance>
   <uri>https://dzone.com/</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675066-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675066-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771545-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771545-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/refcardz</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/refcardz</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/guides</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/guides</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/portals</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/portals</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675097-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675097-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771626-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771626-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/agile-methodology-training-tools-news</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/agile-methodology-training-tools-news</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/big-data-analytics-tutorials-tools-news</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/big-data-analytics-tutorials-tools-news</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/cloud-computing-tutorials-tools-news</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/cloud-computing-tutorials-tools-news</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/database-sql-nosql-tutorials-tools-news</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/database-sql-nosql-tutorials-tools-news</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/devops-tutorials-tools-news</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/devops-tutorials-tools-news</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/enterprise-integration-training-tools-news</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675062-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771533-combined.js</evidence>
   </instance>
   <instance>
   <uri>https://dzone.com/enterprise-integration-training-tools-news</uri>
-  <param>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</param>
-  <evidence>//dz2cdn2.dzone.com/storage/pub/2675072-combined.js</evidence>
+  <param>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</param>
+  <evidence>//dz2cdn2.dzone.com/storage/pub/2771559-combined.js</evidence>
   </instance>
   </instances>
-  <count>134</count>
+  <count>120</count>
   <solution>&lt;p&gt;Ensure JavaScript source files are loaded from only trusted sources, and the sources can&apos;t be controlled by end users of the application.&lt;/p&gt;</solution>
   <reference>&lt;p&gt;&lt;/p&gt;</reference>
   <cweid>829</cweid>
@@ -655,10 +655,10 @@
   <uri>https://dzone.com/sitemap.xml</uri>
   </instance>
   <instance>
-  <uri>https://dzone.com/services/widget/sidebar-content-list/DEFAULT</uri>
+  <uri>https://dzone.com/themes</uri>
   </instance>
   </instances>
-  <count>70</count>
+  <count>56</count>
   <solution>&lt;p&gt;Ensure that the web browser&apos;s XSS filter is enabled, by setting the X-XSS-Protection HTTP response header to &apos;1&apos;.&lt;/p&gt;</solution>
   <otherinfo>&lt;p&gt;The X-XSS-Protection HTTP response header allows the web server to enable or disable the web browser&apos;s XSS protection mechanism. The following values would attempt to enable it: &lt;/p&gt;&lt;p&gt;X-XSS-Protection: 1; mode=block&lt;/p&gt;&lt;p&gt;X-XSS-Protection: 1; report=http://www.example.com/xss&lt;/p&gt;&lt;p&gt;The following values would disable it:&lt;/p&gt;&lt;p&gt;X-XSS-Protection: 0&lt;/p&gt;&lt;p&gt;The X-XSS-Protection HTTP response header is currently supported on Internet Explorer, Chrome and Safari (WebKit).&lt;/p&gt;&lt;p&gt;Note that this alert is only raised if the response body could potentially contain an XSS payload (with a text-based content type, with a non-zero length).&lt;/p&gt;</otherinfo>
   <reference>&lt;p&gt;https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet&lt;/p&gt;&lt;p&gt;https://blog.veracode.com/2014/03/guidelines-for-setting-security-headers/&lt;/p&gt;</reference>
@@ -732,36 +732,15 @@
   <uri>https://dzone.com/sitemap.xml</uri>
   </instance>
   <instance>
-  <uri>https://dzone.com/services/widget/sidebar-content-list/DEFAULT</uri>
+  <uri>https://dzone.com/themes</uri>
   </instance>
   </instances>
-  <count>70</count>
+  <count>56</count>
   <solution>&lt;p&gt;Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to &apos;nosniff&apos; for all web pages.&lt;/p&gt;&lt;p&gt;If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.&lt;/p&gt;</solution>
   <otherinfo>&lt;p&gt;This issue still applies to error type pages (401, 403, 500, etc) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.&lt;/p&gt;&lt;p&gt;At &quot;High&quot; threshold this scanner will not alert on client or server error responses.&lt;/p&gt;</otherinfo>
   <reference>&lt;p&gt;http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx&lt;/p&gt;&lt;p&gt;https://www.owasp.org/index.php/List_of_useful_HTTP_headers&lt;/p&gt;</reference>
   <cweid>16</cweid>
   <wascid>15</wascid>
-</alertitem>
-<alertitem>
-  <pluginid>90022</pluginid>
-  <alert>Application Error Disclosure</alert>
-  <name>Application Error Disclosure</name>
-  <riskcode>2</riskcode>
-  <confidence>2</confidence>
-  <riskdesc>Medium (Medium)</riskdesc>
-  <desc>&lt;p&gt;This page contains an error/warning message that may disclose sensitive information like the location of the file that produced the unhandled exception. This information can be used to launch further attacks against the web application. The alert could be a false positive if the error message is found inside a documentation page.&lt;/p&gt;</desc>
-  <instances>
-  <instance>
-  <uri>https://dzone.com/big-data-analytics-tutorials-tools-news</uri>
-  <param>N/A</param>
-  <evidence>JDBC Driver</evidence>
-  </instance>
-  </instances>
-  <count>1</count>
-  <solution>&lt;p&gt;Review the source code of this page. Implement custom error pages. Consider implementing a mechanism to provide a unique error reference/identifier to the client (browser) while logging the details on the server side and not exposing them to the user.&lt;/p&gt;</solution>
-  <reference>&lt;p&gt;&lt;/p&gt;</reference>
-  <cweid>200</cweid>
-  <wascid>13</wascid>
 </alertitem>
 </alerts></site><site name="https://fonts.dzone.com" host="fonts.dzone.com" port="443" ssl="true"><alerts><alertitem>
   <pluginid>10015</pluginid>
@@ -802,83 +781,4 @@
   <cweid>16</cweid>
   <wascid>15</wascid>
 </alertitem>
-</alerts></site><site name="https://location.services.mozilla.com" host="location.services.mozilla.com" port="443" ssl="true"><alerts><alertitem>
-  <pluginid>10015</pluginid>
-  <alert>Incomplete or No Cache-control and Pragma HTTP Header Set</alert>
-  <name>Incomplete or No Cache-control and Pragma HTTP Header Set</name>
-  <riskcode>1</riskcode>
-  <confidence>2</confidence>
-  <riskdesc>Low (Medium)</riskdesc>
-  <desc>&lt;p&gt;The cache-control and pragma HTTP header have not been set properly or are missing allowing the browser and proxies to cache content.&lt;/p&gt;</desc>
-  <instances>
-  <instance>
-  <uri>https://location.services.mozilla.com/v1/country?key=7e40f68c-7938-4c5d-9f95-e61647c213eb</uri>
-  </instance>
-  </instances>
-  <count>1</count>
-  <solution>&lt;p&gt;Whenever possible ensure the cache-control HTTP header is set with no-cache, no-store, must-revalidate, private; and that the pragma HTTP header is set with no-cache.&lt;/p&gt;</solution>
-  <reference>&lt;p&gt;https://www.owasp.org/index.php/Session_Management_Cheat_Sheet#Web_Content_Caching&lt;/p&gt;</reference>
-  <cweid>525</cweid>
-  <wascid>13</wascid>
-</alertitem>
-<alertitem>
-  <pluginid>10016</pluginid>
-  <alert>Web Browser XSS Protection Not Enabled</alert>
-  <name>Web Browser XSS Protection Not Enabled</name>
-  <riskcode>1</riskcode>
-  <confidence>2</confidence>
-  <riskdesc>Low (Medium)</riskdesc>
-  <desc>&lt;p&gt;Web Browser XSS Protection is not enabled, or is disabled by the configuration of the &apos;X-XSS-Protection&apos; HTTP response header on the web server&lt;/p&gt;</desc>
-  <instances>
-  <instance>
-  <uri>https://location.services.mozilla.com/v1/country?key=7e40f68c-7938-4c5d-9f95-e61647c213eb</uri>
-  </instance>
-  </instances>
-  <count>1</count>
-  <solution>&lt;p&gt;Ensure that the web browser&apos;s XSS filter is enabled, by setting the X-XSS-Protection HTTP response header to &apos;1&apos;.&lt;/p&gt;</solution>
-  <otherinfo>&lt;p&gt;The X-XSS-Protection HTTP response header allows the web server to enable or disable the web browser&apos;s XSS protection mechanism. The following values would attempt to enable it: &lt;/p&gt;&lt;p&gt;X-XSS-Protection: 1; mode=block&lt;/p&gt;&lt;p&gt;X-XSS-Protection: 1; report=http://www.example.com/xss&lt;/p&gt;&lt;p&gt;The following values would disable it:&lt;/p&gt;&lt;p&gt;X-XSS-Protection: 0&lt;/p&gt;&lt;p&gt;The X-XSS-Protection HTTP response header is currently supported on Internet Explorer, Chrome and Safari (WebKit).&lt;/p&gt;&lt;p&gt;Note that this alert is only raised if the response body could potentially contain an XSS payload (with a text-based content type, with a non-zero length).&lt;/p&gt;</otherinfo>
-  <reference>&lt;p&gt;https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet&lt;/p&gt;&lt;p&gt;https://blog.veracode.com/2014/03/guidelines-for-setting-security-headers/&lt;/p&gt;</reference>
-  <cweid>933</cweid>
-  <wascid>14</wascid>
-</alertitem>
-<alertitem>
-  <pluginid>10021</pluginid>
-  <alert>X-Content-Type-Options Header Missing</alert>
-  <name>X-Content-Type-Options Header Missing</name>
-  <riskcode>1</riskcode>
-  <confidence>2</confidence>
-  <riskdesc>Low (Medium)</riskdesc>
-  <desc>&lt;p&gt;The Anti-MIME-Sniffing header X-Content-Type-Options was not set to &apos;nosniff&apos;. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.&lt;/p&gt;</desc>
-  <instances>
-  <instance>
-  <uri>https://location.services.mozilla.com/v1/country?key=7e40f68c-7938-4c5d-9f95-e61647c213eb</uri>
-  </instance>
-  </instances>
-  <count>1</count>
-  <solution>&lt;p&gt;Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to &apos;nosniff&apos; for all web pages.&lt;/p&gt;&lt;p&gt;If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.&lt;/p&gt;</solution>
-  <otherinfo>&lt;p&gt;This issue still applies to error type pages (401, 403, 500, etc) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.&lt;/p&gt;&lt;p&gt;At &quot;High&quot; threshold this scanner will not alert on client or server error responses.&lt;/p&gt;</otherinfo>
-  <reference>&lt;p&gt;http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx&lt;/p&gt;&lt;p&gt;https://www.owasp.org/index.php/List_of_useful_HTTP_headers&lt;/p&gt;</reference>
-  <cweid>16</cweid>
-  <wascid>15</wascid>
-</alertitem>
-<alertitem>
-  <pluginid>10020</pluginid>
-  <alert>X-Frame-Options Header Not Set</alert>
-  <name>X-Frame-Options Header Not Set</name>
-  <riskcode>2</riskcode>
-  <confidence>2</confidence>
-  <riskdesc>Medium (Medium)</riskdesc>
-  <desc>&lt;p&gt;X-Frame-Options header is not included in the HTTP response to protect against &apos;ClickJacking&apos; attacks.&lt;/p&gt;</desc>
-  <instances>
-  <instance>
-  <uri>https://location.services.mozilla.com/v1/country?key=7e40f68c-7938-4c5d-9f95-e61647c213eb</uri>
-  </instance>
-  </instances>
-  <count>1</count>
-  <solution>&lt;p&gt;Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it&apos;s set on all web pages returned by your site (if you expect the page to be framed only by pages on your server (e.g. it&apos;s part of a FRAMESET) then you&apos;ll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY.  ALLOW-FROM allows specific websites to frame the web page in supported web browsers).&lt;/p&gt;</solution>
-  <otherinfo>&lt;p&gt;At &quot;High&quot; threshold this scanner will not alert on client or server error responses.&lt;/p&gt;</otherinfo>
-  <reference>&lt;p&gt;http://blogs.msdn.com/b/ieinternals/archive/2010/03/30/combating-clickjacking-with-x-frame-options.aspx&lt;/p&gt;</reference>
-  <cweid>16</cweid>
-  <wascid>15</wascid>
-</alertitem>
-</alerts></site><site name="https://tiles.services.mozilla.com" host="tiles.services.mozilla.com" port="443" ssl="true"><alerts></alerts></site></OWASPZAPReport>
+</alerts></site></OWASPZAPReport>

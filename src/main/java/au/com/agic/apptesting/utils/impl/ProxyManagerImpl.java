@@ -24,7 +24,11 @@ public class ProxyManagerImpl implements ProxyManager {
 	private static final LocalProxyUtils<BrowserMobProxy> BROWSERMOB_PROXY = new BrowsermobProxyUtilsImpl();
 
 	@Override
-	public List<ProxyDetails<?>> configureProxies(@NotNull final List<File> tempFiles) {
+	public List<ProxyDetails<?>> configureProxies(
+		@NotNull final List<File> globalTempFiles,
+		@NotNull final List<File> tempFiles) {
+
+		checkNotNull(globalTempFiles);
 		checkNotNull(tempFiles);
 
 		try {
@@ -34,7 +38,7 @@ public class ProxyManagerImpl implements ProxyManager {
 				ZAP always uses the upstream proxy if ZAP is enabled.
 			 */
 			final Optional<ProxyDetails<ClientApi>> zapProxy =
-				ZAP_PROXY.initProxy(tempFiles, proxySettings);
+				ZAP_PROXY.initProxy(globalTempFiles, tempFiles, proxySettings);
 
 			/*
 				Browsermob will upstream to zap if configured to do so
@@ -44,7 +48,7 @@ public class ProxyManagerImpl implements ProxyManager {
 				: proxySettings;
 
 			final Optional<ProxyDetails<BrowserMobProxy>> browermobProxy =
-				BROWSERMOB_PROXY.initProxy(tempFiles, browserMobUpstream);
+				BROWSERMOB_PROXY.initProxy(globalTempFiles, tempFiles, browserMobUpstream);
 
 			/*
 				We always enable the BrowserMob proxy
@@ -74,13 +78,6 @@ public class ProxyManagerImpl implements ProxyManager {
 			proxies.stream()
 				.filter(BrowsermobProxyUtilsImpl.PROXY_NAME::equals)
 				.forEach(x -> BrowserMobProxy.class.cast(x.getInterface().get()).stop());
-
-			proxies.stream()
-				.filter(ZapProxyUtilsImpl.PROXY_NAME::equals)
-				.map(x ->
-					Try.of(() ->
-						ClientApi.class.cast(x.getInterface().get())
-							.core.shutdown(Constants.ZAP_API_KEY)));
 		}
 	}
 }
