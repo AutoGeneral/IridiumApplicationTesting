@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Runs the acceptance test example
+ * Runs examples as unit tests
  */
 public class LiveTests {
 	@Test
