@@ -10,7 +10,88 @@ public class LiveTests {
 	private static final int RETRY_COUNT = 3;
 
 	@Test
-	public void launchAcceptanceTest() {
+	public void modifyRequests19() {
+		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
+			setCommonProperties();
+			System.setProperty("appURLOverride", "https://dzone.com");
+			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/19.modifyrequests/test.feature");
+			System.setProperty("testDestination", "PhantomJS");
+			final int failures = new TestRunner().run();
+			if (failures == 0) {
+				return;
+			}
+		}
+
+		Assert.fail();
+	}
+
+	@Test
+	public void passiveSecurity20() {
+		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
+			setCommonProperties();
+			System.setProperty("appURLOverride", "https://dzone.com");
+			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/20.passivesecurity/test.feature");
+			System.setProperty("testDestination", "PhantomJS");
+			System.setProperty("startInternalProxy", "zap");
+			final int failures = new TestRunner().run();
+			if (failures == 0) {
+				return;
+			}
+		}
+
+		Assert.fail();
+	}
+
+	@Test
+	public void gherkinExamples21() {
+		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
+			setCommonProperties();
+			System.setProperty("appURLOverride", "https://dzone.com");
+			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/21.gherkinexamples/test.feature");
+			System.setProperty("testDestination", "PhantomJS");
+			final int failures = new TestRunner().run();
+			if (failures == 0) {
+				return;
+			}
+		}
+
+		Assert.fail();
+	}
+
+	@Test
+	public void verificationTest22() {
+		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
+			setCommonProperties();
+			System.setProperty("appURLOverride", "http://ticketmonster-jdf.rhcloud.com");
+			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/22.verification/test.feature");
+			System.setProperty("testDestination", "Chrome");
+			final int failures = new TestRunner().run();
+			if (failures == 0) {
+				return;
+			}
+		}
+
+		Assert.fail();
+	}
+
+	@Test
+	public void deadLinkCheck23() {
+		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
+			setCommonProperties();
+			System.setProperty("appURLOverride", "https://autogeneral.gitbooks.io/iridiumapplicationtesting-gettingstartedguide/content/tips_and_tricks.html");
+			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/23.deadlinkcheck/test.feature");
+			System.setProperty("testDestination", "PhantomJS");
+			final int failures = new TestRunner().run();
+			if (failures == 0) {
+				return;
+			}
+		}
+
+		Assert.fail();
+	}
+
+	@Test
+	public void acceptanceTest24() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			setCommonProperties();
 			System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/app.html");
@@ -26,12 +107,12 @@ public class LiveTests {
 	}
 
 	@Test
-	public void launchVerificationTest() {
+	public void driverPerScenario25() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			setCommonProperties();
-			System.setProperty("appURLOverride", "http://ticketmonster-jdf.rhcloud.com");
-			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/22.verification/test.feature");
-			System.setProperty("testDestination", "Chrome");
+			System.setProperty("appURLOverride", "https://dzone.com");
+			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/25.driverperscenario/test.feature");
+			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
 				return;
@@ -49,5 +130,6 @@ public class LiveTests {
 		System.setProperty("enableScenarioScreenshots", "false");
 		System.setProperty("saveReportsInHomeDir", "false");
 		System.setProperty("phantomJSLoggingLevel", "NONE");
+		System.setProperty("startInternalProxy", "");
 	}
 }
