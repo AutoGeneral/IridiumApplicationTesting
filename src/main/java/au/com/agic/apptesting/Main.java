@@ -25,7 +25,7 @@ public final class Main {
 		} catch (final Exception ex) {
 			LOGGER.error(
 				"An exception was raised while attempting to run the Cucumber test scripts", ex);
-			System.exit(1);
+			System.exit(-1);
 		}
 	}
 }
