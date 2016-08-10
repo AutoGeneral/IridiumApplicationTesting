@@ -144,21 +144,7 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 				}
 			}
 
-			/*
-				ZAP throws an exception if this value is set twice (see setLowMemoryOption()),
-				which might happen if tests are rerun, so we force the value to null.
-			 */
-			final Field field = Constant.class.getDeclaredField("lowMemoryOption");
-			field.setAccessible(true);
-			field.set(null, null);
-
-			/*
-				We also need to remove any old singletons of the constant class
-				before we create a new ZAP instance.
-			 */
-			final Field instanceField = Constant.class.getDeclaredField("instance");
-			instanceField.setAccessible(true);
-			instanceField.set(null, null);
+			resetZapConstants();
 
 			/*
 				Run ZAP
@@ -175,4 +161,43 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 				new ClientApi("localhost", freePort));
 		}
 	}
+
+	/**
+	 * ZAP has a configuration class that holds onto static values under the assumption that
+	 * ZAP will only be run once and then closed. We need to clear some of these values
+	 * because Iridium can be called over and over as part of a test, and ZAP may be
+	 * created and destroyed as part of that process.
+	 * @throws IllegalAccessException
+	 * @throws NoSuchFieldException
+	 */
+	private void resetZapConstants() throws IllegalAccessException, NoSuchFieldException {
+		/*
+			ZAP throws an exception if this value is set twice (see setLowMemoryOption()),
+			which might happen if tests are rerun, so we force the value to null.
+		 */
+		final Field field = Constant.class.getDeclaredField("lowMemoryOption");
+		field.setAccessible(true);
+		field.set(null, null);
+
+		/*
+			Some directory references need to be cleared
+		 */
+		final Field zapHome = Constant.class.getDeclaredField("zapHome");
+		zapHome.setAccessible(true);
+		zapHome.set(null, null);
+
+		final Field zapInstall = Constant.class.getDeclaredField("zapInstall");
+		zapInstall.setAccessible(true);
+		zapInstall.set(null, null);
+
+		/*
+			We also need to remove any old singletons of the constant class
+			before we create a new ZAP instance.
+		 */
+		final Field instanceField = Constant.class.getDeclaredField("instance");
+		instanceField.setAccessible(true);
+		instanceField.set(null, null);
+	}
 }
+
+
