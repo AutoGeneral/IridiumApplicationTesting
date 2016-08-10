@@ -153,6 +153,14 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 			field.set(null, null);
 
 			/*
+				We also need to remove any old singletons of the constant class
+				before we create a new ZAP instance.
+			 */
+			final Field instanceField = Constant.class.getDeclaredField("instance");
+			instanceField.setAccessible(true);
+			instanceField.set(null, null);
+
+			/*
 				Run ZAP
 			 */
 			ZAP.main(args.toArray(new String[args.size()]));
