@@ -31,7 +31,7 @@ public class LiveTests {
 			setCommonProperties();
 			System.setProperty("appURLOverride", "http://ticketmonster-jdf.rhcloud.com");
 			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/22.verification/test.feature");
-			System.setProperty("testDestination", "Firefox");
+			System.setProperty("testDestination", "Chrome");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
 				return;
