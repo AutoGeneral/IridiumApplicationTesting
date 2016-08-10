@@ -30,7 +30,7 @@ public class LiveTests {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			setCommonProperties();
 			System.setProperty("appURLOverride", "https://dzone.com");
-			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/20.passivesecurity/test.feature");
+			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/20.passivesecurity/test-nofail.feature");
 			System.setProperty("testDestination", "PhantomJS");
 			System.setProperty("startInternalProxy", "zap");
 			final int failures = new TestRunner().run();
@@ -79,7 +79,7 @@ public class LiveTests {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			setCommonProperties();
 			System.setProperty("appURLOverride", "https://autogeneral.gitbooks.io/iridiumapplicationtesting-gettingstartedguide/content/tips_and_tricks.html");
-			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/23.deadlinkcheck/test.feature");
+			System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/23.deadlinkcheck/test-nofail.feature");
 			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
