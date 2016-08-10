@@ -21,7 +21,6 @@ public class LiveTests {
 			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
-				LOGGER.info("Passed modifyRequests19()");
 				return;
 			}
 		}
@@ -39,7 +38,6 @@ public class LiveTests {
 			System.setProperty("startInternalProxy", "zap");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
-				LOGGER.info("Passed passiveSecurity20()");
 				return;
 			}
 		}
@@ -56,7 +54,6 @@ public class LiveTests {
 			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
-				LOGGER.info("Passed gherkinExamples21()");
 				return;
 			}
 		}
@@ -73,7 +70,6 @@ public class LiveTests {
 			System.setProperty("testDestination", "Chrome");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
-				LOGGER.info("Passed verificationTest22()");
 				return;
 			}
 		}
@@ -90,7 +86,6 @@ public class LiveTests {
 			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
-				LOGGER.info("Passed deadLinkCheck23()");
 				return;
 			}
 		}
@@ -107,7 +102,6 @@ public class LiveTests {
 			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
-				LOGGER.info("Passed acceptanceTest24()");
 				return;
 			}
 		}
@@ -124,7 +118,6 @@ public class LiveTests {
 			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run();
 			if (failures == 0) {
-				LOGGER.info("Passed driverPerScenario25()");
 				return;
 			}
 		}
