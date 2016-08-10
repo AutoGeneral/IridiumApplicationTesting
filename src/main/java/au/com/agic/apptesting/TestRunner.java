@@ -70,7 +70,7 @@ public class TestRunner {
 	 */
 	private int failure = 0;
 
-	public TestRunner() {
+	public int run() {
 		/*
 		  This is the directory that will hold our reports
 		*/
@@ -139,6 +139,8 @@ public class TestRunner {
 			 */
 			PROXY_MANAGER.stopProxies(proxies);
 		}
+
+		return failure;
 	}
 
 	/**

@@ -20,22 +20,12 @@ public final class Main {
 			/*
 				Execute the tests
 			 */
-			new TestRunner();
+			final int failures = new TestRunner().run();
+			System.exit(failures);
 		} catch (final Exception ex) {
 			LOGGER.error(
 				"An exception was raised while attempting to run the Cucumber test scripts", ex);
+			System.exit(1);
 		}
-
-		/*
-			This code is useful to leave the console window open after a test has run
-			for debugging
-		 */
-		/*try {
-			Thread.sleep(1000000000);
-        } catch (InterruptedException e) {
-			// doesn't matter
-        }*/
-
-		System.exit(0);
 	}
 }
