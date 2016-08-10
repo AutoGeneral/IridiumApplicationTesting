@@ -1,5 +1,7 @@
 # A&G Iridium Application Testing Suite
 
+[![Build Status](https://travis-ci.org/mcasperson/IridiumApplicationTesting.svg?branch=master)](https://travis-ci.org/mcasperson/IridiumApplicationTesting)
+
 See the [documentation](https://autogeneral.gitbooks.io/iridiumapplicationtesting-gettingstartedguide/content/)
 for more details.
 
