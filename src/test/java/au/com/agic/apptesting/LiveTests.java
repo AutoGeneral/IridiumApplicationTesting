@@ -40,9 +40,9 @@ public class LiveTests {
 	}
 
 	private void resetDriverPaths() {
-		System.setProperty("webdriver.chrome.driver", null);
-		System.setProperty("webdriver.opera.driver", null);
-		System.setProperty("webdriver.ie.driver", null);
-		System.setProperty("phantomjs.binary.path", null);
+		System.setProperty("webdriver.chrome.driver", "");
+		System.setProperty("webdriver.opera.driver", "");
+		System.setProperty("webdriver.ie.driver", "");
+		System.setProperty("phantomjs.binary.path", "");
 	}
 }
