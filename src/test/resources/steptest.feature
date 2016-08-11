@@ -18,6 +18,26 @@ Feature: Test of the steps provided by Iridium
 			| Text Area 1 | textArea |
 			| Text Area 2 | textArea2 |
 
+	Scenario: Work with DropDown Lists
+		And I select "Option 2" from the drop down list found by "selectList"
+		And I select option number "3" from the drop down list found by "selectList"
+
+	Scenario: Focus on Elements
+		And I focus on the element found by "textArea"
+		Then I verify that the page contains the text "Focused on textarea"
+		And I focus on the element with the ID of "textArea2"
+		Then I verify that the page contains the text "Focused on textarea2"
+		And I focus on the element found by alias "Text Area 1"
+		Then I verify that the page contains the text "Focused on textarea"
+		And I focus on the element with the ID alias of "Text Area 2"
+		Then I verify that the page contains the text "Focused on textarea2"
+		And I populate the element found by "textArea" with "Some Text"
+		And I select all the text in the active element
+		And I press the backspace key on the active element "3" times
+		And I press the enter key on the active element
+		And I populate the element found by "textArea" with "New Line"
+		And I press the tab key on the active element
+
 	Scenario: Test Clicking Elements
 		And I click the element found by "buttonId"
 		Then I verify that the page contains the text "Button By ID Clicked"
@@ -132,10 +152,6 @@ Feature: Test of the steps provided by Iridium
 		And I click the hidden element with the class alias of "Non-Existant Field" if it exists
 		And I click the hidden element with the name alias of "Non-Existant Field" if it exists
 
-	Scenario: Work with DropDown Lists
-		And I select "Option 1" from the drop down list found by "selectList"
-		And I select option number "2" from the drop down list found by "selectList"
-
 	Scenario: Verify Element Has Class
 		Then I verify that the element found by "verifyDivClass" should have a class of "divClass"
 		And I verify that the element with the ID of "verifyDivClass" should have a class of "divClass"
@@ -185,22 +201,6 @@ Feature: Test of the steps provided by Iridium
 	Scenario: Navigate
 		And I go back
 		And I go forward
-
-	Scenario: Focus on Elements
-		And I focus on the element found by "textArea"
-		Then I verify that the page contains the text alias "Focused on textarea"
-		And I focus on the element with the ID of "textArea2"
-		Then I verify that the page contains the text alias "Focused on textarea2"
-		And I focus on the element found by alias "Text Area 1"
-		Then I verify that the page contains the text alias "Focused on textarea"
-		And I focus on the element with the ID alias of "Text Area 2"
-		Then I verify that the page contains the text alias "Focused on textarea2"
-		And I populate the element found by "textArea" with "Some Text"
-		And I select all the text in the active element
-		And I press the backspace key on the active element "3" times
-		And I press the enter key on the active element
-		And I populate the element found by "textArea" with "New Line"
-		And I press the tab key on the active element
 
 	Scenario: Wait steps
 		And I wait "30" seconds for the element found by "verifyDivClass" to be displayed

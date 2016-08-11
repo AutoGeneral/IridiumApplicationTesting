@@ -114,12 +114,14 @@ public class KeyEventSetpDefinitions {
 	/**
 	 * Presses the backspace key on the active element
 	 */
-	@When("^I press(?: the)? backspace(?: key)? on the active element")
-	public void pressBackspaceStep() {
+	@When("^I press(?: the)? backspace(?: key)? on the active element(?: \"(\\d+)\" times)")
+	public void pressBackspaceStep(final Integer times) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final WebElement element = webDriver.switchTo().activeElement();
-		element.sendKeys(Keys.BACK_SPACE);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
+			element.sendKeys(Keys.BACK_SPACE);
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		}
 	}
 
 	/**
