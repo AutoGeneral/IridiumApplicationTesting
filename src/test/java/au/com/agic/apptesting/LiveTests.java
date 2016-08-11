@@ -24,6 +24,29 @@ public class LiveTests {
 		globalTempFiles.forEach(File::delete);
 	}
 
+	@Test
+	public void stepTests() {
+		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
+			try {
+				setCommonProperties();
+				System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
+				System.setProperty("testSource", this.getClass().getResource("/steptest.feature").getPath());
+				System.setProperty("testDestination", "Chrome");
+				final int failures = new TestRunner().run(globalTempFiles);
+				if (failures == 0) {
+					return;
+				}
+				Thread.sleep(SLEEP);
+			} catch (final Exception ignored) {
+				/*
+					Ignored
+				 */
+			}
+		}
+
+		Assert.fail();
+	}
+
 	/**
 	 * This test is designed to simulate the starting and restarting of the ZAP proxy
 	 */

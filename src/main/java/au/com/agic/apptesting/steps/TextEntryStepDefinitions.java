@@ -303,7 +303,7 @@ public class TextEntryStepDefinitions {
 				}
 				SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 			}
-		} catch (final TimeoutException ex) {
+		} catch (final Exception ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
