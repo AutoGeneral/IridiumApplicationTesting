@@ -16,6 +16,7 @@ import java.util.List;
 public class LiveTests {
 	private static final Logger LOGGER = LoggerFactory.getLogger(LiveTests.class);
 	private static final int RETRY_COUNT = 3;
+	private static final int SLEEP = 60000;
 	private final List<File> globalTempFiles = new ArrayList<File>();
 
 	@After
@@ -53,6 +54,7 @@ public class LiveTests {
 				if (failures == 0) {
 					return;
 				}
+				Thread.sleep(SLEEP);
 			} catch (final Exception ignored) {
 				/*
 					Ignored
@@ -76,6 +78,7 @@ public class LiveTests {
 				if (failures == 0) {
 					return;
 				}
+				Thread.sleep(SLEEP);
 			} catch (final Exception ignored) {
 				/*
 					Ignored
@@ -98,6 +101,7 @@ public class LiveTests {
 				if (failures == 0) {
 					return;
 				}
+				Thread.sleep(SLEEP);
 			} catch (final Exception ignored) {
 				/*
 					Ignored
@@ -120,6 +124,7 @@ public class LiveTests {
 				if (failures == 0) {
 					return;
 				}
+				Thread.sleep(SLEEP);
 			} catch (final Exception ignored) {
 				/*
 					Ignored
@@ -142,6 +147,7 @@ public class LiveTests {
 				if (failures == 0) {
 					return;
 				}
+				Thread.sleep(SLEEP);
 			} catch (final Exception ignored) {
 				/*
 					Ignored
@@ -164,6 +170,7 @@ public class LiveTests {
 				if (failures == 0) {
 					return;
 				}
+				Thread.sleep(SLEEP);
 			} catch (final Exception ignored) {
 				/*
 					Ignored
@@ -186,6 +193,7 @@ public class LiveTests {
 				if (failures == 0) {
 					return;
 				}
+				Thread.sleep(SLEEP);
 			} catch (final Exception ignored) {
 				/*
 					Ignored
