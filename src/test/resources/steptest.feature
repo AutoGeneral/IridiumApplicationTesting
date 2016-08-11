@@ -1,6 +1,7 @@
 Feature: Test of the steps provided by Iridium
 	Scenario: Open App
 		Given I open the application
+		And I set the default wait time between steps to "1" seconds
 		And I set the alias mappings
 		  | Button ID | buttonId |
 			| Button ID Output | Button By ID Clicked |
@@ -197,7 +198,17 @@ Feature: Test of the steps provided by Iridium
 		And I populate the element found by "textArea" with "Some Text"
 		And I select all the text in the active element
 		And I press the backspace key on the active element "3" times
+		And I press the enter key on the active element
+		And I populate the element found by "textArea" with "New Line"
+		And I press the tab key on the active element
 
 	Scenario: Wait steps
 		And I wait "30" seconds for the element found by "verifyDivClass" to be displayed
 		And I wait "2" seconds for the element found by "thisDoesntExist" to be displayed ignoring timeouts
+		And I wait "30" seconds for the element with the class of "verifyDivClass" to be displayed
+		And I wait "2" seconds for the element with the class alias of "Non-Existant Field" to be displayed ignoring timeouts
+		And I sleep for "1" second
+		And I wait "30" seconds for the element found by alias "Button ID" to be present
+		And I wait "30" seconds for the element found by alias "Button ID" to be clickable
+		And I wait "2" seconds for the element found by alias "Non-Existant Field" to be present ignoring timeouts
+		And I wait "2" seconds for the element found by alias "Non-Existant Field" to be clickable ignoring timeouts
