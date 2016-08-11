@@ -1,22 +1,49 @@
 Feature: Test of the steps provided by Iridium
+
 	Scenario: Open App
 		Given I open the application
 		And I set the default wait time between steps to "1" seconds
 		And I set the alias mappings
-		  | Button ID | buttonId |
-			| Button ID Output | Button By ID Clicked |
-			| Button Class | buttonClass |
+			| Button ID           | buttonId                |
+			| Button ID Output    | Button By ID Clicked    |
+			| Button Class        | buttonClass             |
 			| Button Class Output | Button By Class Clicked |
-			| Button Name | buttonName |
-			| Button Name Output | Button By Name Clicked |
-			| Button Value | buttonValue |
+			| Button Name         | buttonName              |
+			| Button Name Output  | Button By Name Clicked  |
+			| Button Value        | buttonValue             |
 			| Button Value Output | Button By Value Clicked |
-			| Button Text | Button By Text |
-			| Button Text Output | Button By Text Clicked |
-			| Non-Existant Field | thisDoesntExist |
-		  | Link Contents | Test Link |
-			| Text Area 1 | textArea |
-			| Text Area 2 | textArea2 |
+			| Button Text         | Button By Text          |
+			| Button Text Output  | Button By Text Clicked  |
+			| Non-Existant Field  | thisDoesntExist         |
+			| Link Contents       | Test Link               |
+			| Text Area 1         | textArea                |
+			| Text Area 2         | textArea2               |
+			| Text Box css			  | body > div:nth-child(3) > input[type="text"]:nth-child(4) |
+			| Text Box xpath			| /html/body/div[2]/input[4] |
+
+	Scenario: Manual Mouse Events
+		And I "mousedown" on the hidden element found by "eventButton"
+		Then I verify that the page contains the text "Button mousedown"
+		And I "mouseup" on the hidden element found by "eventButton"
+		Then I verify that the page contains the text "Button mouseup"
+		And I "mouseover" on the hidden element found by "eventButton"
+		Then I verify that the page contains the text "Button mouseover"
+		And I "mouseout" on the hidden element found by "eventButton"
+		Then I verify that the page contains the text "Button mouseout"
+		And I "mousemove" on the hidden element found by "eventButton"
+		Then I verify that the page contains the text "Button mousemove"
+		And I "mouseenter" on the hidden element found by "eventButton"
+		Then I verify that the page contains the text "Button mouseenter"
+		And I "mouseleave" on the hidden element found by "eventButton"
+		Then I verify that the page contains the text "Button mouseleave"
+
+	Scenario: Manual Key Events
+		And I "keydown" on the hidden element found by "eventButton"
+		Then I verify that the page contains the text "Button keydown"
+		And I "keyup" on the hidden element found by "eventButton"
+		Then I verify that the page contains the text "Button keyup"
+		And I "keypress" on the hidden element found by "eventButton"
+		Then I verify that the page contains the text "Button keypress"
 
 	Scenario: Work with DropDown Lists
 		And I select "Option 2" from the drop down list found by "selectList"
@@ -110,32 +137,32 @@ Feature: Test of the steps provided by Iridium
 		And I click the hidden element with the name alias of "Button Name"
 		Then I verify that the page contains the text alias "Button Name Output"
 
-   Scenario: Test Populating Inputs
-	   And I populate the element found by "textId" with "Text Box Found By ID"
-		 And I populate the element found by "textClass" with "Text Box Found By Class" with a keystroke delay of "100" milliseconds
-		 And I populate the element found by "textName" with "Text Box Found By Name" with a keystroke delay of "50" milliseconds
-		 And I populate the element found by "textValue" with "Text Box Found By Value" with a keystroke delay of "25" milliseconds
-		 And I clear the element found by "textId"
-		 And I clear the element found by "textClass"
-		 And I clear the element found by "textName"
-		 And I clear the element with the xpath of "/html/body/div[2]/input[4]"
-		 And I populate the element with the ID of "textId" with "Text Box Found By ID"
-		 And I populate the element with the class of "textClass" with "Text Box Found By Class" with a keystroke delay of "100" milliseconds
-		 And I populate the element with the name of "textName" with "Text Box Found By Name" with a keystroke delay of "50" milliseconds
-		 And I populate the element with the css selector of "body > div:nth-child(2) > input[type='text']:nth-child(4)" with "Text Box Found By CSS Selector" with a keystroke delay of "25" milliseconds
-		 And I populate the element with the xpath of "/html/body/div[2]/input[4]" with " And Then With An XPath" with a keystroke delay of "25" milliseconds
-		 And I clear the element with the ID of "textId"
-		 And I clear the element with the class of "textClass"
-		 And I clear the element with the name of "textName"
+	Scenario: Test Populating Inputs
+		And I populate the element found by "textId" with "Text Box Found By ID"
+		And I populate the element found by "textClass" with "Text Box Found By Class" with a keystroke delay of "100" milliseconds
+		And I populate the element found by "textName" with "Text Box Found By Name" with a keystroke delay of "50" milliseconds
+		And I populate the element found by "textValue" with "Text Box Found By Value" with a keystroke delay of "25" milliseconds
+		And I clear the element found by "textId"
+		And I clear the element found by "textClass"
+		And I clear the element found by "textName"
+		And I clear the element with the xpath alias of "Text Box xpath"
+		And I populate the element with the ID of "textId" with "Text Box Found By ID"
+		And I populate the element with the class of "textClass" with "Text Box Found By Class" with a keystroke delay of "100" milliseconds
+		And I populate the element with the name of "textName" with "Text Box Found By Name" with a keystroke delay of "50" milliseconds
+		And I populate the element with the css selector alias of "Text Box css" with "Text Box Found By CSS Selector" with a keystroke delay of "25" milliseconds
+		And I populate the element with the xpath alias of "Text Box xpath" with " And Then With An XPath" with a keystroke delay of "25" milliseconds
+		And I clear the element with the ID of "textId"
+		And I clear the element with the class of "textClass"
+		And I clear the element with the name of "textName"
 
-  Scenario: Populate Inputs That Are Missing
-	  And I populate the element found by "thisDoesntExist" with "Whatever" if it exists
+	Scenario: Populate Inputs That Are Missing
+		And I populate the element found by "thisDoesntExist" with "Whatever" if it exists
 		And I populate the element found by alias "Non-Existant Field" with "Whatever" if it exists
 		And I populate the element with the ID of "thisDoesntExist" with "Whatver" if it exists
 		And I populate the element with the ID alias of "Non-Existant Field" with "Whatver" if it exists
 
 	Scenario: Clicking missing elements
-    And I click the element found by "thisDoesntExist" if it exists
+		And I click the element found by "thisDoesntExist" if it exists
 		And I click the element found by alias "Non-Existant Field" if it exists
 		And I click the element with the ID of "thisDoesntExist" if it exists
 		And I click the element with the class of "thisDoesntExist" if it exists
@@ -163,7 +190,7 @@ Feature: Test of the steps provided by Iridium
 		And I verify that the element with the xpath of "//*[@id='verifyDivClass']" should have a class of "divClass"
 		And I verify that the element found by "A div with a class" should have a class of "divClass"
 
-  Scenario: Verify Page
+	Scenario: Verify Page
 		And I verify that the browser title should be "Iridium Test Page"
 
 	Scenario: Save Values as Aliases and Verify Them
@@ -194,7 +221,7 @@ Feature: Test of the steps provided by Iridium
 		And I save the text content of the hidden element with the ID of "verifyString" to the alias "Example String"
 		And I verify that the alias "Example String" matches the regex "[a-zA-Z]+"
 
-  Scenario: Click Links
+	Scenario: Click Links
 		And I click the link with the text content of "Test Link"
 		And I click the hidden link with the text content alias of "Link Contents"
 

@@ -2,11 +2,9 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
-import au.com.agic.apptesting.utils.FeatureState;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.utils.*;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
+import au.com.agic.apptesting.utils.impl.JavaScriptRunnerImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 import cucumber.api.java.en.When;
@@ -33,6 +31,7 @@ public class KeyEventSetpDefinitions {
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
+	private static final JavaScriptRunner JAVA_SCRIPT_RUNNER = new JavaScriptRunnerImpl();
 
 	/**
 	 * Get the web driver for this thread
@@ -140,13 +139,15 @@ public class KeyEventSetpDefinitions {
 	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
 	 * workaround.
 	 *
+	 * @param event 		The type of key event to simulate
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
 	 *                      data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
 	 *                      set, this value is found from the data set. Otherwise it is a literal value.
 	 */
-	@When("I dispatch a key up event on (?:a|an|the) element found by( alias)? \"([^\"]*)\"")
+	@When("I(?: dispatch a)? \"(key.*?)\"(?: event)? on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"")
 	public void triggetKeyUp(
+		final String event,
 		final String alias,
 		final String selectorValue) throws ExecutionException, InterruptedException {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
@@ -156,7 +157,7 @@ public class KeyEventSetpDefinitions {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keyup\"));", element);
+		JAVA_SCRIPT_RUNNER.interactHiddenElementKeyEvent(element, event, js);
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
@@ -165,117 +166,22 @@ public class KeyEventSetpDefinitions {
 	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
 	 * workaround.
 	 *
+	 * @param event 		The type of key event to simulate
 	 * @param selector      Either ID, class, xpath, name or css selector
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
 	 *                      data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
 	 *                      set, this value is found from the data set. Otherwise it is a literal value.
 	 */
-	@When("I dispatch a key up event on (?:a|an|the) element with (?:a|an|the) "
+	@When("I(?: dispatch a)? \"(key.*?)\"(?: event)? on (?:a|an|the) hidden element with (?:a|an|the) "
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
-	public void triggetKeyUp(final String selector, final String alias, final String selectorValue) {
+	public void triggetKeyUp(final String event, final String selector, final String alias, final String selectorValue) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
 		final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keyup\"));", element);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
-	}
-
-	/**
-	 * sendKeys will often not trigger the key events, which some elements of the page need in order to
-	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
-	 * workaround.
-	 *
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I dispatch a key press event on (?:a|an|the) element found by( alias)? \"([^\"]*)\"")
-	public void triggetSimpleKeyPress(
-		final String alias,
-		final String selectorValue) throws ExecutionException, InterruptedException {
-
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
-			StringUtils.isNotBlank(alias),
-			selectorValue,
-			featureState);
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keypress\"));", element);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
-	}
-
-	/**
-	 * sendKeys will often not trigger the key events, which some elements of the page need in order to
-	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
-	 * workaround.
-	 *
-	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I dispatch a key press event on (?:a|an|the) element with (?:a|an|the) "
-		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
-	public void triggetKeyPress(final String selector, final String alias, final String selectorValue) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
-		final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
-		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keypress\"));", element);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
-	}
-
-	/**
-	 * sendKeys will often not trigger the key down event, which some elements of the page need in order to
-	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
-	 * workaround.
-	 *
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I dispatch a key down event (?:a|an|the) element found by( alias)? \"([^\"]*)\"")
-	public void triggetSimpleKeyDown(
-		final String alias,
-		final String selectorValue) throws ExecutionException, InterruptedException {
-
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
-			StringUtils.isNotBlank(alias),
-			selectorValue,
-			featureState);
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keydown\"));", element);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
-	}
-
-	/**
-	 * sendKeys will often not trigger the key down event, which some elements of the page need in order to
-	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
-	 * workaround.
-	 *
-	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I dispatch a key down event (?:a|an|the) element with (?:a|an|the) "
-		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
-	public void triggetKeyDown(final String selector, final String alias, final String selectorValue) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
-		final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
-		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-		js.executeScript("arguments[0].dispatchEvent(new KeyboardEvent(\"keydown\"));", element);
+		JAVA_SCRIPT_RUNNER.interactHiddenElementKeyEvent(element, event, js);
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 }

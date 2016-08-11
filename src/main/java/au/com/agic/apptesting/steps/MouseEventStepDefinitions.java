@@ -49,7 +49,7 @@ public class MouseEventStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I \"(.*?)\" on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"( if it exists)?$")
+	@When("^I(?: dispatch a)? ?\"(mouse.*?)\"(?: event)? on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"( if it exists)?$")
 	public void mouseEventSimpleHiddenElementStep(
 		final String event,
 		final String alias,
@@ -67,7 +67,7 @@ public class MouseEventStepDefinitions {
 			/*
 				Just like the click, sometimes we need to trigger mousedown events manually
 			 */
-			JAVA_SCRIPT_RUNNER.interactHiddenElement(element, event, js);
+			JAVA_SCRIPT_RUNNER.interactHiddenElementMouseEvent(element, event, js);
 			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -89,7 +89,7 @@ public class MouseEventStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I \"(.*?)\" on (?:a|an|the) hidden element with (?:a|an|the) "
+	@When("^I(?: dispatch a)? ?\"(mouse.*?)\"(?: event)? on (?:a|an|the) hidden element with (?:a|an|the) "
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"( if it exists)?$")
 	public void mouseEventHiddenElementStep(
 		final String event,
@@ -112,7 +112,7 @@ public class MouseEventStepDefinitions {
 			/*
 				Just like the click, sometimes we need to trigger mousedown events manually
 			 */
-			JAVA_SCRIPT_RUNNER.interactHiddenElement(element, event, js);
+			JAVA_SCRIPT_RUNNER.interactHiddenElementMouseEvent(element, event, js);
 			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {

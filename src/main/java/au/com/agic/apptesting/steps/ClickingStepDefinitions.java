@@ -74,7 +74,7 @@ public class ClickingStepDefinitions {
 				webDriver, element, js);
 
 			if (treatAsHiddenElement) {
-				JAVA_SCRIPT_RUNNER.interactHiddenElement(element, "click", js);
+				JAVA_SCRIPT_RUNNER.interactHiddenElementMouseEvent(element, "click", js);
 			} else {
 				element.click();
 			}
@@ -124,7 +124,7 @@ public class ClickingStepDefinitions {
 				webDriver, element, js);
 
 			if (treatAsHiddenElement) {
-				JAVA_SCRIPT_RUNNER.interactHiddenElement(element, "click", js);
+				JAVA_SCRIPT_RUNNER.interactHiddenElementMouseEvent(element, "click", js);
 			} else {
 				element.click();
 			}
@@ -168,7 +168,7 @@ public class ClickingStepDefinitions {
 				PhantomJS doesn't support the click method, so "element.click()" won't work
 				here. We need to dispatch the event instead.
 			 */
-			JAVA_SCRIPT_RUNNER.interactHiddenElement(element, "click", js);
+			JAVA_SCRIPT_RUNNER.interactHiddenElementMouseEvent(element, "click", js);
 			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -211,7 +211,7 @@ public class ClickingStepDefinitions {
 				PhantomJS doesn't support the click method, so "element.click()" won't work
 				here. We need to dispatch the event instead.
 			 */
-			JAVA_SCRIPT_RUNNER.interactHiddenElement(element, "click", js);
+			JAVA_SCRIPT_RUNNER.interactHiddenElementMouseEvent(element, "click", js);
 			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
