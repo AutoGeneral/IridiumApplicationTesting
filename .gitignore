@@ -50,3 +50,4 @@
 /keystore
 **/.DS_Store
 log.txt
+exception.txt
