@@ -2,8 +2,6 @@ package au.com.agic.apptesting.utils;
 
 import org.openqa.selenium.WebElement;
 
-import java.util.concurrent.CompletableFuture;
-
 /**
  * A service that returns elements based on fuzzy selections
  */

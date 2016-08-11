@@ -1,9 +1,7 @@
 package au.com.agic.apptesting.utils.impl;
 
-import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.*;
-import javaslang.control.Try;
 import net.lightbody.bmp.BrowserMobProxy;
 import org.zaproxy.clientapi.core.ClientApi;
 

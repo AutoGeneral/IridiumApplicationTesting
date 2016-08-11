@@ -130,7 +130,8 @@ public class ProxyStepDefinitions {
 							/*
 								Find the root context cookie
 							 */
-							final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+							final WebDriver webDriver =
+								State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 							final Optional<Cookie> awselb =
 								webDriver.manage().getCookies()
 									.stream()

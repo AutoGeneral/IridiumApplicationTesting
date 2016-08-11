@@ -119,7 +119,9 @@ public class OpenStepDefinitions {
 						final String urlString = url.toString();
 						js.executeScript("(function() {"
 							+ "var newWindow = window.open('" + urlString + "','_blank'); "
-							+ "window.setTimeout(function(){newWindow.close()}, " + TAB_OPEN_TIME + ");"
+							+ "window.setTimeout(function(){newWindow.close()}, "
+							+ TAB_OPEN_TIME
+							+ ");"
 							+ "})()"
 						);
 

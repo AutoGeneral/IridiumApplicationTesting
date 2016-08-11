@@ -48,6 +48,14 @@ public interface ThreadWebDriverMap {
 	FeatureState getDesiredCapabilitiesForThread(@NotNull final String name);
 
 	/**
+	 * @return The web driver and url associated with the current thread
+	 */
+	@NotNull
+	default FeatureState getDesiredCapabilitiesForThread() {
+		return getDesiredCapabilitiesForThread(Thread.currentThread().getName());
+	}
+
+	/**
 	 *
 	 * @param name The name of the currently executing thread
 	 * @param  createIfMissing set to true to create a web driver if one doesn't exist
@@ -55,14 +63,6 @@ public interface ThreadWebDriverMap {
      */
 	@NotNull
 	WebDriver getWebDriverForThread(@NotNull final String name, final boolean createIfMissing);
-
-	/**
-	 * @return The web driver and url associated with the current thread
-	 */
-	@NotNull
-	default FeatureState getDesiredCapabilitiesForThread() {
-		return getDesiredCapabilitiesForThread(Thread.currentThread().getName());
-	}
 
 	/**
 	 * Clears the web driver assigned to a thread.

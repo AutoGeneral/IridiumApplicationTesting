@@ -6,12 +6,12 @@ import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
+import au.com.agic.apptesting.webdriver.WebDriverWaitEx;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import au.com.agic.apptesting.webdriver.WebDriverWaitEx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,7 +64,10 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWaitEx wait = new WebDriverWaitEx(webDriver, TIME_SLICE, TimeUnit.MILLISECONDS);
+					final WebDriverWaitEx wait = new WebDriverWaitEx(
+						webDriver,
+						TIME_SLICE,
+						TimeUnit.MILLISECONDS);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.elementToBeClickable(by);
 
@@ -106,7 +109,10 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWaitEx wait = new WebDriverWaitEx(webDriver, TIME_SLICE, TimeUnit.MILLISECONDS);
+					final WebDriverWaitEx wait = new WebDriverWaitEx(
+						webDriver,
+						TIME_SLICE,
+						TimeUnit.MILLISECONDS);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.visibilityOfElementLocated(by);
 
@@ -148,7 +154,10 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWaitEx wait = new WebDriverWaitEx(webDriver, TIME_SLICE, TimeUnit.MILLISECONDS);
+					final WebDriverWaitEx wait = new WebDriverWaitEx(
+						webDriver,
+						TIME_SLICE,
+						TimeUnit.MILLISECONDS);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.presenceOfElementLocated(by);
 

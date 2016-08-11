@@ -4,23 +4,19 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.*;
 import org.apache.commons.lang3.StringUtils;
-import org.parosproxy.paros.Constant;
-import org.parosproxy.paros.control.Control;
-import org.parosproxy.paros.extension.ExtensionLoader;
-import org.parosproxy.paros.model.Model;
-import org.parosproxy.paros.view.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zaproxy.clientapi.core.ClientApi;
 import org.zaproxy.zap.ZAP;
-import org.zaproxy.zap.control.ExtensionFactory;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
-import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

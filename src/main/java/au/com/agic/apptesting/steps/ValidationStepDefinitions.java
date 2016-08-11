@@ -262,7 +262,7 @@ public class ValidationStepDefinitions {
 		if (browserMob.isPresent()) {
 			if (browserMob.get().getProperties().containsKey(BrowsermobProxyUtilsImpl.INVALID_REQUESTS)) {
 				final List<HttpMessageInfo> responses =
-					(List<HttpMessageInfo>)browserMob.get()
+					(List<HttpMessageInfo>) browserMob.get()
 						.getProperties().get(BrowsermobProxyUtilsImpl.INVALID_REQUESTS);
 
 				if (!responses.isEmpty()) {
@@ -292,7 +292,7 @@ public class ValidationStepDefinitions {
 		if (browserMob.isPresent()) {
 			if (browserMob.get().getProperties().containsKey(BrowsermobProxyUtilsImpl.INVALID_REQUESTS)) {
 				final List<HttpMessageInfo> responses =
-					(List<HttpMessageInfo>)browserMob.get()
+					(List<HttpMessageInfo>) browserMob.get()
 						.getProperties().get(BrowsermobProxyUtilsImpl.INVALID_REQUESTS);
 
 				if (!responses.isEmpty()) {

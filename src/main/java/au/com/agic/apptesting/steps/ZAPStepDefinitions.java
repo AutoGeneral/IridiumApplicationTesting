@@ -487,7 +487,10 @@ public class ZAPStepDefinitions {
 		processVulnerabilities(risk, baseUrl, true);
 	}
 
-	public void processVulnerabilities(final String risk, final String baseUrl, final boolean reportOnly) throws ClientApiException {
+	public void processVulnerabilities(
+		final String risk,
+		final String baseUrl,
+		final boolean reportOnly) throws ClientApiException {
 
 		final ClientApi clientApi = getClientApi();
 

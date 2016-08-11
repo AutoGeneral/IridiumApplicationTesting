@@ -5,7 +5,10 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.*;
+import org.openqa.selenium.support.ui.Clock;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Sleeper;
+import org.openqa.selenium.support.ui.SystemClock;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,26 +16,39 @@ import java.util.concurrent.TimeUnit;
  * A wait class that works with units other than seconds
  */
 public class WebDriverWaitEx extends FluentWait<WebDriver> {
-	public final static long DEFAULT_SLEEP_TIMEOUT = 500;
+	public static final long DEFAULT_SLEEP_TIMEOUT = 500;
 	private final WebDriver driver;
 
-	public WebDriverWaitEx(WebDriver driver, long timeOutInSeconds) {
+	public WebDriverWaitEx(final WebDriver driver, final long timeOutInSeconds) {
 		this(driver, new SystemClock(), Sleeper.SYSTEM_SLEEPER, timeOutInSeconds, DEFAULT_SLEEP_TIMEOUT);
 	}
 
-	public WebDriverWaitEx(WebDriver driver, long timeOut, TimeUnit time) {
+	public WebDriverWaitEx(final WebDriver driver, final long timeOut, final TimeUnit time) {
 		this(driver, new SystemClock(), Sleeper.SYSTEM_SLEEPER, timeOut, DEFAULT_SLEEP_TIMEOUT, time);
 	}
 
-	public WebDriverWaitEx(WebDriver driver, long timeOutInSeconds, long sleepInMillis) {
+	public WebDriverWaitEx(final WebDriver driver, final long timeOutInSeconds, final long sleepInMillis) {
 		this(driver, new SystemClock(), Sleeper.SYSTEM_SLEEPER, timeOutInSeconds, sleepInMillis);
 	}
 
-	public WebDriverWaitEx(WebDriver driver, Clock clock, Sleeper sleeper, long timeOutInSeconds, long sleepTimeOut) {
+	public WebDriverWaitEx(
+		final WebDriver driver,
+		final Clock clock,
+		final Sleeper sleeper,
+		final long timeOutInSeconds,
+		final long sleepTimeOut) {
+
 		this(driver, clock, sleeper, timeOutInSeconds, sleepTimeOut, TimeUnit.SECONDS);
 	}
 
-	public WebDriverWaitEx(WebDriver driver, Clock clock, Sleeper sleeper, long timeOutInSeconds, long sleepTimeOut, TimeUnit time) {
+	public WebDriverWaitEx(
+		final WebDriver driver,
+		final Clock clock,
+		final Sleeper sleeper,
+		final long timeOutInSeconds,
+		final long sleepTimeOut,
+		final TimeUnit time) {
+
 		super(driver, clock, sleeper);
 		withTimeout(timeOutInSeconds, time);
 		pollingEvery(sleepTimeOut, TimeUnit.MILLISECONDS);
@@ -41,7 +57,7 @@ public class WebDriverWaitEx extends FluentWait<WebDriver> {
 	}
 
 	@Override
-	protected RuntimeException timeoutException(String message, Throwable lastException) {
+	protected RuntimeException timeoutException(final String message, final Throwable lastException) {
 		TimeoutException ex = new TimeoutException(message, lastException);
 		ex.addInfo(WebDriverException.DRIVER_INFO, driver.getClass().getName());
 		if (driver instanceof RemoteWebDriver) {
