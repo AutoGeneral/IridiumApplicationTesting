@@ -24,6 +24,10 @@ public class LiveTests {
 		globalTempFiles.forEach(File::delete);
 	}
 
+	/**
+	 * This test runs a feature that uses a wide selection of the steps provided
+	 * with Iridium, and serves as a good regression test.
+	 */
 	@Test
 	public void stepTests() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
