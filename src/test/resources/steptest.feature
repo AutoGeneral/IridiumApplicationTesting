@@ -13,6 +13,9 @@ Feature: Test of the steps provided by Iridium
 			| Button Text | Button By Text |
 			| Button Text Output | Button By Text Clicked |
 			| Non-Existant Field | thisDoesntExist |
+		  | Link Contents | Test Link |
+			| Text Area 1 | textArea |
+			| Text Area 2 | textArea2 |
 
 	Scenario: Test Clicking Elements
 		And I click the element found by "buttonId"
@@ -25,6 +28,12 @@ Feature: Test of the steps provided by Iridium
 		Then I verify that the page contains the text "Button By Value Clicked"
 		And I click the element found by "Button By Text"
 		Then I verify that the page contains the text "Button By Text Clicked"
+		And I click the element with the ID of "buttonId"
+		Then I verify that the page contains the text "Button By ID Clicked"
+		And I click the element with the class of "buttonClass"
+		Then I verify that the page contains the text "Button By Class Clicked"
+		And I click the element with the name of "buttonName"
+		Then I verify that the page contains the text "Button By Name Clicked"
 
 	Scenario: Test Clicking Elements With Aliases
 		And I click the element found by alias "Button ID"
@@ -37,6 +46,48 @@ Feature: Test of the steps provided by Iridium
 		Then I verify that the page contains the text alias "Button Value Output"
 		And I click the element found by alias "Button Text"
 		Then I verify that the page contains the text alias "Button Text Output"
+		And I click the element with the ID alias of "Button ID"
+		Then I verify that the page contains the text alias "Button ID Output"
+		And I click the element with the class alias of "Button Class"
+		Then I verify that the page contains the text alias "Button Class Output"
+		And I click the element with the name alias of "Button Name"
+		Then I verify that the page contains the text alias "Button Name Output"
+
+	Scenario: Test Clicking Hidden Elements
+		And I click the hidden element found by "buttonId"
+		Then I verify that the page contains the text "Button By ID Clicked"
+		And I click the hidden element found by "buttonClass"
+		Then I verify that the page contains the text "Button By Class Clicked"
+		And I click the hidden element found by "buttonName"
+		Then I verify that the page contains the text "Button By Name Clicked"
+		And I click the hidden element found by "buttonValue"
+		Then I verify that the page contains the text "Button By Value Clicked"
+		And I click the hidden element found by "Button By Text"
+		Then I verify that the page contains the text "Button By Text Clicked"
+		And I click the hidden element with the ID of "buttonId"
+		Then I verify that the page contains the text "Button By ID Clicked"
+		And I click the hidden element with the class of "buttonClass"
+		Then I verify that the page contains the text "Button By Class Clicked"
+		And I click the hidden element with the name of "buttonName"
+		Then I verify that the page contains the text "Button By Name Clicked"
+
+	Scenario: Test Clicking Hidden Elements With Aliases
+		And I click the hidden element found by alias "Button ID"
+		Then I verify that the page contains the text alias "Button ID Output"
+		And I click the hidden element found by alias "Button Class"
+		Then I verify that the page contains the text alias "Button Class Output"
+		And I click the hidden element found by alias "Button Name"
+		Then I verify that the page contains the text alias "Button Name Output"
+		And I click the hidden element found by alias "Button Value"
+		Then I verify that the page contains the text alias "Button Value Output"
+		And I click the hidden element found by alias "Button Text"
+		Then I verify that the page contains the text alias "Button Text Output"
+		And I click the hidden element with the ID alias of "Button ID"
+		Then I verify that the page contains the text alias "Button ID Output"
+		And I click the hidden element with the class alias of "Button Class"
+		Then I verify that the page contains the text alias "Button Class Output"
+		And I click the hidden element with the name alias of "Button Name"
+		Then I verify that the page contains the text alias "Button Name Output"
 
    Scenario: Test Populating Inputs
 	   And I populate the element found by "textId" with "Text Box Found By ID"
@@ -46,12 +97,12 @@ Feature: Test of the steps provided by Iridium
 		 And I clear the element found by "textId"
 		 And I clear the element found by "textClass"
 		 And I clear the element found by "textName"
-		 And I clear the element with the xpath of "/html/body/div[3]/input[4]"
+		 And I clear the element with the xpath of "/html/body/div[2]/input[4]"
 		 And I populate the element with the ID of "textId" with "Text Box Found By ID"
 		 And I populate the element with the class of "textClass" with "Text Box Found By Class" with a keystroke delay of "100" milliseconds
 		 And I populate the element with the name of "textName" with "Text Box Found By Name" with a keystroke delay of "50" milliseconds
 		 And I populate the element with the css selector of "body > div:nth-child(3) > input[type='text']:nth-child(4)" with "Text Box Found By CSS Selector" with a keystroke delay of "25" milliseconds
-		 And I populate the element with the xpath of "/html/body/div[3]/input[4]" with " And Then With An XPath" with a keystroke delay of "25" milliseconds
+		 And I populate the element with the xpath of "/html/body/div[2]/input[4]" with " And Then With An XPath" with a keystroke delay of "25" milliseconds
 		 And I clear the element with the ID of "textId"
 		 And I clear the element with the class of "textClass"
 		 And I clear the element with the name of "textName"
@@ -77,6 +128,9 @@ Feature: Test of the steps provided by Iridium
 		And I verify that the element with the xpath of "//*[@id='verifyDivClass']" should have a class of "divClass"
 		And I verify that the element found by "A div with a class" should have a class of "divClass"
 
+  Scenario: Verify Page
+		And I verify that the browser title should be "Iridium Test Page"
+
 	Scenario: Save Values as Aliases and Verify Them
 		And I save the text content of the element found by "verifyNumber" to the alias "Example Number"
 		And I save the text content of the element found by "verifyString" to the alias "Example String"
@@ -96,3 +150,28 @@ Feature: Test of the steps provided by Iridium
 		And I verify that the alias "Example String" is not equal to "This is not the string you are looking for"
 		And I verify that the alias "Example Number Attr" is equal to "number"
 		And I verify that the alias "Example String Attr" is equal to "string"
+
+  Scenario: Click Links
+		And I click the link with the text content of "Test Link"
+		And I click the link with the text content alias of "Link Contents"
+
+	Scenario: Navigate
+		And I go back
+		And I go forward
+
+	Scenario: Focus on Elements
+		And I focus on the element found by "textArea"
+		Then I verify that the page contains the text alias "Focused on textarea"
+		And I focus on the element with the ID of "textArea2"
+		Then I verify that the page contains the text alias "Focused on textarea2"
+		And I focus on the element found by alias "Text Area 1"
+		Then I verify that the page contains the text alias "Focused on textarea"
+		And I focus on the element with the ID alias of "Text Area 2"
+		Then I verify that the page contains the text alias "Focused on textarea2"
+		And I populate the element found by "textArea" with "Some Text"
+		And I select all the text in the active element
+		And I press the backspace key on the active element "3" times
+
+	Scenario: Wait steps
+		And I wait "30" seconds for the element found by "verifyDivClass" to be displayed
+		And I wait "2" seconds for the element found by "thisDoesntExist" to be displayed ignoring timeouts
