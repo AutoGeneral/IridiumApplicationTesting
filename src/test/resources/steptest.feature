@@ -150,10 +150,9 @@ Feature: Test of the steps provided by Iridium
 		And I verify that the browser title should be "Iridium Test Page"
 
 	Scenario: Save Values as Aliases and Verify Them
+		And I save the text content of the element found by "verifyString" to the alias "Example String"
 		And I save the text content of the element found by "verifyNumber" to the alias "Example Number"
-		And I save the text content of the hidden element found by "verifyString" to the alias "Example String"
 		And I save the text content of the element with the ID of "verifyNumber" to the alias "Example Number"
-		And I save the text content of the hidden element with the ID of "verifyString" to the alias "Example String"
 		And I save the attribute content of "data-verify" from the element found by "verifyNumber" to the alias "Example Number Attr"
 		And I save the attribute content of "data-verify" from the element found by "verifyString" to the alias "Example String Attr"
 		And I save the value of the element found by "optionValue" to the alias "Option Value"
@@ -172,6 +171,11 @@ Feature: Test of the steps provided by Iridium
 		And I verify that the alias "Example Number Attr" is equal to "number"
 		And I verify that the alias "Example String Attr" is equal to "string"
 		And I verify that the alias "Option Value" is not empty
+
+	Scenario: Save Values from Hidden Elements
+		And I save the text content of the hidden element found by "verifyString" to the alias "Example String"
+		And I save the text content of the hidden element with the ID of "verifyString" to the alias "Example String"
+		And I verify that the alias "Example String" matches the regex "[a-zA-Z]+"
 
   Scenario: Click Links
 		And I click the link with the text content of "Test Link"
