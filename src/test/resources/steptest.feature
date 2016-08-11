@@ -101,7 +101,7 @@ Feature: Test of the steps provided by Iridium
 		 And I populate the element with the ID of "textId" with "Text Box Found By ID"
 		 And I populate the element with the class of "textClass" with "Text Box Found By Class" with a keystroke delay of "100" milliseconds
 		 And I populate the element with the name of "textName" with "Text Box Found By Name" with a keystroke delay of "50" milliseconds
-		 And I populate the element with the css selector of "body > div:nth-child(2) > input[type="text"]:nth-child(4)" with "Text Box Found By CSS Selector" with a keystroke delay of "25" milliseconds
+		 And I populate the element with the css selector of "body > div:nth-child(2) > input[type='text']:nth-child(4)" with "Text Box Found By CSS Selector" with a keystroke delay of "25" milliseconds
 		 And I populate the element with the xpath of "/html/body/div[2]/input[4]" with " And Then With An XPath" with a keystroke delay of "25" milliseconds
 		 And I clear the element with the ID of "textId"
 		 And I clear the element with the class of "textClass"
@@ -151,7 +151,9 @@ Feature: Test of the steps provided by Iridium
 
 	Scenario: Save Values as Aliases and Verify Them
 		And I save the text content of the element found by "verifyNumber" to the alias "Example Number"
-		And I save the text content of the element found by "verifyString" to the alias "Example String"
+		And I save the text content of the hidden element found by "verifyString" to the alias "Example String"
+		And I save the text content of the element with the ID of "verifyNumber" to the alias "Example Number"
+		And I save the text content of the hidden element with the ID of "verifyString" to the alias "Example String"
 		And I save the attribute content of "data-verify" from the element found by "verifyNumber" to the alias "Example Number Attr"
 		And I save the attribute content of "data-verify" from the element found by "verifyString" to the alias "Example String Attr"
 		And I save the value of the element found by "optionValue" to the alias "Option Value"
