@@ -101,7 +101,7 @@ Feature: Test of the steps provided by Iridium
 		 And I populate the element with the ID of "textId" with "Text Box Found By ID"
 		 And I populate the element with the class of "textClass" with "Text Box Found By Class" with a keystroke delay of "100" milliseconds
 		 And I populate the element with the name of "textName" with "Text Box Found By Name" with a keystroke delay of "50" milliseconds
-		 And I populate the element with the css selector of "body > div:nth-child(3) > input[type='text']:nth-child(4)" with "Text Box Found By CSS Selector" with a keystroke delay of "25" milliseconds
+		 And I populate the element with the css selector of "body > div:nth-child(2) > input[type="text"]:nth-child(4)" with "Text Box Found By CSS Selector" with a keystroke delay of "25" milliseconds
 		 And I populate the element with the xpath of "/html/body/div[2]/input[4]" with " And Then With An XPath" with a keystroke delay of "25" milliseconds
 		 And I clear the element with the ID of "textId"
 		 And I clear the element with the class of "textClass"
@@ -112,6 +112,24 @@ Feature: Test of the steps provided by Iridium
 		And I populate the element found by alias "Non-Existant Field" with "Whatever" if it exists
 		And I populate the element with the ID of "thisDoesntExist" with "Whatver" if it exists
 		And I populate the element with the ID alias of "Non-Existant Field" with "Whatver" if it exists
+
+	Scenario: Clicking missing elements
+    And I click the element found by "thisDoesntExist" if it exists
+		And I click the element found by alias "Non-Existant Field" if it exists
+		And I click the element with the ID of "thisDoesntExist" if it exists
+		And I click the element with the class of "thisDoesntExist" if it exists
+		And I click the element with the name of "thisDoesntExist" if it exists
+		And I click the element with the ID alias of "Non-Existant Field" if it exists
+		And I click the element with the class alias of "Non-Existant Field" if it exists
+		And I click the element with the name alias of "Non-Existant Field" if it exists
+		And I click the hidden element found by "thisDoesntExist" if it exists
+		And I click the hidden element found by alias "Non-Existant Field" if it exists
+		And I click the hidden element with the ID of "thisDoesntExist" if it exists
+		And I click the hidden element with the class of "thisDoesntExist" if it exists
+		And I click the hidden element with the name of "thisDoesntExist" if it exists
+		And I click the hidden element with the ID alias of "Non-Existant Field" if it exists
+		And I click the hidden element with the class alias of "Non-Existant Field" if it exists
+		And I click the hidden element with the name alias of "Non-Existant Field" if it exists
 
 	Scenario: Work with DropDown Lists
 		And I select "Option 1" from the drop down list found by "selectList"
@@ -136,6 +154,7 @@ Feature: Test of the steps provided by Iridium
 		And I save the text content of the element found by "verifyString" to the alias "Example String"
 		And I save the attribute content of "data-verify" from the element found by "verifyNumber" to the alias "Example Number Attr"
 		And I save the attribute content of "data-verify" from the element found by "verifyString" to the alias "Example String Attr"
+		And I save the value of the element found by "optionValue" to the alias "Option Value"
 		Then I verify that the alias "Example Number" is a number
 		And I verify that the alias "Example String" is not a number
 		And I verify that the alias "Example Number" is not empty
@@ -150,10 +169,11 @@ Feature: Test of the steps provided by Iridium
 		And I verify that the alias "Example String" is not equal to "This is not the string you are looking for"
 		And I verify that the alias "Example Number Attr" is equal to "number"
 		And I verify that the alias "Example String Attr" is equal to "string"
+		And I verify that the alias "Option Value" is not empty
 
   Scenario: Click Links
 		And I click the link with the text content of "Test Link"
-		And I click the link with the text content alias of "Link Contents"
+		And I click the hidden link with the text content alias of "Link Contents"
 
 	Scenario: Navigate
 		And I go back
