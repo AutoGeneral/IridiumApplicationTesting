@@ -2,13 +2,24 @@ sudo: required
 dist: trusty
 language: java
 jdk:
- - oraclejdk8
+	- oraclejdk8
 before_install:
- - export CHROME_BIN=/usr/bin/google-chrome
- - export DISPLAY=:99.0
- - sh -e /etc/init.d/xvfb start
- - sudo apt-get update
- - sudo apt-get install -y libappindicator1 fonts-liberation
- - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
- - sudo dpkg -i google-chrome*.deb
+	- export CHROME_BIN=/usr/bin/google-chrome
+	- export DISPLAY=:99.0
+	- sh -e /etc/init.d/xvfb start
+	- sudo apt-get update
+	- sudo apt-get install -y libappindicator1 fonts-liberation
+	- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+	- sudo dpkg -i google-chrome*.deb
+	- wget ${Keystore}
 script: travis_wait 30 ./gradlew check
+deploy:
+	provider: releases
+	api_key:
+	secure: BlmfOcFkBguFOSEO34UkZ/X/aBZjeHiCyuMbfx3IXQjK6IbR77I917CTdP4w855zS1ShM06M3mnDhyc0yL5WDOrJJ+xxPWBHCo+JPbW4dXILBd5NS3oGu4rA51MlvLw/2z9mi5EJ7iivCuVzQBzXrMnYZbKL+LMWDKeuLtrZ9mTVIlPLLyR2yxh3n5zlrVD3xzbdxUxaV2DnAYCc9QkT6aC78qOvg69yPqSV1hXm9EWkJdjid15fM3xfuwCUfYpfOxcSFeBciOLd6zzxDnnOj6avnqbzahuY7kIUUAHaWbj5rt1RrtUq0nPEVpS4PBTF5ANclcGQcAmHgY+eErAYnc4EAzi17QE4cVzM61LDN+/BwGnsU0N71XQiDGTrZ+6zWFLW9SjpBKLl9GRmJglbewUIsSkIbVfVsM5jB6kknDb73NPT1QrHnhwegKTf10qnkWSAhN4x95fkNwecR7j0XI5P6HIbDvJixEIebcbn+G77de/2UGNhJj86nAkVbvBpj7hIB7TM0nqYMz3b0BPB+CIPxEAiGH8XMjH/tPxYzWZtz+aCXO0rno/FirjR+Iz1BUhZKq3qGQkeiEiEhb/7A5ZMUouph4x/FZLMKLgmP/K5MIC3OBy4mUCMrI7LtYunoKG2+7HldjRMbCi8umST9R/4JpYTe2Ixb8Oyv91tJzg=
+	file:
+		- build/signed/IridiumApplicationTesting.jar
+		- build/signed/IridiumApplicationTesting.jar.pack.gz
+	skip_cleanup: true
+	on:
+	  tags: true

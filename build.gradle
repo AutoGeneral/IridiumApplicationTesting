@@ -42,7 +42,7 @@ def keystore = hasProperty("KeystoreName") ? getProperty("KeystoreName") : Syste
 def storepass = hasProperty("KeystoreStorePass") ? getProperty("KeystoreStorePass") : System.getenv("KeystoreStorePass");
 def keypass = hasProperty("KeystorePass") ? getProperty("KeystorePass") : System.getenv("KeystorePass");
 
-task repack(type:Exec) {
+task repack(type:Exec, dependsOn: jar) {
 	commandLine 'pack200', '--repack', jar.archivePath
 }
 
@@ -64,6 +64,8 @@ task pack(type:Exec, dependsOn: signJar) {
 		projectDir.toString() + "/build/signed/" + project.name + ".jar.pack.gz",
 		projectDir.toString() + "/build/signed/" + project.name + ".jar")
 }
+
+assemble.dependsOn pack
 
 jar {
     manifest {
