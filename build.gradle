@@ -42,7 +42,7 @@ def keystore = hasProperty("KeystoreName") ? getProperty("KeystoreName") : Syste
 def storepass = hasProperty("KeystoreStorePass") ? getProperty("KeystoreStorePass") : System.getenv("KeystoreStorePass");
 def keypass = hasProperty("KeystorePass") ? getProperty("KeystorePass") : System.getenv("KeystorePass");
 
-task repack(type:Exec, dependsOn: jar) {
+task repack(type:Exec, dependsOn: shadowJar) {
 	commandLine 'pack200', '--repack', jar.archivePath
 }
 
