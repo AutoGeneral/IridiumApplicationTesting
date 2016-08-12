@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="1.0+" codebase="https://github.com/mcasperson/IridiumApplicationTesting/releases/download/0.0.18/">
+<jnlp spec="1.0+" codebase="https://github.com/mcasperson/IridiumApplicationTesting/releases/download/0.0.20/">
     <information>
         <title>Iridium Web Application Tester</title>
         <vendor>Auto and General</vendor>
@@ -9,7 +9,7 @@
     <resources>
         <!-- Application Resources -->
         <j2se version="1.8+" href="http://java.sun.com/products/autodl/j2se"/>
-            <property name="jnlp.packEnabled" value="true"/>
+            <property name="jnlp.packEnabled" value="false"/>
             <property name="javaws.configuration" value=""/>
             <property name="javaws.dataset" value=""/>
             <property name="javaws.appURLOverride" value="https://autogeneral.gitbooks.io/iridiumapplicationtesting-gettingstartedguide/content/tips_and_tricks.html"/>

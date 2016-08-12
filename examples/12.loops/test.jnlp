@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="1.0+" codebase="https://github.com/mcasperson/IridiumApplicationTesting/releases/download/0.0.18/">
+<jnlp spec="1.0+" codebase="https://github.com/mcasperson/IridiumApplicationTesting/releases/download/0.0.20/">
     <information>
         <title>Web Application Tester</title>
         <vendor>Lights On</vendor>
@@ -7,7 +7,7 @@
     <resources>
         <!-- Application Resources -->
         <j2se version="1.8+" href="http://java.sun.com/products/autodl/j2se"/>
-        <property name="jnlp.packEnabled" value="true"/>
+        <property name="jnlp.packEnabled" value="false"/>
         <property name="javaws.configuration" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/12.loops/configuration.xml"/>
         <property name="javaws.dataset" value=""/>
         <property name="javaws.appURLOverride" value=""/>
