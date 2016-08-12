@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="1.0+" codebase="https://s3-ap-southeast-2.amazonaws.com/ag-iridium/">
+<jnlp spec="1.0+" codebase="https://github.com/mcasperson/IridiumApplicationTesting/releases/download/0.0.17/">
     <information>
         <title>Iridium Web Application Tester</title>
         <vendor>Auto and General</vendor>
@@ -32,9 +32,9 @@
             <property name="javaws.tagsOverride" value=""/>
             <property name="javaws.phantomJSLoggingLevel" value="NONE"/>
             <property name="javaws.startInternalProxy" value=""/>
-            <property name="jnlp.versionEnabled" value="true"/>
+
 			<property name="jnlp.webdriver.firefox.profile" value="selenium" />
-            <jar href="webapptesting-signed.jar" main="true" version="0.0.16" />
+            <jar href="IridiumApplicationTesting.jar" main="true" />
     </resources>
     <application-desc
         name="Web Application tester"
