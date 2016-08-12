@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jnlp spec="1.0+"
-codebase="https://github.com/mcasperson/IridiumApplicationTesting/releases/download/0.0.20/">
+codebase="https://github.com/mcasperson/IridiumApplicationTesting/releases/download/0.0.21/">
     <information>
     <title>Web Application Tester</title>
 <vendor>Lights On</vendor>

@@ -58,7 +58,7 @@ task signJar(dependsOn: repack) << {
 		keypass: keypass);
 }
 
-assemble.dependsOn pack
+assemble.dependsOn signJar
 
 jar {
     manifest {
