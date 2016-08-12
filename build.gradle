@@ -37,6 +37,34 @@ apply plugin: 'com.matthewcasperson.build.iridium'
 
 mainClassName = "au.com.agic.apptesting.Main"
 
+def alias = hasProperty("KeystoreAlias") ? getProperty("KeystoreAlias") : System.getenv("KeystoreAlias");
+def keystore = hasProperty("KeystoreName") ? getProperty("KeystoreName") : System.getenv("KeystoreName");
+def storepass = hasProperty("KeystoreStorePass") ? getProperty("KeystoreStorePass") : System.getenv("KeystoreStorePass");
+def keypass = hasProperty("KeystorePass") ? getProperty("KeystorePass") : System.getenv("KeystorePass");
+
+task repack(type:Exec) {
+	commandLine 'pack200', '--repack', jar.archivePath
+}
+
+task signJar(dependsOn: repack) << {
+	ant.delete(dir:'build/signed')
+	ant.mkdir(dir:'build/signed')
+	ant.signjar(
+		jar: jar.archivePath,
+		destDir: 'build/signed',
+		alias: alias,
+		keystore: keystore,
+		storepass: storepass,
+		keypass: keypass);
+}
+
+task pack(type:Exec, dependsOn: signJar) {
+	commandLine(
+		'pack200',
+		projectDir.toString() + "/build/signed/" + project.name + ".jar.pack.gz",
+		projectDir.toString() + "/build/signed/" + project.name + ".jar")
+}
+
 jar {
     manifest {
         attributes(
