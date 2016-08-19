@@ -22,4 +22,4 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-after_failure: cat build/reports/tests/index.html
+after_failure: "cat build/reports/tests/index.html; find . -type f -name '*.txt' -exec cat {} \;"
