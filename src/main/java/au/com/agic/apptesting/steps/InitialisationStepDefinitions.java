@@ -45,7 +45,7 @@ public class InitialisationStepDefinitions {
 	 */
 	@When("^I set the default wait for elements to be available to \"(\\d+)\"(?: seconds?)?$")
 	public void setDefaultWaitTime(final String numberOfSeconds) {
-		featureState.setDefaultWait(Integer.parseInt(numberOfSeconds) * MILLISECONDS_PER_SECOND);
+		featureState.setDefaultWait(Integer.parseInt(numberOfSeconds));
 	}
 
 	// </editor-fold>
