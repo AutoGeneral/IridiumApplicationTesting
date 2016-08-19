@@ -73,7 +73,7 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 	 * @param tempFolders A list of folders that need to be deleted once the app is finished
 	 * @return The port that the proxy is listening on
 	 */
-	private ProxyDetails<ClientApi> startZAPProxy(
+	private synchronized ProxyDetails<ClientApi> startZAPProxy(
 			@NotNull final List<File> tempFolders,
 			@NotNull final Optional<ProxySettings> upstreamProxy) throws Exception {
 
