@@ -9,7 +9,7 @@ Feature: Open an application
  	# Open up the web page
   	Scenario: Launch App
 		Given a scanner with all policies enabled
-		And I set the default wait time between steps to "5"
+		And I set the default wait for elements to be available to "60" seconds
    # Allow all traffic to the main domain
 		And I enable the whitelist with responding with "500" for unmatched requests
 		And I allow access to the URL regex ".*?dzone.*"

@@ -3,6 +3,7 @@ Feature: Test of the steps provided by Iridium
 	Scenario: Open App
 		Given I open the application
 		And I set the default wait time between steps to "1" seconds
+		And I set the default wait for elements to be available to "3" seconds
 		And I set the alias mappings
 			| Button ID           | buttonId                |
 			| Button ID Output    | Button By ID Clicked    |

@@ -30,7 +30,7 @@ public class InitialisationStepDefinitions {
 	 *
 	 * @param numberOfSeconds The number of seconds to wait before each step completes
 	 */
-	@When("^I set the default wait time between steps to \"(\\d+)\"(?: seconds)?$")
+	@When("^I set the default wait time between steps to \"(\\d+)\"(?: seconds?)?$")
 	public void setDefaultSleepTime(final String numberOfSeconds) {
 		featureState.setDefaultSleep(Integer.parseInt(numberOfSeconds) * MILLISECONDS_PER_SECOND);
 	}
@@ -43,7 +43,7 @@ public class InitialisationStepDefinitions {
 	 * @param numberOfSeconds The number of seconds to wait for elements to be available
 	 *                        before continuing with a step
 	 */
-	@When("^I set the default wait for elements to be available to \"(\\d+)\"(?: seconds)?$")
+	@When("^I set the default wait for elements to be available to \"(\\d+)\"(?: seconds?)?$")
 	public void setDefaultWaitTime(final String numberOfSeconds) {
 		featureState.setDefaultWait(Integer.parseInt(numberOfSeconds) * MILLISECONDS_PER_SECOND);
 	}
