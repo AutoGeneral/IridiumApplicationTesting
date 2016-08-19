@@ -31,8 +31,21 @@ public class InitialisationStepDefinitions {
 	 * @param numberOfSeconds The number of seconds to wait before each step completes
 	 */
 	@When("^I set the default wait time between steps to \"(\\d+)\"(?: seconds)?$")
-	public void setDefaultWaitTime(final String numberOfSeconds) {
+	public void setDefaultSleepTime(final String numberOfSeconds) {
 		featureState.setDefaultSleep(Integer.parseInt(numberOfSeconds) * MILLISECONDS_PER_SECOND);
+	}
+
+	/**
+	 * When elements are requested by steps in Iridium, an optional wait time can be defined
+	 * that will allow the script to account for elements that might not yet be present. This
+	 * wait time is set to {@link au.com.agic.apptesting.constants.Constants#WAIT} by default,
+	 * and can be overriden with this step.
+	 * @param numberOfSeconds The number of seconds to wait for elements to be available
+	 *                        before continuing with a step
+	 */
+	@When("^I set the default wait for elements to be available to \"(\\d+)\"(?: seconds)?$")
+	public void setDefaultWaitTime(final String numberOfSeconds) {
+		featureState.setDefaultWait(Integer.parseInt(numberOfSeconds) * MILLISECONDS_PER_SECOND);
 	}
 
 	// </editor-fold>

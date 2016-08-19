@@ -224,6 +224,10 @@ public final class Constants {
 	 * How long to wait for an element to be available
 	 */
 	public static final int WAIT = 2;
+	/**
+	 * Wait a second between steps by default
+	 */
+	public static final int DEFAULT_WAIT_TIME = 1000;
 
 	/**
 	 * System property that holds the external proxy host name or ip address

@@ -1,5 +1,6 @@
 package au.com.agic.apptesting.utils.impl;
 
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
@@ -16,17 +17,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class FeatureStateImpl implements FeatureState {
 
-	/**
-	 * Wait a second between steps by default
-     */
-	private static final int DEFAULT_WAIT_TIME = 1000;
+
 
 	private final UrlMapping url;
 	private final Map<String, String> dataset = new HashMap<>();
 	private final String reportDirectory;
 	private boolean failed;
 	private List<ProxyDetails<?>> proxies;
-	private long sleep = DEFAULT_WAIT_TIME;
+	private long sleep = Constants.DEFAULT_WAIT_TIME;
+	private long wait = Constants.WAIT;
 
 	public FeatureStateImpl(
 		@NotNull final UrlMapping url,
@@ -102,5 +101,15 @@ public class FeatureStateImpl implements FeatureState {
 	@Override
 	public void setProxyInterface(final List<ProxyDetails<?>> myProxies) {
 		this.proxies = new ArrayList<>(myProxies);
+	}
+
+	@Override
+	public long getDefaultWait() {
+		return wait;
+	}
+
+	@Override
+	public void setDefaultWait(final long wait) {
+		this.wait = wait;
 	}
 }

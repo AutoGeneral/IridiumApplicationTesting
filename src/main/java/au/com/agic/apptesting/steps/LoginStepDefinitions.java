@@ -37,7 +37,7 @@ public class LoginStepDefinitions {
 	public void login(final String username, final String password, final String exists) {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final Alert alert = wait.until(ExpectedConditions.alertIsPresent());
 			alert.authenticateUsing(new UserAndPassword(username, password));
 		} catch (final TimeoutException | NoSuchElementException ex) {

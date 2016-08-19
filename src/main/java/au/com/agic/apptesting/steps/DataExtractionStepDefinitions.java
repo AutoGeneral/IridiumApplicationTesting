@@ -155,7 +155,7 @@ public class DataExtractionStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState);
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 
 			final Map<String, String> dataSet = featureState.getDataSet();
@@ -234,7 +234,7 @@ public class DataExtractionStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState);
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 
 			final Map<String, String> dataSet = featureState.getDataSet();
@@ -319,7 +319,7 @@ public class DataExtractionStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState);
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;

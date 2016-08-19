@@ -113,7 +113,7 @@ public class ClickingStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState);
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
@@ -203,7 +203,7 @@ public class ClickingStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState);
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
@@ -242,7 +242,7 @@ public class ClickingStepDefinitions {
 			checkState(text != null, "the aliased link content does not exist");
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(
 				ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
 			element.click();
@@ -276,7 +276,7 @@ public class ClickingStepDefinitions {
 			checkState(text != null, "the aliased link content does not exist");
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(
 				ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -334,7 +334,7 @@ public class ClickingStepDefinitions {
 				Math.abs(int2 - int1)) + Math.min(int1, int2);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(
 				ExpectedConditions.elementToBeClickable(
 					By.cssSelector("[" + attr + "='" + random + "']")));
@@ -383,7 +383,7 @@ public class ClickingStepDefinitions {
 			checkState(value != null, "the aliased attribute value does not exist");
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(
 				ExpectedConditions.elementToBeClickable(
 					By.cssSelector("[" + attr + "='" + value + "']")));

@@ -46,7 +46,7 @@ public class AGStepDefinitions {
 			? featureState.getDataSet().get(postcode) : postcode;
 
 		final By by = GET_BY.getBy("class", false, Constants.POSTCODE_CLASS, featureState);
-		final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+		final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 
 		final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -93,7 +93,7 @@ public class AGStepDefinitions {
 			int tomorrow = theDate.getDayOfMonth() + 1;
 			int dateValue = "today".equals(value) ? today : tomorrow;
 
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(
 				ExpectedConditions.elementToBeClickable(
 					By.cssSelector("[" + attr + "='" + dateValue + "']")));

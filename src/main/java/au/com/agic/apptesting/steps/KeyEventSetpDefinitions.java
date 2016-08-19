@@ -178,7 +178,7 @@ public class KeyEventSetpDefinitions {
 	public void triggetKeyUp(final String event, final String selector, final String alias, final String selectorValue) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
-		final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+		final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		JAVA_SCRIPT_RUNNER.interactHiddenElementKeyEvent(element, event, js);

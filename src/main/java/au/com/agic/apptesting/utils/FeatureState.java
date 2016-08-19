@@ -14,15 +14,28 @@ public interface FeatureState {
 
 	/**
 	 *
+	 * @return How long to sleep between steps
+     */
+	long getDefaultSleep();
+
+	/**
+	 *
 	 * @param sleep How long to sleep between steps
      */
 	void setDefaultSleep(final long sleep);
 
 	/**
 	 *
-	 * @return How long to sleep between steps
-     */
-	long getDefaultSleep();
+	 * @return the amount of time to wait for an element to be available before
+	 * completing a step.
+	 */
+	long getDefaultWait();
+
+	/**
+	 * @param wait the amount of time to wait for an element to be available before
+	 * completing a step.
+	 */
+	void setDefaultWait(final long wait);
 
 	/**
 	 * @return The url associated with this instance of the test
@@ -62,14 +75,14 @@ public interface FeatureState {
 
 	/**
 	 *
+	 * @param proxies The optional details of the proxy being used
+	 */
+	void setProxyInterface(final List<ProxyDetails<?>> proxies);
+
+	/**
+	 *
 	 * @param name The name of the proxy to find
 	 * @return The proxy that matches the name, or an empty result
 	 */
 	Optional<ProxyDetails<?>> getProxyInterface(@NotNull final String name);
-
-	/**
-	 *
-	 * @param proxies The optional details of the proxy being used
-	 */
-	void setProxyInterface(final List<ProxyDetails<?>> proxies);
 }

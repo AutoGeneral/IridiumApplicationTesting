@@ -47,7 +47,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			final String value,
 			final FeatureState featureState) {
 
-		return getClickableElementFoundBy(valueAlias, value, featureState, Constants.WAIT);
+		return getClickableElementFoundBy(valueAlias, value, featureState, featureState.getDefaultWait());
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			final String value,
 			final FeatureState featureState) {
 
-		return getVisibleElementFoundBy(valueAlias, value, featureState, Constants.WAIT);
+		return getVisibleElementFoundBy(valueAlias, value, featureState, featureState.getDefaultWait());
 	}
 
 	@Override
@@ -136,7 +136,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			final boolean valueAlias,
 			final String value,
 			final FeatureState featureState) {
-		return getPresenceElementFoundBy(valueAlias, value, featureState, Constants.WAIT);
+		return getPresenceElementFoundBy(valueAlias, value, featureState, featureState.getDefaultWait());
 	}
 
 	@Override

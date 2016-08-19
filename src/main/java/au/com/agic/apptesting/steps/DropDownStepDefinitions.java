@@ -122,7 +122,7 @@ public class DropDownStepDefinitions {
 				selectorValue,
 				featureState);
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			final Select select = new Select(element);
@@ -213,7 +213,7 @@ public class DropDownStepDefinitions {
 				selectorValue,
 				featureState);
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			final Select select = new Select(element);

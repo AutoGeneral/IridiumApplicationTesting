@@ -105,7 +105,7 @@ public class MouseEventStepDefinitions {
 				selectorValue,
 				featureState);
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, Constants.WAIT);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
