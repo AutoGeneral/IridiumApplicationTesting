@@ -18,34 +18,10 @@ Feature: Open an application
 		And I open the application
 		And I maximise the window
 
-	Scenario: Navigate the main links
+	Scenario: Navigate some of the main links
 		And I click the link with the text content of "REFCARDZ"
 		And I click the link with the text content of "GUIDES"
 		And I click the link with the text content of "ZONES"
-		And I click the link with the text content of "AGILE"
-		And I click the link with the text content of "BIG DATA"
-		And I click the link with the text content of "CLOUD"
-		And I click the link with the text content of "DATABASE"
-		And I click the link with the text content of "DEVOPS"
-		And I click the link with the text content of "INTEGRATION"
-		And I click the link with the text content of "IOT"
-		And I click the link with the text content of "JAVA"
-		And I click the link with the text content of "MOBILE"
-		And I click the link with the text content of "PERFORMANCE"
-		And I click the link with the text content of "WEB DEV"
-
-	Scenario: Open some refcardz
-		And I click the element found by alias "HomeLink"
-		# WebDriver considers this link to be obscured by another element, so
-		# we use a special step to click these "hidden" links
-		And I wait "30" seconds for the element found by "Learn Microservices in Java" to be displayed
-		And I click the hidden link with the text content of "Learn Microservices in Java"
-		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
-		And I go back
-		And I wait "30" seconds for the element found by "Learn Swift" to be displayed
-		And I click the hidden link with the text content of "Learn Swift"
-		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
-		And I go back
 
 	Scenario: Save the results
 		And the application is spidered timing out after "15" seconds
