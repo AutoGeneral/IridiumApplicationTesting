@@ -12,7 +12,7 @@ before_install:
 - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 - sudo dpkg -i google-chrome*.deb
 - wget ${Keystore}
-script: travis_wait 60 ./gradlew check --stacktrace
+script: travis_wait 60 ./gradlew check
 deploy:
   provider: releases
   api_key:
@@ -22,3 +22,4 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+after_failure: cat build/reports/tests/index.html
