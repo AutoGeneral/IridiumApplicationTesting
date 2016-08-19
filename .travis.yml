@@ -12,7 +12,7 @@ before_install:
 - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 - sudo dpkg -i google-chrome*.deb
 - wget ${Keystore}
-script: travis_wait 30 ./gradlew check
+script: travis_wait 30 ./gradlew check --stacktrace
 deploy:
   provider: releases
   api_key:
