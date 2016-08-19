@@ -1,7 +1,6 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FeatureState;
 import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;

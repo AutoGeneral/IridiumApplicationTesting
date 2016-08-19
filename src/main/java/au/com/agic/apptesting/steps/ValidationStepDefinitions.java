@@ -1,7 +1,6 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.HttpResponseException;
 import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.utils.*;
