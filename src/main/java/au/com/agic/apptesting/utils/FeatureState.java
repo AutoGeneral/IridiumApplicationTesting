@@ -75,14 +75,15 @@ public interface FeatureState {
 
 	/**
 	 *
-	 * @param proxies The optional details of the proxy being used
-	 */
-	void setProxyInterface(final List<ProxyDetails<?>> proxies);
-
-	/**
-	 *
 	 * @param name The name of the proxy to find
 	 * @return The proxy that matches the name, or an empty result
 	 */
 	Optional<ProxyDetails<?>> getProxyInterface(@NotNull final String name);
+
+	/**
+	 *
+	 * @param proxies The optional details of the proxy being used
+	 */
+	void setProxyInterface(final List<ProxyDetails<?>> proxies);
+
 }

@@ -65,21 +65,6 @@ public interface ThreadWebDriverMap {
 	WebDriver getWebDriverForThread(@NotNull final String name, final boolean createIfMissing);
 
 	/**
-	 * Clears the web driver assigned to a thread.
-	 * @param quitDriver true if the driver should quit before it is cleared
-	 */
-	void clearWebDriverForThread(@NotNull final String name, final boolean quitDriver);
-
-	/**
-	 *
-	 * Clears the web driver assigned to the current thread.
-	 * @param quitDriver true if the driver should quit before it is cleared
-     */
-	default void clearWebDriverForThread(final boolean quitDriver) {
-		clearWebDriverForThread(Thread.currentThread().getName(), quitDriver);
-	}
-
-	/**
 	 * @param  createIfMissing set to true to create a web driver if one doesn't exist
 	 * @return The web driver for the current thread
 	 */
@@ -95,6 +80,21 @@ public interface ThreadWebDriverMap {
 	@NotNull
 	default WebDriver getWebDriverForThread() {
 		return getWebDriverForThread(Thread.currentThread().getName(), true);
+	}
+
+	/**
+	 * Clears the web driver assigned to a thread.
+	 * @param quitDriver true if the driver should quit before it is cleared
+	 */
+	void clearWebDriverForThread(@NotNull final String name, final boolean quitDriver);
+
+	/**
+	 *
+	 * Clears the web driver assigned to the current thread.
+	 * @param quitDriver true if the driver should quit before it is cleared
+     */
+	default void clearWebDriverForThread(final boolean quitDriver) {
+		clearWebDriverForThread(Thread.currentThread().getName(), quitDriver);
 	}
 
 	/**
