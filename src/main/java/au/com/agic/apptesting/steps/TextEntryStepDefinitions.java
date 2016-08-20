@@ -21,6 +21,7 @@ import java.security.SecureRandom;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
+import static au.com.agic.apptesting.constants.Constants.KEY_STROKE_DELAY;
 import static com.google.common.base.Preconditions.checkState;
 
 /**
@@ -36,11 +37,6 @@ public class TextEntryStepDefinitions {
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
-
-	/**
-	 * How long to delay when entering each character into a text box
-	 */
-	private static final int KEY_STROKE_DELAY = 300;
 
 	private static final Pattern BLANK_OR_MASKED_RE = Pattern.compile("^(_|\\s)+$");
 	private static final Pattern SINGLE_QUOTE_RE = Pattern.compile("'");

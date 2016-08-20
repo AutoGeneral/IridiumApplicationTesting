@@ -259,6 +259,11 @@ public final class Constants {
 	 */
 	public static final String ZAP_API_KEY = null;
 
+	/**
+	 * How long to delay when entering each character into a text box
+	 */
+	public static final int KEY_STROKE_DELAY = 300;
+
 	private Constants() {
 	}
 

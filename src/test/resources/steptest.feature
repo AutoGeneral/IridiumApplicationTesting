@@ -1,7 +1,10 @@
 Feature: Test of the steps provided by Iridium
 
 	Scenario: Open App
+		# Load the page from the appUrlOverride value
 		Given I open the application
+		# Load the page from the URL
+		And I open the page "https://mcasperson.github.io/iridium/examples/test.html"
 		And I set the default wait time between steps to "1" seconds
 		And I set the default wait for elements to be available to "3" seconds
 		And I set the alias mappings
@@ -19,8 +22,8 @@ Feature: Test of the steps provided by Iridium
 			| Link Contents       | Test Link               |
 			| Text Area 1         | textArea                |
 			| Text Area 2         | textArea2               |
-			| Text Box css			  | body > div:nth-child(3) > input[type="text"]:nth-child(4) |
-			| Text Box xpath			| /html/body/div[2]/input[4] |
+			| Text Box css		  | body > div:nth-child(3) > input[type="text"]:nth-child(4) |
+			| Text Box xpath	  | /html/body/div[2]/input[4] |
 
 	Scenario: Manual Mouse Events
 		And I "mousedown" on the hidden element found by "eventButton"

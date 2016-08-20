@@ -30,25 +30,27 @@ public class LiveTests {
 	 */
 	@Test
 	public void stepTests() {
-		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
-			try {
-				setCommonProperties();
-				System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
-				System.setProperty("testSource", this.getClass().getResource("/steptest.feature").getPath());
-				System.setProperty("testDestination", "Chrome");
-				final int failures = new TestRunner().run(globalTempFiles);
-				if (failures == 0) {
-					return;
+		for (final String browser : new String[] {"Chrome", "Firefox", "PhantomJS"}) {
+			for (int retry = 0; retry < RETRY_COUNT; ++retry) {
+				try {
+					setCommonProperties();
+					System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
+					System.setProperty("testSource", this.getClass().getResource("/steptest.feature").getPath());
+					System.setProperty("testDestination", browser);
+					final int failures = new TestRunner().run(globalTempFiles);
+					if (failures == 0) {
+						continue;
+					}
+					Thread.sleep(SLEEP);
+				} catch (final Exception ignored) {
+					/*
+						Ignored
+					 */
 				}
-				Thread.sleep(SLEEP);
-			} catch (final Exception ignored) {
-				/*
-					Ignored
-				 */
 			}
-		}
 
-		Assert.fail();
+			Assert.fail();
+		}
 	}
 
 	/**

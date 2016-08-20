@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutionException;
 
+import static au.com.agic.apptesting.constants.Constants.KEY_STROKE_DELAY;
+
 /**
  * Gherkin steps for simulating key presses and other key events.
  *
@@ -83,8 +85,10 @@ public class KeyEventSetpDefinitions {
 
 		for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
 			element.sendKeys(Keys.DELETE);
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
 		}
+
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -118,8 +122,10 @@ public class KeyEventSetpDefinitions {
 		final WebElement element = webDriver.switchTo().activeElement();
 		for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
 			element.sendKeys(Keys.BACK_SPACE);
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
 		}
+
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
