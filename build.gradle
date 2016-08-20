@@ -243,7 +243,8 @@ def passThroughProperties = [
         "externalProxyRealm",
 		"newBrowserPerScenario",
 		"failAllAfterFirstScenarioError",
-		"phantomJSUserAgent"
+		"phantomJSUserAgent",
+		"testBrowsers"
 ]
 
 test {

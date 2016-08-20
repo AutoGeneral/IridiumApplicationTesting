@@ -39,4 +39,3 @@ deploy:
     region: us-east-1
     on:
       tags: true
-after_failure: "cat build/reports/tests/index.html; find . -type f -name 'CucumberThread*.txt' -exec cat {} +;"
