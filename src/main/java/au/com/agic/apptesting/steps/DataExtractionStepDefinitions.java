@@ -113,7 +113,7 @@ public class DataExtractionStepDefinitions {
 				featureState);
 
 			final Map<String, String> dataSet = featureState.getDataSet();
-			dataSet.put(destinationAlias, element.getAttribute(attribute));
+			dataSet.put(destinationAlias, element.getAttribute(attribute).trim());
 			featureState.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -158,7 +158,7 @@ public class DataExtractionStepDefinitions {
 			final WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 
 			final Map<String, String> dataSet = featureState.getDataSet();
-			dataSet.put(destinationAlias, element.getAttribute(attribute));
+			dataSet.put(destinationAlias, element.getAttribute(attribute).trim());
 			featureState.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -194,7 +194,7 @@ public class DataExtractionStepDefinitions {
 				featureState);
 
 			final Map<String, String> dataSet = featureState.getDataSet();
-			dataSet.put(destinationAlias, element.getText());
+			dataSet.put(destinationAlias, element.getText().trim());
 			featureState.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -237,7 +237,7 @@ public class DataExtractionStepDefinitions {
 			final WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 
 			final Map<String, String> dataSet = featureState.getDataSet();
-			dataSet.put(destinationAlias, element.getText());
+			dataSet.put(destinationAlias, element.getText().trim());
 			featureState.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -278,7 +278,7 @@ public class DataExtractionStepDefinitions {
 			final String text = js.executeScript("return arguments[0].textContent.trim();", element).toString();
 
 			final Map<String, String> dataSet = featureState.getDataSet();
-			dataSet.put(destinationAlias, text);
+			dataSet.put(destinationAlias, text.trim());
 			featureState.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -325,7 +325,7 @@ public class DataExtractionStepDefinitions {
 			final String text = js.executeScript("return arguments[0].textContent.trim();", element).toString();
 
 			final Map<String, String> dataSet = featureState.getDataSet();
-			dataSet.put(destinationAlias, text);
+			dataSet.put(destinationAlias, text.trim());
 			featureState.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
