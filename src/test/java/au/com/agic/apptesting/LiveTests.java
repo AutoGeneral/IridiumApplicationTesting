@@ -30,7 +30,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void stepTests() {
-		for (final String browser : new String[] {"Chrome", "Firefox", "PhantomJS"}) {
+		browserLoop: for (final String browser : new String[] {"Chrome", "Firefox", "PhantomJS"}) {
 			for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 				try {
 					setCommonProperties();
@@ -39,7 +39,7 @@ public class LiveTests {
 					System.setProperty("testDestination", browser);
 					final int failures = new TestRunner().run(globalTempFiles);
 					if (failures == 0) {
-						continue;
+						continue browserLoop;
 					}
 					Thread.sleep(SLEEP);
 				} catch (final Exception ignored) {
