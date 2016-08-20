@@ -59,7 +59,7 @@ public class LiveTests {
 				try {
 					setCommonProperties();
 					System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
-					System.setProperty("testSource", this.getClass().getResource("/steptest.feature").getPath());
+					System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
 					System.setProperty("testDestination", browser);
 					final int failures = new TestRunner().run(globalTempFiles);
 					if (failures == 0) {
