@@ -4,6 +4,7 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.GeckoDriverService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -75,5 +76,10 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 		copyVariableToDefaultLocation(FirefoxDriver.SystemProperty.BROWSER_LIBRARY_PATH);
 		copyVariableToDefaultLocation(FirefoxDriver.SystemProperty.BROWSER_LOGFILE);
 		copyVariableToDefaultLocation(FirefoxDriver.SystemProperty.DRIVER_XPI_PROPERTY);
+
+		/*
+			Marionette driver system properties
+		 */
+		copyVariableToDefaultLocation(GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY);
 	}
 }

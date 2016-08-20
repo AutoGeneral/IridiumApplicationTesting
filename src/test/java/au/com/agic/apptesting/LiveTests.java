@@ -31,7 +31,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void stepTests() {
-		browserLoop: for (final String browser : new String[] {"Firefox", "Chrome", "PhantomJS"}) {
+		browserLoop: for (final String browser : new String[] {"Marionette", "Chrome", "PhantomJS"}) {
 			for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 				try {
 					setCommonProperties();

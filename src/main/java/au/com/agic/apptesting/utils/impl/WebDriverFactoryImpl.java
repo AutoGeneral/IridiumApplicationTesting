@@ -4,6 +4,7 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverFactory;
+import au.com.agic.apptesting.webdriver.GeckoDriverServiceEx;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
@@ -12,6 +13,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.MarionetteDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -53,6 +55,12 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			Proxy proxy = new Proxy();
 			proxy.setHttpProxy("localhost:" + mainProxy.get().getPort());
 			capabilities.setCapability("proxy", proxy);
+		}
+
+		if (Constants.MARIONETTE.equalsIgnoreCase(browser)) {
+			return new MarionetteDriver(
+				GeckoDriverServiceEx.createDefaultService(),
+				capabilities);
 		}
 
 		if (Constants.FIREFOX.equalsIgnoreCase(browser)) {
