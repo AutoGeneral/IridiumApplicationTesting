@@ -50,7 +50,7 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 			Deal with the override
          */
 		final String appUrlOverride = getAppUrl();
-		if (appUrlOverride != null) {
+		if (StringUtils.isNotBlank(appUrlOverride)) {
 			return Arrays.asList(new UrlMapping(appUrlOverride));
 		}
 
