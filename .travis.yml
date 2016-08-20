@@ -28,9 +28,10 @@ deploy:
     secret_access_key:
       secure: oV5ztYvY7y3oMPuU6ioiUmOoDNZow6RAqDMTleTfdAJ8Tltgaw38Go8Qg3E7dgfdiX/AU3X5jfvNjEsF7wchMaHKLXj6PMj44JP1Nk2PaAoeuuXENL/UYpiHBWXRn+svExggqmFmK8m0JIvvxnT3MRZ1jeZXgK3Ow4FKLYQK/DFwTnyYquFiDlC6ydjLfx9FvFG9eVvQfmeKAxgLpYYZBHja6thy4p+UTzsOaMD6m0Gx+ExAKOrGH0sJR9G1hDz7RcergcESj8xSnU1RlNNiNAeOtoku/EBHl93yERDnSWxIiB3t5FO4OcKaHF5mmV+VM6/zUbq0tMINRtrnd83buJSh+p1yo4ixJtFjT8QCu4JyL73zm9Ase3gzGSxv4nVR4GVSpN2L/f1lrPDhMtFWQRPL5XMbmzDigr2JTOLjrPF0FvR47lideWSx1EDwf72clxHLZ1L7aLDulBtsZk787imATbPhOfY6dGinJj5OFDaXMzlEtzbz0Z+x3dg/osIeAgDyMkcymB03Cb9O60hLOXtQdbWvqf34Rui7qxHW84zPNrwvM6CHxc1nC0y+IJVP98W4wC9mGQbjuWV2MT5WxTHK14nV+y8l1xBv4nOuItZ8Jz/vBRfABAiIQ2o89peSC4IJWigdm3NCQwPbkcnVbOSbJpw0vMIG7JVrPKX0NJ0=
     bucket: "ag-iridium"
-    file:
-    - build/signed/IridiumApplicationTesting.jar
+    upload-dir: build/signed
     skip_cleanup: true
+    acl: public_read
+    region: us-east-1
     on:
       tags: true
 after_failure: "cat build/reports/tests/index.html; find . -type f -name 'CucumberThread*.txt' -exec cat {} \\;"
