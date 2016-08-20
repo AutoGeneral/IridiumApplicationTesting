@@ -1,13 +1,12 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.utils.FeatureState;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.utils.*;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
+import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
@@ -34,6 +33,7 @@ public class DropDownStepDefinitions {
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
 	/**
 	 * Get the web driver for this thread
@@ -171,6 +171,13 @@ public class DropDownStepDefinitions {
 			select.selectByIndex(Integer.parseInt(selection));
 			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
+			if (NoSuchElementException.class.isInstance(ex)) {
+				if (Constants.MARIONETTE.equalsIgnoreCase(
+					SYSTEM_PROPERTY_UTILS.getProperty(Constants.TEST_DESTINATION_SYSTEM_PROPERTY))) {
+
+				}
+			}
+
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}

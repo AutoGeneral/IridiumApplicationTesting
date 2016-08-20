@@ -41,102 +41,170 @@ public class KeyEventSetpDefinitions {
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
-	 * Press the CTRL-A keys to the active element
+	 * Press the CTRL-A keys to the active element. This step is known to have issues
+	 * with the Firefox Marionette driver.
+	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
 	 */
-	@When("^I press CTRL-A on the active element")
-	public void pressCtrlAStep() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final WebElement element = webDriver.switchTo().activeElement();
-		element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
-	}
-
-	/**
-	 * Press the CMD-A keys to the active element
-	 */
-	@When("^I press CMD-A on the active element")
-	public void pressCmdAStep() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final WebElement element = webDriver.switchTo().activeElement();
-		element.sendKeys(Keys.chord(Keys.COMMAND, "a"));
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
-	}
-
-	/**
-	 * Press the CMD-A or CTRL-A keys to the active element depending on the client os
-	 */
-	@When("^I select all the text in the active element")
-	public void pressCmdOrCtrlAStep() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final WebElement element = webDriver.switchTo().activeElement();
-
-		if (SystemUtils.IS_OS_MAC) {
-			element.sendKeys(Keys.chord(Keys.COMMAND, "a"));
-		} else {
+	@When("^I press CTRL-A on the active element( ignoring errors)?$")
+	public void pressCtrlAStep(final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
 		}
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
-	@When("^I press(?: the)? Delete(?: key)? on the active element(?: \"(\\d+)\" times)?")
-	public void pressDeleteStep(final Integer times) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final WebElement element = webDriver.switchTo().activeElement();
-
-		for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
-			element.sendKeys(Keys.DELETE);
-			SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+	/**
+	 * Press the CMD-A keys to the active element. This step is known to have issues
+	 * with the Firefox Marionette driver.
+	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
+	 */
+	@When("^I press CMD-A on the active element( ignoring errors)?$")
+	public void pressCmdAStep(final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebElement element = webDriver.switchTo().activeElement();
+			element.sendKeys(Keys.chord(Keys.COMMAND, "a"));
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
 		}
-
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
-	 * Press the tab key on the active element
+	 * Press the CMD-A or CTRL-A keys to the active element depending on the client os.
+	 * This step is known to have issues with the Firefox Marionette driver.
+	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
 	 */
-	@When("^I press(?: the)? tab(?: key)? on the active element")
-	public void pressTabStep() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final WebElement element = webDriver.switchTo().activeElement();
-		element.sendKeys(Keys.TAB);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
-	}
+	@When("^I select all the text in the active element( ignoring errors)?$")
+	public void pressCmdOrCtrlAStep(final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebElement element = webDriver.switchTo().activeElement();
 
-	/**
-	 * Press the tab key on the active element
-	 */
-	@When("^I press(?: the)? down arrow(?: key)? on the active element")
-	public void pressDownArrowStep() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final WebElement element = webDriver.switchTo().activeElement();
-		element.sendKeys(Keys.ARROW_DOWN);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
-	}
-
-	/**
-	 * Presses the backspace key on the active element
-	 */
-	@When("^I press(?: the)? backspace(?: key)? on the active element(?: \"(\\d+)\" times)")
-	public void pressBackspaceStep(final Integer times) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final WebElement element = webDriver.switchTo().activeElement();
-		for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
-			element.sendKeys(Keys.BACK_SPACE);
-			SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+			if (SystemUtils.IS_OS_MAC) {
+				element.sendKeys(Keys.chord(Keys.COMMAND, "a"));
+			} else {
+				element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+			}
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
 		}
-
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
-	 * Presses the enter key on the active element
+	 * Press the delete key on the active element. This step is known to have issues with
+	 * the Firefox Marionette driver.
+	 * @param times The number of times to press the delete key
+	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
 	 */
-	@When("^I press(?: the)? enter(?: key)? on the active element")
-	public void pressEnterStep() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final WebElement element = webDriver.switchTo().activeElement();
-		element.sendKeys(Keys.ENTER);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+	@When("^I press(?: the)? Delete(?: key)? on the active element(?: \"(\\d+)\" times)?( ignoring errors)?$")
+	public void pressDeleteStep(final Integer times, final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebElement element = webDriver.switchTo().activeElement();
+
+			for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
+				element.sendKeys(Keys.DELETE);
+				SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+			}
+
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Press the tab key on the active element. This step is known to have issues with
+	 * the Firefox Marionette driver.
+	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
+	 */
+	@When("^I press(?: the)? tab(?: key)? on the active element( ignoring errors)?$")
+	public void pressTabStep(final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebElement element = webDriver.switchTo().activeElement();
+			element.sendKeys(Keys.TAB);
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Press the tab key on the active element. This step is known to have issues with
+	 * the Firefox Marionette driver.
+	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
+	 */
+	@When("^I press(?: the)? down arrow(?: key)? on the active element( ignoring errors)?$")
+	public void pressDownArrowStep(final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebElement element = webDriver.switchTo().activeElement();
+			element.sendKeys(Keys.ARROW_DOWN);
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Presses the backspace key on the active element. This step is known to have issues with
+	 * the Firefox Marionette driver.
+	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
+	 */
+	@When("^I press(?: the)? backspace(?: key)? on the active element(?: \"(\\d+)\" times)?( ignoring errors)?$")
+	public void pressBackspaceStep(final Integer times, final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebElement element = webDriver.switchTo().activeElement();
+			for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
+				element.sendKeys(Keys.BACK_SPACE);
+				SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+			}
+
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Presses the enter key on the active element. This step is known to have issues with
+	 * the Firefox Marionette driver.
+	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
+	 */
+	@When("^I press(?: the)? enter(?: key)? on the active element( ignoring errors)?$")
+	public void pressEnterStep(final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebElement element = webDriver.switchTo().activeElement();
+			element.sendKeys(Keys.ENTER);
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
 	}
 
 	/**
