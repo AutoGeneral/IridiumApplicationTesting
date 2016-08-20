@@ -229,7 +229,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY,
 					extractZipDriver(
-						"/drivers/mac64/marionette/geckodriver.tar.gz",
+						"/drivers/linux64/marionette/geckodriver.tar.gz",
 						"geckodriver",
 						tempFiles));
 			}
