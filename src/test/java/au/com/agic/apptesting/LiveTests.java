@@ -3,7 +3,6 @@ package au.com.agic.apptesting;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +56,7 @@ public class LiveTests {
 	/**
 	 * This test is designed to simulate the starting and restarting of the ZAP proxy
 	 */
-	@Test
+	//@Test
 	public void restartZap() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			setCommonProperties();
@@ -72,7 +71,7 @@ public class LiveTests {
 		}
 	}
 
-	@Test
+	//@Test
 	public void modifyRequests19() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -122,7 +121,7 @@ public class LiveTests {
 		Assert.fail();
 	}
 
-	@Test
+	//@Test
 	public void gherkinExamples21() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -145,7 +144,7 @@ public class LiveTests {
 		Assert.fail();
 	}
 
-	@Test
+	//@Test
 	public void verificationTest22() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -168,7 +167,7 @@ public class LiveTests {
 		Assert.fail();
 	}
 
-	@Test
+	//@Test
 	public void deadLinkCheck23() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -191,7 +190,7 @@ public class LiveTests {
 		Assert.fail();
 	}
 
-	@Test
+	//@Test
 	public void acceptanceTest24() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -214,7 +213,7 @@ public class LiveTests {
 		Assert.fail();
 	}
 
-	@Test
+	//@Test
 	public void driverPerScenario25() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
