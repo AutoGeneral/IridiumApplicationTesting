@@ -42,7 +42,7 @@ public class JavaScriptRunnerImpl implements JavaScriptRunner {
 			here. We need to dispatch the event instead.
 		 */
 		js.executeScript("var ev = document.createEvent('KeyboardEvent');"
-			+ "    ev.initKeyboardEvent("
+			+ "    (ev.initKeyEvent || ev.initKeyboardEvent).call(ev,"
 			+ "        '" + event + "',"
 			+ "        true /* bubble */, true /* cancelable */,"
 			+ "        window, null,"
