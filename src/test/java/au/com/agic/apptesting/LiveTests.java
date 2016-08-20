@@ -264,6 +264,8 @@ public class LiveTests {
 		System.setProperty("webdriver.chrome.driver", "");
 		System.setProperty("webdriver.opera.driver", "");
 		System.setProperty("webdriver.ie.driver", "");
+		System.setProperty("webdriver.gecko.driver", "");
+		System.setProperty("webdriver.edge.driver", "");
 		System.setProperty("phantomjs.binary.path", "");
 		System.setProperty("enableScenarioScreenshots", "false");
 		System.setProperty("saveReportsInHomeDir", "false");
