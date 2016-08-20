@@ -3,6 +3,7 @@ package au.com.agic.apptesting;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void stepTests() {
-		browserLoop: for (final String browser : new String[] {"Chrome", "Firefox", "PhantomJS"}) {
+		browserLoop: for (final String browser : new String[] {"Firefox", "Chrome", "PhantomJS"}) {
 			for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 				try {
 					setCommonProperties();

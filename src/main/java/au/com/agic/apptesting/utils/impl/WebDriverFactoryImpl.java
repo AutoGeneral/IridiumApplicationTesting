@@ -83,7 +83,6 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			}
 
 			return new FirefoxDriver(capabilities);
-
 		}
 
 		if (Constants.SAFARI.equalsIgnoreCase(browser)) {

@@ -3,6 +3,7 @@ package au.com.agic.apptesting.utils.impl;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.Arrays;
 import java.util.List;
@@ -63,7 +64,16 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 		copyVariableToDefaultLocation(Constants.EDGE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
 		copyVariableToDefaultLocation(Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY);
 		copyVariableToDefaultLocation(Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
+
+
+		/*
+			Firefox driver system properties
+		 */
 		copyVariableToDefaultLocation(Constants.FIREFOX_PROFILE_SYSTEM_PROPERTY);
 		copyVariableToDefaultLocation(Constants.FIREFOX_EXECUTABLE_LOCATION_SYSTEM_PROPERTY);
+		copyVariableToDefaultLocation(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE);
+		copyVariableToDefaultLocation(FirefoxDriver.SystemProperty.BROWSER_LIBRARY_PATH);
+		copyVariableToDefaultLocation(FirefoxDriver.SystemProperty.BROWSER_LOGFILE);
+		copyVariableToDefaultLocation(FirefoxDriver.SystemProperty.DRIVER_XPI_PROPERTY);
 	}
 }
