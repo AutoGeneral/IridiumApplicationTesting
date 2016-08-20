@@ -1,23 +1,47 @@
 package au.com.agic.apptesting;
 
+import au.com.agic.apptesting.utils.SystemPropertyUtils;
+import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Runs examples as unit tests
  */
 public class LiveTests {
+	private static final String TEST_BROWSERS_SYSTEM_PROPERTY = "testBrowsers";
 	private static final Logger LOGGER = LoggerFactory.getLogger(LiveTests.class);
+	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final int RETRY_COUNT = 3;
 	private static final int SLEEP = 60000;
 	private final List<File> globalTempFiles = new ArrayList<File>();
+	private final List<String> browsers = new ArrayList<String>();
+
+	/**
+	 * Not all environments support all browsers, so we can define the browsers that are tested
+	 * via a system property.
+	 */
+	@Before
+	public void getBrowserList() {
+		final String browsersSysProp = SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(TEST_BROWSERS_SYSTEM_PROPERTY);
+		if (StringUtils.isEmpty(browsersSysProp)) {
+			browsers.add("Marionette");
+			browsers.add("Chrome");
+			browsers.add("PhantomJS");
+		} else {
+			browsers.addAll(Arrays.asList(browsersSysProp.split(",")));
+		}
+	}
 
 	@After
 	public void cleanUpFiles() {
@@ -30,7 +54,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void stepTests() {
-		browserLoop: for (final String browser : new String[] {"Marionette", "Chrome", "PhantomJS"}) {
+		browserLoop: for (final String browser : browsers) {
 			for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 				try {
 					setCommonProperties();
@@ -56,7 +80,7 @@ public class LiveTests {
 	/**
 	 * This test is designed to simulate the starting and restarting of the ZAP proxy
 	 */
-	//@Test
+	@Test
 	public void restartZap() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			setCommonProperties();
@@ -71,7 +95,7 @@ public class LiveTests {
 		}
 	}
 
-	//@Test
+	@Test
 	public void modifyRequests19() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -121,7 +145,7 @@ public class LiveTests {
 		Assert.fail();
 	}
 
-	//@Test
+	@Test
 	public void gherkinExamples21() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -144,7 +168,7 @@ public class LiveTests {
 		Assert.fail();
 	}
 
-	//@Test
+	@Test
 	public void verificationTest22() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -167,7 +191,7 @@ public class LiveTests {
 		Assert.fail();
 	}
 
-	//@Test
+	@Test
 	public void deadLinkCheck23() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -190,7 +214,7 @@ public class LiveTests {
 		Assert.fail();
 	}
 
-	//@Test
+	@Test
 	public void acceptanceTest24() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -213,7 +237,7 @@ public class LiveTests {
 		Assert.fail();
 	}
 
-	//@Test
+	@Test
 	public void driverPerScenario25() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
