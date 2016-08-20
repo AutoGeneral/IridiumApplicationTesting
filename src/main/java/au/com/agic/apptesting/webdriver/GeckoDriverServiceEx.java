@@ -1,8 +1,10 @@
 package au.com.agic.apptesting.webdriver;
 
+import au.com.agic.apptesting.constants.Constants;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.firefox.GeckoDriverService;
 import org.openqa.selenium.firefox.internal.Executable;
@@ -59,6 +61,15 @@ public class GeckoDriverServiceEx extends GeckoDriverService {
 
 		@Override
 		protected ImmutableList<String> createArgs() {
+			/*
+				We allow the firefox executable to be passed in via system properties
+			 */
+			final String firefoxBin =
+				System.getProperty(Constants.FIREFOX_EXECUTABLE_LOCATION_SYSTEM_PROPERTY);
+			final File firefoxBinFile = StringUtils.isBlank(firefoxBin)
+				? null
+				: new File(firefoxBin);
+
 			final ImmutableList.Builder<String> argsBuilder = ImmutableList.builder();
 			/*
 				This is changed from --webdriver-port
@@ -68,7 +79,7 @@ public class GeckoDriverServiceEx extends GeckoDriverService {
 				argsBuilder.add(String.format("--log-file=\"%s\"", getLogFile().getAbsolutePath()));
 			}
 			argsBuilder.add("-b");
-			argsBuilder.add(new Executable(null).getPath());
+			argsBuilder.add(new Executable(firefoxBinFile).getPath());
 			return argsBuilder.build();
 		}
 
