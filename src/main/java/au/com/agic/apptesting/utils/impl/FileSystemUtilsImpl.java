@@ -140,10 +140,10 @@ public class FileSystemUtilsImpl implements FileSystemUtils {
 				/*
 					If we get here, it means that we are running from a web start jar,
 					which looks like:
-					jar:https://github.com/mcasperson/IridiumApplicationTesting/releases/download/0.0.21/IridiumApplicationTesting.jar!/zap
+					jar:https://github.com/mcasperson/IridiumApplicationTesting/releases/download/0.0.22/IridiumApplicationTesting.jar!/zap
 
 					getSchemeSpecificPart() will return:
-					https://github.com/mcasperson/IridiumApplicationTesting/releases/download/0.0.21/IridiumApplicationTesting.jar!/zap
+					https://github.com/mcasperson/IridiumApplicationTesting/releases/download/0.0.22/IridiumApplicationTesting.jar!/zap
 				 */
 				final URI newUri = URI.create(resPath.getSchemeSpecificPart());
 
