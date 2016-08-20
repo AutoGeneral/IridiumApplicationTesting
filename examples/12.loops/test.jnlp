@@ -14,7 +14,7 @@
         <property name="javaws.featureGroupName" value="CQS-PROD"/>
         <property name="javaws.testSource" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/12.loops/test.feature"/>
         <property name="javaws.importBaseUrl" value=""/>
-        <property name="javaws.testDestination" value="FIREFOX"/>
+        <property name="javaws.testDestination" value="Marionette"/>
         <property name="javaws.webdriver.chrome.driver" value=""/>
         <property name="javaws.webdriver.opera.driver" value=""/>
         <property name="javaws.phantomjs.binary.path" value=""/>

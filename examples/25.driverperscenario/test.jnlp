@@ -18,7 +18,7 @@
             <property name="javaws.featureGroupName" value=""/>
             <property name="javaws.testSource" value="https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/25.driverperscenario/test.feature"/>
             <property name="javaws.importBaseUrl" value=""/>
-            <property name="javaws.testDestination" value="FIREFOX"/>
+            <property name="javaws.testDestination" value="Marionette"/>
             <property name="javaws.leaveWindowsOpen" value="false"/>
             <property name="javaws.openReportFile" value="true"/>
             <property name="javaws.saveReportsInHomeDir" value="true"/>
