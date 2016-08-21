@@ -234,8 +234,9 @@ Feature: Test of the steps provided by Iridium
 		And I click the hidden link with the text content alias of "Link Contents"
 
 	Scenario: Navigate
-		And I go back
-		And I go forward
+		# Note that Safari doesn't support this kind of navigation
+		And I go back ignoring errors
+		And I go forward ignoring errors
 
 	Scenario: Wait steps
 		And I wait "30" seconds for the element found by "verifyDivClass" to be displayed
