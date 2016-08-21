@@ -18,6 +18,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 
@@ -47,13 +48,20 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		 */
 		final DesiredCapabilities capabilities = DesiredCapabilities.htmlUnitWithJs();
 
+		/*
+			Don't worry about ssl issues
+		 */
+		capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+
 		final Optional<ProxyDetails<?>> mainProxy = proxies.stream()
 			.filter(ProxyDetails::isMainProxy)
 			.findFirst();
 
 		if (mainProxy.isPresent()) {
 			Proxy proxy = new Proxy();
+			proxy.setProxyType(Proxy.ProxyType.MANUAL);
 			proxy.setHttpProxy("localhost:" + mainProxy.get().getPort());
+			proxy.setSslProxy("localhost:" + mainProxy.get().getPort());
 			capabilities.setCapability("proxy", proxy);
 		}
 
