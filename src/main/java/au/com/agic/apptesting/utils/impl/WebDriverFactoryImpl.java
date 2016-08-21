@@ -64,14 +64,6 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			proxy.setHttpProxy("localhost:" + mainProxy.get().getPort());
 			proxy.setSslProxy("localhost:" + mainProxy.get().getPort());
 			capabilities.setCapability("proxy", proxy);
-
-			/*
-				Setting the proxy capability above doesn't work for chrome, but we
-				can set the proxy via a command line switch instead
-			 */
-			capabilities.setCapability(
-				"chrome.switches",
-				Arrays.asList("--proxy-server=http://localhost:" + mainProxy.get().getPort()));
 		}
 
 		if (Constants.MARIONETTE.equalsIgnoreCase(browser)) {
