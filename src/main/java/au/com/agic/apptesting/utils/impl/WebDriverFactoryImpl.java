@@ -22,6 +22,7 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -63,6 +64,14 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			proxy.setHttpProxy("localhost:" + mainProxy.get().getPort());
 			proxy.setSslProxy("localhost:" + mainProxy.get().getPort());
 			capabilities.setCapability("proxy", proxy);
+
+			/*
+				Setting the proxy capability above doesn't work for chrome, but we
+				can set the proxy via a command line switch instead
+			 */
+			capabilities.setCapability(
+				"chrome.switches",
+				Arrays.asList("--proxy-server=http://localhost:" + mainProxy.get().getPort()));
 		}
 
 		if (Constants.MARIONETTE.equalsIgnoreCase(browser)) {
