@@ -1,18 +1,14 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
-
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -20,8 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-
-import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps used to extract data from the web page.
@@ -38,7 +32,7 @@ public class DataExtractionStepDefinitions {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -116,11 +110,11 @@ public class DataExtractionStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails).get();
+				featureState);
 
-			final Map<String, String> dataSet = threadDetails.getDataSet();
-			dataSet.put(destinationAlias, element.getAttribute(attribute));
-			threadDetails.setDataSet(dataSet);
+			final Map<String, String> dataSet = featureState.getDataSet();
+			dataSet.put(destinationAlias, element.getAttribute(attribute).trim());
+			featureState.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -154,17 +148,18 @@ public class DataExtractionStepDefinitions {
 		final String destinationAlias,
 		final String exists) {
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final By by = GET_BY.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails);
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+				featureState);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 
-			final Map<String, String> dataSet = threadDetails.getDataSet();
-			dataSet.put(destinationAlias, element.getAttribute(attribute));
-			threadDetails.setDataSet(dataSet);
+			final Map<String, String> dataSet = featureState.getDataSet();
+			dataSet.put(destinationAlias, element.getAttribute(attribute).trim());
+			featureState.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -196,11 +191,11 @@ public class DataExtractionStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails).get();
+				featureState);
 
-			final Map<String, String> dataSet = threadDetails.getDataSet();
-			dataSet.put(destinationAlias, element.getText());
-			threadDetails.setDataSet(dataSet);
+			final Map<String, String> dataSet = featureState.getDataSet();
+			dataSet.put(destinationAlias, element.getText().trim());
+			featureState.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -232,17 +227,18 @@ public class DataExtractionStepDefinitions {
 		final String destinationAlias,
 		final String exists) {
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final By by = GET_BY.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails);
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+				featureState);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 
-			final Map<String, String> dataSet = threadDetails.getDataSet();
-			dataSet.put(destinationAlias, element.getText());
-			threadDetails.setDataSet(dataSet);
+			final Map<String, String> dataSet = featureState.getDataSet();
+			dataSet.put(destinationAlias, element.getText().trim());
+			featureState.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -275,14 +271,15 @@ public class DataExtractionStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails).get();
+				featureState);
 
-			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
-			final String text = js.executeScript("return arguments[0].textContent;", element).toString();
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+			final String text = js.executeScript("return arguments[0].textContent.trim();", element).toString();
 
-			final Map<String, String> dataSet = threadDetails.getDataSet();
-			dataSet.put(destinationAlias, text);
-			threadDetails.setDataSet(dataSet);
+			final Map<String, String> dataSet = featureState.getDataSet();
+			dataSet.put(destinationAlias, text.trim());
+			featureState.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -315,20 +312,21 @@ public class DataExtractionStepDefinitions {
 		final String destinationAlias,
 		final String exists) {
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final By by = GET_BY.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails);
-			final WebDriverWait wait = new WebDriverWait(threadDetails.getWebDriver(), Constants.WAIT);
+				featureState);
+			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 
-			final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
-			final String text = js.executeScript("return arguments[0].textContent;", element).toString();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+			final String text = js.executeScript("return arguments[0].textContent.trim();", element).toString();
 
-			final Map<String, String> dataSet = threadDetails.getDataSet();
-			dataSet.put(destinationAlias, text);
-			threadDetails.setDataSet(dataSet);
+			final Map<String, String> dataSet = featureState.getDataSet();
+			dataSet.put(destinationAlias, text.trim());
+			featureState.setDataSet(dataSet);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;

@@ -1,16 +1,14 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.exception.FileProfileAccessException;
 import au.com.agic.apptesting.exception.RemoteFeatureException;
 import au.com.agic.apptesting.utils.FeatureFileUtils;
 import au.com.agic.apptesting.utils.FeatureReader;
-
+import javaslang.control.Try;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,9 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotNull;
-
-import javaslang.control.Try;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * An implementation of the feature files utils service

@@ -1,18 +1,16 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.utils.BrowserInteropUtils;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Implementation of checks required to maintain compatibility between browsers

@@ -4,7 +4,6 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverHandler;
-
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.CompressorException;
@@ -13,9 +12,11 @@ import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.openqa.selenium.firefox.GeckoDriverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,8 +24,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Stream;
-
-import javax.validation.constraints.NotNull;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -55,7 +54,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		Stream.of(Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 			Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 			Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
-			Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY)
+			Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
+			GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY,
+			Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
+			Constants.EDGE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY)
 			.forEach(x -> LOGGER.info(
 				"WEBAPPTESTER-INFO-0004: System property {}: {}",
 				x,
@@ -64,6 +66,20 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 	private void configureWindows(@NotNull final List<File> tempFiles) {
 		try {
+			final boolean marionetteWebDriverSet =
+				StringUtils.isNotBlank(
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY));
+
+			if (!marionetteWebDriverSet) {
+				System.setProperty(
+					GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY,
+					extractZipDriver(
+						"/drivers/win64/marionette/geckodriver.exe.tar.gz",
+						"geckodriver.exe",
+						tempFiles));
+			}
+
 			final boolean chromeWebDriverSet =
 				StringUtils.isNotBlank(
 					SYSTEM_PROPERTY_UTILS.getProperty(
@@ -111,7 +127,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
-			if (!operaWebDriverSet) {
+			if (!ieWebDriverSet) {
 				System.setProperty(
 					Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
@@ -141,6 +157,20 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 	private void configureMac(@NotNull final List<File> tempFiles) {
 		try {
+			final boolean marionetteWebDriverSet =
+				StringUtils.isNotBlank(
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY));
+
+			if (!marionetteWebDriverSet) {
+				System.setProperty(
+					GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY,
+					extractZipDriver(
+						"/drivers/mac64/marionette/geckodriver.tar.gz",
+						"geckodriver",
+						tempFiles));
+			}
+
 			final boolean chromeWebDriverSet =
 				StringUtils.isNotBlank(
 					SYSTEM_PROPERTY_UTILS.getProperty(
@@ -190,6 +220,20 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 	private void configureLinux(@NotNull final List<File> tempFiles) {
 		try {
+			final boolean marionetteWebDriverSet =
+				StringUtils.isNotBlank(
+					SYSTEM_PROPERTY_UTILS.getProperty(
+						GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY));
+
+			if (!marionetteWebDriverSet) {
+				System.setProperty(
+					GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY,
+					extractZipDriver(
+						"/drivers/linux64/marionette/geckodriver.tar.gz",
+						"geckodriver",
+						tempFiles));
+			}
+
 			final boolean chromeWebDriverSet =
 				StringUtils.isNotBlank(
 					SYSTEM_PROPERTY_UTILS.getProperty(

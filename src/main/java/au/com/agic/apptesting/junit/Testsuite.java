@@ -1,10 +1,9 @@
 package au.com.agic.apptesting.junit;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a test suite from a jUnit result xml

@@ -8,6 +8,16 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * If this system property is set to true, a new web driver (and therefor a new browser window)
+	 * will be created for every scenario.
+     */
+	public static final String NEW_BROWSER_PER_SCENARIO = "newBrowserPerScenario";
+	/**
+	 * If set to true, or not set at all, this system property instructs Iridium to fail
+	 * all scenarios after the first error. Otherwise, scenarios will continue independently.
+     */
+	public static final String FAIL_ALL_AFTER_FIRST_SCENARIO_ERROR = "failAllAfterFirstScenarioError";
+	/**
 	 * This system property hold the name of an internal proxy to start before the tests are run
 	 */
 	public static final String START_INTERNAL_PROXY = "startInternalProxy";
@@ -53,7 +63,14 @@ public final class Constants {
 	public static final String CHROME = "Chrome";
 	/**
 	 * The value assigned to the system property to indicate that the tests should
-	 * be run in Firefox.
+	 * be run in Firefox using the Marionette driver. This is required with Firefox 48
+	 * and all future versions.
+	 * See https://github.com/SeleniumHQ/selenium/issues/2559 for details.
+	 */
+	public static final String MARIONETTE = "Marionette";
+	/**
+	 * The value assigned to the system property to indicate that the tests should
+	 * be run in Firefox. This is only valid for versions of Firefox up to 47.0.1
 	 */
 	public static final String FIREFOX = "Firefox";
 	/**
@@ -86,6 +103,10 @@ public final class Constants {
 	 */
 	public static final String PHANTOMJS_LOGGING_LEVEL_SYSTEM_PROPERTY = "phantomJSLoggingLevel";
 	/**
+	 * The system property that defines the phantom js user agent
+	 */
+	public static final String PHANTON_JS_USER_AGENT_SYSTEM_PROPERTY = "phantomJSUserAgent";
+	/**
 	 * The default phantom js logging level
 	 */
 	public static final String DEFAULT_PHANTOM_JS_LOGGING_LEVEL = "NONE";
@@ -93,6 +114,10 @@ public final class Constants {
 	 * The location of the chrome webdriver executable See http://chromedriver.storage.googleapis.com/index.html
 	 */
 	public static final String CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY = "webdriver.chrome.driver";
+	/**
+	 * The location of the chrome executable
+	 */
+	public static final String CHROME_EXECUTABLE_LOCATION_SYSTEM_PROPERTY = "webdriver.chrome.bin";
 	/**
 	 * The location of the opera webdriver executable https://github.com/operasoftware/operachromiumdriver/releases
 	 */
@@ -114,6 +139,10 @@ public final class Constants {
 	 * anonymous profile
 	 */
 	public static final String FIREFOX_PROFILE_SYSTEM_PROPERTY = "webdriver.firefox.profile";
+	/**
+	 * The location of the firefox executable
+	 */
+	public static final String FIREFOX_EXECUTABLE_LOCATION_SYSTEM_PROPERTY = "webdriver.firefox.bin";
 	/**
 	 * The maximum number of data sets to run
 	 */
@@ -202,6 +231,10 @@ public final class Constants {
 	 * How long to wait for an element to be available
 	 */
 	public static final int WAIT = 2;
+	/**
+	 * Wait a second between steps by default
+	 */
+	public static final int DEFAULT_WAIT_TIME = 1000;
 
 	/**
 	 * System property that holds the external proxy host name or ip address
@@ -232,6 +265,11 @@ public final class Constants {
 	 * Change this if you have set the apikey in ZAP via Options / API
 	 */
 	public static final String ZAP_API_KEY = null;
+
+	/**
+	 * How long to delay when entering each character into a text box
+	 */
+	public static final int KEY_STROKE_DELAY = 300;
 
 	private Constants() {
 	}

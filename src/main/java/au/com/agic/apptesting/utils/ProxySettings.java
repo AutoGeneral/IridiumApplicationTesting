@@ -1,15 +1,13 @@
 package au.com.agic.apptesting.utils;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Represents the settings of a proxy
@@ -119,6 +117,7 @@ public class ProxySettings {
 		this.password = password;
 		this.realm = null;
 	}
+
 	/**
 	 *
 	 * @param host The proxy hostname

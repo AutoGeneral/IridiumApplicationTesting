@@ -16,7 +16,7 @@ Feature: Buy Concert Tickets on TicketMonster
   Scenario: Open Application
     When I set the default wait time between steps to "2" seconds
     And I open the application
-    And I wait "10" seconds for the element found by "logo" to be displayed
+    And I wait "30" seconds for the element found by "logo" to be displayed
 
   Scenario: Open Events Page
     And I click the link with the text content of "Events"

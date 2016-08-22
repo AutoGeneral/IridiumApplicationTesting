@@ -1,26 +1,27 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.exception.WebElementException;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutionException;
 
-import cucumber.api.java.en.When;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * This class contains Gherkin steps that define wait conditions.
@@ -30,6 +31,7 @@ import cucumber.api.java.en.When;
  */
 public class WaitStepDefinitions {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(WaitStepDefinitions.class);
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
 	private static final GetBy GET_BY = new GetByImpl();
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
@@ -40,7 +42,7 @@ public class WaitStepDefinitions {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -80,9 +82,9 @@ public class WaitStepDefinitions {
 			SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails,
-				Long.parseLong(waitDuration)).get();
-		} catch (final WebElementException ex) {
+				featureState,
+				Long.parseLong(waitDuration));
+		} catch (final Exception ex) {
 			/*
 				Rethrow if we have not ignored errors
 			 */
@@ -117,9 +119,11 @@ public class WaitStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String ignoringTimeout) {
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, threadDetails);
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
 		final WebDriverWait wait = new WebDriverWait(
-			threadDetails.getWebDriver(), Integer.parseInt(waitDuration));
+			webDriver, Integer.parseInt(waitDuration));
 
 		try {
 			wait.until(ExpectedConditions.visibilityOfElementLocated(by));
@@ -138,7 +142,6 @@ public class WaitStepDefinitions {
 	 * useful when waiting for an element to be in a state where it can be interacted with.
 	 *
 	 * @param waitDuration    The maximum amount of time to wait for
-	 * @param selector        Either ID, class, xpath, name or css selector
 	 * @param alias           If this word is found in the step, it means the selectorValue is found from the
 	 *                        data set.
 	 * @param selectorValue   The value used in conjunction with the selector to match the element. If alias
@@ -158,8 +161,8 @@ public class WaitStepDefinitions {
 			SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails,
-				Long.parseLong(waitDuration)).get();
+				featureState,
+				Long.parseLong(waitDuration));
 		} catch (final WebElementException ex) {
 			/*
 				Rethrow if we have not ignored errors
@@ -193,9 +196,11 @@ public class WaitStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String ignoringTimeout) {
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, threadDetails);
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
 		final WebDriverWait wait = new WebDriverWait(
-			threadDetails.getWebDriver(), Integer.parseInt(waitDuration));
+			webDriver, Integer.parseInt(waitDuration));
 
 		try {
 			wait.until(ExpectedConditions.elementToBeClickable(by));
@@ -236,8 +241,8 @@ public class WaitStepDefinitions {
 			SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				threadDetails,
-				Long.parseLong(waitDuration)).get();
+				featureState,
+				Long.parseLong(waitDuration));
 		} catch (final WebElementException ex) {
 			/*
 				Rethrow if we have not ignored errors
@@ -273,9 +278,11 @@ public class WaitStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String ignoringTimeout) {
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, threadDetails);
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
 		final WebDriverWait wait = new WebDriverWait(
-			threadDetails.getWebDriver(), Integer.parseInt(waitDuration));
+			webDriver, Integer.parseInt(waitDuration));
 		try {
 			wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		} catch (final TimeoutException ex) {
@@ -299,10 +306,11 @@ public class WaitStepDefinitions {
 	 */
 	@When("^I wait \"(\\d+)\" seconds for a link with the text content of( alias) \"([^\"]*)\" to be present")
 	public void presentLinkStep(final String waitDuration, final String alias, final String linkContent) {
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final String content = StringUtils.isNotBlank(alias)
-			? threadDetails.getDataSet().get(linkContent) : linkContent;
+			? featureState.getDataSet().get(linkContent) : linkContent;
 		final WebDriverWait wait = new WebDriverWait(
-			threadDetails.getWebDriver(), Integer.parseInt(waitDuration));
+			webDriver, Integer.parseInt(waitDuration));
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText(content)));
 	}
 
@@ -326,13 +334,14 @@ public class WaitStepDefinitions {
 		final String selectorValue,
 		final String ignoringTimeout) {
 		final String attributeValue = " alias".equals(alias)
-			? threadDetails.getDataSet().get(selectorValue) : selectorValue;
+			? featureState.getDataSet().get(selectorValue) : selectorValue;
 
 		checkState(attributeValue != null, "the aliased attribute value does not exist");
 
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
-				threadDetails.getWebDriver(), Integer.parseInt(waitDuration));
+				webDriver, Integer.parseInt(waitDuration));
 			wait.until(ExpectedConditions.visibilityOfElementLocated(
 				By.cssSelector("[" + attribute + "='" + attributeValue + "']")));
 		} catch (final TimeoutException ex) {
@@ -365,13 +374,14 @@ public class WaitStepDefinitions {
 		final String selectorValue,
 		final String ignoringTimeout) {
 		final String attributeValue = " alias".equals(alias)
-			? threadDetails.getDataSet().get(selectorValue) : selectorValue;
+			? featureState.getDataSet().get(selectorValue) : selectorValue;
 
 		checkState(attributeValue != null, "the aliased attribute value does not exist");
 
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
-				threadDetails.getWebDriver(), Integer.parseInt(waitDuration));
+				webDriver, Integer.parseInt(waitDuration));
 			wait.until(ExpectedConditions.presenceOfElementLocated(
 				By.cssSelector("[" + attribute + "='" + attributeValue + "']")));
 		} catch (final TimeoutException ex) {

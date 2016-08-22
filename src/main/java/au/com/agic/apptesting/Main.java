@@ -3,6 +3,10 @@ package au.com.agic.apptesting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 public final class Main {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
@@ -11,6 +15,8 @@ public final class Main {
 	}
 
 	public static void main(final String... args) {
+		final List<File> globalTempFiles = new ArrayList<>();
+
 		try {
 			/*
 				This is required to run ZAP from webstart
@@ -20,22 +26,19 @@ public final class Main {
 			/*
 				Execute the tests
 			 */
-			new TestRunner();
+			final int failures = new TestRunner().run(globalTempFiles);
+			System.exit(failures);
 		} catch (final Exception ex) {
 			LOGGER.error(
 				"An exception was raised while attempting to run the Cucumber test scripts", ex);
+			System.exit(-1);
+		} finally {
+			try {
+				globalTempFiles.forEach(File::delete);
+			} catch (final Exception ex) {
+				LOGGER.error(
+					"Failed to remove global temp file", ex);
+			}
 		}
-
-		/*
-			This code is useful to leave the console window open after a test has run
-			for debugging
-		 */
-		/*try {
-			Thread.sleep(1000000000);
-        } catch (InterruptedException e) {
-			// doesn't matter
-        }*/
-
-		System.exit(0);
 	}
 }

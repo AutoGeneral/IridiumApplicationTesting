@@ -11,15 +11,21 @@ Feature: Open an application
 
  	# Open up the web page
   	Scenario: Launch App
-		And I set the default wait time between steps to "2"
+		And I set the default wait time between steps to "5"
+		And I set the default wait time between steps to "5"
+   		# Allow all traffic to the main domain
+		And I enable the whitelist with responding with "500" for unmatched requests
+		And I allow access to the URL regex ".*?dzone.*"
 		And I open the application
 		And I maximise the window
 
 	# Open the login dialog and close it again
 	Scenario: Open Profile
-		# Click on an element referencing the aliased xpath we set above
+	 # Click on an element referencing the aliased xpath we set above
+		And I wait "30" seconds for the element found by alias "NoProfileImage" to be displayed
 		And I click the element found by alias "NoProfileImage"
-	 	# Click on an element referencing the aliased class name we set above
+	  # Click on an element referencing the aliased class name we set above
+		And I wait "30" seconds for the element found by alias "LoginBackground" to be displayed
 		And I click the element found by alias "LoginBackground"
 
 	Scenario: Navigate the main links
@@ -40,14 +46,13 @@ Feature: Open an application
 
 	Scenario: Open some refcardz
 		And I click the element found by alias "HomeLink"
-		# WebDriver considers this link to be obscured by another element, so
-		# we use a special step to click these "hidden" links
+		 # WebDriver considers this link to be obscured by another element, so
+		 # we use a special step to click these "hidden" links
+		And I wait "30" seconds for the element found by "Learn Microservices in Java" to be displayed
+		And I click the hidden link with the text content of "Learn Microservices in Java"
+		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
+		And I go back
+		And I wait "30" seconds for the element found by "Learn Swift" to be displayed
 		And I click the hidden link with the text content of "Learn Swift"
-		And I go back
 		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
-		And I click the hidden link with the text content of "Learn Microservices"
 		And I go back
-		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
-		And I click the hidden link with the text content of "Learn Scrum"
-		And I go back
-		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed

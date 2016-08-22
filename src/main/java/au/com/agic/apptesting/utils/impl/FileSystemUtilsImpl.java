@@ -1,36 +1,26 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static au.com.agic.apptesting.utils.JarDownloader.LOCAL_JAR_FILE_SYSTEM_PROPERTY;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FileSystemUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
-
+import javaslang.control.Try;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.URIBuilder;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
-
-import javaslang.control.Try;
+import static au.com.agic.apptesting.utils.JarDownloader.LOCAL_JAR_FILE_SYSTEM_PROPERTY;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * An implementation of the FileSystemsUtils service
@@ -150,10 +140,10 @@ public class FileSystemUtilsImpl implements FileSystemUtils {
 				/*
 					If we get here, it means that we are running from a web start jar,
 					which looks like:
-					jar:https://s3-ap-southeast-2.amazonaws.com/ag-iridium/webapptesting-signed.jar!/zap
+					jar:https://s3-ap-southeast-2.amazonaws.com/ag-iridium/IridiumApplicationTesting.jar!/zap
 
 					getSchemeSpecificPart() will return:
-					https://s3-ap-southeast-2.amazonaws.com/ag-iridium/webapptesting-signed.jar!/zap
+					https://s3-ap-southeast-2.amazonaws.com/ag-iridium/IridiumApplicationTesting.jar!/zap
 				 */
 				final URI newUri = URI.create(resPath.getSchemeSpecificPart());
 

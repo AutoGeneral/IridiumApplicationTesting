@@ -1,20 +1,19 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
-
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps used to debug a test script.
@@ -29,7 +28,7 @@ public class DebuggingStepDefinitions {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -41,7 +40,7 @@ public class DebuggingStepDefinitions {
 	public void takeScreenshotStep(final String filename) {
 		SCREENSHOT_UTILS.takeScreenshot(
 			StringUtils.defaultIfBlank(filename, ""),
-			threadDetails);
+			featureState);
 	}
 
 	/**
@@ -51,7 +50,8 @@ public class DebuggingStepDefinitions {
 	 */
 	@When("^I dump the value of the cookie called \"(.*?)\"$")
 	public void dumpCookieName(final String cookieName) {
-		threadDetails.getWebDriver().manage().getCookies().stream()
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		webDriver.manage().getCookies().stream()
 			.filter(e -> StringUtils.equals(cookieName, e.getName()))
 			.forEach(e -> LOGGER.info("Dumping cookie {}", e));
 	}
@@ -65,7 +65,8 @@ public class DebuggingStepDefinitions {
 	 */
 	@When("^I delete cookies called \"(.*?)\"(?: with the path \"(.*?)\")?$")
 	public void deleteCookie(final String cookieName, final String path) {
-		final List<Cookie> deleteCookies = threadDetails.getWebDriver().manage().getCookies().stream()
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final List<Cookie> deleteCookies = webDriver.manage().getCookies().stream()
 			.filter(e -> StringUtils.equals(cookieName, e.getName()))
 			.filter(e -> StringUtils.isBlank(path) || StringUtils.equals(path, e.getPath()))
 			.collect(Collectors.toList());
@@ -73,7 +74,7 @@ public class DebuggingStepDefinitions {
 		deleteCookies.stream()
 			.forEach(e -> {
 				LOGGER.info("Removing cookie {}", e);
-				threadDetails.getWebDriver().manage().deleteCookie(e);
+				webDriver.manage().deleteCookie(e);
 			});
 	}
 
@@ -82,14 +83,15 @@ public class DebuggingStepDefinitions {
 	 */
 	@When("^I delete all cookies$")
 	public void deleteAllCookie() {
-		threadDetails.getWebDriver().manage().deleteAllCookies();
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		webDriver.manage().deleteAllCookies();
 	}
 
 	@When("I dump the alias map to the console$")
 	public void dumpAliasMap() {
 		LOGGER.info("Dump of the alias map.");
-		for (final String key : threadDetails.getDataSet().keySet()) {
-			LOGGER.info("{}: {}", key, threadDetails.getDataSet().get(key));
+		for (final String key : featureState.getDataSet().keySet()) {
+			LOGGER.info("{}: {}", key, featureState.getDataSet().get(key));
 		}
 	}
 
@@ -100,7 +102,8 @@ public class DebuggingStepDefinitions {
 	 */
 	@When("I display a starting marker$")
 	public void displayStartingMarker() {
-		final JavascriptExecutor js = (JavascriptExecutor) threadDetails.getWebDriver();
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("javascript:window.document.body.innerHTML = "
 			+ "'<div style=\"margin: 50px; font-size: 20px\">Starting</div>'");
 	}

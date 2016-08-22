@@ -1,16 +1,20 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
+import au.com.agic.apptesting.utils.SystemPropertyUtils;
+import au.com.agic.apptesting.utils.WebDriverFactory;
 import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
+import au.com.agic.apptesting.utils.impl.WebDriverFactoryImpl;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Deals with the events that related to step and scenario handing
@@ -18,12 +22,14 @@ import cucumber.api.java.Before;
 public class StepEventHandling {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StepEventHandling.class);
+	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final ScreenshotUtils SCREENSHOT_UTILS = new ScreenshotUtilsImpl();
+	private static final WebDriverFactory WEB_DRIVER_FACTORY = new WebDriverFactoryImpl();
 
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -33,7 +39,12 @@ public class StepEventHandling {
 	 */
 	@Before
 	public void setup() {
-		if (threadDetails.getFailed()) {
+		final String endAfterFirstError =
+			SYSTEM_PROPERTY_UTILS.getProperty(Constants.FAIL_ALL_AFTER_FIRST_SCENARIO_ERROR);
+		final boolean endAfterFirstErrorBool = StringUtils.isBlank(endAfterFirstError)
+			|| Boolean.parseBoolean(endAfterFirstError);
+
+		if (endAfterFirstErrorBool && featureState.getFailed()) {
 			throw new IllegalStateException("Previous scenario failed!");
 		}
 	}
@@ -45,10 +56,28 @@ public class StepEventHandling {
 	 */
 	@After
 	public void teardown(final Scenario scenario) {
-		if (!threadDetails.getFailed()) {
-			SCREENSHOT_UTILS.takeScreenshot(" " + scenario.getName(), threadDetails);
+		/*
+			At the end of the scenario, the user may have chosen to destroy the
+			web driver.
+		 */
+		final String newDriverPerScenario = SYSTEM_PROPERTY_UTILS.getProperty(Constants.NEW_BROWSER_PER_SCENARIO);
+		final boolean clearDriver = Boolean.parseBoolean(newDriverPerScenario);
+
+		if (clearDriver) {
+			if (WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
+				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(false);
+			} else {
+				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
+			}
 		}
 
-		threadDetails.setFailed(scenario.isFailed());
+		/*
+			Take a screenshot
+		 */
+		if (!featureState.getFailed()) {
+			SCREENSHOT_UTILS.takeScreenshot(" " + scenario.getName(), featureState);
+		}
+
+		featureState.setFailed(scenario.isFailed());
 	}
 }

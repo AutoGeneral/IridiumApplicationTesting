@@ -1,22 +1,15 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ProxyException;
-import au.com.agic.apptesting.utils.FileSystemUtils;
-import au.com.agic.apptesting.utils.LocalProxyUtils;
-import au.com.agic.apptesting.utils.ProxyDetails;
-import au.com.agic.apptesting.utils.ProxySettings;
-import au.com.agic.apptesting.utils.ServerPortUtils;
-import au.com.agic.apptesting.utils.SystemPropertyUtils;
-
+import au.com.agic.apptesting.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zaproxy.clientapi.core.ClientApi;
 import org.zaproxy.zap.ZAP;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * An implementation of the local proxy service
@@ -40,11 +33,19 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 
 	private static final int WAIT_FOR_START = 30000;
 
+	/**
+	 * ZAP is not designed to be started and restarted, so we create one instance
+	 * and share it across tests.
+	 */
+	private static ProxyDetailsImpl<ClientApi> zapSingleton;
+
 	@Override
 	public Optional<ProxyDetails<ClientApi>> initProxy(
+			@NotNull final List<File> globalTempFiles,
 			@NotNull final List<File> tempFolders,
 			@NotNull final Optional<ProxySettings> upstreamProxy) {
 
+		checkNotNull(globalTempFiles);
 		checkNotNull(tempFolders);
 		checkNotNull(upstreamProxy);
 
@@ -53,7 +54,7 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 				SYSTEM_PROPERTY_UTILS.getProperty(Constants.START_INTERNAL_PROXY);
 
 			if (StringUtils.equalsIgnoreCase(Constants.ZED_ATTACK_PROXY, proxyName)) {
-				return Optional.of(startZAPProxy(tempFolders, upstreamProxy));
+				return Optional.of(startZAPProxy(globalTempFiles, upstreamProxy));
 			}
 
 			LOGGER.info("The value assigned to the \"{}\" system property of \"{}\" was empty or not recognised",
@@ -72,12 +73,16 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 	 * @param tempFolders A list of folders that need to be deleted once the app is finished
 	 * @return The port that the proxy is listening on
 	 */
-	private ProxyDetails<ClientApi> startZAPProxy(
+	private synchronized ProxyDetails<ClientApi> startZAPProxy(
 			@NotNull final List<File> tempFolders,
 			@NotNull final Optional<ProxySettings> upstreamProxy) throws Exception {
 
 		checkNotNull(tempFolders);
 		checkNotNull(upstreamProxy);
+
+		if (zapSingleton != null) {
+			return zapSingleton;
+		}
 
 		/*
 			There is a small chance that between the call to getFreePort() and the
@@ -157,11 +162,15 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 			final ClientApi clientApi = new ClientApi("localhost", freePort);
 			clientApi.waitForSuccessfulConnectionToZap(WAIT_FOR_START);
 
-			return new ProxyDetailsImpl<>(
+			zapSingleton = new ProxyDetailsImpl<>(
 				freePort,
 				false,
 				PROXY_NAME,
 				new ClientApi("localhost", freePort));
+
+			return zapSingleton;
 		}
 	}
 }
+
+

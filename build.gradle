@@ -37,6 +37,25 @@ apply plugin: 'com.matthewcasperson.build.iridium'
 
 mainClassName = "au.com.agic.apptesting.Main"
 
+def alias = hasProperty("KeystoreAlias") ? getProperty("KeystoreAlias") : System.getenv("KeystoreAlias");
+def keystore = hasProperty("KeystoreName") ? getProperty("KeystoreName") : System.getenv("KeystoreName");
+def storepass = hasProperty("KeystoreStorePass") ? getProperty("KeystoreStorePass") : System.getenv("KeystoreStorePass");
+def keypass = hasProperty("KeystorePass") ? getProperty("KeystorePass") : System.getenv("KeystorePass");
+
+task signJar(dependsOn: shadowJar) << {
+	ant.delete(dir:'build/signed')
+	ant.mkdir(dir:'build/signed')
+	ant.signjar(
+		jar: jar.archivePath,
+		destDir: 'build/signed',
+		alias: alias,
+		keystore: keystore,
+		storepass: storepass,
+		keypass: keypass);
+}
+
+assemble.dependsOn signJar
+
 jar {
     manifest {
         attributes(
@@ -111,7 +130,7 @@ def cucumberHtmlFormatterVersion = '0.2.3'
 def monteRepackVersion = '1.0.1'
 def javaSlangVersion = '2.0.0-RC4'
 def zapAPIVersion = '1.0.0'
-def browsermobVersion = '2.1.1'
+def browsermobVersion = '2.1.2'
 def compressCommonsVersion = '1.12'
 def xmlApisVersion =  '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2';
@@ -221,11 +240,16 @@ def passThroughProperties = [
         "externalProxyPort",
         "externalProxyUsername",
         "externalProxyPassword",
-        "externalProxyRealm"
+        "externalProxyRealm",
+		"newBrowserPerScenario",
+		"failAllAfterFirstScenarioError",
+		"phantomJSUserAgent",
+		"testBrowsers"
 ]
 
 test {
-    for (p in passThroughProperties) {
+	testLogging.showStandardStreams = true
+	for (p in passThroughProperties) {
         systemProperty p, System.properties[p]
     }
 }

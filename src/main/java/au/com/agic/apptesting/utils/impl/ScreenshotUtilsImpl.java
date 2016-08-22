@@ -1,25 +1,25 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
-
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * And implementation of the screenshot service
@@ -31,9 +31,9 @@ public class ScreenshotUtilsImpl implements ScreenshotUtils {
 	private static final String SCREENSHOT_DATE_FORMAT = "YYYYMMddHHmmssSSS";
 
 	@Override
-	public void takeScreenshot(@NotNull final String suffix, @NotNull final ThreadDetails threadDetails) {
+	public void takeScreenshot(@NotNull final String suffix, @NotNull final FeatureState featureState) {
 		checkNotNull(suffix);
-		checkNotNull(threadDetails);
+		checkNotNull(featureState);
 
 		/*
 			Take a screenshot if we have enabled the setting
@@ -43,10 +43,10 @@ public class ScreenshotUtilsImpl implements ScreenshotUtils {
 
 		try {
 			if (enabledScreenshots) {
-				if (threadDetails.getWebDriver() instanceof TakesScreenshot) {
+				final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+				if (webDriver instanceof TakesScreenshot) {
 					final File screenshot =
-						((TakesScreenshot) threadDetails.getWebDriver())
-							.getScreenshotAs(OutputType.FILE);
+						((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
 
 					/*
 						Screenshot filenames are the time that it was taken to allow for easy
@@ -56,7 +56,7 @@ public class ScreenshotUtilsImpl implements ScreenshotUtils {
 						.format(new Date()) + suffix + ".png";
 
 					final File reportFile =
-						new File(threadDetails.getReportDirectory() + "/" + filename);
+						new File(featureState.getReportDirectory() + "/" + filename);
 
 					FileUtils.copyFile(screenshot, reportFile);
 					LOGGER.info("Saved screenshot to {}", reportFile.getAbsolutePath());

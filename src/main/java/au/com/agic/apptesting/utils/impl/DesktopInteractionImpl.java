@@ -1,7 +1,6 @@
 package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.utils.DesktopInteraction;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -5,25 +5,18 @@ Feature: Open an application
 	Scenario: Generate Page Object
 		Given the alias mappings
 			| HomeLink 			| //*[@id="ng-app"]/body/div[1]/div/div/div[1]/div/div[1]/div/a			|
-			| NoProfileImage 	| //*[@id="ng-app"]/body/div[1]/div/div/div[1]/div/div[2]/div[3]/i 		|
-			| ProfileImage 		| //*[@id="ng-app"]/body/div[1]/div/div/div[1]/div/div[2]/div[3]/img 	|
-			| LoginBackground 	| ngdialog-overlay			                                      		|
 
  	# Open up the web page
   	Scenario: Launch App
 		Given a scanner with all policies enabled
-		And I set the default wait time between steps to "2"
-		# Speed up tests by blocking thumbnails
+		And I set the default wait for elements to be available to "60" seconds
+   # Allow all traffic to the main domain
+		And I enable the whitelist with responding with "500" for unmatched requests
+		And I allow access to the URL regex ".*?dzone.*"
+	    # Speed up tests by blocking thumbnails
 		And I block access to the URL regex ".*?thumbnail.*" with response "500"
 		And I open the application
 		And I maximise the window
-
-	# Open the login dialog and close it again
-	Scenario: Open Profile
-		# Click on an element referencing the aliased xpath we set above
-		And I click the element found by alias "NoProfileImage"
-	 	# Click on an element referencing the aliased class name we set above
-		And I click the element found by alias "LoginBackground"
 
 	Scenario: Navigate the main links
 		And I click the link with the text content of "REFCARDZ"
@@ -45,15 +38,14 @@ Feature: Open an application
 		And I click the element found by alias "HomeLink"
 		# WebDriver considers this link to be obscured by another element, so
 		# we use a special step to click these "hidden" links
+		And I wait "30" seconds for the element found by "Learn Microservices in Java" to be displayed
+		And I click the hidden link with the text content of "Learn Microservices in Java"
+		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
+		And I go back
+		And I wait "30" seconds for the element found by "Learn Swift" to be displayed
 		And I click the hidden link with the text content of "Learn Swift"
-		And I go back
 		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
-		And I click the hidden link with the text content of "Learn Microservices"
 		And I go back
-		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
-		And I click the hidden link with the text content of "Learn Scrum"
-		And I go back
-		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
 
 	Scenario: Save the results
 		And the application is spidered timing out after "15" seconds

@@ -20,12 +20,12 @@ public interface GetBy {
 	 * @param selector   The name of the selector
 	 * @param valueAlias true if the value is an alias, false otherwose
 	 * @param value      The alias key or value to use with the selector
-	 * @param threadDetails The current thread's state object
+	 * @param featureState The current thread's state object
 	 * @return The Selenium selection object
 	 */
 	By getBy(
 		final String selector,
 		final boolean valueAlias,
 		final String value,
-		final ThreadDetails threadDetails);
+		final FeatureState featureState);
 }

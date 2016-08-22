@@ -1,9 +1,8 @@
 package au.com.agic.apptesting.utils;
 
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.Optional;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * This represents the details of a proxy that our test steps can use

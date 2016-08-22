@@ -1,29 +1,26 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.ThreadDetails;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import cucumber.api.java.en.When;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Gherin steps used to open web pages.
@@ -44,7 +41,7 @@ public class OpenStepDefinitions {
 	/**
 	 * Get the web driver for this thread
 	 */
-	private final ThreadDetails threadDetails =
+	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
@@ -56,9 +53,10 @@ public class OpenStepDefinitions {
 	 */
 	@When("^I open the page( alias)? \"([^\"]*)\"$")
 	public void openPage(final String alias, final String url) {
-		threadDetails.getWebDriver().get(
-			StringUtils.isNotBlank(alias) ? threadDetails.getDataSet().get(url) : url);
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		webDriver.get(
+			StringUtils.isNotBlank(alias) ? featureState.getDataSet().get(url) : url);
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -73,12 +71,13 @@ public class OpenStepDefinitions {
 	 */
 	@When("^I open the application(?: \"([^\"]*)\")?$")
 	public void openApplication(final String urlName) {
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
 		if (StringUtils.isNotBlank(urlName)) {
 			LOGGER.info("WEBAPPTESTER-INFO-0001: Opened the url {}",
-				threadDetails.getUrlDetails().getUrl(urlName));
+				featureState.getUrlDetails().getUrl(urlName));
 
-			final String url = threadDetails.getUrlDetails().getUrl(urlName);
+			final String url = featureState.getUrlDetails().getUrl(urlName);
 
 			checkState(StringUtils.isNotBlank(url), "The url associated with the app name "
 				+ urlName + " was not found. "
@@ -88,14 +87,15 @@ public class OpenStepDefinitions {
 				+ "named applications. "
 				+ "Alternatively, make sure the configuration file defines the named application.");
 
-			threadDetails.getWebDriver().get(url);
+
+			webDriver.get(url);
 		} else {
 			LOGGER.info("WEBAPPTESTER-INFO-0001: Opened the url {}",
-				threadDetails.getUrlDetails().getDefaultUrl());
-			threadDetails.getWebDriver().get(threadDetails.getUrlDetails().getDefaultUrl());
+				featureState.getUrlDetails().getDefaultUrl());
+			webDriver.get(featureState.getUrlDetails().getDefaultUrl());
 		}
 
-		SLEEP_UTILS.sleep(threadDetails.getDefaultSleep());
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -105,8 +105,9 @@ public class OpenStepDefinitions {
 	 */
 	@When("^I open all links in new tabs and then close the tabs$")
 	public void openAllLinks() throws InterruptedException {
-		final JavascriptExecutor js = JavascriptExecutor.class.cast(threadDetails.getWebDriver());
-		final List<WebElement> links = threadDetails.getWebDriver().findElements(By.tagName("a"));
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final JavascriptExecutor js = JavascriptExecutor.class.cast(webDriver);
+		final List<WebElement> links = webDriver.findElements(By.tagName("a"));
 		final ExecutorService executor = Executors.newFixedThreadPool(LINK_OPEN_POOL_COUNT);
 
 		final List<Callable<Object>> calls = links.stream()
@@ -118,7 +119,9 @@ public class OpenStepDefinitions {
 						final String urlString = url.toString();
 						js.executeScript("(function() {"
 							+ "var newWindow = window.open('" + urlString + "','_blank'); "
-							+ "window.setTimeout(function(){newWindow.close()}, " + TAB_OPEN_TIME + ");"
+							+ "window.setTimeout(function(){newWindow.close()}, "
+							+ TAB_OPEN_TIME
+							+ ");"
 							+ "})()"
 						);
 

@@ -1,27 +1,20 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.exception.ProxyException;
-import au.com.agic.apptesting.utils.FileSystemUtils;
-import au.com.agic.apptesting.utils.LocalProxyUtils;
-import au.com.agic.apptesting.utils.ProxyDetails;
-import au.com.agic.apptesting.utils.ProxySettings;
-import au.com.agic.apptesting.utils.ServerPortUtils;
-import au.com.agic.apptesting.utils.SystemPropertyUtils;
-
+import au.com.agic.apptesting.utils.*;
+import io.netty.handler.codec.http.HttpResponse;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.filters.ResponseFilter;
 import net.lightbody.bmp.proxy.auth.AuthType;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
-
 import org.apache.commons.lang3.StringUtils;
 import org.littleshoot.proxy.HttpFiltersSourceAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -29,9 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
-
-import io.netty.handler.codec.http.HttpResponse;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * An implementation of the browsermob proxy. This proxy allows us to block access to urls
@@ -52,12 +43,18 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 	private static final FileSystemUtils FILE_SYSTEM_UTILS = new FileSystemUtilsImpl();
 
 	private static final int WAIT_FOR_START = 30000;
+	private static final int START_HTTP_ERROR = 400;
+	private static final int END_HTTP_ERROR = 599;
 
 	@Override
 	public Optional<ProxyDetails<BrowserMobProxy>> initProxy(
+			@NotNull final List<File> globalTempFiles,
 			@NotNull final List<File> tempFolders,
 			@NotNull final Optional<ProxySettings> upstreamProxy) {
+
+		checkNotNull(globalTempFiles);
 		checkNotNull(tempFolders);
+		checkNotNull(upstreamProxy);
 
 		try {
 			return Optional.of(startBrowsermobProxy(upstreamProxy));
@@ -90,6 +87,7 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 			public int getMaximumRequestBufferSizeInBytes() {
 				return Integer.MAX_VALUE;
 			}
+
 			@Override
 			public int getMaximumResponseBufferSizeInBytes() {
 				return Integer.MAX_VALUE;
@@ -134,11 +132,15 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 				/*
 					Track anything other than a 200 range response
 				 */
-				if (response.getStatus().code() >= 400 && response.getStatus().code() <= 599) {
+				if (response.getStatus().code() >= START_HTTP_ERROR
+					&& response.getStatus().code() <= END_HTTP_ERROR) {
+
 					synchronized (proxyDetails) {
 						final Map<String, Object> properties = proxyDetails.getProperties();
 						if (!properties.containsKey(INVALID_REQUESTS)) {
-							properties.put(INVALID_REQUESTS, new ArrayList<HttpMessageInfo>());
+							properties.put(
+								INVALID_REQUESTS,
+								new ArrayList<HttpMessageInfo>());
 						}
 						ArrayList.class.cast(properties.get(INVALID_REQUESTS)).add(messageInfo);
 						proxyDetails.setProperties(properties);

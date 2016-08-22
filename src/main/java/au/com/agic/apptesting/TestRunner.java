@@ -1,15 +1,10 @@
 package au.com.agic.apptesting;
 
-import static au.com.agic.apptesting.constants.Constants.OPEN_REPORT_FILE_SYSTEM_PROPERTY;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
 import au.com.agic.apptesting.exception.RunScriptsException;
 import au.com.agic.apptesting.utils.*;
 import au.com.agic.apptesting.utils.impl.*;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +14,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,7 +22,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.validation.constraints.NotNull;
+import static au.com.agic.apptesting.constants.Constants.OPEN_REPORT_FILE_SYSTEM_PROPERTY;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Typically Cucumber tests are run as jUnit tests. However, in our configuration we run Cucumber as a standalone
@@ -72,7 +70,7 @@ public class TestRunner {
 	 */
 	private int failure = 0;
 
-	public TestRunner() {
+	public int run(final List<File> globalTempFiles) {
 		/*
 		  This is the directory that will hold our reports
 		*/
@@ -103,7 +101,7 @@ public class TestRunner {
 			JAR_DOWNLOADER.downloadJar(tempFiles);
 			SYSTEM_PROPERTY_UTILS.copyDependentSystemProperties();
 			WEB_DRIVER_HANDLER.configureWebDriver(tempFiles);
-			proxies = PROXY_MANAGER.configureProxies(tempFiles);
+			proxies = PROXY_MANAGER.configureProxies(globalTempFiles, tempFiles);
 			cleanupOldReports();
 			init(reportOutput, tempFiles, proxies);
 
@@ -141,6 +139,8 @@ public class TestRunner {
 			 */
 			PROXY_MANAGER.stopProxies(proxies);
 		}
+
+		return failure;
 	}
 
 	/**
@@ -337,7 +337,7 @@ public class TestRunner {
 				/*
 					Get the details for this thread
 				*/
-				final ThreadDetails threadDetails =
+				final FeatureState featureState =
 					State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
 						Thread.currentThread().getName());
 
@@ -362,7 +362,7 @@ public class TestRunner {
 				args.add("--glue");
 				args.add("au.com.agic.apptestingext.steps");
 
-				addTags(args, threadDetails);
+				addTags(args, featureState);
 
 				args.add(featuresLocation);
 
@@ -417,16 +417,16 @@ public class TestRunner {
 		 */
 		private void addTags(
 				@NotNull final List<String> args,
-				@NotNull final ThreadDetails threadDetails) {
+				@NotNull final FeatureState featureState) {
 			checkNotNull(args);
-			checkNotNull(threadDetails);
+			checkNotNull(featureState);
 
 			final String tagOverride =
 				SYSTEM_PROPERTY_UTILS.getProperty(Constants.TAGS_OVERRIDE_SYSTEM_PROPERTY);
 
 			final String tagSetToUse = StringUtils.isNotBlank(tagOverride)
 				? tagOverride
-				: threadDetails.getUrlDetails().getTags();
+				: featureState.getUrlDetails().getTags();
 
 			final List<String> tags = TAG_ANALYSER.convertTagsToList(tagSetToUse);
 

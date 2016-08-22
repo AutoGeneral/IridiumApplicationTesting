@@ -43,8 +43,11 @@
 /*.png
 /MergedReport.xml
 /CucumberThread*.html
+/CucumberThread*.zap
 /hs_err_pid*.log
 /packages
 /classes
 /keystore
 **/.DS_Store
+log.txt
+exception.txt
