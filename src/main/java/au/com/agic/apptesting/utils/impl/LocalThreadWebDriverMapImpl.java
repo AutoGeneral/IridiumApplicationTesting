@@ -154,6 +154,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		return featureState;
 	}
 
+	@Override
 	public synchronized WebDriver getWebDriverForThread(@NotNull final String name, final boolean createIfMissing) {
 		checkArgument(StringUtils.isNotEmpty(name));
 
@@ -239,8 +240,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		/*
 			Attemp to delete all the temp folders
 		 */
-		getTempFolders().stream()
-			.forEach(e -> Try.run(() -> FileUtils.deleteDirectory(e)));
+		getTempFolders().forEach(e -> Try.run(() -> FileUtils.deleteDirectory(e)));
 
         /*
             Reset the list of available configurations

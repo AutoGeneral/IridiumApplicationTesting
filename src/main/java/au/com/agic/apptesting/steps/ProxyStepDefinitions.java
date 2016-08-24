@@ -111,6 +111,12 @@ public class ProxyStepDefinitions {
 	public void stripHeaders(final String url) {
 		final Optional<ProxyDetails<?>> proxy =
 			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+
+		/*
+			Get the name of the thread running the test
+		 */
+		final String threadName = Thread.currentThread().getName();
+
 		if (proxy.isPresent()) {
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
 			browserMobProxy.addRequestFilter(new RequestFilter() {
@@ -131,7 +137,7 @@ public class ProxyStepDefinitions {
 								Find the root context cookie
 							 */
 							final WebDriver webDriver =
-								State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+								State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread(threadName, true);
 							final Optional<Cookie> awselb =
 								webDriver.manage().getCookies()
 									.stream()
