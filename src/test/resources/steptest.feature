@@ -24,6 +24,9 @@ Feature: Test of the steps provided by Iridium
 			| Text Area 2         | textArea2               |
 			| Text Box css		  | body > div:nth-child(3) > input[type="text"]:nth-child(4) |
 			| Text Box xpath	  | /html/body/div[2]/input[4] |
+            | Test Value 1        | 100                     |
+            | Test Value 2        | 200.15                  |
+            | Test Value 3        | 100                     |
 
 	Scenario: Manual Mouse Events
 		And I "mousedown" on the hidden element found by "eventButton"
@@ -223,6 +226,10 @@ Feature: Test of the steps provided by Iridium
 		And I verify that the alias "Example Number Attr" is equal to "number"
 		And I verify that the alias "Example String Attr" is equal to "string"
 		And I verify that the alias "Option Value" is not empty
+        And I verify that the alias "Test Value 1" is smaller than the alias "Test Value 2"
+        And I verify that the alias "Test Value 1" is smaller than or equal to the alias "Test Value 3"
+        And I verify that the alias "Test Value 2" is larger than the alias "Test Value 3"
+        And I verify that the alias "Test Value 1" is larger than or equal to the alias "Test Value 3"
 
 	Scenario: Save Values from Hidden Elements
 		And I save the text content of the hidden element found by "verifyString" to the alias "Example String"
