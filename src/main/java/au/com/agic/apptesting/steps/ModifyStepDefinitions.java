@@ -8,6 +8,8 @@ import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 import cucumber.api.java.en.Then;
 
 /**
@@ -38,7 +40,9 @@ public class ModifyStepDefinitions {
 	public void removeCharsInAlias(final String alias, final String regex) {
 		final String value = featureState.getDataSet().get(alias);
 		final String fixedValue = value.replaceAll(regex, "");
-		featureState.getDataSet().put(alias, fixedValue);
+		final Map<String, String> dataset = featureState.getDataSet();
+		dataset.put(alias, fixedValue);
+		featureState.setDataSet(dataset);
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
@@ -53,7 +57,9 @@ public class ModifyStepDefinitions {
 	public void replaceCharsInAlias(final String alias, final String regex, final String replacement) {
 		final String value = featureState.getDataSet().get(alias);
 		final String fixedValue = value.replaceAll(regex, replacement);
-		featureState.getDataSet().put(alias, fixedValue);
+		final Map<String, String> dataset = featureState.getDataSet();
+		dataset.put(alias, fixedValue);
+		featureState.setDataSet(dataset);
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
@@ -68,7 +74,9 @@ public class ModifyStepDefinitions {
 	public void replaceFirstCharsInAlias(final String alias, final String regex, final String replacement) {
 		final String value = featureState.getDataSet().get(alias);
 		final String fixedValue = value.replaceFirst(regex, replacement);
-		featureState.getDataSet().put(alias, fixedValue);
+		final Map<String, String> dataset = featureState.getDataSet();
+		dataset.put(alias, fixedValue);
+		featureState.setDataSet(dataset);
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
@@ -81,7 +89,11 @@ public class ModifyStepDefinitions {
 	@Then("^I modify the alias \"(.*?)\" by prepending it with \"(.*?)\"$")
 	public void prependAlias(final String alias, final String prepend) {
 		final String value = featureState.getDataSet().get(alias);
-		featureState.getDataSet().put(alias, prepend + value);
+
+		final Map<String, String> dataset = featureState.getDataSet();
+		dataset.put(alias, prepend + value);
+		featureState.setDataSet(dataset);
+
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
@@ -94,7 +106,11 @@ public class ModifyStepDefinitions {
 	@Then("^I modify the alias \"(.*?)\" by appending it with \"(.*?)\"$")
 	public void appendAlias(final String alias, final String append) {
 		final String value = featureState.getDataSet().get(alias);
-		featureState.getDataSet().put(alias, value + append);
+
+		final Map<String, String> dataset = featureState.getDataSet();
+		dataset.put(alias, value + append);
+		featureState.setDataSet(dataset);
+
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 }
