@@ -87,9 +87,6 @@ public class AGStepDefinitions {
 			final String value = AUTO_ALIAS_UTILS.getValue(
 				attributeValue, StringUtils.isNotBlank(attributeValueAlias), featureState);
 
-			checkState(attr != null, "the aliased attribute name does not exist");
-			checkState(value != null, "the aliased attribute value does not exist");
-
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
 			LocalDate theDate = LocalDate.now();
