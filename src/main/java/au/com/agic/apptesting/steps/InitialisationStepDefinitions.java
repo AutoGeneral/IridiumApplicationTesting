@@ -63,4 +63,30 @@ public class InitialisationStepDefinitions {
 		dataset.putAll(aliasTable);
 		featureState.setDataSet(dataset);
 	}
+
+	/**
+	 * Enables or disables autoaliasing.
+	 * @param enabled set to true or false
+	 */
+	@Given("^I set autoaliasing to \"((?:true)|(?:false))\"$")
+	public void configureAutoaliasing(final String enabled) {
+		final boolean enabledValue = Boolean.parseBoolean(enabled);
+		featureState.setAutoAlias(enabledValue);
+	}
+
+	/**
+	 * Enables autoaliasing.
+	 */
+	@Given("^I enable autoaliasing$")
+	public void enableAutoaliasing() {
+		featureState.setAutoAlias(true);
+	}
+
+	/**
+	 * Disables autoaliasing.
+	 */
+	@Given("^I disable autoaliasing$")
+	public void disableAutoaliasing() {
+		featureState.setAutoAlias(false);
+	}
 }
