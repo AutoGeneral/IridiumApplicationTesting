@@ -1,8 +1,10 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +33,7 @@ import static com.google.common.base.Preconditions.checkState;
 public class OpenStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OpenStepDefinitions.class);
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
 	private static final int LINK_OPEN_POOL_COUNT = 5;
 	/**
 	 * This has to be long enough to allow a request to be made, but too long
@@ -54,8 +57,8 @@ public class OpenStepDefinitions {
 	@When("^I open the page( alias)? \"([^\"]*)\"$")
 	public void openPage(final String alias, final String url) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		webDriver.get(
-			StringUtils.isNotBlank(alias) ? featureState.getDataSet().get(url) : url);
+		final String urlValue = AUTO_ALIAS_UTILS.getValue(url, StringUtils.isNotBlank(alias), featureState);
+		webDriver.get(urlValue);
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 

@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.exception.InvalidInputException;
+import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +13,9 @@ import static com.google.common.base.Preconditions.checkState;
  * Implementation of the GetBy service
  */
 public class GetByImpl implements GetBy {
+
+	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
+
 	@Override
 	public By getBy(
 			final String selector,
@@ -19,9 +23,7 @@ public class GetByImpl implements GetBy {
 			final String value,
 			final FeatureState featureState) {
 
-		final String fixedValue = valueAlias ? featureState.getDataSet().get(value) : value;
-
-		checkState(StringUtils.isNotBlank(fixedValue), "Selector or alias is blank");
+		final String fixedValue = AUTO_ALIAS_UTILS.getValue(value, valueAlias, featureState);
 
 		if (ID.equals(selector)) {
 			return By.id(fixedValue);

@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class FeatureStateImpl implements FeatureState {
 
 
-
+	private boolean autoAlias = true;
 	private final UrlMapping url;
 	private final Map<String, String> dataset = new HashMap<>();
 	private final String reportDirectory;
@@ -101,6 +101,16 @@ public class FeatureStateImpl implements FeatureState {
 	@Override
 	public void setProxyInterface(final List<ProxyDetails<?>> myProxies) {
 		this.proxies = new ArrayList<>(myProxies);
+	}
+
+	@Override
+	public boolean getAutoAlias() {
+		return autoAlias;
+	}
+
+	@Override
+	public void setAutoAlias(final boolean autoAlias) {
+		this.autoAlias = autoAlias;
 	}
 
 	@Override

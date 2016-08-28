@@ -86,4 +86,16 @@ public interface FeatureState {
 	 */
 	void setProxyInterface(final List<ProxyDetails<?>> proxies);
 
+	/**
+	 *
+	 * @return true if autoalias is enabled, and false otherwise
+	 */
+	boolean getAutoAlias();
+
+	/**
+	 *
+	 * @param autoAlias true if autoalias is enabled, and false otherwise
+	 */
+	void setAutoAlias(final boolean autoAlias);
+
 }

@@ -30,6 +30,7 @@ public class ClickingStepDefinitions {
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
 	private static final BrowserInteropUtils BROWSER_INTEROP_UTILS = new BrowserInteropUtilsImpl();
 	private static final JavaScriptRunner JAVA_SCRIPT_RUNNER = new JavaScriptRunnerImpl();
 
@@ -235,8 +236,8 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final String text = StringUtils.isNotBlank(alias)
-				? featureState.getDataSet().get(linkContent) : linkContent;
+			final String text = AUTO_ALIAS_UTILS.getValue(
+				linkContent, StringUtils.isNotBlank(alias), featureState);
 
 			checkState(text != null, "the aliased link content does not exist");
 
@@ -269,8 +270,8 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final String text = StringUtils.isNotBlank(alias)
-				? featureState.getDataSet().get(linkContent) : linkContent;
+			final String text = AUTO_ALIAS_UTILS.getValue(
+				linkContent, StringUtils.isNotBlank(alias), featureState);
 
 			checkState(text != null, "the aliased link content does not exist");
 
@@ -315,17 +316,13 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final String attr = " alias".equals(attributeNameAlias)
-				? featureState.getDataSet().get(attributeName) : attributeName;
-			checkState(attr != null, "the aliased attribute name does not exist");
+			final String attr = AUTO_ALIAS_UTILS.getValue(
+				attributeName, StringUtils.isNotBlank(attributeNameAlias), featureState);
 
-			final String startValue = " alias".equals(randomStartAlias)
-				? featureState.getDataSet().get(randomStart) : randomStart;
-			final String endValue = " alias".equals(randomEndAlias)
-				? featureState.getDataSet().get(randomEnd) : randomEnd;
-
-			checkState(startValue != null, "the aliased start value does not exist");
-			checkState(endValue != null, "the aliased end value does not exist");
+			final String startValue = AUTO_ALIAS_UTILS.getValue(
+				randomStart, StringUtils.isNotBlank(randomStartAlias), featureState);
+			final String endValue = AUTO_ALIAS_UTILS.getValue(
+				randomEnd, StringUtils.isNotBlank(randomEndAlias), featureState);
 
 			final Integer int1 = Integer.parseInt(startValue);
 			final Integer int2 = Integer.parseInt(endValue);
@@ -373,13 +370,11 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final String attr = " alias".equals(attributeNameAlias)
-				? featureState.getDataSet().get(attributeName) : attributeName;
-			final String value = " alias".equals(attributeValueAlias)
-				? featureState.getDataSet().get(attributeValue) : attributeValue;
+			final String attr = AUTO_ALIAS_UTILS.getValue(
+				attributeName, StringUtils.isNotBlank(attributeNameAlias), featureState);
 
-			checkState(attr != null, "the aliased attribute name does not exist");
-			checkState(value != null, "the aliased attribute value does not exist");
+			final String value = AUTO_ALIAS_UTILS.getValue(
+				attributeValue, StringUtils.isNotBlank(attributeValueAlias), featureState);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
