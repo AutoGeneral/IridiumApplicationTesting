@@ -28,6 +28,14 @@ Feature: Test of the steps provided by Iridium
             | Test Value 2        | 200.15                  |
             | Test Value 3        | 100                     |
             | Test Value 4        | $1,234.50               |
+            | Event Button        | eventButton             |
+            | MouseDown Text      | Button mousedown        |
+
+    Scenario: Test Autoaliasing
+      # This is actually the default, but test the step anyway
+      Given I enable autoaliasing
+      And I "mousedown" on the hidden element found by "Event Button"
+      Then I verify that the page contains the text "MouseDown Text"
 
     Scenario: Modify aliased values
       And I modify the alias "Test Value 4" by removing all characters that match the regex "[^0-9.]"

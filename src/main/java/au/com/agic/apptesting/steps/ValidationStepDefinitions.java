@@ -4,6 +4,7 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.exception.HttpResponseException;
 import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.utils.*;
+import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
@@ -37,6 +38,7 @@ public class ValidationStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ValidationStepDefinitions.class);
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
 	private static final GetBy GET_BY = new GetByImpl();
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
@@ -86,10 +88,8 @@ public class ValidationStepDefinitions {
 				selectorValue,
 				featureState);
 
-			final String className = StringUtils.isNotBlank(classAlias)
-				? featureState.getDataSet().get(classValue) : classValue;
-
-			checkState(className != null, "the aliased class name does not exist");
+			final String className = AUTO_ALIAS_UTILS.getValue(
+				classValue, StringUtils.isNotBlank(classAlias), featureState);
 
 			final Iterable<String> split = Splitter.on(' ')
 				.trimResults()
@@ -138,10 +138,8 @@ public class ValidationStepDefinitions {
 			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
-			final String className = " alias".equals(classAlias)
-				? featureState.getDataSet().get(classValue) : classValue;
-
-			checkState(className != null, "the aliased class name does not exist");
+			final String className = AUTO_ALIAS_UTILS.getValue(
+				classValue, StringUtils.isNotBlank(classAlias), featureState);
 
 			final Iterable<String> split = Splitter.on(' ')
 				.trimResults()
@@ -314,8 +312,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^I verify that the page contains the text( alias)? \"(.*?)\"")
 	public void verifyPageContent(final String alias, final String text) {
-		final String fixedtext = StringUtils.isNotBlank(alias)
-			? featureState.getDataSet().get(text) : text;
+		final String fixedtext = AUTO_ALIAS_UTILS.getValue(text, StringUtils.isNotBlank(alias), featureState);
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final String pageText =
