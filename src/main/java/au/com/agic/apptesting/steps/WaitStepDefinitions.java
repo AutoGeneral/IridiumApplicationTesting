@@ -98,6 +98,45 @@ public class WaitStepDefinitions {
 	}
 
 	/**
+	 * Waits the given amount of time for an element to not be displayed (i.e. to be visible) on the page. <p>
+	 * This is most useful when waiting for a page to load completely. You can use this step to pause the
+	 * script until some known element is visible, which is a good indication that the page has loaded
+	 * completely.
+	 *
+	 * @param waitDuration    The maximum amount of time to wait for
+	 * @param alias           If this word is found in the step, it means the selectorValue is found from the
+	 *                        data set.
+	 * @param selectorValue   The value used in conjunction with the selector to match the element. If alias
+	 *                        was set, this value is found from the data set. Otherwise it is a literal
+	 *                        value.
+	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
+	 *                        found
+	 */
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by( alias)? \"([^\"]*)\" to not be displayed"
+		+ "(,? ignoring timeouts?)?")
+	public void notDisplaySimpleWaitStep(
+		final String waitDuration,
+		final String alias,
+		final String selectorValue,
+		final String ignoringTimeout) throws ExecutionException, InterruptedException {
+
+		try {
+			SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				featureState,
+				Long.parseLong(waitDuration));
+		} catch (final Exception ex) {
+			/*
+				Rethrow if we have not ignored errors
+			 */
+			if (StringUtils.isBlank(ignoringTimeout)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
 	 * Waits the given amount of time for an element to be displayed (i.e. to be visible) on the page. <p>
 	 * This is most useful when waiting for a page to load completely. You can use this step to pause the
 	 * script until some known element is visible, which is a good indication that the page has loaded
@@ -130,6 +169,55 @@ public class WaitStepDefinitions {
 
 		try {
 			wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+		} catch (final TimeoutException ex) {
+			/*
+				Rethrow if we have not ignored errors
+			 */
+			if (StringUtils.isBlank(ignoringTimeout)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Waits the given amount of time for an element to be displayed (i.e. to be visible) on the page. <p>
+	 * This is most useful when waiting for a page to load completely. You can use this step to pause the
+	 * script until some known element is visible, which is a good indication that the page has loaded
+	 * completely.
+	 *
+	 * @param waitDuration    The maximum amount of time to wait for
+	 * @param selector        Either ID, class, xpath, name or css selector
+	 * @param alias           If this word is found in the step, it means the selectorValue is found from the
+	 *                        data set.
+	 * @param selectorValue   The value used in conjunction with the selector to match the element. If alias
+	 *                        was set, this value is found from the data set. Otherwise it is a literal
+	 *                        value.
+	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
+	 *                        found
+	 */
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with "
+		+ "(?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" to not be displayed"
+		+ "(,? ignoring timeouts?)?")
+	public void notDisplayWaitStep(
+		final String waitDuration,
+		final String selector,
+		final String alias,
+		final String selectorValue,
+		final String ignoringTimeout) {
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
+		final WebDriverWait wait = new WebDriverWait(
+			webDriver, Integer.parseInt(waitDuration));
+
+		try {
+			final boolean result = wait.until(
+				ExpectedConditions.not(ExpectedConditions.visibilityOfElementLocated(by)));
+			if (!result) {
+				throw new TimeoutException(
+					"Gave up after waiting " + Integer.parseInt(waitDuration)
+						+ " seconds for the element to not be displayed");
+			}
 		} catch (final TimeoutException ex) {
 			/*
 				Rethrow if we have not ignored errors
@@ -207,6 +295,53 @@ public class WaitStepDefinitions {
 
 		try {
 			wait.until(ExpectedConditions.elementToBeClickable(by));
+		} catch (final TimeoutException ex) {
+			/*
+				Rethrow if we have not ignored errors
+			 */
+			if (StringUtils.isBlank(ignoringTimeout)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Waits the given amount of time for an element to be clickable on the page. <p> This is most
+	 * useful when waiting for an element to be in a state where it can be interacted with.
+	 *
+	 * @param waitDuration    The maximum amount of time to wait for
+	 * @param selector        Either ID, class, xpath, name or css selector
+	 * @param alias           If this word is found in the step, it means the selectorValue is found from the
+	 *                        data set.
+	 * @param selectorValue   The value used in conjunction with the selector to match the element. If alias
+	 *                        was set, this value is found from the data set. Otherwise it is a literal
+	 *                        value.
+	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
+	 *                        found
+	 */
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with "
+		+ "(?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" to not be clickable"
+		+ "(,? ignoring timeouts?)?")
+	public void notClickWaitStep(
+		final String waitDuration,
+		final String selector,
+		final String alias,
+		final String selectorValue,
+		final String ignoringTimeout) {
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
+		final WebDriverWait wait = new WebDriverWait(
+			webDriver, Integer.parseInt(waitDuration));
+
+		try {
+			final boolean result = wait.until(
+				ExpectedConditions.not(ExpectedConditions.elementToBeClickable(by)));
+			if (!result) {
+				throw new TimeoutException(
+					"Gave up after waiting " + Integer.parseInt(waitDuration)
+						+ " seconds for the element to not be clickable");
+			}
 		} catch (final TimeoutException ex) {
 			/*
 				Rethrow if we have not ignored errors
@@ -299,6 +434,54 @@ public class WaitStepDefinitions {
 	}
 
 	/**
+	 * Waits the given amount of time for an element to be placed in the DOM. Note that the element does not
+	 * have to be visible, just present in the HTML. <p> This is most useful when waiting for a page to load
+	 * completely. You can use this step to pause the script until some known element is visible, which is a
+	 * good indication that the page has loaded completely.
+	 *
+	 * @param waitDuration    The maximum amount of time to wait for
+	 * @param selector        Either ID, class, xpath, name or css selector
+	 * @param alias           If this word is found in the step, it means the selectorValue is found from the
+	 *                        data set.
+	 * @param selectorValue   The value used in conjunction with the selector to match the element. If alias
+	 *                        was set, this value is found from the data set. Otherwise it is a literal
+	 *                        value.
+	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
+	 *                        present
+	 */
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with (?:a|an|the) "
+		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" "
+		+ "to not be present(,? ignoring timeouts?)?")
+	public void notPresentWaitStep(
+		final String waitDuration,
+		final String selector,
+		final String alias,
+		final String selectorValue,
+		final String ignoringTimeout) {
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
+		final WebDriverWait wait = new WebDriverWait(
+			webDriver, Integer.parseInt(waitDuration));
+		try {
+			final boolean result = wait.until(
+				ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(by)));
+			if (!result) {
+				throw new TimeoutException(
+					"Gave up after waiting " + Integer.parseInt(waitDuration)
+						+ " seconds for the element to not be present");
+			}
+		} catch (final TimeoutException ex) {
+			/*
+				Rethrow if we have not ignored errors
+			 */
+			if (StringUtils.isBlank(ignoringTimeout)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
 	 * Waits the given amount of time for a link with the supplied text to be placed in the DOM. Note that the
 	 * element does not have to be visible just present in the HTML.
 	 *
@@ -307,14 +490,70 @@ public class WaitStepDefinitions {
 	 *                        data set.
 	 * @param linkContent  The text content of the link we are wait for
 	 */
-	@When("^I wait \"(\\d+)\" seconds for a link with the text content of( alias) \"([^\"]*)\" to be present")
-	public void presentLinkStep(final String waitDuration, final String alias, final String linkContent) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final String content = AUTO_ALIAS_UTILS.getValue(
-			linkContent, StringUtils.isNotBlank(alias), featureState);
-		final WebDriverWait wait = new WebDriverWait(
-			webDriver, Integer.parseInt(waitDuration));
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText(content)));
+	@When("^I wait \"(\\d+)\" seconds for a link with the text content of"
+			+"( alias) \"([^\"]*)\" to be present(,? ignoring timeouts?)?")
+	public void presentLinkStep(
+		final String waitDuration,
+		final String alias,
+		final String linkContent,
+		final String ignoringTimeout) {
+
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final String content = AUTO_ALIAS_UTILS.getValue(
+				linkContent, StringUtils.isNotBlank(alias), featureState);
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver, Integer.parseInt(waitDuration));
+			wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText(content)));
+		} catch (final TimeoutException ex) {
+			/*
+				Rethrow if we have not ignored errors
+			 */
+			if (StringUtils.isBlank(ignoringTimeout)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Waits the given amount of time for a link with the supplied text to be placed in the DOM. Note that the
+	 * element does not have to be visible just present in the HTML.
+	 *
+	 * @param waitDuration The maximum amount of time to wait for
+	 * @param alias           If this word is found in the step, it means the linkContent is found from the
+	 *                        data set.
+	 * @param linkContent  The text content of the link we are wait for
+	 */
+	@When("^I wait \"(\\d+)\" seconds for a link with the text content of"
+			+ "( alias) \"([^\"]*)\" to not be present(,? ignoring timeouts?)?")
+	public void notPresentLinkStep(
+		final String waitDuration,
+		final String alias,
+		final String linkContent,
+		final String ignoringTimeout) {
+
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final String content = AUTO_ALIAS_UTILS.getValue(
+				linkContent, StringUtils.isNotBlank(alias), featureState);
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver, Integer.parseInt(waitDuration));
+			final boolean result = wait.until(
+				ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(By.linkText(content))));
+
+			if (!result) {
+				throw new TimeoutException(
+					"Gave up after waiting " + Integer.parseInt(waitDuration)
+						+ " seconds for the element to not be present");
+			}
+		} catch (final TimeoutException ex) {
+				/*
+					Rethrow if we have not ignored errors
+				 */
+			if (StringUtils.isBlank(ignoringTimeout)) {
+				throw ex;
+			}
+		}
 	}
 
 	/**
