@@ -87,6 +87,8 @@ processResources {
 
 repositories {
 	maven { url nexusProxy }
+    mavenCentral()
+    mavenLocal()
 }
 
 def slimBuild = hasProperty('slimBuild') && 'true'.equalsIgnoreCase(getProperty('slimBuild').toString());
