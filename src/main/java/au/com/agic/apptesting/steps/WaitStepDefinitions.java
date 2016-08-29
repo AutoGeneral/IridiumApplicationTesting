@@ -212,7 +212,7 @@ public class WaitStepDefinitions {
 
 		try {
 			final boolean result = wait.until(
-				ExpectedConditions.not(ExpectedConditions.visibilityOfElementLocated(by)));
+				ExpectedConditions.not(ExpectedConditions.visibilityOfAllElementsLocatedBy(by)));
 			if (!result) {
 				throw new TimeoutException(
 					"Gave up after waiting " + Integer.parseInt(waitDuration)
@@ -465,7 +465,7 @@ public class WaitStepDefinitions {
 			webDriver, Integer.parseInt(waitDuration));
 		try {
 			final boolean result = wait.until(
-				ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(by)));
+				ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(by)));
 			if (!result) {
 				throw new TimeoutException(
 					"Gave up after waiting " + Integer.parseInt(waitDuration)
@@ -539,7 +539,7 @@ public class WaitStepDefinitions {
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver, Integer.parseInt(waitDuration));
 			final boolean result = wait.until(
-				ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(By.linkText(content))));
+				ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(By.linkText(content))));
 
 			if (!result) {
 				throw new TimeoutException(
@@ -623,7 +623,7 @@ public class WaitStepDefinitions {
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver, Integer.parseInt(waitDuration));
 			final boolean result = wait.until(
-				ExpectedConditions.not(ExpectedConditions.visibilityOfElementLocated(
+				ExpectedConditions.not(ExpectedConditions.visibilityOfAllElementsLocatedBy(
 				By.cssSelector("[" + attribute + "='" + attributeValue + "']"))));
 			if (!result) {
 				throw new TimeoutException(
@@ -707,7 +707,7 @@ public class WaitStepDefinitions {
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver, Integer.parseInt(waitDuration));
 			final boolean result = wait.until(
-				ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(
+				ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(
 				By.cssSelector("[" + attribute + "='" + attributeValue + "']"))));
 			if (!result) {
 				throw new TimeoutException(
