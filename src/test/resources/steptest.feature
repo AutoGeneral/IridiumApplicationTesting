@@ -43,6 +43,8 @@ Feature: Test of the steps provided by Iridium
       And I wait "2" seconds for the element with the xpath of "/html/body/div[100]/input[1000000]" to not be displayed
       And I wait "2" seconds for the element with the class of "thisdoesntexist" to not be displayed
       And I wait "2" seconds for the element with the css selector of "thisdoesntexist" to not be displayed
+      And I wait "2" seconds for the element found by "thisdoesntexist" to not be present
+      And I wait "2" seconds for the element found by "thisdoesntexist" to not be displayed
 
     Scenario: Modify aliased values
       And I modify the alias "Test Value 4" by removing all characters that match the regex "[^0-9.]"

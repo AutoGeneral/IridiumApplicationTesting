@@ -121,7 +121,7 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) throws ExecutionException, InterruptedException {
 
 		try {
-			SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
+			SIMPLE_WEB_ELEMENT_INTERACTION.getNotVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState,
@@ -330,6 +330,45 @@ public class WaitStepDefinitions {
 
 		try {
 			SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				featureState,
+				Long.parseLong(waitDuration));
+		} catch (final WebElementException ex) {
+			/*
+				Rethrow if we have not ignored errors
+			 */
+			if (StringUtils.isBlank(ignoringTimeout)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Waits the given amount of time for an element to not be placed in the DOM. Note that the element does not
+	 * have to be visible, just present in the HTML. <p> This is most useful when waiting for loading element in
+	 * the page to be removed. You can use this step to pause the script until some known element is not longer
+	 * visible.
+	 *
+	 * @param waitDuration    The maximum amount of time to wait for
+	 * @param alias           If this word is found in the step, it means the selectorValue is found from the
+	 *                        data set.
+	 * @param selectorValue   The value used in conjunction with the selector to match the element. If alias
+	 *                        was set, this value is found from the data set. Otherwise it is a literal
+	 *                        value.
+	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
+	 *                        present
+	 */
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by( alias)? \"([^\"]*)\" "
+		+ "to not be present(,? ignoring timeouts?)?")
+	public void NotpresentSimpleWaitStep(
+		final String waitDuration,
+		final String alias,
+		final String selectorValue,
+		final String ignoringTimeout) throws ExecutionException, InterruptedException {
+
+		try {
+			SIMPLE_WEB_ELEMENT_INTERACTION.getNotPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState,
