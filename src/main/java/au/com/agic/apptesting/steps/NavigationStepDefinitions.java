@@ -67,4 +67,25 @@ public class NavigationStepDefinitions {
 			}
 		}
 	}
+
+	/**
+	 * Refresh the page
+	 * @param ignoreErrors Ignores any errors thrown by the web driver. Only useful for debugging
+	 */
+	@When("I refresh the page( ignoring errors)?")
+	public void refresh(final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			webDriver.navigate().refresh();
+			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		} catch (final Exception ex) {
+			/*
+				Safari doesn't support navigation:
+				org.openqa.selenium.WebDriverException: Yikes! Safari history navigation does not work. We can go forward or back, but once we do, we can no longer communicate with the page...
+			 */
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
+	}
 }
