@@ -10,6 +10,7 @@ import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.core.har.Har;
 import net.lightbody.bmp.filters.RequestFilter;
+import net.lightbody.bmp.proxy.CaptureType;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
@@ -54,6 +55,7 @@ public class ProxyStepDefinitions {
 			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 		if (proxy.isPresent()) {
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
+			browserMobProxy.setHarCaptureTypes(CaptureType.getAllContentCaptureTypes());
 			browserMobProxy.newHar();
 		}
 	}
