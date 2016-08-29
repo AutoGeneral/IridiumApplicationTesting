@@ -125,7 +125,7 @@ public class FeatureStateImpl implements FeatureState {
 	}
 
 	@Override
-	public void setDefaultWait(final long wait) {
-		this.wait = wait;
+	public void setDefaultWait(final long myWait) {
+		this.wait = myWait;
 	}
 }

@@ -14,7 +14,6 @@ import net.lightbody.bmp.proxy.CaptureType;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
@@ -63,7 +62,7 @@ public class ProxyStepDefinitions {
 	/**
 	 * Saves a HAR file with the details of the transactions that have passed through BorwserMob
 	 * @param filename The optional filename to use for the HAR file
-	 * @throws IOException
+	 * @throws IOException Thrown when there is an issue saving the HAR file
 	 */
 	@When("^I dump the HAR file(?: to \"(.*?)\")?$")
 	public void saveHarFile(final String filename) throws IOException {
@@ -74,7 +73,9 @@ public class ProxyStepDefinitions {
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
 			final Har har = browserMobProxy.getHar();
 
-			checkState(har != null, "You need to add the step \"I enable HAR logging\" before saving the HAR file");
+			checkState(
+				har != null,
+				"You need to add the step \"I enable HAR logging\" before saving the HAR file");
 
 			final File file = new File(featureState.getReportDirectory() + "/" + fixedFilename);
 			har.writeTo(file);
@@ -182,7 +183,10 @@ public class ProxyStepDefinitions {
 								Find the root context cookie
 							 */
 							final WebDriver webDriver =
-								State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread(threadName, true);
+								State
+									.THREAD_DESIRED_CAPABILITY_MAP
+									.getWebDriverForThread(threadName, true);
+
 							final Optional<Cookie> awselb =
 								webDriver.manage().getCookies()
 									.stream()

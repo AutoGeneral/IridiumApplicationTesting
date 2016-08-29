@@ -62,7 +62,8 @@ public class StepEventHandling {
 			At the end of the scenario, the user may have chosen to destroy the
 			web driver.
 		 */
-		final String newDriverPerScenario = SYSTEM_PROPERTY_UTILS.getProperty(Constants.NEW_BROWSER_PER_SCENARIO);
+		final String newDriverPerScenario =
+			SYSTEM_PROPERTY_UTILS.getProperty(Constants.NEW_BROWSER_PER_SCENARIO);
 		final boolean clearDriver = Boolean.parseBoolean(newDriverPerScenario);
 
 		if (clearDriver) {

@@ -36,7 +36,8 @@ public final class Main {
 			System.exit(failures);
 		} catch (final Exception ex) {
 			LOGGER.error(
-				"WEBAPPTESTER-BUG-0007: An exception was raised while attempting to run the Cucumber test scripts", ex);
+				"WEBAPPTESTER-BUG-0007: "
+				+ "An exception was raised while attempting to run the Cucumber test scripts", ex);
 			System.exit(-1);
 		} finally {
 			try {
