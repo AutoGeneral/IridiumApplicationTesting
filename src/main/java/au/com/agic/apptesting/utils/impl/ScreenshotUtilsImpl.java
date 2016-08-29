@@ -1,10 +1,13 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
+
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -13,13 +16,12 @@ import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import javax.validation.constraints.NotNull;
 
 /**
  * And implementation of the screenshot service

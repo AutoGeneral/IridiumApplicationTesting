@@ -34,8 +34,17 @@ Feature: Test of the steps provided by Iridium
     Scenario: Test Autoaliasing
       # This is actually the default, but test the step anyway
       Given I enable autoaliasing
+      And I enable HAR logging
       And I "mousedown" on the hidden element found by "Event Button"
       Then I verify that the page contains the text "MouseDown Text"
+
+    Scenario: Test missing elements
+      And I wait "2" seconds for the element with the ID of "thisdoesntexist" to not be present
+      And I wait "2" seconds for the element with the xpath of "/html/body/div[100]/input[1000000]" to not be displayed
+      And I wait "2" seconds for the element with the class of "thisdoesntexist" to not be displayed
+      And I wait "2" seconds for the element with the css selector of "thisdoesntexist" to not be displayed
+      And I wait "2" seconds for the element found by "thisdoesntexist" to not be present
+      And I wait "2" seconds for the element found by "thisdoesntexist" to not be displayed
 
     Scenario: Modify aliased values
       And I modify the alias "Test Value 4" by removing all characters that match the regex "[^0-9.]"
@@ -276,3 +285,6 @@ Feature: Test of the steps provided by Iridium
 		And I wait "30" seconds for the element found by alias "Button ID" to be clickable
 		And I wait "2" seconds for the element found by alias "Non-Existant Field" to be present ignoring timeouts
 		And I wait "2" seconds for the element found by alias "Non-Existant Field" to be clickable ignoring timeouts
+
+    Scenario: Save HAR file
+      And I dump the HAR file to "test.har"

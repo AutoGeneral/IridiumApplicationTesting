@@ -1,16 +1,26 @@
 package au.com.agic.apptesting.steps;
 
+import static au.com.agic.apptesting.constants.Constants.KEY_STROKE_DELAY;
+
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.utils.*;
+import au.com.agic.apptesting.utils.FeatureState;
+import au.com.agic.apptesting.utils.GetBy;
+import au.com.agic.apptesting.utils.JavaScriptRunner;
+import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
+import au.com.agic.apptesting.utils.SleepUtils;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.JavaScriptRunnerImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-import cucumber.api.java.en.When;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -18,7 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutionException;
 
-import static au.com.agic.apptesting.constants.Constants.KEY_STROKE_DELAY;
+import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps for simulating key presses and other key events.

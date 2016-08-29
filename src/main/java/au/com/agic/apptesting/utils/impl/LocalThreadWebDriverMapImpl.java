@@ -1,10 +1,17 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ConfigurationException;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
-import au.com.agic.apptesting.utils.*;
-import javaslang.control.Try;
+import au.com.agic.apptesting.utils.FeatureState;
+import au.com.agic.apptesting.utils.ProxyDetails;
+import au.com.agic.apptesting.utils.SystemPropertyUtils;
+import au.com.agic.apptesting.utils.ThreadWebDriverMap;
+import au.com.agic.apptesting.utils.WebDriverFactory;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
@@ -12,15 +19,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import javax.validation.constraints.NotNull;
+
+import javaslang.control.Try;
 
 /**
  * A service that generates local web driver instances to test on the local pc. Assumes that Chrome

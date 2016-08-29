@@ -4,10 +4,8 @@ import au.com.agic.apptesting.exception.InvalidInputException;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
-import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
 
-import static com.google.common.base.Preconditions.checkState;
+import org.openqa.selenium.By;
 
 /**
  * Implementation of the GetBy service

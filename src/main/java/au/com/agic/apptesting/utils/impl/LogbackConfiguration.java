@@ -1,25 +1,29 @@
 package au.com.agic.apptesting.utils.impl;
 
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import au.com.agic.apptesting.utils.LoggingConfiguration;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.LoggerFactory;
+import org.slf4j.bridge.SLF4JBridgeHandler;
+
+import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Optional;
+import java.util.Properties;
+
+import javax.validation.constraints.NotNull;
+
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.FileAppender;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-import org.slf4j.bridge.SLF4JBridgeHandler;
-import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
-
-import javax.validation.constraints.NotNull;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Optional;
-import java.util.Properties;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * An implementation of the LogginConfiguration service that configures LogBack

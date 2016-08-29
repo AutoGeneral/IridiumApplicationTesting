@@ -1,23 +1,33 @@
 package au.com.agic.apptesting.steps;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
-import cucumber.api.java.en.When;
-import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.HttpResponse;
+
 import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.core.har.Har;
 import net.lightbody.bmp.filters.RequestFilter;
+import net.lightbody.bmp.proxy.CaptureType;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
+
+import cucumber.api.java.en.When;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 
 /**
  * This class contains Gherkin step definitions relating to the use of the embedded
@@ -35,6 +45,41 @@ public class ProxyStepDefinitions {
 	 */
 	private final FeatureState featureState =
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
+
+	/**
+	 * EWnable HAR logging
+	 */
+	@When("^I enable HAR logging$")
+	public void enableHar() {
+		final Optional<ProxyDetails<?>> proxy =
+			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+		if (proxy.isPresent()) {
+			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
+			browserMobProxy.setHarCaptureTypes(CaptureType.getAllContentCaptureTypes());
+			browserMobProxy.newHar();
+		}
+	}
+
+	/**
+	 * Saves a HAR file with the details of the transactions that have passed through BorwserMob
+	 * @param filename The optional filename to use for the HAR file
+	 * @throws IOException
+	 */
+	@When("^I dump the HAR file(?: to \"(.*?)\")?$")
+	public void saveHarFile(final String filename) throws IOException {
+		final Optional<ProxyDetails<?>> proxy =
+			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+		if (proxy.isPresent()) {
+			final String fixedFilename = StringUtils.defaultString(filename, "browsermob.har");
+			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
+			final Har har = browserMobProxy.getHar();
+
+			checkState(har != null, "You need to add the step \"I enable HAR logging\" before saving the HAR file");
+
+			final File file = new File(featureState.getReportDirectory() + "/" + fixedFilename);
+			har.writeTo(file);
+		}
+	}
 
 	/**
 	 * Block access to all urls that match the regex

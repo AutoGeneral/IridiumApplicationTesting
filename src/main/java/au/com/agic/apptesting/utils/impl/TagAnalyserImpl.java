@@ -1,8 +1,10 @@
 package au.com.agic.apptesting.utils.impl;
 
-import au.com.agic.apptesting.utils.TagAnalyser;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+
+import au.com.agic.apptesting.utils.TagAnalyser;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;

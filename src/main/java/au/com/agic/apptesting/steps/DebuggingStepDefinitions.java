@@ -4,7 +4,7 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
 import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
-import cucumber.api.java.en.When;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps used to debug a test script.

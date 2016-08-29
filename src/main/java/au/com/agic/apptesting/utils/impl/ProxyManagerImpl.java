@@ -1,17 +1,24 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.exception.ProxyException;
-import au.com.agic.apptesting.utils.*;
+import au.com.agic.apptesting.utils.LocalProxyUtils;
+import au.com.agic.apptesting.utils.ProxyDetails;
+import au.com.agic.apptesting.utils.ProxyManager;
+import au.com.agic.apptesting.utils.ProxySettings;
+import au.com.agic.apptesting.utils.SystemPropertyUtils;
+
 import net.lightbody.bmp.BrowserMobProxy;
+
 import org.zaproxy.clientapi.core.ClientApi;
 
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import javax.validation.constraints.NotNull;
 
 /**
  * An implementation of the proxy manager service

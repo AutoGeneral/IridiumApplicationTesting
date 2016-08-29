@@ -1,21 +1,32 @@
 package au.com.agic.apptesting.steps;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
+
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.exception.HttpResponseException;
 import au.com.agic.apptesting.exception.ValidationException;
-import au.com.agic.apptesting.utils.*;
+import au.com.agic.apptesting.utils.AutoAliasUtils;
+import au.com.agic.apptesting.utils.FeatureState;
+import au.com.agic.apptesting.utils.GetBy;
+import au.com.agic.apptesting.utils.ProxyDetails;
+import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
+import au.com.agic.apptesting.utils.SleepUtils;
 import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
-import cucumber.api.java.en.Then;
+
 import net.lightbody.bmp.util.HttpMessageInfo;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -26,7 +37,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
-import static com.google.common.base.Preconditions.checkState;
+import cucumber.api.java.en.Then;
 
 /**
  * Contains Gherkin step definitions for checking the current state of the web page.

@@ -1,20 +1,27 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.exception.ProxyException;
-import au.com.agic.apptesting.utils.*;
-import io.netty.handler.codec.http.HttpResponse;
+import au.com.agic.apptesting.utils.FileSystemUtils;
+import au.com.agic.apptesting.utils.LocalProxyUtils;
+import au.com.agic.apptesting.utils.ProxyDetails;
+import au.com.agic.apptesting.utils.ProxySettings;
+import au.com.agic.apptesting.utils.ServerPortUtils;
+import au.com.agic.apptesting.utils.SystemPropertyUtils;
+
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.filters.ResponseFilter;
 import net.lightbody.bmp.proxy.auth.AuthType;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
+
 import org.apache.commons.lang3.StringUtils;
 import org.littleshoot.proxy.HttpFiltersSourceAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -22,7 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import javax.validation.constraints.NotNull;
+
+import io.netty.handler.codec.http.HttpResponse;
 
 /**
  * An implementation of the browsermob proxy. This proxy allows us to block access to urls

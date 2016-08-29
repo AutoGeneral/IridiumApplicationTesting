@@ -1,12 +1,12 @@
 package au.com.agic.apptesting.profiles.configuration;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Represents a {@code <url>} element

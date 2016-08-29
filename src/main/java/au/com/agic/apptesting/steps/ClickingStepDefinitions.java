@@ -1,12 +1,30 @@
 package au.com.agic.apptesting.steps;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.*;
-import au.com.agic.apptesting.utils.impl.*;
-import cucumber.api.java.en.When;
+import au.com.agic.apptesting.utils.AutoAliasUtils;
+import au.com.agic.apptesting.utils.BrowserInteropUtils;
+import au.com.agic.apptesting.utils.FeatureState;
+import au.com.agic.apptesting.utils.GetBy;
+import au.com.agic.apptesting.utils.JavaScriptRunner;
+import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
+import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
+import au.com.agic.apptesting.utils.impl.BrowserInteropUtilsImpl;
+import au.com.agic.apptesting.utils.impl.GetByImpl;
+import au.com.agic.apptesting.utils.impl.JavaScriptRunnerImpl;
+import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
+import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
+
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -16,7 +34,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.concurrent.ExecutionException;
 
-import static com.google.common.base.Preconditions.checkState;
+import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps used to click elements.

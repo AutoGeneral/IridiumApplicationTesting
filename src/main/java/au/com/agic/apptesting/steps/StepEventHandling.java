@@ -9,12 +9,14 @@ import au.com.agic.apptesting.utils.WebDriverFactory;
 import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.WebDriverFactoryImpl;
-import cucumber.api.Scenario;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import cucumber.api.Scenario;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 
 /**
  * Deals with the events that related to step and scenario handing

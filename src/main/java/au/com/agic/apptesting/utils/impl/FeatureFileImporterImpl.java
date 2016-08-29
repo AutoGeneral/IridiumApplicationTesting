@@ -1,14 +1,16 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import au.com.agic.apptesting.utils.FeatureFileImporter;
 import au.com.agic.apptesting.utils.StringBuilderUtils;
-import javaslang.control.Try;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -17,8 +19,9 @@ import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
+import javax.validation.constraints.NotNull;
+
+import javaslang.control.Try;
 
 /**
  * An implementation of the FeatureFileImporter interface

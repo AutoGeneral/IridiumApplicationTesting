@@ -1,23 +1,25 @@
 package au.com.agic.apptesting.utils.impl;
 
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.profiles.FileProfileAccess;
 import au.com.agic.apptesting.profiles.configuration.Configuration;
 import au.com.agic.apptesting.utils.DesiredCapabilitiesLoader;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import javax.validation.constraints.NotNull;
 
 /**
  * Provides a service for loading desired capability profiles

@@ -3,8 +3,9 @@ package au.com.agic.apptesting.utils;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Provides a service for loading desired capability profiles from configuration file <p> See

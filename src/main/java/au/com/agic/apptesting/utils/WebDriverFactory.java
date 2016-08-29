@@ -2,6 +2,7 @@ package au.com.agic.apptesting.utils;
 
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
+
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
