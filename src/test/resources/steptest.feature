@@ -34,6 +34,7 @@ Feature: Test of the steps provided by Iridium
     Scenario: Test Autoaliasing
       # This is actually the default, but test the step anyway
       Given I enable autoaliasing
+      And I enable HAR logging
       And I "mousedown" on the hidden element found by "Event Button"
       Then I verify that the page contains the text "MouseDown Text"
 

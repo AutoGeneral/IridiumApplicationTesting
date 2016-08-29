@@ -1,5 +1,7 @@
 package au.com.agic.apptesting.steps;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
@@ -44,6 +46,19 @@ public class ProxyStepDefinitions {
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
+	 * EWnable HAR logging
+	 */
+	@When("^I enable HAR logging$")
+	public void enableHar() {
+		final Optional<ProxyDetails<?>> proxy =
+			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+		if (proxy.isPresent()) {
+			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
+			browserMobProxy.newHar();
+		}
+	}
+
+	/**
 	 * Saves a HAR file with the details of the transactions that have passed through BorwserMob
 	 * @param filename The optional filename to use for the HAR file
 	 * @throws IOException
@@ -56,6 +71,9 @@ public class ProxyStepDefinitions {
 			final String fixedFilename = StringUtils.defaultString(filename, "browsermob.har");
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
 			final Har har = browserMobProxy.getHar();
+
+			checkState(har != null, "You need to add the step \"I enable HAR logging\" before saving the HAR file");
+
 			final File file = new File(featureState.getReportDirectory() + "/" + fixedFilename);
 			har.writeTo(file);
 		}
