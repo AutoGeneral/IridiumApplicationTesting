@@ -37,6 +37,11 @@ Feature: Test of the steps provided by Iridium
       And I "mousedown" on the hidden element found by "Event Button"
       Then I verify that the page contains the text "MouseDown Text"
 
+    Scenario: Test missing elements
+      And I wait "2" seconds for the element with the ID of "thisdoesntexist" to not be present
+      And I wait "2" seconds for the element with the class of "thisdoesntexist" to not be clickable
+      And I wait "2" seconds for the element with the xpath of "/html/body/div[100]/input[1000000]" to not be displayed
+
     Scenario: Modify aliased values
       And I modify the alias "Test Value 4" by removing all characters that match the regex "[^0-9.]"
       And I verify that the alias "Test Value 4" is equal to "1234.50"
