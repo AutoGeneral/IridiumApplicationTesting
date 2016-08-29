@@ -2,9 +2,11 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 import cucumber.api.java.en.When;
@@ -23,6 +25,7 @@ import static com.google.common.base.Preconditions.checkState;
 public class AGStepDefinitions {
 	private static final GetBy GET_BY = new GetByImpl();
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
 
 	/**
 	 * Get the web driver for this thread
@@ -42,8 +45,8 @@ public class AGStepDefinitions {
 	@When("I autoselect the post code of( alias)? \"([^\"]*)\"")
 	public void autoselectPostcode(final String alias, final String postcode) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final String postcodeValue = StringUtils.isNotBlank(alias)
-			? featureState.getDataSet().get(postcode) : postcode;
+		final String postcodeValue = AUTO_ALIAS_UTILS.getValue(
+			postcode, StringUtils.isNotBlank(alias), featureState);
 
 		final By by = GET_BY.getBy("class", false, Constants.POSTCODE_CLASS, featureState);
 		final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
@@ -78,13 +81,11 @@ public class AGStepDefinitions {
 		final String exists) {
 
 		try {
-			final String attr = " alias".equals(attributeNameAlias)
-				? featureState.getDataSet().get(attributeName) : attributeName;
-			final String value = " alias".equals(attributeValueAlias)
-				? featureState.getDataSet().get(attributeValue) : attributeValue;
+			final String attr = AUTO_ALIAS_UTILS.getValue(
+				attributeName, StringUtils.isNotBlank(attributeNameAlias), featureState);
 
-			checkState(attr != null, "the aliased attribute name does not exist");
-			checkState(value != null, "the aliased attribute value does not exist");
+			final String value = AUTO_ALIAS_UTILS.getValue(
+				attributeValue, StringUtils.isNotBlank(attributeValueAlias), featureState);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 

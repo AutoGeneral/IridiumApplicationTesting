@@ -2,10 +2,12 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.exception.WebElementException;
+import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
@@ -34,6 +36,7 @@ public class WaitStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(WaitStepDefinitions.class);
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
 	private static final GetBy GET_BY = new GetByImpl();
+	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
 
@@ -307,8 +310,8 @@ public class WaitStepDefinitions {
 	@When("^I wait \"(\\d+)\" seconds for a link with the text content of( alias) \"([^\"]*)\" to be present")
 	public void presentLinkStep(final String waitDuration, final String alias, final String linkContent) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final String content = StringUtils.isNotBlank(alias)
-			? featureState.getDataSet().get(linkContent) : linkContent;
+		final String content = AUTO_ALIAS_UTILS.getValue(
+			linkContent, StringUtils.isNotBlank(alias), featureState);
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver, Integer.parseInt(waitDuration));
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText(content)));
@@ -333,10 +336,9 @@ public class WaitStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String ignoringTimeout) {
-		final String attributeValue = " alias".equals(alias)
-			? featureState.getDataSet().get(selectorValue) : selectorValue;
 
-		checkState(attributeValue != null, "the aliased attribute value does not exist");
+		final String attributeValue = AUTO_ALIAS_UTILS.getValue(
+			selectorValue, StringUtils.isNotBlank(alias), featureState);
 
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
@@ -373,10 +375,9 @@ public class WaitStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String ignoringTimeout) {
-		final String attributeValue = " alias".equals(alias)
-			? featureState.getDataSet().get(selectorValue) : selectorValue;
 
-		checkState(attributeValue != null, "the aliased attribute value does not exist");
+		final String attributeValue = AUTO_ALIAS_UTILS.getValue(
+			selectorValue, StringUtils.isNotBlank(alias), featureState);
 
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();

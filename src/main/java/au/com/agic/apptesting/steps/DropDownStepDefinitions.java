@@ -3,6 +3,7 @@ package au.com.agic.apptesting.steps;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.*;
+import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
@@ -30,6 +31,7 @@ public class DropDownStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DropDownStepDefinitions.class);
 	private static final GetBy GET_BY = new GetByImpl();
+	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
@@ -64,8 +66,8 @@ public class DropDownStepDefinitions {
 		final String exists) throws ExecutionException, InterruptedException {
 
 		try {
-			final String selection = " alias".equals(itemAlias)
-				? featureState.getDataSet().get(itemName) : itemName;
+			final String selection = AUTO_ALIAS_UTILS.getValue(
+				itemName, StringUtils.isNotBlank(itemAlias), featureState);
 
 			checkState(selection != null, "the aliased item name does not exist");
 
@@ -110,8 +112,8 @@ public class DropDownStepDefinitions {
 		final String exists) {
 
 		try {
-			final String selection = " alias".equals(itemAlias)
-				? featureState.getDataSet().get(itemName) : itemName;
+			final String selection = AUTO_ALIAS_UTILS.getValue(
+				itemName, StringUtils.isNotBlank(itemAlias), featureState);
 
 			checkState(selection != null, "the aliased item name does not exist");
 
@@ -157,8 +159,8 @@ public class DropDownStepDefinitions {
 		final String selectorValue,
 		final String exists) throws ExecutionException, InterruptedException {
 		try {
-			final String selection = " alias".equals(itemAlias)
-				? featureState.getDataSet().get(itemIndex) : itemIndex;
+			final String selection = AUTO_ALIAS_UTILS.getValue(
+				itemIndex, StringUtils.isNotBlank(itemAlias), featureState);
 
 			checkState(selection != null, "the aliased item index does not exist");
 
@@ -208,8 +210,8 @@ public class DropDownStepDefinitions {
 		final String selectorValue,
 		final String exists) {
 		try {
-			final String selection = " alias".equals(itemAlias)
-				? featureState.getDataSet().get(itemIndex) : itemIndex;
+			final String selection = AUTO_ALIAS_UTILS.getValue(
+				itemIndex, StringUtils.isNotBlank(itemAlias), featureState);
 
 			checkState(selection != null, "the aliased item index does not exist");
 

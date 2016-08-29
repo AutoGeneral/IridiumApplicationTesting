@@ -24,6 +24,30 @@ Feature: Test of the steps provided by Iridium
 			| Text Area 2         | textArea2               |
 			| Text Box css		  | body > div:nth-child(3) > input[type="text"]:nth-child(4) |
 			| Text Box xpath	  | /html/body/div[2]/input[4] |
+            | Test Value 1        | 100                     |
+            | Test Value 2        | 200.15                  |
+            | Test Value 3        | 100                     |
+            | Test Value 4        | $1,234.50               |
+            | Event Button        | eventButton             |
+            | MouseDown Text      | Button mousedown        |
+
+    Scenario: Test Autoaliasing
+      # This is actually the default, but test the step anyway
+      Given I enable autoaliasing
+      And I "mousedown" on the hidden element found by "Event Button"
+      Then I verify that the page contains the text "MouseDown Text"
+
+    Scenario: Modify aliased values
+      And I modify the alias "Test Value 4" by removing all characters that match the regex "[^0-9.]"
+      And I verify that the alias "Test Value 4" is equal to "1234.50"
+      And I modify the alias "Test Value 4" by replacing all characters that match the regex "1" with "2"
+      And I verify that the alias "Test Value 4" is equal to "2234.50"
+      And I modify the alias "Test Value 4" by replacing the first characters that match the regex "2" with "1"
+      And I verify that the alias "Test Value 4" is equal to "1234.50"
+      And I modify the alias "Test Value 4" by prepending it with "9"
+      And I verify that the alias "Test Value 4" is equal to "91234.50"
+      And I modify the alias "Test Value 4" by appending it with "0"
+      And I verify that the alias "Test Value 4" is equal to "91234.500"
 
 	Scenario: Manual Mouse Events
 		And I "mousedown" on the hidden element found by "eventButton"
@@ -223,6 +247,10 @@ Feature: Test of the steps provided by Iridium
 		And I verify that the alias "Example Number Attr" is equal to "number"
 		And I verify that the alias "Example String Attr" is equal to "string"
 		And I verify that the alias "Option Value" is not empty
+        And I verify that the alias "Test Value 1" is smaller than the alias "Test Value 2"
+        And I verify that the alias "Test Value 1" is smaller than or equal to the alias "Test Value 3"
+        And I verify that the alias "Test Value 2" is larger than the alias "Test Value 3"
+        And I verify that the alias "Test Value 1" is larger than or equal to the alias "Test Value 3"
 
 	Scenario: Save Values from Hidden Elements
 		And I save the text content of the hidden element found by "verifyString" to the alias "Example String"

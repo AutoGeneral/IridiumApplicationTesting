@@ -1,10 +1,12 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
@@ -35,6 +37,7 @@ public class TextEntryStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TextEntryStepDefinitions.class);
 	private static final GetBy GET_BY = new GetByImpl();
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
 
@@ -163,10 +166,8 @@ public class TextEntryStepDefinitions {
 				featureState);
 
 			// Simulate key presses
-			final String value = " alias".equals(contentAlias)
-				? featureState.getDataSet().get(content) : content;
-
-			checkState(value != null, "the aliased content value does not exist");
+			final String value = AUTO_ALIAS_UTILS.getValue(
+				content, StringUtils.isNotBlank(contentAlias), featureState);
 
 			for (final Character character : value.toCharArray()) {
 				SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
@@ -218,10 +219,8 @@ public class TextEntryStepDefinitions {
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			// Simulate key presses
-			final String value = " alias".equals(contentAlias)
-				? featureState.getDataSet().get(content) : content;
-
-			checkState(value != null, "the aliased content value does not exist");
+			final String value = AUTO_ALIAS_UTILS.getValue(
+				content, StringUtils.isNotBlank(contentAlias), featureState);
 
 			for (final Character character : value.toCharArray()) {
 				SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
@@ -287,8 +286,8 @@ public class TextEntryStepDefinitions {
 
 			if (processElement) {
 				// Simulate key presses
-				final String textValue = " alias".equals(contentAlias)
-					? featureState.getDataSet().get(content) : content;
+				final String textValue = AUTO_ALIAS_UTILS.getValue(
+					content, StringUtils.isNotBlank(contentAlias), featureState);
 
 				checkState(textValue != null, "the aliased text value does not exist");
 
@@ -360,8 +359,8 @@ public class TextEntryStepDefinitions {
 
 			if (processElement) {
 				// Simulate key presses
-				final String textValue = " alias".equals(contentAlias)
-					? featureState.getDataSet().get(content) : content;
+				final String textValue = AUTO_ALIAS_UTILS.getValue(
+					content, StringUtils.isNotBlank(contentAlias), featureState);
 
 				checkState(textValue != null, "the aliased text value does not exist");
 
@@ -414,10 +413,10 @@ public class TextEntryStepDefinitions {
 				selectorValue,
 				featureState);
 
-			final String startValue = " alias".equals(randomStartAlias)
-				? featureState.getDataSet().get(randomStart) : randomStart;
-			final String endValue = " alias".equals(randomEndAlias)
-				? featureState.getDataSet().get(randomEnd) : randomEnd;
+			final String startValue = AUTO_ALIAS_UTILS.getValue(
+				randomStart, StringUtils.isNotBlank(randomStartAlias), featureState);
+			final String endValue = AUTO_ALIAS_UTILS.getValue(
+				randomEnd, StringUtils.isNotBlank(randomEndAlias), featureState);
 
 			checkState(startValue != null, "the aliased start value does not exist");
 			checkState(endValue != null, "the aliased end value does not exist");
@@ -488,13 +487,11 @@ public class TextEntryStepDefinitions {
 			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
-			final String startValue = " alias".equals(randomStartAlias)
-				? featureState.getDataSet().get(randomStart) : randomStart;
-			final String endValue = " alias".equals(randomEndAlias)
-				? featureState.getDataSet().get(randomEnd) : randomEnd;
+			final String startValue = AUTO_ALIAS_UTILS.getValue(
+				randomStart, StringUtils.isNotBlank(randomStartAlias), featureState);
 
-			checkState(startValue != null, "the aliased start value does not exist");
-			checkState(endValue != null, "the aliased end value does not exist");
+			final String endValue = AUTO_ALIAS_UTILS.getValue(
+				randomEnd, StringUtils.isNotBlank(randomEndAlias), featureState);
 
 			final Integer int1 = Integer.parseInt(startValue);
 			final Integer int2 = Integer.parseInt(endValue);
@@ -547,10 +544,8 @@ public class TextEntryStepDefinitions {
 				selectorValue,
 				featureState);
 
-			final String textValue = " alias".equals(contentAlias)
-				? featureState.getDataSet().get(content) : content;
-
-			checkState(textValue != null, "the aliased text value does not exist");
+			final String textValue = AUTO_ALIAS_UTILS.getValue(
+				content, StringUtils.isNotBlank(contentAlias), featureState);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -601,10 +596,8 @@ public class TextEntryStepDefinitions {
 			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 
-			final String textValue = " alias".equals(contentAlias)
-				? featureState.getDataSet().get(content) : content;
-
-			checkState(textValue != null, "the aliased text value does not exist");
+			final String textValue = AUTO_ALIAS_UTILS.getValue(
+				content, StringUtils.isNotBlank(contentAlias), featureState);
 
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript(
@@ -653,13 +646,11 @@ public class TextEntryStepDefinitions {
 		final String exists,
 		final String empty) {
 		try {
-			final String attr = " alias".equals(attributeNameAlias)
-				? featureState.getDataSet().get(attributeName) : attributeName;
-			final String value = " alias".equals(attributeValueAlias)
-				? featureState.getDataSet().get(attributeValue) : attributeValue;
+			final String attr = AUTO_ALIAS_UTILS.getValue(
+				attributeName, StringUtils.isNotBlank(attributeNameAlias), featureState);
 
-			checkState(attr != null, "the aliased attribute name does not exist");
-			checkState(value != null, "the aliased attribute value does not exist");
+			final String value = AUTO_ALIAS_UTILS.getValue(
+				attributeValue, StringUtils.isNotBlank(attributeValueAlias), featureState);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
@@ -677,10 +668,8 @@ public class TextEntryStepDefinitions {
 
 			if (processElement) {
 				// Simulate key presses
-				final String textValue = " alias".equals(contentAlias)
-					? featureState.getDataSet().get(content) : content;
-
-				checkState(textValue != null, "the aliased text value does not exist");
+				final String textValue = AUTO_ALIAS_UTILS.getValue(
+					content, StringUtils.isNotBlank(contentAlias), featureState);
 
 				for (final Character character : textValue.toCharArray()) {
 					SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
@@ -689,7 +678,7 @@ public class TextEntryStepDefinitions {
 				SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 			}
 		} catch (final TimeoutException ex) {
-			if (!" if it exists".equals(exists)) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}

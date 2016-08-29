@@ -4,6 +4,7 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.exception.HttpResponseException;
 import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.utils.*;
+import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
@@ -37,6 +38,7 @@ public class ValidationStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ValidationStepDefinitions.class);
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
 	private static final GetBy GET_BY = new GetByImpl();
 	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
 		new SimpleWebElementInteractionImpl();
@@ -86,10 +88,8 @@ public class ValidationStepDefinitions {
 				selectorValue,
 				featureState);
 
-			final String className = StringUtils.isNotBlank(classAlias)
-				? featureState.getDataSet().get(classValue) : classValue;
-
-			checkState(className != null, "the aliased class name does not exist");
+			final String className = AUTO_ALIAS_UTILS.getValue(
+				classValue, StringUtils.isNotBlank(classAlias), featureState);
 
 			final Iterable<String> split = Splitter.on(' ')
 				.trimResults()
@@ -138,10 +138,8 @@ public class ValidationStepDefinitions {
 			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
-			final String className = " alias".equals(classAlias)
-				? featureState.getDataSet().get(classValue) : classValue;
-
-			checkState(className != null, "the aliased class name does not exist");
+			final String className = AUTO_ALIAS_UTILS.getValue(
+				classValue, StringUtils.isNotBlank(classAlias), featureState);
 
 			final Iterable<String> split = Splitter.on(' ')
 				.trimResults()
@@ -314,8 +312,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^I verify that the page contains the text( alias)? \"(.*?)\"")
 	public void verifyPageContent(final String alias, final String text) {
-		final String fixedtext = StringUtils.isNotBlank(alias)
-			? featureState.getDataSet().get(text) : text;
+		final String fixedtext = AUTO_ALIAS_UTILS.getValue(text, StringUtils.isNotBlank(alias), featureState);
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final String pageText =
@@ -324,5 +321,65 @@ public class ValidationStepDefinitions {
 		if (!pageText.contains(fixedtext)) {
 			throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");
 		}
+	}
+
+	/**
+	 * Verify that an aliased value is bigger than another alias value
+	 * @param alias1 The aliased value to check
+	 * @param alias2 The second aliased value to compare the first too
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is larger than the alias \"([^\"]*)\"")
+	public void verifyAliasBigger(final String alias1, final String alias2) {
+		final String value1 = featureState.getDataSet().get(alias1);
+		final String value2 = featureState.getDataSet().get(alias2);
+		Assert.assertTrue(
+			"Alias " + alias1 + " with value " + Double.parseDouble(value1)
+				+ " was not larger than alias " + alias2 + " with value " + Double.parseDouble(value2),
+			Double.parseDouble(value1) > Double.parseDouble(value2));
+	}
+
+	/**
+	 * Verify that an aliased value is bigger than or equal to another alias value
+	 * @param alias1 The aliased value to check
+	 * @param alias2 The second aliased value to compare the first too
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is larger than or equal to the alias \"([^\"]*)\"")
+	public void verifyAliasBiggerOrEqual(final String alias1, final String alias2) {
+		final String value1 = featureState.getDataSet().get(alias1);
+		final String value2 = featureState.getDataSet().get(alias2);
+		Assert.assertTrue(
+			"Alias " + alias1 + " with value " + Double.parseDouble(value1)
+				+ " was not larger than or equal to alias " + alias2 + " with value " + Double.parseDouble(value2),
+			Double.parseDouble(value1) >= Double.parseDouble(value2));
+	}
+
+	/**
+	 * Verify that an aliased value is smaller than another alias value
+	 * @param alias1 The aliased value to check
+	 * @param alias2 The second aliased value to compare the first too
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is smaller than the alias \"([^\"]*)\"")
+	public void verifyAliasSmaller(final String alias1, final String alias2) {
+		final String value1 = featureState.getDataSet().get(alias1);
+		final String value2 = featureState.getDataSet().get(alias2);
+		Assert.assertTrue(
+			"Alias " + alias1 + " with value " + Double.parseDouble(value1)
+				+ " was not smaller than alias " + alias2 + " with value " + Double.parseDouble(value2),
+			Double.parseDouble(value1) < Double.parseDouble(value2));
+	}
+
+	/**
+	 * Verify that an aliased value is smaller than or equal to another alias value
+	 * @param alias1 The aliased value to check
+	 * @param alias2 The second aliased value to compare the first too
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is smaller than or equal to the alias \"([^\"]*)\"")
+	public void verifyAliasSmallerOrEqual(final String alias1, final String alias2) {
+		final String value1 = featureState.getDataSet().get(alias1);
+		final String value2 = featureState.getDataSet().get(alias2);
+		Assert.assertTrue(
+			"Alias " + alias1 + " with value " + Double.parseDouble(value1)
+				+ " was not smaller than or equal to alias " + alias2 + " with value " + Double.parseDouble(value2),
+			Double.parseDouble(value1) <= Double.parseDouble(value2));
 	}
 }
