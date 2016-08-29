@@ -1,17 +1,5 @@
 package au.com.agic.apptesting.utils.impl;
 
-import au.com.agic.apptesting.utils.ScreenCapture;
-import org.monte.media.Format;
-import org.monte.media.math.Rational;
-import org.monte.screenrecorder.ScreenRecorder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.validation.constraints.NotNull;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-
 import static org.monte.media.AudioFormatKeys.EncodingKey;
 import static org.monte.media.AudioFormatKeys.FrameRateKey;
 import static org.monte.media.AudioFormatKeys.KeyFrameIntervalKey;
@@ -19,7 +7,24 @@ import static org.monte.media.AudioFormatKeys.MIME_AVI;
 import static org.monte.media.AudioFormatKeys.MediaType;
 import static org.monte.media.AudioFormatKeys.MediaTypeKey;
 import static org.monte.media.AudioFormatKeys.MimeTypeKey;
-import static org.monte.media.VideoFormatKeys.*;
+import static org.monte.media.VideoFormatKeys.CompressorNameKey;
+import static org.monte.media.VideoFormatKeys.DepthKey;
+import static org.monte.media.VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE;
+import static org.monte.media.VideoFormatKeys.QualityKey;
+
+import au.com.agic.apptesting.utils.ScreenCapture;
+
+import org.monte.media.Format;
+import org.monte.media.math.Rational;
+import org.monte.screenrecorder.ScreenRecorder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * An implementation of a screen capture service using the Monte Media Library

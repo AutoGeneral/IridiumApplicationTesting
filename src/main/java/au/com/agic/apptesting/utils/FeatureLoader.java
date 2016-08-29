@@ -1,7 +1,8 @@
 package au.com.agic.apptesting.utils;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * A service that loads features from some location and puts them in a location on the disk for

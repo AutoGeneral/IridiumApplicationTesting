@@ -1,16 +1,22 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
+
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import javax.validation.constraints.NotNull;
 
 /**
  * Represents the details required by a feature to run

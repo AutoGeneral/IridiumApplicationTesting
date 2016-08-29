@@ -4,7 +4,7 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-import cucumber.api.java.en.When;
+
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cucumber.api.java.en.When;
 
 /**
  * This class contains Gherkin step definitions for working with tabs and windows

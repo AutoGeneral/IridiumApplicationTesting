@@ -2,7 +2,7 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
-import cucumber.api.java.en.When;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,6 +11,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.security.UserAndPassword;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import cucumber.api.java.en.When;
 
 /**
  * Step defininitions for logging into a web page

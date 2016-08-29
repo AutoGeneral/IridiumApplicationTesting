@@ -1,13 +1,15 @@
 package au.com.agic.apptesting.utils;
 
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * This class maintains a mapping between a thread id and the Selenium desired capabilities that

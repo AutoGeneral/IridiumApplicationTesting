@@ -1,10 +1,14 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static au.com.agic.apptesting.constants.Constants.PHANTOMJS_LOGGING_LEVEL_SYSTEM_PROPERTY;
+import static au.com.agic.apptesting.constants.Constants.PHANTON_JS_USER_AGENT_SYSTEM_PROPERTY;
+
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverFactory;
 import au.com.agic.apptesting.webdriver.GeckoDriverServiceEx;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
@@ -22,13 +26,9 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-
-import static au.com.agic.apptesting.constants.Constants.PHANTOMJS_LOGGING_LEVEL_SYSTEM_PROPERTY;
-import static au.com.agic.apptesting.constants.Constants.PHANTON_JS_USER_AGENT_SYSTEM_PROPERTY;
 
 /**
  * An implementation of the web driver factory

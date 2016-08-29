@@ -1,8 +1,9 @@
 package au.com.agic.apptesting.webdriver;
 
-import au.com.agic.apptesting.constants.Constants;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+
+import au.com.agic.apptesting.constants.Constants;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriverException;
@@ -12,7 +13,6 @@ import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 /**
  * An extension of org.openqa.selenium.firefox.GeckoDriverService fixed to deal

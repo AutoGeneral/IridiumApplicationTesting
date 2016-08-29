@@ -1,5 +1,8 @@
 package au.com.agic.apptesting.steps;
 
+import static au.com.agic.apptesting.constants.Constants.KEY_STROKE_DELAY;
+import static com.google.common.base.Preconditions.checkState;
+
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
@@ -10,9 +13,13 @@ import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-import cucumber.api.java.en.When;
+
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -23,8 +30,7 @@ import java.security.SecureRandom;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
-import static au.com.agic.apptesting.constants.Constants.KEY_STROKE_DELAY;
-import static com.google.common.base.Preconditions.checkState;
+import cucumber.api.java.en.When;
 
 /**
  * Contains Gherkin steps for enterting text.

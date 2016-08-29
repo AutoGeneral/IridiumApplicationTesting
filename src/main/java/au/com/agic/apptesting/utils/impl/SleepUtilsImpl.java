@@ -1,8 +1,8 @@
 package au.com.agic.apptesting.utils.impl;
 
-import au.com.agic.apptesting.utils.SleepUtils;
-
 import static com.google.common.base.Preconditions.checkArgument;
+
+import au.com.agic.apptesting.utils.SleepUtils;
 
 /**
  * Implementation of the sleep service

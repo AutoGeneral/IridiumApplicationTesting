@@ -2,6 +2,7 @@ package au.com.agic.apptesting;
 
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;

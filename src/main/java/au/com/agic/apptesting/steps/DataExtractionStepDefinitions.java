@@ -6,9 +6,13 @@ import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
-import cucumber.api.java.en.When;
+
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -16,6 +20,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps used to extract data from the web page.

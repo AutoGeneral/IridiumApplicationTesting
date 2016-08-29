@@ -1,17 +1,19 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.exception.JarDownloadException;
 import au.com.agic.apptesting.utils.JarDownloader;
+
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import javax.validation.constraints.NotNull;
 
 /**
  * Downloads the JAR file and saves it locally

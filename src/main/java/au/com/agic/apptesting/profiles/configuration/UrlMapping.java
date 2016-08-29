@@ -1,16 +1,18 @@
 package au.com.agic.apptesting.profiles.configuration;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import au.com.agic.apptesting.constants.Defaults;
+
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Represents a {@code <urlMapping>} element

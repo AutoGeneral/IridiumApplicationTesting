@@ -1,5 +1,7 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.FeatureFilesException;
 import au.com.agic.apptesting.exception.NoFeaturesException;
@@ -7,17 +9,18 @@ import au.com.agic.apptesting.utils.FeatureFileImporter;
 import au.com.agic.apptesting.utils.FeatureFileUtils;
 import au.com.agic.apptesting.utils.FeatureLoader;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
-import javaslang.control.Try;
+
 import org.apache.commons.io.FileUtils;
 
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import javax.validation.constraints.NotNull;
+
+import javaslang.control.Try;
 
 /**
  * A feature loaded that just returns a local path name that contains existing feature files

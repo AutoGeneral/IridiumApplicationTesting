@@ -1,12 +1,14 @@
 package au.com.agic.apptesting.steps;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
 import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-import cucumber.api.java.en.When;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -22,7 +24,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import static com.google.common.base.Preconditions.checkState;
+import cucumber.api.java.en.When;
 
 /**
  * Gherin steps used to open web pages.

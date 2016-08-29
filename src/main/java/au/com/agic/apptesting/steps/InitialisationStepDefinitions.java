@@ -2,10 +2,11 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.When;
 
 import java.util.Map;
+
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps that are used to initialise the test script.

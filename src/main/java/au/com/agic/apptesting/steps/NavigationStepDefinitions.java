@@ -4,9 +4,11 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-import cucumber.api.java.en.When;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
+
+import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps for navigating in the browser.

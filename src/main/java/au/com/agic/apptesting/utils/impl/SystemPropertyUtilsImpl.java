@@ -1,7 +1,10 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.GeckoDriverService;
@@ -9,8 +12,6 @@ import org.openqa.selenium.firefox.GeckoDriverService;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Implementation that deals with the restrictions imposed by web start

@@ -4,13 +4,12 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
-import cucumber.api.java.en.When;
-import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.HttpResponse;
+
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.filters.RequestFilter;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
+
+import cucumber.api.java.en.When;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
 
 /**
  * This class contains Gherkin step definitions relating to the use of the embedded

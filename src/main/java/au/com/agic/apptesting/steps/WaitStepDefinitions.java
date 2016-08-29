@@ -11,7 +11,7 @@ import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
 import au.com.agic.apptesting.utils.impl.GetByImpl;
 import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
-import cucumber.api.java.en.When;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutionException;
 
-import static com.google.common.base.Preconditions.checkState;
+import cucumber.api.java.en.When;
 
 /**
  * This class contains Gherkin steps that define wait conditions.
@@ -607,6 +607,51 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
 	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
+		+ "equal to( alias)? \"([^\"]*)\" to not be displayed(,? ignoring timeouts?)?")
+	public void notDisplayAttrWait(
+		final String waitDuration,
+		final String attribute,
+		final String alias,
+		final String selectorValue,
+		final String ignoringTimeout) {
+
+		final String attributeValue = AUTO_ALIAS_UTILS.getValue(
+			selectorValue, StringUtils.isNotBlank(alias), featureState);
+
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver, Integer.parseInt(waitDuration));
+			final boolean result = wait.until(
+				ExpectedConditions.not(ExpectedConditions.visibilityOfElementLocated(
+				By.cssSelector("[" + attribute + "='" + attributeValue + "']"))));
+			if (!result) {
+				throw new TimeoutException(
+					"Gave up after waiting " + Integer.parseInt(waitDuration)
+						+ " seconds for the element to not be displayed");
+			}
+		} catch (final TimeoutException ex) {
+			/*
+				Rethrow if we have not ignored errors
+			 */
+			if (StringUtils.isBlank(ignoringTimeout)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Waits the given amount of time for an element with the supplied attribute and attribute value to be displayed
+	 * (i.e. to be visible) on the page.
+	 *
+	 * @param waitDuration  The maximum amount of time to wait for
+	 * @param attribute     The attribute to use to select the element with
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, this
+	 *                      value is found from the data set. Otherwise it is a literal value.
+	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
+	 */
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
 		+ "equal to( alias)? \"([^\"]*)\" to be present(,? ignoring timeouts?)?")
 	public void presentAttrWait(
 		final String waitDuration,
@@ -624,6 +669,51 @@ public class WaitStepDefinitions {
 				webDriver, Integer.parseInt(waitDuration));
 			wait.until(ExpectedConditions.presenceOfElementLocated(
 				By.cssSelector("[" + attribute + "='" + attributeValue + "']")));
+		} catch (final TimeoutException ex) {
+			/*
+				Rethrow if we have not ignored errors
+			 */
+			if (StringUtils.isBlank(ignoringTimeout)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Waits the given amount of time for an element with the supplied attribute and attribute value to be displayed
+	 * (i.e. to be visible) on the page.
+	 *
+	 * @param waitDuration  The maximum amount of time to wait for
+	 * @param attribute     The attribute to use to select the element with
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, this
+	 *                      value is found from the data set. Otherwise it is a literal value.
+	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
+	 */
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
+		+ "equal to( alias)? \"([^\"]*)\" to not be present(,? ignoring timeouts?)?")
+	public void notPresentAttrWait(
+		final String waitDuration,
+		final String attribute,
+		final String alias,
+		final String selectorValue,
+		final String ignoringTimeout) {
+
+		final String attributeValue = AUTO_ALIAS_UTILS.getValue(
+			selectorValue, StringUtils.isNotBlank(alias), featureState);
+
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver, Integer.parseInt(waitDuration));
+			final boolean result = wait.until(
+				ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(
+				By.cssSelector("[" + attribute + "='" + attributeValue + "']"))));
+			if (!result) {
+				throw new TimeoutException(
+					"Gave up after waiting " + Integer.parseInt(waitDuration)
+						+ " seconds for the element to not be present");
+			}
 		} catch (final TimeoutException ex) {
 			/*
 				Rethrow if we have not ignored errors

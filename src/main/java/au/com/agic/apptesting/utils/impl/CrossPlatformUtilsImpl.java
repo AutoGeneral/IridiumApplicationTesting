@@ -1,11 +1,12 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.utils.CrossPlatformUtils;
 
-import javax.validation.constraints.NotNull;
 import java.util.regex.Pattern;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import javax.validation.constraints.NotNull;
 
 /**
  * implementation of CrossPlatformUtils
