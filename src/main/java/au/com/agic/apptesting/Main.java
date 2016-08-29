@@ -27,17 +27,23 @@ public final class Main {
 				Execute the tests
 			 */
 			final int failures = new TestRunner().run(globalTempFiles);
+
+			/*
+				Write some output to let the caller know how many failures there were
+			 */
+			LOGGER.info("WEBAPPTESTER-INFO-0008: TestRunner experienced {} failures", failures);
+
 			System.exit(failures);
 		} catch (final Exception ex) {
 			LOGGER.error(
-				"An exception was raised while attempting to run the Cucumber test scripts", ex);
+				"WEBAPPTESTER-BUG-0007: An exception was raised while attempting to run the Cucumber test scripts", ex);
 			System.exit(-1);
 		} finally {
 			try {
 				globalTempFiles.forEach(File::delete);
 			} catch (final Exception ex) {
 				LOGGER.error(
-					"Failed to remove global temp file", ex);
+					"WEBAPPTESTER-BUG-0008: Failed to remove global temp file", ex);
 			}
 		}
 	}
