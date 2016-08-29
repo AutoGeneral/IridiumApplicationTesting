@@ -282,3 +282,6 @@ Feature: Test of the steps provided by Iridium
 		And I wait "30" seconds for the element found by alias "Button ID" to be clickable
 		And I wait "2" seconds for the element found by alias "Non-Existant Field" to be present ignoring timeouts
 		And I wait "2" seconds for the element found by alias "Non-Existant Field" to be clickable ignoring timeouts
+
+    Scenario: Save HAR file
+      And I dump the HAR file to "test.har"
