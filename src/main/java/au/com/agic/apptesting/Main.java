@@ -46,7 +46,7 @@ public final class Main {
 			int lastFailures = 0;
 			for (int retry = 0; retry < retryCount; ++retry) {
 
-				LOGGER.info("WEBAPPTESTER-INFO-0009: Running test attempt {}", retry + 1);
+				LOGGER.info("WEBAPPTESTER-INFO-0009: Running test attempt {} of {}", retry + 1, retryCount);
 
 				/*
 					Clear the web driver between retries
