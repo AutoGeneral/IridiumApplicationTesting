@@ -648,7 +648,7 @@ public class ZAPStepDefinitions {
 			}
 		}
 
-		clientApi.spider.stop(Constants.ZAP_API_KEY, null);
+		clientApi.spider.stopAllScans(Constants.ZAP_API_KEY);
 	}
 
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
