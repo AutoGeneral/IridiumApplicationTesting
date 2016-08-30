@@ -48,11 +48,6 @@ public final class Main {
 
 				LOGGER.info("WEBAPPTESTER-INFO-0009: Running test attempt {} of {}", retry + 1, retryCount);
 
-				/*
-					Clear the web driver between retries
-				 */
-				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
-
 				lastFailures = new TestRunner().run(globalTempFiles);
 
 				/*
