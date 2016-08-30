@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 import cucumber.api.java.en.When;

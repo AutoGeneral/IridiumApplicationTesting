@@ -2,7 +2,6 @@ package au.com.agic.apptesting.utils;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 import javax.validation.constraints.NotNull;

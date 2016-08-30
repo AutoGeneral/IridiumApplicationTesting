@@ -17,8 +17,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.concurrent.ExecutionException;
-
 import cucumber.api.java.en.When;
 
 /**
