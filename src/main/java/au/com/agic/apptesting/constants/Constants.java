@@ -8,6 +8,10 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * The system property that defines how many times to retry tests before giving up
+	 */
+	public static final String TEST_RETRY_COUNT = "testRetryCount";
+	/**
 	 * If this system property is set to true, a new web driver (and therefor a new browser window)
 	 * will be created for every scenario.
      */
