@@ -2,7 +2,9 @@ package au.com.agic.apptesting;
 
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
+import au.com.agic.apptesting.utils.WebDriverFactory;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
+import au.com.agic.apptesting.utils.impl.WebDriverFactoryImpl;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -45,6 +47,11 @@ public final class Main {
 			for (int retry = 0; retry < retryCount; ++retry) {
 
 				LOGGER.info("WEBAPPTESTER-INFO-0009: Running test attempt {}", retry + 1);
+
+				/*
+					Clear the web driver between retries
+				 */
+				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
 
 				lastFailures = new TestRunner().run(globalTempFiles);
 
