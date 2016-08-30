@@ -246,7 +246,8 @@ def passThroughProperties = [
 		"newBrowserPerScenario",
 		"failAllAfterFirstScenarioError",
 		"phantomJSUserAgent",
-		"testBrowsers"
+		"testBrowsers",
+        "testRetryCount"
 ]
 
 test {
