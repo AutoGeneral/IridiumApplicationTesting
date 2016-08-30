@@ -8,6 +8,7 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
 import au.com.agic.apptesting.exception.RunScriptsException;
 import au.com.agic.apptesting.utils.ApplicationUrlLoader;
+import au.com.agic.apptesting.utils.CleanupUtils;
 import au.com.agic.apptesting.utils.DesktopInteraction;
 import au.com.agic.apptesting.utils.ExceptionWriter;
 import au.com.agic.apptesting.utils.FeatureLoader;
@@ -23,6 +24,7 @@ import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.TagAnalyser;
 import au.com.agic.apptesting.utils.WebDriverHandler;
 import au.com.agic.apptesting.utils.impl.ApplicationUrlLoaderImpl;
+import au.com.agic.apptesting.utils.impl.CleanupUtilsImpl;
 import au.com.agic.apptesting.utils.impl.DesiredCapabilitiesLoaderImpl;
 import au.com.agic.apptesting.utils.impl.DesktopInteractionImpl;
 import au.com.agic.apptesting.utils.impl.ExceptionWriterImpl;
@@ -76,6 +78,7 @@ public class TestRunner {
 	private static final LoggingConfiguration LOGGING_CONFIGURATION = new LogbackConfiguration();
 	private static final ProxyManager PROXY_MANAGER = new ProxyManagerImpl();
 	private static final String HTML_EXTENSION = ".html";
+	private static final CleanupUtils CLEANUP_UTILS = new CleanupUtilsImpl();
 	/**
 	 * Used to name threads that might be reused
 	 */
@@ -131,7 +134,7 @@ public class TestRunner {
 			SYSTEM_PROPERTY_UTILS.copyDependentSystemProperties();
 			WEB_DRIVER_HANDLER.configureWebDriver(tempFiles);
 			proxies = PROXY_MANAGER.configureProxies(globalTempFiles, tempFiles);
-			cleanupOldReports();
+			CLEANUP_UTILS.cleanupOldReports();
 			init(reportOutput, tempFiles, proxies);
 
 			/*
@@ -170,18 +173,6 @@ public class TestRunner {
 		}
 
 		return failure;
-	}
-
-	/**
-	 * Cleans up any existing reports left over from an old run
-	 */
-	private void cleanupOldReports() {
-		final Iterator<File> iterator =
-			FileUtils.iterateFiles(new File("."), new String[]{"xml", "txt"}, false);
-		while (iterator.hasNext()) {
-			final File file = iterator.next();
-			file.delete();
-		}
 	}
 
 	/**
