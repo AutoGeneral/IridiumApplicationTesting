@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 public interface WebDriverHandler {
 	/**
 	 * Extracts the integrated web driver and configures the system properties
+	 * @param tempFiles A collection to place references to any temporary files in
 	 */
 	void configureWebDriver(@NotNull final List<File> tempFiles);
 }

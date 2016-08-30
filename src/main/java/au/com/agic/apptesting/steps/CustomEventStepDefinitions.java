@@ -48,7 +48,6 @@ public class CustomEventStepDefinitions {
 	/**
 	 * Manually dispatch a change event to the element
 	 *
-	 * @param event 		The type of key event to simulate
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
 	 *                      data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
@@ -57,7 +56,7 @@ public class CustomEventStepDefinitions {
 	@When("I(?: dispatch a)? \"change\"(?: event)? on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"")
 	public void triggerChange(
 		final String alias,
-		final String selectorValue) throws ExecutionException, InterruptedException {
+		final String selectorValue) {
 
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
@@ -79,7 +78,6 @@ public class CustomEventStepDefinitions {
 	/**
 	 * Manually dispatch a change event to the element
 	 *
-	 * @param event 		The type of key event to simulate
 	 * @param selector      Either ID, class, xpath, name or css selector
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
 	 *                      data set.
@@ -113,7 +111,6 @@ public class CustomEventStepDefinitions {
 	/**
 	 * Manually dispatch a focus event to the element
 	 *
-	 * @param event 		The type of key event to simulate
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
 	 *                      data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
@@ -122,7 +119,7 @@ public class CustomEventStepDefinitions {
 	@When("I(?: dispatch a)? \"focus\"(?: event)? on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"")
 	public void triggetFocus(
 		final String alias,
-		final String selectorValue) throws ExecutionException, InterruptedException {
+		final String selectorValue) {
 
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
@@ -144,7 +141,6 @@ public class CustomEventStepDefinitions {
 	/**
 	 * Manually dispatch a focus event to the element
 	 *
-	 * @param event 		The type of key event to simulate
 	 * @param selector      Either ID, class, xpath, name or css selector
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
 	 *                      data set.

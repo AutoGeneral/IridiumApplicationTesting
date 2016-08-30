@@ -107,6 +107,8 @@ public class OpenStepDefinitions {
 	 * Scans the page for all link elements, opens them in new tabs, and then closes the tabs. This
 	 * is most useful when used in conjunction with the "I verify that there were no HTTP errors" step
 	 * as a way of verifying that all links open valid pages.
+	 * @throws InterruptedException if interrupted while waiting, in
+	 *         which case unfinished tasks are cancelled
 	 */
 	@When("^I open all links in new tabs and then close the tabs$")
 	public void openAllLinks() throws InterruptedException {

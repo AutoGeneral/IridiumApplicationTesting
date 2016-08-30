@@ -166,7 +166,6 @@ public interface SimpleWebElementInteraction {
 	 * @param valueAlias True if the value an alias, false otherwise
 	 * @param value The string used to find the element
 	 * @param featureState The current thread's state object
-	 * @return The element, or throw an exception
 	 */
 	void getNotPresenceElementFoundBy(
 		final boolean valueAlias,
@@ -184,7 +183,6 @@ public interface SimpleWebElementInteraction {
 	 * @param value The string used to find the element
 	 * @param featureState The current thread's state object
 	 * @param wait How long to wait for
-	 * @return The element, or throw an exception
 	 */
 	void getNotPresenceElementFoundBy(
 		final boolean valueAlias,

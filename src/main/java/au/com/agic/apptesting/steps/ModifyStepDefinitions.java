@@ -103,7 +103,7 @@ public class ModifyStepDefinitions {
 	 * Modify an aliased value by appending it with a string.
 	 *
 	 * @param alias The alias to modify
-	 * @param prepend The text to prepend the aliased value with
+	 * @param append The text to append the aliased value with
 	 */
 	@Then("^I modify the alias \"(.*?)\" by appending it with \"(.*?)\"$")
 	public void appendAlias(final String alias, final String append) {

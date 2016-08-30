@@ -8,8 +8,10 @@ import javax.validation.constraints.NotNull;
 public interface AutoAliasUtils {
 
 	/**
-	 *
+	 * 
 	 * @param value The value passed in, which could represent an alias or a raw value
+	 * @param forceAlias true if the alias must be used, and false if the use of the alias is
+	 *                   determined by the FeatureState
 	 * @param featureState The statue of the feature
 	 * @return The value to be used when finding an element
 	 */

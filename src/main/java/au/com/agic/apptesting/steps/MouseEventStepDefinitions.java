@@ -65,7 +65,7 @@ public class MouseEventStepDefinitions {
 		final String event,
 		final String alias,
 		final String selectorValue,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();

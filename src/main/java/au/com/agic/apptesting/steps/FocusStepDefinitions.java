@@ -56,7 +56,7 @@ public class FocusStepDefinitions {
 	public void focusElementStep(
 		final String alias,
 		final String selectorValue,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),

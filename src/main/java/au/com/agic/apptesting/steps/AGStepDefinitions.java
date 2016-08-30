@@ -25,7 +25,7 @@ import java.time.LocalDate;
 import cucumber.api.java.en.When;
 
 /**
- * Steps that are specific to A&G web apps
+ * Steps that are specific to Auto and General web apps
  */
 public class AGStepDefinitions {
 	private static final GetBy GET_BY = new GetByImpl();

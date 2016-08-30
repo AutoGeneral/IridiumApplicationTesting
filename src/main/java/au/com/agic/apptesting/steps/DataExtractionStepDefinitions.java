@@ -61,7 +61,8 @@ public class DataExtractionStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String destinationAlias,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
+
 		saveSimpleAttributeContent("value", alias, selectorValue, destinationAlias, exists);
 	}
 
@@ -111,7 +112,7 @@ public class DataExtractionStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String destinationAlias,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -192,7 +193,7 @@ public class DataExtractionStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String destinationAlias,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -272,7 +273,7 @@ public class DataExtractionStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String destinationAlias,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),

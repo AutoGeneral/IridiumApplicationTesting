@@ -92,7 +92,7 @@ public class ValidationStepDefinitions {
 		final String selectorValue,
 		final String classAlias,
 		final String classValue,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(selectorAlias),

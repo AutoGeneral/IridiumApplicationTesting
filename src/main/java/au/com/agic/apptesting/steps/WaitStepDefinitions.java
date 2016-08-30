@@ -79,7 +79,7 @@ public class WaitStepDefinitions {
 		final String waitDuration,
 		final String alias,
 		final String selectorValue,
-		final String ignoringTimeout) throws ExecutionException, InterruptedException {
+		final String ignoringTimeout) {
 
 		try {
 			SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
@@ -118,7 +118,7 @@ public class WaitStepDefinitions {
 		final String waitDuration,
 		final String alias,
 		final String selectorValue,
-		final String ignoringTimeout) throws ExecutionException, InterruptedException {
+		final String ignoringTimeout) {
 
 		try {
 			SIMPLE_WEB_ELEMENT_INTERACTION.getNotVisibleElementFoundBy(
@@ -247,7 +247,7 @@ public class WaitStepDefinitions {
 		final String waitDuration,
 		final String alias,
 		final String selectorValue,
-		final String ignoringTimeout) throws ExecutionException, InterruptedException {
+		final String ignoringTimeout) {
 		try {
 			SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -326,7 +326,7 @@ public class WaitStepDefinitions {
 		final String waitDuration,
 		final String alias,
 		final String selectorValue,
-		final String ignoringTimeout) throws ExecutionException, InterruptedException {
+		final String ignoringTimeout) {
 
 		try {
 			SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
@@ -365,7 +365,7 @@ public class WaitStepDefinitions {
 		final String waitDuration,
 		final String alias,
 		final String selectorValue,
-		final String ignoringTimeout) throws ExecutionException, InterruptedException {
+		final String ignoringTimeout) {
 
 		try {
 			SIMPLE_WEB_ELEMENT_INTERACTION.getNotPresenceElementFoundBy(
@@ -481,6 +481,7 @@ public class WaitStepDefinitions {
 	 * @param alias           If this word is found in the step, it means the linkContent is found from the
 	 *                        data set.
 	 * @param linkContent  The text content of the link we are wait for
+	 * @param ignoringTimeout The presence of this text indicates that timeouts are ignored
 	 */
 	@When("^I wait \"(\\d+)\" seconds for a link with the text content of"
 			+ "( alias) \"([^\"]*)\" to be present(,? ignoring timeouts?)?")
@@ -515,6 +516,7 @@ public class WaitStepDefinitions {
 	 * @param alias           If this word is found in the step, it means the linkContent is found from the
 	 *                        data set.
 	 * @param linkContent  The text content of the link we are wait for
+	 * @param ignoringTimeout The presence of this text indicates that timeouts are ignored
 	 */
 	@When("^I wait \"(\\d+)\" seconds for a link with the text content of"
 			+ "( alias) \"([^\"]*)\" to not be present(,? ignoring timeouts?)?")
