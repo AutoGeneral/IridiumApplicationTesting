@@ -42,7 +42,7 @@
         width="300"
         height="300">
     </application-desc>
-    <update check="background"/>
+    <update check="timeout" policy="always"/>
     <security>
         <all-permissions/>
     </security>

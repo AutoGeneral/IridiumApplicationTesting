@@ -39,7 +39,8 @@ public class NavigationStepDefinitions {
 		} catch (final Exception ex) {
 			/*
 				Safari doesn't support navigation:
-				org.openqa.selenium.WebDriverException: Yikes! Safari history navigation does not work. We can go forward or back, but once we do, we can no longer communicate with the page...
+				org.openqa.selenium.WebDriverException: Yikes! Safari history navigation does not work.
+				We can go forward or back, but once we do, we can no longer communicate with the page...
 			 */
 			if (StringUtils.isBlank(ignoreErrors)) {
 				throw ex;
@@ -60,7 +61,8 @@ public class NavigationStepDefinitions {
 		} catch (final Exception ex) {
 			/*
 				Safari doesn't support navigation:
-				org.openqa.selenium.WebDriverException: Yikes! Safari history navigation does not work. We can go forward or back, but once we do, we can no longer communicate with the page...
+				org.openqa.selenium.WebDriverException: Yikes! Safari history navigation does not work.
+				We can go forward or back, but once we do, we can no longer communicate with the page...
 			 */
 			if (StringUtils.isBlank(ignoreErrors)) {
 				throw ex;
@@ -81,7 +83,8 @@ public class NavigationStepDefinitions {
 		} catch (final Exception ex) {
 			/*
 				Safari doesn't support navigation:
-				org.openqa.selenium.WebDriverException: Yikes! Safari history navigation does not work. We can go forward or back, but once we do, we can no longer communicate with the page...
+				org.openqa.selenium.WebDriverException: Yikes! Safari history navigation does not work.
+				We can go forward or back, but once we do, we can no longer communicate with the page...
 			 */
 			if (StringUtils.isBlank(ignoreErrors)) {
 				throw ex;

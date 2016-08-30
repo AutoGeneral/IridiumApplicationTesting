@@ -361,7 +361,7 @@ public class WaitStepDefinitions {
 	 */
 	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by( alias)? \"([^\"]*)\" "
 		+ "to not be present(,? ignoring timeouts?)?")
-	public void NotpresentSimpleWaitStep(
+	public void notPresentSimpleWaitStep(
 		final String waitDuration,
 		final String alias,
 		final String selectorValue,
@@ -483,7 +483,7 @@ public class WaitStepDefinitions {
 	 * @param linkContent  The text content of the link we are wait for
 	 */
 	@When("^I wait \"(\\d+)\" seconds for a link with the text content of"
-			+"( alias) \"([^\"]*)\" to be present(,? ignoring timeouts?)?")
+			+ "( alias) \"([^\"]*)\" to be present(,? ignoring timeouts?)?")
 	public void presentLinkStep(
 		final String waitDuration,
 		final String alias,
@@ -531,7 +531,8 @@ public class WaitStepDefinitions {
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver, Integer.parseInt(waitDuration));
 			final boolean result = wait.until(
-				ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(By.linkText(content))));
+				ExpectedConditions.not(
+					ExpectedConditions.presenceOfAllElementsLocatedBy(By.linkText(content))));
 
 			if (!result) {
 				throw new TimeoutException(
@@ -554,9 +555,10 @@ public class WaitStepDefinitions {
 	 *
 	 * @param waitDuration  The maximum amount of time to wait for
 	 * @param attribute     The attribute to use to select the element with
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, this
-	 *                      value is found from the data set. Otherwise it is a literal value.
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
+	 *                         data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias
+	 *                         was set, this value is found from the data set. Otherwise it is a literal value.
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
 	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
@@ -593,9 +595,10 @@ public class WaitStepDefinitions {
 	 *
 	 * @param waitDuration  The maximum amount of time to wait for
 	 * @param attribute     The attribute to use to select the element with
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, this
-	 *                      value is found from the data set. Otherwise it is a literal value.
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
+	 *                         data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias
+	 *                         was set, this value is found from the data set. Otherwise it is a literal value.
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
 	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
@@ -638,9 +641,10 @@ public class WaitStepDefinitions {
 	 *
 	 * @param waitDuration  The maximum amount of time to wait for
 	 * @param attribute     The attribute to use to select the element with
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, this
-	 *                      value is found from the data set. Otherwise it is a literal value.
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
+	 *                         data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias
+	 *                         was set, this value is found from the data set. Otherwise it is a literal value.
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
 	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
@@ -677,9 +681,10 @@ public class WaitStepDefinitions {
 	 *
 	 * @param waitDuration  The maximum amount of time to wait for
 	 * @param attribute     The attribute to use to select the element with
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was set, this
-	 *                      value is found from the data set. Otherwise it is a literal value.
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
+	 *                         data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
+	 *                         set, this value is found from the data set. Otherwise it is a literal value.
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
 	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "

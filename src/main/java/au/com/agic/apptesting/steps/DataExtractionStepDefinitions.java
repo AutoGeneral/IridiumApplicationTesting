@@ -281,7 +281,9 @@ public class DataExtractionStepDefinitions {
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-			final String text = js.executeScript("return arguments[0].textContent.trim();", element).toString();
+			final String text = js.executeScript(
+				"return arguments[0].textContent.trim();",
+				element).toString();
 
 			final Map<String, String> dataSet = featureState.getDataSet();
 			dataSet.put(destinationAlias, text.trim());
@@ -328,7 +330,9 @@ public class DataExtractionStepDefinitions {
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-			final String text = js.executeScript("return arguments[0].textContent.trim();", element).toString();
+			final String text = js.executeScript(
+				"return arguments[0].textContent.trim();",
+				element).toString();
 
 			final Map<String, String> dataSet = featureState.getDataSet();
 			dataSet.put(destinationAlias, text.trim());

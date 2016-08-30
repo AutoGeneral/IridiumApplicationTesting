@@ -53,7 +53,8 @@ public class ModifyStepDefinitions {
 	 * @param regex The regex to match
 	 * @param replacement The text to replace any matched string with
 	 */
-	@Then("^I modify the alias \"(.*?)\" by replacing all characters that match the regex \"(.*?)\" with \"(.*?)\"$")
+	@Then("^I modify the alias \"(.*?)\" by replacing all characters that match the regex "
+			+ "\"(.*?)\" with \"(.*?)\"$")
 	public void replaceCharsInAlias(final String alias, final String regex, final String replacement) {
 		final String value = featureState.getDataSet().get(alias);
 		final String fixedValue = value.replaceAll(regex, replacement);
@@ -70,7 +71,8 @@ public class ModifyStepDefinitions {
 	 * @param regex The regex to match
 	 * @param replacement The text to replace the first matched string with
 	 */
-	@Then("^I modify the alias \"(.*?)\" by replacing the first characters that match the regex \"(.*?)\" with \"(.*?)\"$")
+	@Then("^I modify the alias \"(.*?)\" by replacing the first characters that match the regex "
+			+ "\"(.*?)\" with \"(.*?)\"$")
 	public void replaceFirstCharsInAlias(final String alias, final String regex, final String replacement) {
 		final String value = featureState.getDataSet().get(alias);
 		final String fixedValue = value.replaceFirst(regex, replacement);

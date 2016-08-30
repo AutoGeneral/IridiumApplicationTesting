@@ -41,7 +41,7 @@ href="http://java.sun.com/products/autodl/j2se"/>
         width="300"
         height="300">
     </application-desc>
-    <update check="background"/>
+    <update check="timeout" policy="always"/>
     <security>
         <all-permissions/>
     </security>

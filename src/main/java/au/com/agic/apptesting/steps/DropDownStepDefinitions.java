@@ -3,7 +3,6 @@ package au.com.agic.apptesting.steps;
 import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
@@ -184,13 +183,6 @@ public class DropDownStepDefinitions {
 			select.selectByIndex(Integer.parseInt(selection));
 			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
-			if (NoSuchElementException.class.isInstance(ex)) {
-				if (Constants.MARIONETTE.equalsIgnoreCase(
-					SYSTEM_PROPERTY_UTILS.getProperty(Constants.TEST_DESTINATION_SYSTEM_PROPERTY))) {
-
-				}
-			}
-
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}

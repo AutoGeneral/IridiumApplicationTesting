@@ -543,7 +543,8 @@ public class ZAPStepDefinitions {
 		final String details = getAlertDetails(filteredAlerts);
 
 		if (reportOnly) {
-			LOGGER.info(filteredAlerts.size() + " " + risk + " vulnerabilities found.\nDetails:\n" + details);
+			LOGGER.info(filteredAlerts.size() + " " + risk
+				+ " vulnerabilities found.\nDetails:\n" + details);
 		} else {
 			/*
 				Throw an exception if there are any identified risks
@@ -647,7 +648,7 @@ public class ZAPStepDefinitions {
 			}
 		}
 
-		clientApi.spider.stop(Constants.ZAP_API_KEY, null);
+		clientApi.spider.stopAllScans(Constants.ZAP_API_KEY);
 	}
 
 	@SuppressWarnings("OptionalGetWithoutIsPresent")

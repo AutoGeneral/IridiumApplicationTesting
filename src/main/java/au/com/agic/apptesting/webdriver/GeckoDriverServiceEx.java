@@ -29,8 +29,11 @@ public class GeckoDriverServiceEx extends GeckoDriverService {
 	 * @param environment The environment for the launched server.
 	 * @throws IOException If an I/O error occurs.
 	 */
-	public GeckoDriverServiceEx(File executable, int port, ImmutableList<String> args,
-								ImmutableMap<String, String> environment) throws IOException {
+	public GeckoDriverServiceEx(
+			final File executable,
+			final int port,
+			final ImmutableList<String> args,
+			final ImmutableMap<String, String> environment) throws IOException {
 		super(executable, port, args, environment);
 	}
 
@@ -92,8 +95,8 @@ public class GeckoDriverServiceEx extends GeckoDriverService {
 
 			try {
 				return new GeckoDriverServiceEx(exe, port, args, environment);
-			} catch (IOException e) {
-				throw new WebDriverException(e);
+			} catch (final IOException ex) {
+				throw new WebDriverException(ex);
 			}
 		}
 	}

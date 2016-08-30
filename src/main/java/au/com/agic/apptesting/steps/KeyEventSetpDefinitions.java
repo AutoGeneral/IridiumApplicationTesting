@@ -258,7 +258,12 @@ public class KeyEventSetpDefinitions {
 	 */
 	@When("I(?: dispatch a)? \"(key.*?)\"(?: event)? on (?:a|an|the) hidden element with (?:a|an|the) "
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
-	public void triggetKeyUp(final String event, final String selector, final String alias, final String selectorValue) {
+	public void triggetKeyUp(
+			final String event,
+			final String selector,
+			final String alias,
+			final String selectorValue) {
+
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
 		final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());

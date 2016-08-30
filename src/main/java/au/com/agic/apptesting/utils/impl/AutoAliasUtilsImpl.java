@@ -22,7 +22,7 @@ public class AutoAliasUtilsImpl implements AutoAliasUtils {
 	@Override
 	public String getValue(
 			@NotNull final String value,
-			boolean forceAlias,
+			final boolean forceAlias,
 			@NotNull final FeatureState featureState) {
 
 		checkArgument(StringUtils.isNotBlank(value));

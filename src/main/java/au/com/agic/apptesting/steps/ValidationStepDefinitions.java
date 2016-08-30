@@ -130,8 +130,8 @@ public class ValidationStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@Then("^(?:I verify that )?the element with the (ID|class|xpath|name|css selector)( alias)? \"([^\"]*)\" should have a "
-		+ "class( alias)? of \"([^\"]*)\"( if it exists)?$")
+	@Then("^(?:I verify that )?the element with the (ID|class|xpath|name|css selector)( alias)? \"([^\"]*)\""
+		+ " should have a class( alias)? of \"([^\"]*)\"( if it exists)?$")
 	public void checkElementClassStep(
 		final String selector,
 		final String selectorAlias,
@@ -232,7 +232,9 @@ public class ValidationStepDefinitions {
 	public void verifyNotMatchesRegex(final String alias, final String regex) {
 		final String value = featureState.getDataSet().get(alias);
 		final Pattern pattern = Pattern.compile(regex);
-		Assert.assertFalse("Value " + value + " should not match regex " + regex, Pattern.matches(regex, value));
+		Assert.assertFalse(
+			"Value " + value + " should not match regex " + regex,
+			Pattern.matches(regex, value));
 	}
 
 	/**
@@ -360,7 +362,8 @@ public class ValidationStepDefinitions {
 		final String value2 = featureState.getDataSet().get(alias2);
 		Assert.assertTrue(
 			"Alias " + alias1 + " with value " + Double.parseDouble(value1)
-				+ " was not larger than or equal to alias " + alias2 + " with value " + Double.parseDouble(value2),
+				+ " was not larger than or equal to alias " + alias2
+				+ " with value " + Double.parseDouble(value2),
 			Double.parseDouble(value1) >= Double.parseDouble(value2));
 	}
 
@@ -390,7 +393,8 @@ public class ValidationStepDefinitions {
 		final String value2 = featureState.getDataSet().get(alias2);
 		Assert.assertTrue(
 			"Alias " + alias1 + " with value " + Double.parseDouble(value1)
-				+ " was not smaller than or equal to alias " + alias2 + " with value " + Double.parseDouble(value2),
+				+ " was not smaller than or equal to alias " + alias2
+				+ " with value " + Double.parseDouble(value2),
 			Double.parseDouble(value1) <= Double.parseDouble(value2));
 	}
 }

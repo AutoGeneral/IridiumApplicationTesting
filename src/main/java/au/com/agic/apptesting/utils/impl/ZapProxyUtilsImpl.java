@@ -64,10 +64,6 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 				return Optional.of(startZAPProxy(globalTempFiles, upstreamProxy));
 			}
 
-			LOGGER.info("The value assigned to the \"{}\" system property of \"{}\" was empty or not recognised",
-				Constants.START_INTERNAL_PROXY,
-				proxyName);
-
 			return Optional.empty();
 		} catch (final Exception ex) {
 			throw new ProxyException(ex);
@@ -149,14 +145,17 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 
 				if (StringUtils.isNotBlank(upstreamProxy.get().getUsername())) {
 					args.addAll(Arrays.asList(
-						"-config", "connection.proxyChain.userName=" + upstreamProxy.get().getUsername(),
-						"-config", "connection.proxyChain.password=" + upstreamProxy.get().getPassword()
+						"-config", "connection.proxyChain.userName="
+							+ upstreamProxy.get().getUsername(),
+						"-config", "connection.proxyChain.password="
+							+ upstreamProxy.get().getPassword()
 					));
 				}
 
 				if (StringUtils.isNotBlank(upstreamProxy.get().getRealm())) {
 					args.addAll(Arrays.asList(
-						"-config", "connection.proxyChain.realm=" + upstreamProxy.get().getRealm()
+						"-config", "connection.proxyChain.realm="
+							+ upstreamProxy.get().getRealm()
 					));
 				}
 			}
