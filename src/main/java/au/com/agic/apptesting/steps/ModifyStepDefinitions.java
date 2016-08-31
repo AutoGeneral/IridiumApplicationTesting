@@ -5,6 +5,7 @@ import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,14 +87,18 @@ public class ModifyStepDefinitions {
 	 * Modify an aliased value by prepending it with a string.
 	 *
 	 * @param alias The alias to modify
+	 * @param valueAlias Set this text to get the value to be prepended from an existing alias
 	 * @param prepend The text to prepend the aliased value with
 	 */
-	@Then("^I modify the alias \"(.*?)\" by prepending it with \"(.*?)\"$")
-	public void prependAlias(final String alias, final String prepend) {
+	@Then("^I modify the alias \"(.*?)\" by prepending it with( alias)? \"(.*?)\"$")
+	public void prependAlias(final String alias, final String valueAlias, final String prepend) {
 		final String value = featureState.getDataSet().get(alias);
+		final String prependValue = StringUtils.isNotBlank(valueAlias)
+			? featureState.getDataSet().get(prepend)
+			: prepend;
 
 		final Map<String, String> dataset = featureState.getDataSet();
-		dataset.put(alias, prepend + value);
+		dataset.put(alias, prependValue + value);
 		featureState.setDataSet(dataset);
 
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
@@ -103,14 +108,18 @@ public class ModifyStepDefinitions {
 	 * Modify an aliased value by appending it with a string.
 	 *
 	 * @param alias The alias to modify
+	 * @param valueAlias Set this text to get the value to be appended from an existing alias
 	 * @param append The text to append the aliased value with
 	 */
-	@Then("^I modify the alias \"(.*?)\" by appending it with \"(.*?)\"$")
-	public void appendAlias(final String alias, final String append) {
+	@Then("^I modify the alias \"(.*?)\" by appending it with( alias)? \"(.*?)\"$")
+	public void appendAlias(final String alias, final String valueAlias, final String append) {
 		final String value = featureState.getDataSet().get(alias);
+		final String appendValue = StringUtils.isNotBlank(valueAlias)
+			? featureState.getDataSet().get(append)
+			: append;
 
 		final Map<String, String> dataset = featureState.getDataSet();
-		dataset.put(alias, value + append);
+		dataset.put(alias, value + appendValue);
 		featureState.setDataSet(dataset);
 
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
