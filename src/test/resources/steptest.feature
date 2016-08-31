@@ -57,6 +57,8 @@ Feature: Test of the steps provided by Iridium
       And I verify that the alias "Test Value 4" is equal to "91234.50"
       And I modify the alias "Test Value 4" by appending it with "0"
       And I verify that the alias "Test Value 4" is equal to "91234.500"
+      And I modify the alias "Test Value 4" by replacing all characters that match the regex "(\d+)\.(\d+)" with "$2.$1"
+      And I verify that the alias "Test Value 4" is equal to "500.91234"
 
 	Scenario: Manual Mouse Events
 		And I "mousedown" on the hidden element found by "eventButton"
