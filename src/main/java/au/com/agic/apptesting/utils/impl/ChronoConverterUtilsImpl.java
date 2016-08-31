@@ -12,12 +12,12 @@ import java.time.temporal.ChronoUnit;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by mcasperson on 1/09/2016.
+ * An implementation of the chrono converter service
  */
 public class ChronoConverterUtilsImpl implements ChronoConverterUtils {
 
 	@Override
-	public ChronoUnit fromString(@NotNull String input) {
+	public ChronoUnit fromString(@NotNull final String input) {
 		checkArgument(StringUtils.isNotBlank(input));
 
 		if ("Nanos".equalsIgnoreCase(input) || "Nano".equalsIgnoreCase(input)) {
