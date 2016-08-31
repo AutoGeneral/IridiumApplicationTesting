@@ -9,9 +9,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 /**
  * Contains Gherkin step definitions for modifying aliased values.
@@ -44,7 +47,6 @@ public class ModifyStepDefinitions {
 		final Map<String, String> dataset = featureState.getDataSet();
 		dataset.put(alias, fixedValue);
 		featureState.setDataSet(dataset);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -62,7 +64,6 @@ public class ModifyStepDefinitions {
 		final Map<String, String> dataset = featureState.getDataSet();
 		dataset.put(alias, fixedValue);
 		featureState.setDataSet(dataset);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -80,7 +81,6 @@ public class ModifyStepDefinitions {
 		final Map<String, String> dataset = featureState.getDataSet();
 		dataset.put(alias, fixedValue);
 		featureState.setDataSet(dataset);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -100,8 +100,6 @@ public class ModifyStepDefinitions {
 		final Map<String, String> dataset = featureState.getDataSet();
 		dataset.put(alias, prependValue + value);
 		featureState.setDataSet(dataset);
-
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -121,8 +119,6 @@ public class ModifyStepDefinitions {
 		final Map<String, String> dataset = featureState.getDataSet();
 		dataset.put(alias, value + appendValue);
 		featureState.setDataSet(dataset);
-
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -138,7 +134,19 @@ public class ModifyStepDefinitions {
 		final Map<String, String> dataset = featureState.getDataSet();
 		dataset.put(destination, value);
 		featureState.setDataSet(dataset);
-
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
+
+	/**
+	 * Save the current date and time to an aliased value.
+	 * @param format The format of the date: https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
+	 * @param alias The alias to save the date into
+	 */
+	@When("^I save the current date with the format \"(.*?)\" to the alias \"(.*?)\"")
+	public void saveDateToAlias(final String format, final String alias) {
+		final SimpleDateFormat dateFormatter = new SimpleDateFormat(format);
+		final Map<String, String> dataset = featureState.getDataSet();
+		dataset.put(alias, dateFormatter.format(new Date()));
+		featureState.setDataSet(dataset);
+	}
+
 }

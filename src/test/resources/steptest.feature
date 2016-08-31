@@ -69,6 +69,8 @@ Feature: Test of the steps provided by Iridium
       And I modify the alias "Test Value 4" by prepending it with " "
       And I modify the alias "Test Value 4" by prepending it with alias "Test Value 6"
       And I verify that the alias "Test Value 4" is equal to "Test Value 500.91234 Another Value"
+      And I save the current date with the format "dd MMM yyyy" to the alias "Todays Date"
+      And I verify that the alias "Todays Date" matches the regex "\d{2} \w{3} \d{4}"
 
 
   Scenario: Manual Mouse Events
