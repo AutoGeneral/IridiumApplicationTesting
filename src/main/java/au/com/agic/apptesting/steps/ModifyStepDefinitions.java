@@ -1,8 +1,10 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.ChronoConverterUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.utils.impl.ChronoConverterUtilsImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Map;
 
@@ -26,6 +31,7 @@ public class ModifyStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ModifyStepDefinitions.class);
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	private static final ChronoConverterUtils CHRONO_CONVERTER_UTILS = new ChronoConverterUtilsImpl();
 
 	/**
 	 * Get the web driver for this thread
@@ -138,14 +144,29 @@ public class ModifyStepDefinitions {
 
 	/**
 	 * Save the current date and time to an aliased value.
-	 * @param format The format of the date: https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
+	 * @param format The format of the date: https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+	 * @param offsetAmount The optional amount to offset todays date by e.g. "1 day" or "2 weeks"
 	 * @param alias The alias to save the date into
 	 */
-	@When("^I save the current date with the format \"(.*?)\" to the alias \"(.*?)\"")
-	public void saveDateToAlias(final String format, final String alias) {
-		final SimpleDateFormat dateFormatter = new SimpleDateFormat(format);
+	@When("^I save the current date(?: offset by \"([-0-9]+ \\w+)\")? with the format \"(.*?)\" to the alias \"(.*?)\"")
+	public void saveDateToAlias(
+		final String offsetAmount,
+		final String format,
+		final String alias) {
+
+		final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(format);
 		final Map<String, String> dataset = featureState.getDataSet();
-		dataset.put(alias, dateFormatter.format(new Date()));
+
+		LocalDateTime date = LocalDateTime.now();
+
+		if (StringUtils.isNotBlank(offsetAmount)) {
+			final String[] offsetRaw = offsetAmount.split(" ");
+			final int offset = Integer.parseInt(offsetRaw[0]);
+			final ChronoUnit chronoUnit = CHRONO_CONVERTER_UTILS.fromString(offsetRaw[1]);
+			date = date.plus(offset, chronoUnit);
+		}
+
+		dataset.put(alias, dateFormatter.format(date));
 		featureState.setDataSet(dataset);
 	}
 
