@@ -115,4 +115,21 @@ public class ModifyStepDefinitions {
 
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
+
+	/**
+	 * Copy an alias
+	 *
+	 * @param source The source alias
+	 * @param destination The destination alias
+	 */
+	@Then("^I copy the alias \"(.*?)\" to the alias \"(.*?)\"$")
+	public void copyAlias(final String source, final String destination) {
+		final String value = featureState.getDataSet().get(source);
+
+		final Map<String, String> dataset = featureState.getDataSet();
+		dataset.put(destination, value);
+		featureState.setDataSet(dataset);
+
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+	}
 }
