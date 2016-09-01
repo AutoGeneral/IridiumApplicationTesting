@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.concurrent.ExecutionException;
 
 import cucumber.api.java.en.When;
 
@@ -75,7 +74,7 @@ public class ClickingStepDefinitions {
 	public void clickElementSimpleStep(
 		final String alias,
 		final String selectorValue,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -171,7 +170,7 @@ public class ClickingStepDefinitions {
 	public void clickSimpleHiddenElementStep(
 		final String alias,
 		final String selectorValue,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();

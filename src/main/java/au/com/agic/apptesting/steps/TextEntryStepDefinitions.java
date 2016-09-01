@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 import cucumber.api.java.en.When;
@@ -67,7 +66,7 @@ public class TextEntryStepDefinitions {
 	@When("^I clear (?:a|an|the) element found by( alias)? \"([^\"]*)\"")
 	public void clearElement(
 		final String alias,
-		final String selectorValue) throws ExecutionException, InterruptedException {
+		final String selectorValue) {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
@@ -107,7 +106,7 @@ public class TextEntryStepDefinitions {
 	@When("^I clear (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"")
 	public void clearHiddenElement(
 		final String alias,
-		final String selectorValue) throws ExecutionException, InterruptedException {
+		final String selectorValue) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
@@ -164,7 +163,7 @@ public class TextEntryStepDefinitions {
 		final String selectorValue,
 		final String contentAlias,
 		final String content,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -272,7 +271,7 @@ public class TextEntryStepDefinitions {
 		final String content,
 		final String exists,
 		final String empty,
-		final Integer delay) throws ExecutionException, InterruptedException {
+		final Integer delay) {
 		try {
 			final Integer fixedDelay = delay == null ? KEY_STROKE_DELAY : delay;
 
@@ -412,7 +411,7 @@ public class TextEntryStepDefinitions {
 		final String randomStart,
 		final String randomEndAlias,
 		final String randomEnd,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -543,7 +542,7 @@ public class TextEntryStepDefinitions {
 		final String selectorValue,
 		final String contentAlias,
 		final String content,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),

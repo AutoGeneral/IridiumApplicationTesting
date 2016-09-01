@@ -1,16 +1,25 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.ChronoConverterUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.utils.impl.ChronoConverterUtilsImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.Map;
 
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 /**
  * Contains Gherkin step definitions for modifying aliased values.
@@ -22,6 +31,7 @@ public class ModifyStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ModifyStepDefinitions.class);
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	private static final ChronoConverterUtils CHRONO_CONVERTER_UTILS = new ChronoConverterUtilsImpl();
 
 	/**
 	 * Get the web driver for this thread
@@ -43,7 +53,6 @@ public class ModifyStepDefinitions {
 		final Map<String, String> dataset = featureState.getDataSet();
 		dataset.put(alias, fixedValue);
 		featureState.setDataSet(dataset);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -61,7 +70,6 @@ public class ModifyStepDefinitions {
 		final Map<String, String> dataset = featureState.getDataSet();
 		dataset.put(alias, fixedValue);
 		featureState.setDataSet(dataset);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
@@ -79,40 +87,87 @@ public class ModifyStepDefinitions {
 		final Map<String, String> dataset = featureState.getDataSet();
 		dataset.put(alias, fixedValue);
 		featureState.setDataSet(dataset);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
 	 * Modify an aliased value by prepending it with a string.
 	 *
 	 * @param alias The alias to modify
+	 * @param valueAlias Set this text to get the value to be prepended from an existing alias
 	 * @param prepend The text to prepend the aliased value with
 	 */
-	@Then("^I modify the alias \"(.*?)\" by prepending it with \"(.*?)\"$")
-	public void prependAlias(final String alias, final String prepend) {
+	@Then("^I modify the alias \"(.*?)\" by prepending it with( alias)? \"(.*?)\"$")
+	public void prependAlias(final String alias, final String valueAlias, final String prepend) {
 		final String value = featureState.getDataSet().get(alias);
+		final String prependValue = StringUtils.isNotBlank(valueAlias)
+			? featureState.getDataSet().get(prepend)
+			: prepend;
 
 		final Map<String, String> dataset = featureState.getDataSet();
-		dataset.put(alias, prepend + value);
+		dataset.put(alias, prependValue + value);
 		featureState.setDataSet(dataset);
-
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
 	 * Modify an aliased value by appending it with a string.
 	 *
 	 * @param alias The alias to modify
-	 * @param prepend The text to prepend the aliased value with
+	 * @param valueAlias Set this text to get the value to be appended from an existing alias
+	 * @param append The text to append the aliased value with
 	 */
-	@Then("^I modify the alias \"(.*?)\" by appending it with \"(.*?)\"$")
-	public void appendAlias(final String alias, final String append) {
+	@Then("^I modify the alias \"(.*?)\" by appending it with( alias)? \"(.*?)\"$")
+	public void appendAlias(final String alias, final String valueAlias, final String append) {
 		final String value = featureState.getDataSet().get(alias);
+		final String appendValue = StringUtils.isNotBlank(valueAlias)
+			? featureState.getDataSet().get(append)
+			: append;
 
 		final Map<String, String> dataset = featureState.getDataSet();
-		dataset.put(alias, value + append);
+		dataset.put(alias, value + appendValue);
 		featureState.setDataSet(dataset);
-
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
+
+	/**
+	 * Copy an alias
+	 *
+	 * @param source The source alias
+	 * @param destination The destination alias
+	 */
+	@Then("^I copy the alias \"(.*?)\" to the alias \"(.*?)\"$")
+	public void copyAlias(final String source, final String destination) {
+		final String value = featureState.getDataSet().get(source);
+
+		final Map<String, String> dataset = featureState.getDataSet();
+		dataset.put(destination, value);
+		featureState.setDataSet(dataset);
+	}
+
+	/**
+	 * Save the current date and time to an aliased value.
+	 * @param format The format of the date: https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+	 * @param offsetAmount The optional amount to offset todays date by e.g. "1 day" or "2 weeks"
+	 * @param alias The alias to save the date into
+	 */
+	@When("^I save the current date(?: offset by \"([-0-9]+ \\w+)\")? with the format \"(.*?)\" to the alias \"(.*?)\"")
+	public void saveDateToAlias(
+		final String offsetAmount,
+		final String format,
+		final String alias) {
+
+		final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(format);
+		final Map<String, String> dataset = featureState.getDataSet();
+
+		LocalDateTime date = LocalDateTime.now();
+
+		if (StringUtils.isNotBlank(offsetAmount)) {
+			final String[] offsetRaw = offsetAmount.split(" ");
+			final int offset = Integer.parseInt(offsetRaw[0]);
+			final ChronoUnit chronoUnit = CHRONO_CONVERTER_UTILS.fromString(offsetRaw[1]);
+			date = date.plus(offset, chronoUnit);
+		}
+
+		dataset.put(alias, dateFormatter.format(date));
+		featureState.setDataSet(dataset);
+	}
+
 }

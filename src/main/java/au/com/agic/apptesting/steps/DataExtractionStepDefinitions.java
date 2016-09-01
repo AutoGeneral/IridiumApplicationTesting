@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import cucumber.api.java.en.When;
 
@@ -61,7 +60,8 @@ public class DataExtractionStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String destinationAlias,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
+
 		saveSimpleAttributeContent("value", alias, selectorValue, destinationAlias, exists);
 	}
 
@@ -111,7 +111,7 @@ public class DataExtractionStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String destinationAlias,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -192,7 +192,7 @@ public class DataExtractionStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String destinationAlias,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -272,7 +272,7 @@ public class DataExtractionStepDefinitions {
 		final String alias,
 		final String selectorValue,
 		final String destinationAlias,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),

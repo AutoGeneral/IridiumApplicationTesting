@@ -2,7 +2,6 @@ package au.com.agic.apptesting.utils;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 import javax.validation.constraints.NotNull;
@@ -23,7 +22,7 @@ public interface FileSystemUtils {
 	 * @param target The target directory
 	 * @throws IOException exception thrown when the file could not be copied
 	 */
-	void copyFromJar(final String sourcePath, final Path target) throws URISyntaxException, IOException;
+	void copyFromJar(final String sourcePath, final Path target) throws IOException;
 
 	/**
 	 * recursivly copies a directory embedded in the jar file to a location on the disk

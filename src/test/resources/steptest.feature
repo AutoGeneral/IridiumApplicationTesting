@@ -28,6 +28,8 @@ Feature: Test of the steps provided by Iridium
             | Test Value 2        | 200.15                  |
             | Test Value 3        | 100                     |
             | Test Value 4        | $1,234.50               |
+            | Test Value 6        | Test Value              |
+            | Test Value 7        | Another Value           |
             | Event Button        | eventButton             |
             | MouseDown Text      | Button mousedown        |
 
@@ -57,8 +59,27 @@ Feature: Test of the steps provided by Iridium
       And I verify that the alias "Test Value 4" is equal to "91234.50"
       And I modify the alias "Test Value 4" by appending it with "0"
       And I verify that the alias "Test Value 4" is equal to "91234.500"
+      And I modify the alias "Test Value 4" by replacing all characters that match the regex "(\d+)\.(\d+)" with "$2.$1"
+      And I verify that the alias "Test Value 4" is equal to "500.91234"
+      And I copy the alias "Test Value 4" to the alias "Test Value 5"
+      And I verify that the alias "Test Value 5" is equal to "500.91234"
+      And I modify the alias "Test Value 4" by appending it with " "
+      And I modify the alias "Test Value 4" by appending it with alias "Test Value 7"
+      And I verify that the alias "Test Value 4" is equal to "500.91234 Another Value"
+      And I modify the alias "Test Value 4" by prepending it with " "
+      And I modify the alias "Test Value 4" by prepending it with alias "Test Value 6"
+      And I verify that the alias "Test Value 4" is equal to "Test Value 500.91234 Another Value"
+      And I save the current date with the format "dd MMM yyyy" to the alias "Todays Date"
+      And I verify that the alias "Todays Date" matches the regex "\d{2} \w{3} \d{4}"
+      And I save the current date offset by "1 day" with the format "dd MMM yyyy" to the alias "Tomorrows Date"
+      And I verify that the alias "Todays Date" matches the regex "\d{2} \w{3} \d{4}"
+      And I save the current date offset by "-1 day" with the format "dd MMM yyyy" to the alias "Yesterdays Date"
+      And I verify that the alias "Yesterdays Date" matches the regex "\d{2} \w{3} \d{4}"
+      And I save the current date offset by "2 years" with the format "dd MMM yyyy" to the alias "Two Years From Now"
+      And I verify that the alias "Two Years From Now" matches the regex "\d{2} \w{3} \d{4}"
 
-	Scenario: Manual Mouse Events
+
+  Scenario: Manual Mouse Events
 		And I "mousedown" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mousedown"
 		And I "mouseup" on the hidden element found by "eventButton"

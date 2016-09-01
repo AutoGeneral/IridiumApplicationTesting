@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 import cucumber.api.java.en.Then;
@@ -92,7 +91,7 @@ public class ValidationStepDefinitions {
 		final String selectorValue,
 		final String classAlias,
 		final String classValue,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(selectorAlias),
@@ -354,7 +353,7 @@ public class ValidationStepDefinitions {
 	/**
 	 * Verify that an aliased value is bigger than or equal to another alias value
 	 * @param alias1 The aliased value to check
-	 * @param alias2 The second aliased value to compare the first too
+	 * @param alias2 The second aliased value to compare the first to
 	 */
 	@Then("I verify that the alias \"([^\"]*)\" is larger than or equal to the alias \"([^\"]*)\"")
 	public void verifyAliasBiggerOrEqual(final String alias1, final String alias2) {
@@ -370,7 +369,7 @@ public class ValidationStepDefinitions {
 	/**
 	 * Verify that an aliased value is smaller than another alias value
 	 * @param alias1 The aliased value to check
-	 * @param alias2 The second aliased value to compare the first too
+	 * @param alias2 The second aliased value to compare the first to
 	 */
 	@Then("I verify that the alias \"([^\"]*)\" is smaller than the alias \"([^\"]*)\"")
 	public void verifyAliasSmaller(final String alias1, final String alias2) {
@@ -385,7 +384,7 @@ public class ValidationStepDefinitions {
 	/**
 	 * Verify that an aliased value is smaller than or equal to another alias value
 	 * @param alias1 The aliased value to check
-	 * @param alias2 The second aliased value to compare the first too
+	 * @param alias2 The second aliased value to compare the first to
 	 */
 	@Then("I verify that the alias \"([^\"]*)\" is smaller than or equal to the alias \"([^\"]*)\"")
 	public void verifyAliasSmallerOrEqual(final String alias1, final String alias2) {

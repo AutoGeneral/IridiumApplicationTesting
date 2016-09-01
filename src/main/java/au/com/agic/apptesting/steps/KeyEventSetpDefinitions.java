@@ -26,8 +26,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.ExecutionException;
-
 import cucumber.api.java.en.When;
 
 /**
@@ -178,6 +176,7 @@ public class KeyEventSetpDefinitions {
 	/**
 	 * Presses the backspace key on the active element. This step is known to have issues with
 	 * the Firefox Marionette driver.
+	 * @param times The number of times to press the key
 	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
 	 */
 	@When("^I press(?: the)? backspace(?: key)? on the active element(?: \"(\\d+)\" times)?( ignoring errors)?$")
@@ -232,7 +231,7 @@ public class KeyEventSetpDefinitions {
 	public void triggetKeyUp(
 		final String event,
 		final String alias,
-		final String selectorValue) throws ExecutionException, InterruptedException {
+		final String selectorValue) {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,

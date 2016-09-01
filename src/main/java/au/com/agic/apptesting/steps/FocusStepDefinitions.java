@@ -17,8 +17,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.concurrent.ExecutionException;
-
 import cucumber.api.java.en.When;
 
 /**
@@ -56,7 +54,7 @@ public class FocusStepDefinitions {
 	public void focusElementStep(
 		final String alias,
 		final String selectorValue,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 		try {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),

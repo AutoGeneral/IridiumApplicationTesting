@@ -23,8 +23,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.ExecutionException;
-
 import cucumber.api.java.en.When;
 
 /**
@@ -65,7 +63,7 @@ public class MouseEventStepDefinitions {
 		final String event,
 		final String alias,
 		final String selectorValue,
-		final String exists) throws ExecutionException, InterruptedException {
+		final String exists) {
 
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
