@@ -72,11 +72,12 @@ Feature: Test of the steps provided by Iridium
       And I save the current date with the format "dd MMM yyyy" to the alias "Todays Date"
       And I verify that the alias "Todays Date" matches the regex "\d{2} \w{3} \d{4}"
       And I save the current date offset by "1 day" with the format "dd MMM yyyy" to the alias "Tomorrows Date"
-      And I verify that the alias "Todays Date" matches the regex "\d{2} \w{3} \d{4}"
+      And I verify that the alias "Tomorrows Date" matches the regex "\d{2} \w{3} \d{4}"
       And I save the current date offset by "-1 day" with the format "dd MMM yyyy" to the alias "Yesterdays Date"
       And I verify that the alias "Yesterdays Date" matches the regex "\d{2} \w{3} \d{4}"
       And I save the current date offset by "2 years" with the format "dd MMM yyyy" to the alias "Two Years From Now"
       And I verify that the alias "Two Years From Now" matches the regex "\d{2} \w{3} \d{4}"
+      And I verify that the alias "Tomorrows Date" is not equal to "Yesterdays Date"
 
 
   Scenario: Manual Mouse Events
