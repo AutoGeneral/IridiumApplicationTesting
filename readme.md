@@ -1,13 +1,20 @@
 # A&G Iridium Application Testing Suite
 
+## Build Status
 [![Build Status](https://travis-ci.org/mcasperson/IridiumApplicationTesting.svg?branch=master)](https://travis-ci.org/mcasperson/IridiumApplicationTesting)
 
 [![Dependency Status](https://www.versioneye.com/user/projects/57c4c52f69d94900403f6466/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57c4c52f69d94900403f6466)
 
+## Documentation
 See the [documentation](https://autogeneral.gitbooks.io/iridiumapplicationtesting-gettingstartedguide/content/)
 for more details.
 
-Some articles on Iridium:
+## Downloads
+Download the latest version from [here](https://s3-ap-southeast-2.amazonaws.com/ag-iridium/IridiumApplicationTesting.jar)
+
+Find past releases [here](https://github.com/mcasperson/IridiumApplicationTesting/releases)
+
+## Articles
 
 * [An Introduction to Iridium, an Open Source Selenium and Cucumber Testing Tool](https://dzone.com/articles/an-introduction-to-iridium-an-open-source-selenium)
 

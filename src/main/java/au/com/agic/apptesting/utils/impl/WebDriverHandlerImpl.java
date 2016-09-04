@@ -58,7 +58,6 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 			Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
 			GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY,
-			Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 			Constants.EDGE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY)
 			.forEach(x -> LOGGER.info(
 				"WEBAPPTESTER-INFO-0004: System property {}: {}",
