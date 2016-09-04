@@ -132,7 +132,7 @@ public class ModifyStepDefinitions {
 	 * @param alias The text to append the aliased value with
 	 */
 	@Then("^I modify the alias \"(.*?)\" by trimming it$")
-	public void appendAlias(final String alias) {
+	public void trimAlias(final String alias) {
 		final String value = featureState.getDataSet().get(alias);
 		final String trimmedValue = value.trim();
 
