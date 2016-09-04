@@ -10,7 +10,7 @@ See the [documentation](https://autogeneral.gitbooks.io/iridiumapplicationtestin
 for more details.
 
 ## Downloads
-Download the latest version from [https://s3-ap-southeast-2.amazonaws.com/ag-iridium/IridiumApplicationTesting.jar](here)
+Download the latest version from [here](https://s3-ap-southeast-2.amazonaws.com/ag-iridium/IridiumApplicationTesting.jar)
 
 Find past releases [here](https://github.com/mcasperson/IridiumApplicationTesting/releases)
 
