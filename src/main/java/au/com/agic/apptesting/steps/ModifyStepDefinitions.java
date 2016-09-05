@@ -128,6 +128,20 @@ public class ModifyStepDefinitions {
 	}
 
 	/**
+	 * Trims the string referenced by the alias
+	 * @param alias The text to append the aliased value with
+	 */
+	@Then("^I modify the alias \"(.*?)\" by trimming it$")
+	public void trimAlias(final String alias) {
+		final String value = featureState.getDataSet().get(alias);
+		final String trimmedValue = value.trim();
+
+		final Map<String, String> dataset = featureState.getDataSet();
+		dataset.put(alias, trimmedValue);
+		featureState.setDataSet(dataset);
+	}
+
+	/**
 	 * Copy an alias
 	 *
 	 * @param source The source alias

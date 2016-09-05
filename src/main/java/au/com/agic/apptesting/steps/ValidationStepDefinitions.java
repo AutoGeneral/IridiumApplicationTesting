@@ -396,4 +396,16 @@ public class ValidationStepDefinitions {
 				+ " with value " + Double.parseDouble(value2),
 			Double.parseDouble(value1) <= Double.parseDouble(value2));
 	}
+
+	/**
+	 * Validates that an aliased value has the expected length
+	 * @param alias The aliased value to check
+	 * @param length The expected length of the aliased value
+	 */
+	@Then("I verify that the alias \"([^\"]*)\" is \"(\\d+)\" characters long")
+	public void verifyLength(final String alias, final String length) {
+		final String value = featureState.getDataSet().get(alias);
+		final Integer lengthInt = Integer.parseInt(length);
+		Assert.assertEquals(lengthInt.intValue(), value.length());
+	}
 }

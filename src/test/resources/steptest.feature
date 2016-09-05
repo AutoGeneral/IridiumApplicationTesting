@@ -78,6 +78,10 @@ Feature: Test of the steps provided by Iridium
       And I save the current date offset by "2 years" with the format "dd MMM yyyy" to the alias "Two Years From Now"
       And I verify that the alias "Two Years From Now" matches the regex "\d{2} \w{3} \d{4}"
       And I verify that the alias "Tomorrows Date" is not equal to "Yesterdays Date"
+      And I modify the alias "Tomorrows Date" by prepending it with "     "
+      And I modify the alias "Tomorrows Date" by trimming it
+      And I verify that the alias "Tomorrows Date" matches the regex "^\d{2} \w{3} \d{4}$"
+			And I verify that the alias "Tomorrows Date" is "11" characters long
 
 
   Scenario: Manual Mouse Events
