@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
  */
 public class ProxyDetailsImpl<T> implements ProxyDetails<T> {
 
-	private final boolean mainProxy;
+	private boolean mainProxy;
 	private final int port;
 	private final Optional<T> interfaceObject;
 	private final String name;
@@ -94,5 +94,10 @@ public class ProxyDetailsImpl<T> implements ProxyDetails<T> {
 	@Override
 	public boolean isMainProxy() {
 		return mainProxy;
+	}
+
+	@Override
+	public void setMainProxy(boolean mainProxy) {
+		this.mainProxy = mainProxy;
 	}
 }

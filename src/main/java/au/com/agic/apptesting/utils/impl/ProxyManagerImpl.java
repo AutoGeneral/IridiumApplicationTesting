@@ -69,6 +69,11 @@ public class ProxyManagerImpl implements ProxyManager {
 				if (zapProxy.isPresent()) {
 					proxies.add(zapProxy.get());
 				}
+			} else if (zapProxy.isPresent()) {
+				/*
+					In the event that zap is enabled and browsermob isn't, ZAP is the main proxy
+				 */
+				zapProxy.get().setMainProxy(true);
 			}
 
 			return proxies;
