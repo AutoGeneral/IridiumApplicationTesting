@@ -31,5 +31,9 @@ public class EnableDisableListUtilsTest {
 		Assert.assertFalse(ENABLE_DISABLE_LIST_UTILS.enabled("-option1", "option1"));
 		Assert.assertFalse(ENABLE_DISABLE_LIST_UTILS.enabled("-option1,-option2", "option1"));
 		Assert.assertFalse(ENABLE_DISABLE_LIST_UTILS.enabled("-option1, -option2, , , ", "option1"));
+
+		Assert.assertFalse(ENABLE_DISABLE_LIST_UTILS.enabled("-option1", "option1", true));
+		Assert.assertFalse(ENABLE_DISABLE_LIST_UTILS.enabled("-option1,-option2", "option1", true));
+		Assert.assertFalse(ENABLE_DISABLE_LIST_UTILS.enabled("-option1, -option2, , , ", "option1", true));
 	}
 }

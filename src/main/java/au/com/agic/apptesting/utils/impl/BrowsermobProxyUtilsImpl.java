@@ -79,7 +79,7 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 			final boolean enabled = StringUtils.isBlank(proxyName)
 				|| ENABLE_DISABLE_LIST_UTILS.enabled(
 					proxyName,
-					Constants.ZED_ATTACK_PROXY,
+					Constants.BROWSERMOB_PROXY,
 					true);
 
 			if (enabled) {
