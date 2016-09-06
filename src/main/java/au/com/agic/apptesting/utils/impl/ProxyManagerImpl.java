@@ -56,16 +56,19 @@ public class ProxyManagerImpl implements ProxyManager {
 				BROWSERMOB_PROXY.initProxy(globalTempFiles, tempFiles, browserMobUpstream);
 
 			/*
-				We always enable the BrowserMob proxy
+				Create the collection of proxies
 			 */
 			final List<ProxyDetails<?>> proxies = new ArrayList<>();
-			proxies.add(browermobProxy.get());
 
-			/*
-				Forward browsermob to ZAP
-			 */
-			if (zapProxy.isPresent()) {
-				proxies.add(zapProxy.get());
+			if (browermobProxy.isPresent()) {
+				proxies.add(browermobProxy.get());
+
+				/*
+					Forward browsermob to ZAP
+				 */
+				if (zapProxy.isPresent()) {
+					proxies.add(zapProxy.get());
+				}
 			}
 
 			return proxies;

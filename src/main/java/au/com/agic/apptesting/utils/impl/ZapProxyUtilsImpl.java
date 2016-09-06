@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ProxyException;
+import au.com.agic.apptesting.utils.EnableDisableListUtils;
 import au.com.agic.apptesting.utils.FileSystemUtils;
 import au.com.agic.apptesting.utils.LocalProxyUtils;
 import au.com.agic.apptesting.utils.ProxyDetails;
@@ -37,6 +38,7 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final ServerPortUtils SERVER_PORT_UTILS = new ServerPortUtilsImpl();
 	private static final FileSystemUtils FILE_SYSTEM_UTILS = new FileSystemUtilsImpl();
+	private static final EnableDisableListUtils ENABLE_DISABLE_LIST_UTILS = new EnableDisableListUtilsImpl();
 
 	private static final int WAIT_FOR_START = 30000;
 
@@ -60,8 +62,14 @@ public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 			final String proxyName =
 				SYSTEM_PROPERTY_UTILS.getProperty(Constants.START_INTERNAL_PROXY);
 
-			if (StringUtils.equalsIgnoreCase(Constants.ZED_ATTACK_PROXY, proxyName)) {
-				return Optional.of(startZAPProxy(globalTempFiles, upstreamProxy));
+			if (StringUtils.isNotBlank(proxyName)) {
+				final boolean enabled = ENABLE_DISABLE_LIST_UTILS.enabled(
+					proxyName,
+					Constants.ZED_ATTACK_PROXY);
+
+				if (enabled) {
+					return Optional.of(startZAPProxy(globalTempFiles, upstreamProxy));
+				}
 			}
 
 			return Optional.empty();

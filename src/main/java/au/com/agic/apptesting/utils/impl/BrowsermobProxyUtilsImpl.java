@@ -2,7 +2,9 @@ package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ProxyException;
+import au.com.agic.apptesting.utils.EnableDisableListUtils;
 import au.com.agic.apptesting.utils.FileSystemUtils;
 import au.com.agic.apptesting.utils.LocalProxyUtils;
 import au.com.agic.apptesting.utils.ProxyDetails;
@@ -50,6 +52,7 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final ServerPortUtils SERVER_PORT_UTILS = new ServerPortUtilsImpl();
 	private static final FileSystemUtils FILE_SYSTEM_UTILS = new FileSystemUtilsImpl();
+	private static final EnableDisableListUtils ENABLE_DISABLE_LIST_UTILS = new EnableDisableListUtilsImpl();
 
 	private static final int WAIT_FOR_START = 30000;
 	private static final int START_HTTP_ERROR = 400;
@@ -66,7 +69,24 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 		checkNotNull(upstreamProxy);
 
 		try {
-			return Optional.of(startBrowsermobProxy(upstreamProxy));
+			final String proxyName =
+				SYSTEM_PROPERTY_UTILS.getProperty(Constants.START_INTERNAL_PROXY);
+
+			/*
+				BrowserMod is enabled by default unless it is specifically
+				disabled
+			 */
+			final boolean enabled = StringUtils.isBlank(proxyName)
+				|| ENABLE_DISABLE_LIST_UTILS.enabled(
+					proxyName,
+					Constants.ZED_ATTACK_PROXY,
+					true);
+
+			if (enabled) {
+				return Optional.of(startBrowsermobProxy(upstreamProxy));
+			}
+
+			return Optional.empty();
 		} catch (final Exception ex) {
 			throw new ProxyException(ex);
 		}
