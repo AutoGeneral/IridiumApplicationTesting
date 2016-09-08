@@ -1,9 +1,12 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.exception.InvalidInputException;
+import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.ChronoConverterUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
 import au.com.agic.apptesting.utils.impl.ChronoConverterUtilsImpl;
 import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
@@ -32,6 +35,7 @@ public class ModifyStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ModifyStepDefinitions.class);
 	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
 	private static final ChronoConverterUtils CHRONO_CONVERTER_UTILS = new ChronoConverterUtilsImpl();
+	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
 
 	/**
 	 * Get the web driver for this thread
@@ -159,11 +163,13 @@ public class ModifyStepDefinitions {
 	/**
 	 * Save the current date and time to an aliased value.
 	 * @param format The format of the date: https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html
+	 * @param offsetAlias include the word alias to get the value of the offset from an aliased value
 	 * @param offsetAmount The optional amount to offset todays date by e.g. "1 day" or "2 weeks"
 	 * @param alias The alias to save the date into
 	 */
-	@When("^I save the current date(?: offset by \"([-0-9]+ \\w+)\")? with the format \"(.*?)\" to the alias \"(.*?)\"")
+	@When("^I save the current date(?: offset by( alias)? \"(.*?)\")? with the format \"(.*?)\" to the alias \"(.*?)\"")
 	public void saveDateToAlias(
+		final String offsetAlias,
 		final String offsetAmount,
 		final String format,
 		final String alias) {
@@ -174,7 +180,17 @@ public class ModifyStepDefinitions {
 		LocalDateTime date = LocalDateTime.now();
 
 		if (StringUtils.isNotBlank(offsetAmount)) {
-			final String[] offsetRaw = offsetAmount.split(" ");
+			final String fixedOffsetAmount = AUTO_ALIAS_UTILS.getValue(
+				offsetAmount,
+				StringUtils.isNotBlank(offsetAlias),
+				featureState);
+
+			if (!fixedOffsetAmount.matches("^\\d+ \\w+$")) {
+				throw new InvalidInputException(
+					fixedOffsetAmount + " needs to match the format \"^\\d+ \\w+$\"");
+			}
+
+			final String[] offsetRaw = fixedOffsetAmount.split(" ");
 			final int offset = Integer.parseInt(offsetRaw[0]);
 			final ChronoUnit chronoUnit = CHRONO_CONVERTER_UTILS.fromString(offsetRaw[1]);
 			date = date.plus(offset, chronoUnit);
