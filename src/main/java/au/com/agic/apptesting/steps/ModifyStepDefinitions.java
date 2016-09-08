@@ -185,9 +185,9 @@ public class ModifyStepDefinitions {
 				StringUtils.isNotBlank(offsetAlias),
 				featureState);
 
-			if (!fixedOffsetAmount.matches("^\\d+ \\w+$")) {
+			if (!fixedOffsetAmount.matches("^-?\\d+ \\w+$")) {
 				throw new InvalidInputException(
-					fixedOffsetAmount + " needs to match the format \"^\\d+ \\w+$\"");
+					fixedOffsetAmount + " needs to match the format \"^-?\\d+ \\w+$\"");
 			}
 
 			final String[] offsetRaw = fixedOffsetAmount.split(" ");
