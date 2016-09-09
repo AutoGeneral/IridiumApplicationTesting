@@ -119,11 +119,12 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 
 		checkArgument(StringUtils.isNotBlank(value));
 		checkNotNull(featureState);
+		checkArgument(waitTime >= 0);
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
-		while (time < waitTime * MILLISECONDS_PER_SECOND) {
+		do {
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
@@ -144,7 +145,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 
 				time += TIME_SLICE;
 			}
-		}
+		} while (time < waitTime * MILLISECONDS_PER_SECOND);
 
 		throw new WebElementException("All attempts to find element failed");
 	}
