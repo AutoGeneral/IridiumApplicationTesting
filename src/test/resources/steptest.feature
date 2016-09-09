@@ -41,6 +41,10 @@ Feature: Test of the steps provided by Iridium
       And I "mousedown" on the hidden element found by "Event Button"
       Then I verify that the page contains the text "MouseDown Text"
 
+    # https://github.com/AutoGeneral/IridiumApplicationTesting/issues/32
+    Scenario: Imediate wait
+      And I wait "0" seconds for the element found by "eventButton" to be displayed
+
     Scenario: Test missing elements
       And I wait "2" seconds for the element with the ID of "thisdoesntexist" to not be present
       And I wait "2" seconds for the element with the xpath of "/html/body/div[100]/input[1000000]" to not be displayed
