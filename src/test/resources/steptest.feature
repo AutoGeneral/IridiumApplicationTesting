@@ -32,6 +32,7 @@ Feature: Test of the steps provided by Iridium
             | Test Value 7        | Another Value           |
             | Event Button        | eventButton             |
             | MouseDown Text      | Button mousedown        |
+            | Date Offset         | 2 weeks                 |
 
     Scenario: Test Autoaliasing
       # This is actually the default, but test the step anyway
@@ -39,6 +40,10 @@ Feature: Test of the steps provided by Iridium
       And I enable HAR logging
       And I "mousedown" on the hidden element found by "Event Button"
       Then I verify that the page contains the text "MouseDown Text"
+
+    # https://github.com/AutoGeneral/IridiumApplicationTesting/issues/32
+    Scenario: Imediate wait
+      And I wait "0" seconds for the element found by "eventButton" to be displayed
 
     Scenario: Test missing elements
       And I wait "2" seconds for the element with the ID of "thisdoesntexist" to not be present
@@ -81,7 +86,9 @@ Feature: Test of the steps provided by Iridium
       And I modify the alias "Tomorrows Date" by prepending it with "     "
       And I modify the alias "Tomorrows Date" by trimming it
       And I verify that the alias "Tomorrows Date" matches the regex "^\d{2} \w{3} \d{4}$"
-			And I verify that the alias "Tomorrows Date" is "11" characters long
+      And I verify that the alias "Tomorrows Date" is "11" characters long
+      And I save the current date offset by "Date Offset" with the format "dd MMM yyyy" to the alias "Two Weeks From Now"
+      And I verify that the alias "Two Weeks From Now" matches the regex "^\d{2} \w{3} \d{4}$"
 
 
   Scenario: Manual Mouse Events

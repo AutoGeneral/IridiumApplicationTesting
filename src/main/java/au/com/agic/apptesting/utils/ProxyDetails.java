@@ -44,6 +44,12 @@ public interface ProxyDetails<T> {
 
 	/**
 	 *
+	 * @param mainProxy true if this is the main proxy i.e. the one that the browser should use
+	 */
+	void setMainProxy(boolean mainProxy);
+
+	/**
+	 *
 	 * @return The name of the proxy
 	 */
 	String getProxyName();
