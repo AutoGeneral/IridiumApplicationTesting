@@ -19,6 +19,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.openqa.selenium.firefox.GeckoDriverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +34,7 @@ import javax.validation.constraints.NotNull;
 /**
  * A servoce that detects the OS, extracts the drivers and configures then as system properies
  */
+@Component
 public class WebDriverHandlerImpl implements WebDriverHandler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverHandlerImpl.class);

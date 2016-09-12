@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import au.com.agic.apptesting.utils.EnableDisableListUtils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
 /**
  * An implementation of the EnableDisableListUtils service
  */
+@Component
 public class EnableDisableListUtilsImpl implements EnableDisableListUtils {
 
 	@Override

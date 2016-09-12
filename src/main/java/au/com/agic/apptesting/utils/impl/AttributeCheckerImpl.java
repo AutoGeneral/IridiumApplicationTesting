@@ -9,12 +9,14 @@ import au.com.agic.apptesting.profiles.configuration.FeatureGroup;
 import au.com.agic.apptesting.utils.AttributeChecker;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
 
 /**
  * implementation of the attribute checker interface
  */
+@Component
 public class AttributeCheckerImpl implements AttributeChecker {
 
 	@Override

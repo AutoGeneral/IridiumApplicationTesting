@@ -11,6 +11,7 @@ import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import net.lightbody.bmp.BrowserMobProxy;
 
+import org.springframework.stereotype.Component;
 import org.zaproxy.clientapi.core.ClientApi;
 
 import java.io.File;
@@ -23,6 +24,7 @@ import javax.validation.constraints.NotNull;
 /**
  * An implementation of the proxy manager service
  */
+@Component
 public class ProxyManagerImpl implements ProxyManager {
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final LocalProxyUtils<ClientApi> ZAP_PROXY = new ZapProxyUtilsImpl();

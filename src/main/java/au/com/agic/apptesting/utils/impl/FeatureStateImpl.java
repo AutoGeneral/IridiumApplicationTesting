@@ -9,6 +9,7 @@ import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Represents the details required by a feature to run
  */
+@Component
 public class FeatureStateImpl implements FeatureState {
 
 

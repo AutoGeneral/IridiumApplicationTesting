@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import au.com.agic.apptesting.utils.TagAnalyser;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 /**
  * An implementation of the tag analyser
  */
+@Component
 public class TagAnalyserImpl implements TagAnalyser {
 
 	@Override

@@ -6,6 +6,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import au.com.agic.apptesting.utils.ProxyDetails;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,7 @@ import javax.validation.constraints.NotNull;
 /**
  * An data object that holds proxy details
  */
+@Component
 public class ProxyDetailsImpl<T> implements ProxyDetails<T> {
 
 	private boolean mainProxy;

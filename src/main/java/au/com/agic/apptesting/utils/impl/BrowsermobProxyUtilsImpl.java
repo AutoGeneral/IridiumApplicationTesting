@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.littleshoot.proxy.HttpFiltersSourceAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.net.InetSocketAddress;
@@ -39,6 +40,7 @@ import io.netty.handler.codec.http.HttpResponse;
  * An implementation of the browsermob proxy. This proxy allows us to block access to urls
  * and can work with an upstream proxy like ZAP.
  */
+@Component
 public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy> {
 
 	public static final String PROXY_NAME = "BROWSERMOB";

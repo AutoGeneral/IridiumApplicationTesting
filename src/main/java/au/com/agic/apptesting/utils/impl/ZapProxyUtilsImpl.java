@@ -15,6 +15,7 @@ import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.zaproxy.clientapi.core.ClientApi;
 import org.zaproxy.zap.ZAP;
 
@@ -31,6 +32,7 @@ import javax.validation.constraints.NotNull;
 /**
  * An implementation of the local proxy service
  */
+@Component
 public class ZapProxyUtilsImpl implements LocalProxyUtils<ClientApi> {
 
 	public static final String PROXY_NAME = "ZAP";

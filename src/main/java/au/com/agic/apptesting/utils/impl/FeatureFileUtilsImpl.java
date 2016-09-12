@@ -10,6 +10,7 @@ import au.com.agic.apptesting.utils.FeatureReader;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,6 +30,7 @@ import javaslang.control.Try;
 /**
  * An implementation of the feature files utils service
  */
+@Component
 public class FeatureFileUtilsImpl implements FeatureFileUtils {
 
 	private static final String FEATURE_EXT = ".feature";

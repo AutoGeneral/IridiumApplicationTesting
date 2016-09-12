@@ -4,9 +4,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import au.com.agic.apptesting.utils.StringBuilderUtils;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Implementation of StringBuilderUtils
  */
+@Component
 public class StringBuilderUtilsImpl implements StringBuilderUtils {
 
 	/**

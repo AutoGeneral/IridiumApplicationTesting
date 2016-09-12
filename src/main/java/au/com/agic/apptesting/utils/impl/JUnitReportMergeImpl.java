@@ -5,6 +5,7 @@ import au.com.agic.apptesting.utils.JUnitReportMerge;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -20,6 +21,7 @@ import javax.xml.bind.Unmarshaller;
 /**
  * An implementation of JUnitReportMerge that uses JAXB to merge reports
  */
+@Component
 public class JUnitReportMergeImpl implements JUnitReportMerge {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JUnitReportMergeImpl.class);
