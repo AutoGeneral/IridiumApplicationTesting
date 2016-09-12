@@ -1,4 +1,5 @@
 import org.apache.tools.ant.filters.ReplaceTokens;
+import com.github.jengelman.gradle.plugins.shadow.transformers.ServiceFileTransformer;
 
 buildscript {
     repositories {
@@ -72,6 +73,10 @@ jar {
 
 shadowJar {
     classifier = ''
+    transform(ServiceFileTransformer) {
+        path = 'META-INF'
+        include 'spring.*'
+    }
 }
 
 /*
