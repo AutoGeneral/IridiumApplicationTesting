@@ -15,6 +15,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +27,7 @@ import javax.validation.constraints.NotNull;
 /**
  * And implementation of the screenshot service
  */
+@Component
 public class ScreenshotUtilsImpl implements ScreenshotUtils {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScreenshotUtilsImpl.class);

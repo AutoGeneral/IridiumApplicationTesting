@@ -32,6 +32,7 @@ public class FeatureStateImpl implements FeatureState {
 	private List<ProxyDetails<?>> proxies;
 	private long sleep = Constants.DEFAULT_WAIT_TIME;
 	private long wait = Constants.WAIT;
+	private boolean skip = false;
 
 	public FeatureStateImpl(
 		@NotNull final UrlMapping url,
@@ -117,6 +118,16 @@ public class FeatureStateImpl implements FeatureState {
 	@Override
 	public void setAutoAlias(final boolean autoAlias) {
 		this.autoAlias = autoAlias;
+	}
+
+	@Override
+	public boolean getSkipSteps() {
+		return skip;
+	}
+
+	@Override
+	public void setSkipSteps(final boolean skip) {
+		this.skip = skip;
 	}
 
 	@Override

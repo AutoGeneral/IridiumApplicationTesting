@@ -4,8 +4,6 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.impl.GetByImpl;
-import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
@@ -17,6 +15,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -28,11 +28,13 @@ import cucumber.api.java.en.When;
  * These steps have Atom snipptets that start with the prefix "save".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
+@Component
 public class DataExtractionStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataExtractionStepDefinitions.class);
-	private static final GetBy GET_BY = new GetByImpl();
-	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
-		new SimpleWebElementInteractionImpl();
+	@Autowired
+	private GetBy GET_BY;
+	@Autowired
+	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
 
 	/**
 	 * Get the web driver for this thread

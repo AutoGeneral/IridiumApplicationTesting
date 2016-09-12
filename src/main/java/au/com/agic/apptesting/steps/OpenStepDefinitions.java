@@ -6,8 +6,6 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
-import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
@@ -16,6 +14,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.List;
@@ -32,10 +32,13 @@ import cucumber.api.java.en.When;
  * These steps have Atom snipptets that start with the prefix "open".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
+@Component
 public class OpenStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OpenStepDefinitions.class);
-	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
-	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
+	@Autowired
+	private SleepUtils SLEEP_UTILS;
+	@Autowired
+	private AutoAliasUtils AUTO_ALIAS_UTILS;
 	private static final int LINK_OPEN_POOL_COUNT = 5;
 	/**
 	 * This has to be long enough to allow a request to be made, but too long

@@ -25,6 +25,7 @@ import javaslang.control.Try;
 /**
  * A feature loaded that just returns a local path name that contains existing feature files
  */
+
 public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 
 	private static final FeatureFileUtils FEATURE_FILE_UTILS = new FeatureFileUtilsImpl();

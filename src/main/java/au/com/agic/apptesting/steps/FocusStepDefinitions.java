@@ -5,9 +5,6 @@ import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.impl.GetByImpl;
-import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
-import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
@@ -16,6 +13,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import cucumber.api.java.en.When;
 
@@ -25,12 +24,15 @@ import cucumber.api.java.en.When;
  * These steps have Atom snipptets that start with the prefix "focus".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
+@Component
 public class FocusStepDefinitions {
 
-	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
-	private static final GetBy GET_BY = new GetByImpl();
-	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
-		new SimpleWebElementInteractionImpl();
+	@Autowired
+	private SleepUtils SLEEP_UTILS;
+	@Autowired
+	private GetBy GET_BY;
+	@Autowired
+	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
 
 	/**
 	 * Get the web driver for this thread

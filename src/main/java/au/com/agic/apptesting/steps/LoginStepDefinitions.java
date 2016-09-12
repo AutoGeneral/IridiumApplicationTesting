@@ -11,12 +11,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.security.UserAndPassword;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.stereotype.Component;
 
 import cucumber.api.java.en.When;
 
 /**
  * Step defininitions for logging into a web page
  */
+@Component
 public class LoginStepDefinitions {
 
 	/**

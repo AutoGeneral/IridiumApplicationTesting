@@ -3,7 +3,6 @@ package au.com.agic.apptesting.steps;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
-import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
@@ -11,6 +10,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,9 +24,11 @@ import cucumber.api.java.en.When;
  * These steps have Atom snipptets that start with the prefix "dump" and "delete".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
+@Component
 public class DebuggingStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DebuggingStepDefinitions.class);
-	private static final ScreenshotUtils SCREENSHOT_UTILS = new ScreenshotUtilsImpl();
+	@Autowired
+	private ScreenshotUtils SCREENSHOT_UTILS;
 
 	/**
 	 * Get the web driver for this thread

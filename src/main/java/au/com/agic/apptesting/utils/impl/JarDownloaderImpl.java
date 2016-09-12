@@ -8,6 +8,7 @@ import au.com.agic.apptesting.utils.JarDownloader;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.net.URI;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Downloads the JAR file and saves it locally
  */
+@Component
 public class JarDownloaderImpl implements JarDownloader {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JarDownloaderImpl.class);
 	private static final String HTTP_SCHEME = "http";

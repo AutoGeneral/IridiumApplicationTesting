@@ -1,4 +1,5 @@
-import org.apache.tools.ant.filters.ReplaceTokens;
+import com.github.jengelman.gradle.plugins.shadow.transformers.ServiceFileTransformer
+import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
     repositories {
@@ -72,6 +73,10 @@ jar {
 
 shadowJar {
     classifier = ''
+    transform(ServiceFileTransformer) {
+        path = 'META-INF/spring.*'
+        include 'spring.*'
+    }
 }
 
 /*
@@ -136,14 +141,27 @@ def browsermobVersion = '2.1.2'
 def compressCommonsVersion = '1.12'
 def xmlApisVersion =  '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2';
+def cucumberSpringVersion = '1.2.4';
+def springFrameworkVersion = '4.3.2.RELEASE';
+def aspectJVersion='1.8.9'
 
 dependencies {
+    compile 'org.springframework:spring-core:' + springFrameworkVersion
+    compile 'org.springframework:spring-test:' + springFrameworkVersion
+    compile 'org.springframework:spring-beans:' + springFrameworkVersion
+    compile 'org.springframework:spring-context:' + springFrameworkVersion
+    compile 'org.springframework:spring-context-support:' + springFrameworkVersion
+    compile 'org.springframework:spring-tx:' + springFrameworkVersion
+    compile 'org.springframework:spring-aop:' + springFrameworkVersion
+    compile 'org.aspectj:aspectjweaver:' + aspectJVersion
+    compile 'org.aspectj:aspectjrt:' + aspectJVersion
+    compile 'info.cukes:cucumber-spring:' + cucumberSpringVersion
+    compile 'info.cukes:cucumber-java:' + cucumberVersion
+    compile 'info.cukes:cucumber-html:' + cucumberHtmlFormatterVersion
     compile 'mysql:mysql-connector-java:' + mysqlDriverVersion
     compile 'com.google.guava:guava:' + guavaVersion
     compile 'org.seleniumhq.selenium:selenium-java:' + seleniumVersion
     compile 'javax.validation:validation-api:' + validationVersion
-    compile 'info.cukes:cucumber-java:' + cucumberVersion
-    compile 'info.cukes:cucumber-html:' + cucumberHtmlFormatterVersion
     compile 'ch.qos.logback:logback-classic:' + logbackVersion
     compile 'ch.qos.logback:logback-core:' + logbackVersion
     compile 'org.slf4j:jul-to-slf4j:' + slf4jVersion
@@ -247,7 +265,8 @@ def passThroughProperties = [
 		"failAllAfterFirstScenarioError",
 		"phantomJSUserAgent",
 		"testBrowsers",
-        "testRetryCount"
+        "testRetryCount",
+        "dryRun"
 ]
 
 test {

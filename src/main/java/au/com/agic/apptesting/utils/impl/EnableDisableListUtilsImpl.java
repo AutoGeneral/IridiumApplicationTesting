@@ -10,7 +10,6 @@ import au.com.agic.apptesting.utils.EnableDisableListUtils;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;

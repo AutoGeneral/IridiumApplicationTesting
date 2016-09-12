@@ -3,10 +3,11 @@ package au.com.agic.apptesting.steps;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import cucumber.api.java.en.When;
 
@@ -16,9 +17,11 @@ import cucumber.api.java.en.When;
  * These steps have Atom snipptets that start with the prefix "go".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
+@Component
 public class NavigationStepDefinitions {
 
-	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	@Autowired
+	private SleepUtils SLEEP_UTILS;
 
 	/**
 	 * Get the web driver for this thread

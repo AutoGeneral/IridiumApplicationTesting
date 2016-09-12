@@ -26,6 +26,7 @@ import javaslang.control.Try;
 /**
  * An implementation of the FeatureFileImporter interface
  */
+
 public class FeatureFileImporterImpl implements FeatureFileImporter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FeatureFileImporterImpl.class);

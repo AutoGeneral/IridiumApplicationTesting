@@ -6,10 +6,6 @@ import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.JavaScriptRunner;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.impl.GetByImpl;
-import au.com.agic.apptesting.utils.impl.JavaScriptRunnerImpl;
-import au.com.agic.apptesting.utils.impl.SimpleWebElementInteractionImpl;
-import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
@@ -22,6 +18,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import cucumber.api.java.en.When;
 
@@ -31,13 +29,17 @@ import cucumber.api.java.en.When;
  * These steps have Atom snipptets that start with the prefix "mouse".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
+@Component
 public class MouseEventStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MouseEventStepDefinitions.class);
-	private static final GetBy GET_BY = new GetByImpl();
-	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
-		new SimpleWebElementInteractionImpl();
-	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
-	private static final JavaScriptRunner JAVA_SCRIPT_RUNNER = new JavaScriptRunnerImpl();
+	@Autowired
+	private GetBy GET_BY;
+	@Autowired
+	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
+	@Autowired
+	private SleepUtils SLEEP_UTILS;
+	@Autowired
+	private JavaScriptRunner JAVA_SCRIPT_RUNNER;
 
 	/**
 	 * Get the web driver for this thread

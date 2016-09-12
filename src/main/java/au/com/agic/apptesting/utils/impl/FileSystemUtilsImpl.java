@@ -10,6 +10,7 @@ import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +36,7 @@ import javaslang.control.Try;
 /**
  * An implementation of the FileSystemsUtils service
  */
+@Component
 public class FileSystemUtilsImpl implements FileSystemUtils {
 
 	private static final String REPORT_DIR = "WebAppTestingReports";

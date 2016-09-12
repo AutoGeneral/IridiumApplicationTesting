@@ -6,6 +6,7 @@ import au.com.agic.apptesting.exception.InvalidInputException;
 import au.com.agic.apptesting.utils.ChronoConverterUtils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.time.temporal.ChronoUnit;
 
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 /**
  * An implementation of the chrono converter service
  */
+@Component
 public class ChronoConverterUtilsImpl implements ChronoConverterUtils {
 
 	@Override

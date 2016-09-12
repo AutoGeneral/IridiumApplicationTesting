@@ -6,9 +6,6 @@ import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.impl.AutoAliasUtilsImpl;
-import au.com.agic.apptesting.utils.impl.GetByImpl;
-import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
@@ -19,6 +16,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
@@ -27,10 +26,14 @@ import cucumber.api.java.en.When;
 /**
  * Steps that are specific to Auto and General web apps
  */
+@Component
 public class AGStepDefinitions {
-	private static final GetBy GET_BY = new GetByImpl();
-	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
-	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
+	@Autowired
+	private GetBy GET_BY;
+	@Autowired
+	private SleepUtils SLEEP_UTILS;
+	@Autowired
+	private AutoAliasUtils AUTO_ALIAS_UTILS;
 
 	/**
 	 * Get the web driver for this thread

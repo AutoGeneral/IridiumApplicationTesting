@@ -19,6 +19,7 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +36,7 @@ import io.netty.handler.codec.http.HttpResponse;
  * These steps have Atom snipptets that start with the prefix "block" and "delete".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
+@Component
 public class ProxyStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProxyStepDefinitions.class);

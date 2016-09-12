@@ -6,13 +6,14 @@ import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverFactory;
-import au.com.agic.apptesting.utils.impl.ScreenshotUtilsImpl;
-import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-import au.com.agic.apptesting.utils.impl.WebDriverFactoryImpl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -21,12 +22,16 @@ import cucumber.api.java.Before;
 /**
  * Deals with the events that related to step and scenario handing
  */
+@Component
 public class StepEventHandling {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StepEventHandling.class);
-	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
-	private static final ScreenshotUtils SCREENSHOT_UTILS = new ScreenshotUtilsImpl();
-	private static final WebDriverFactory WEB_DRIVER_FACTORY = new WebDriverFactoryImpl();
+	@Autowired
+	private SystemPropertyUtils SYSTEM_PROPERTY_UTILS;
+	@Autowired
+	private ScreenshotUtils SCREENSHOT_UTILS;
+	@Autowired
+	private WebDriverFactory WEB_DRIVER_FACTORY;
 
 	/**
 	 * Get the web driver for this thread
@@ -41,6 +46,7 @@ public class StepEventHandling {
 	 */
 	@Before
 	public void setup() {
+
 		final String endAfterFirstError =
 			SYSTEM_PROPERTY_UTILS.getProperty(Constants.FAIL_ALL_AFTER_FIRST_SCENARIO_ERROR);
 		final boolean endAfterFirstErrorBool = StringUtils.isBlank(endAfterFirstError)

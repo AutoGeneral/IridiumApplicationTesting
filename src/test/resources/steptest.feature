@@ -1,5 +1,6 @@
 Feature: Test of the steps provided by Iridium
 
+    @test
 	Scenario: Open App
 		# Load the page from the appUrlOverride value
 		Given I open the application
@@ -34,6 +35,7 @@ Feature: Test of the steps provided by Iridium
             | MouseDown Text      | Button mousedown        |
             | Date Offset         | 2 weeks                 |
 
+    @test
     Scenario: Test Autoaliasing
       # This is actually the default, but test the step anyway
       Given I enable autoaliasing
@@ -42,9 +44,32 @@ Feature: Test of the steps provided by Iridium
       Then I verify that the page contains the text "MouseDown Text"
 
     # https://github.com/AutoGeneral/IridiumApplicationTesting/issues/32
+    @test
     Scenario: Imediate wait
       And I wait "0" seconds for the element found by "eventButton" to be displayed
 
+    # This scenario is expected to run
+    @tag1 @tag2
+    Scenario: Tag test
+      And I "mouseup" on the hidden element found by "eventButton"
+
+    # This scenario is expected to run
+    @tag3
+    Scenario: Tag Test 2
+      Then I verify that the page contains the text "Button mouseup"
+
+    # This scenario is not expected to run
+    @tag4 @tag5
+    Scenario: Tag Test 3
+      And I "mousedown" on the hidden element found by "eventButton"
+
+    # This scenario is expected to run, and the app should show Button mouseup
+    # from Scenario: Tag Test 2
+    @test @tag4
+    Scenario: tag Test 4
+      Then I verify that the page contains the text "Button mouseup"
+
+    @test
     Scenario: Test missing elements
       And I wait "2" seconds for the element with the ID of "thisdoesntexist" to not be present
       And I wait "2" seconds for the element with the xpath of "/html/body/div[100]/input[1000000]" to not be displayed
@@ -53,6 +78,7 @@ Feature: Test of the steps provided by Iridium
       And I wait "2" seconds for the element found by "thisdoesntexist" to not be present
       And I wait "2" seconds for the element found by "thisdoesntexist" to not be displayed
 
+    @test
     Scenario: Modify aliased values
       And I modify the alias "Test Value 4" by removing all characters that match the regex "[^0-9.]"
       And I verify that the alias "Test Value 4" is equal to "1234.50"
@@ -90,7 +116,7 @@ Feature: Test of the steps provided by Iridium
       And I save the current date offset by "Date Offset" with the format "dd MMM yyyy" to the alias "Two Weeks From Now"
       And I verify that the alias "Two Weeks From Now" matches the regex "^\d{2} \w{3} \d{4}$"
 
-
+  @test
   Scenario: Manual Mouse Events
 		And I "mousedown" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mousedown"
@@ -107,6 +133,7 @@ Feature: Test of the steps provided by Iridium
 		And I "mouseleave" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mouseleave"
 
+    @test
 	Scenario: Manual Key Events
 		And I "keydown" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button keydown"
@@ -115,12 +142,14 @@ Feature: Test of the steps provided by Iridium
 		And I "keypress" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button keypress"
 
+    @test
 	Scenario: Work with DropDown Lists
 		And I select "Option 2" from the drop down list found by "selectList"
 		# This step adds "if it exists" because the Firefox Marionette driver has a bug
 		# that will cause this step to fail.
 		And I select option number "3" from the drop down list found by "selectList" if it exists
 
+    @test
 	Scenario: Focus on Elements
 		# We ignore some errors here because the Firefox Marionette driver has bugs
 		# that prevent us from working with active elements
@@ -139,6 +168,7 @@ Feature: Test of the steps provided by Iridium
 		And I populate the element found by "textArea" with "New Line"
 		And I press the tab key on the active element ignoring errors
 
+    @test
 	Scenario: Test Clicking Elements
 		And I click the element found by "buttonId"
 		Then I verify that the page contains the text "Button By ID Clicked"
@@ -157,6 +187,7 @@ Feature: Test of the steps provided by Iridium
 		And I click the element with the name of "buttonName"
 		Then I verify that the page contains the text "Button By Name Clicked"
 
+    @test
 	Scenario: Test Clicking Elements With Aliases
 		And I click the element found by alias "Button ID"
 		Then I verify that the page contains the text alias "Button ID Output"
@@ -175,6 +206,7 @@ Feature: Test of the steps provided by Iridium
 		And I click the element with the name alias of "Button Name"
 		Then I verify that the page contains the text alias "Button Name Output"
 
+    @test
 	Scenario: Test Clicking Hidden Elements
 		And I click the hidden element found by "buttonId"
 		Then I verify that the page contains the text "Button By ID Clicked"
@@ -193,6 +225,7 @@ Feature: Test of the steps provided by Iridium
 		And I click the hidden element with the name of "buttonName"
 		Then I verify that the page contains the text "Button By Name Clicked"
 
+    @test
 	Scenario: Test Clicking Hidden Elements With Aliases
 		And I click the hidden element found by alias "Button ID"
 		Then I verify that the page contains the text alias "Button ID Output"
@@ -211,6 +244,7 @@ Feature: Test of the steps provided by Iridium
 		And I click the hidden element with the name alias of "Button Name"
 		Then I verify that the page contains the text alias "Button Name Output"
 
+    @test
 	Scenario: Test Populating Inputs
 		And I populate the element found by "textId" with "Text Box Found By ID"
 		And I populate the element found by "textClass" with "Text Box Found By Class" with a keystroke delay of "100" milliseconds
@@ -228,13 +262,14 @@ Feature: Test of the steps provided by Iridium
 		And I clear the element with the ID of "textId"
 		And I clear the element with the class of "textClass"
 		And I clear the element with the name of "textName"
-
+    @test
 	Scenario: Populate Inputs That Are Missing
 		And I populate the element found by "thisDoesntExist" with "Whatever" if it exists
 		And I populate the element found by alias "Non-Existant Field" with "Whatever" if it exists
 		And I populate the element with the ID of "thisDoesntExist" with "Whatver" if it exists
 		And I populate the element with the ID alias of "Non-Existant Field" with "Whatver" if it exists
 
+    @test
 	Scenario: Clicking missing elements
 		And I click the element found by "thisDoesntExist" if it exists
 		And I click the element found by alias "Non-Existant Field" if it exists
@@ -264,9 +299,11 @@ Feature: Test of the steps provided by Iridium
 		And I verify that the element with the xpath of "//*[@id='verifyDivClass']" should have a class of "divClass"
 		And I verify that the element found by "A div with a class" should have a class of "divClass"
 
+    @test
 	Scenario: Verify Page
 		And I verify that the browser title should be "Iridium Test Page"
 
+    @test
 	Scenario: Save Values as Aliases and Verify Them
 		And I save the text content of the element found by "verifyString" to the alias "Example String"
 		And I save the text content of the element found by "verifyNumber" to the alias "Example Number"
@@ -294,20 +331,24 @@ Feature: Test of the steps provided by Iridium
         And I verify that the alias "Test Value 2" is larger than the alias "Test Value 3"
         And I verify that the alias "Test Value 1" is larger than or equal to the alias "Test Value 3"
 
+    @test
 	Scenario: Save Values from Hidden Elements
 		And I save the text content of the hidden element found by "verifyString" to the alias "Example String"
 		And I save the text content of the hidden element with the ID of "verifyString" to the alias "Example String"
 		And I verify that the alias "Example String" matches the regex "[a-zA-Z]+"
 
+    @test
 	Scenario: Click Links
 		And I click the link with the text content of "Test Link"
 		And I click the hidden link with the text content alias of "Link Contents"
 
+    @test
 	Scenario: Navigate
 		# Note that Safari doesn't support this kind of navigation
 		And I go back ignoring errors
 		And I go forward ignoring errors
 
+    @test
 	Scenario: Wait steps
 		And I wait "30" seconds for the element found by "verifyDivClass" to be displayed
 		And I wait "2" seconds for the element found by "thisDoesntExist" to be displayed ignoring timeouts
@@ -319,5 +360,12 @@ Feature: Test of the steps provided by Iridium
 		And I wait "2" seconds for the element found by alias "Non-Existant Field" to be present ignoring timeouts
 		And I wait "2" seconds for the element found by alias "Non-Existant Field" to be clickable ignoring timeouts
 
+    @test
     Scenario: Save HAR file
       And I dump the HAR file to "test.har"
+
+    @test
+    Scenario: Test step skipping
+      And I skip all remaining steps
+      # This is skipped, so there is no failure
+      And I fail the scenario

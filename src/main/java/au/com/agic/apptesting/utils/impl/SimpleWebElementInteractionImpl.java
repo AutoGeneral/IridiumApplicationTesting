@@ -18,6 +18,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,9 +30,11 @@ import javax.validation.constraints.NotNull;
 /**
  * Implementation of the SimpleWebElementInteraction service
  */
+@Component
 public class SimpleWebElementInteractionImpl implements SimpleWebElementInteraction {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SimpleWebElementInteractionImpl.class);
-	private static final GetBy GET_BY = new GetByImpl();
+	@Autowired
+	private GetBy GET_BY;
 	/**
 	 * Because the web driver is not thread safe, we need to do a running loop over
 	 * each of the different element location methods in short time slices to emulate
