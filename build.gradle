@@ -136,14 +136,23 @@ def browsermobVersion = '2.1.2'
 def compressCommonsVersion = '1.12'
 def xmlApisVersion =  '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2';
+def cucumberSpringVersion = '1.2.4';
+def springFrameworkVersion = '4.3.2.RELEASE';
 
 dependencies {
+    compile 'org.springframework:spring-core:' + springFrameworkVersion
+    compile 'org.springframework:spring-test:' + springFrameworkVersion
+    compile 'org.springframework:spring-beans:' + springFrameworkVersion
+    compile 'org.springframework:spring-context:' + springFrameworkVersion
+    compile 'org.springframework:spring-context-support:' + springFrameworkVersion
+    compile 'org.springframework:spring-tx:' + springFrameworkVersion
+    compile 'info.cukes:cucumber-spring:' + cucumberSpringVersion
+    compile 'info.cukes:cucumber-java:' + cucumberVersion
+    compile 'info.cukes:cucumber-html:' + cucumberHtmlFormatterVersion
     compile 'mysql:mysql-connector-java:' + mysqlDriverVersion
     compile 'com.google.guava:guava:' + guavaVersion
     compile 'org.seleniumhq.selenium:selenium-java:' + seleniumVersion
     compile 'javax.validation:validation-api:' + validationVersion
-    compile 'info.cukes:cucumber-java:' + cucumberVersion
-    compile 'info.cukes:cucumber-html:' + cucumberHtmlFormatterVersion
     compile 'ch.qos.logback:logback-classic:' + logbackVersion
     compile 'ch.qos.logback:logback-core:' + logbackVersion
     compile 'org.slf4j:jul-to-slf4j:' + slf4jVersion
