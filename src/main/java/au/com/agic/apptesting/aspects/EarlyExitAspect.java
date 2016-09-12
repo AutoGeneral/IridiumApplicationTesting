@@ -16,9 +16,11 @@ import org.springframework.stereotype.Component;
 public class EarlyExitAspect {
 	/**
 	 * This aspect will return from any step once an early exit has been flagged
+	 * @param joinPoint AspectJ pointcut details
+	 * @throws Throwable Any exception thrown by the wrapped method call
 	 */
 	@Around("execution(public void au.com.agic.apptesting.steps..*(..))")
-	public void arondStep(final ProceedingJoinPoint joinPoint) throws Throwable {
+	public void aroundStep(final ProceedingJoinPoint joinPoint) throws Throwable {
 		final FeatureState featureState =
 			State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
