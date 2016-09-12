@@ -8,6 +8,10 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * The system property that is set to enable a dry run through the script
+	 */
+	public static final String DRY_RUN = "dryRun";
+	/**
 	 * The system property that defines how many times to retry tests before giving up
 	 */
 	public static final String TEST_RETRY_COUNT = "testRetryCount";

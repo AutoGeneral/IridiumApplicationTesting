@@ -265,7 +265,8 @@ def passThroughProperties = [
 		"failAllAfterFirstScenarioError",
 		"phantomJSUserAgent",
 		"testBrowsers",
-        "testRetryCount"
+        "testRetryCount",
+        "dryRun"
 ]
 
 test {
