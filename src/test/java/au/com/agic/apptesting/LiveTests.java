@@ -80,6 +80,29 @@ public class LiveTests {
 	}
 
 	/**
+	 * This test does a dry run, which run each step and immediately returns.
+	 * We don't set any tag overrides, which would normally cause the test to
+	 * fail, but the dry run will never fail any steps.
+	 */
+	@Test
+	public void dryRun() throws InterruptedException {
+		for (final String browser : browsers) {
+			setCommonProperties();
+			System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
+			System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
+			System.setProperty("testDestination", browser);
+			System.setProperty("dryRun", "true");
+			final int failures = new TestRunner().run(globalTempFiles);
+			if (failures == 0) {
+				continue;
+			}
+			Thread.sleep(SLEEP);
+
+			Assert.fail("Browser " + browser + " failed the tests!");
+		}
+	}
+
+	/**
 	 * This test is designed to simulate the starting and restarting of the ZAP proxy
 	 */
 	@Test
@@ -274,5 +297,6 @@ public class LiveTests {
 		System.setProperty("phantomJSLoggingLevel", "NONE");
 		System.setProperty("startInternalProxy", "");
 		System.setProperty("tagsOverride", "");
+		System.setProperty("dryRun", "");
 	}
 }
