@@ -321,3 +321,8 @@ Feature: Test of the steps provided by Iridium
 
     Scenario: Save HAR file
       And I dump the HAR file to "test.har"
+
+    Scenario: Test step skipping
+      And I skip all remaining steps
+      # This is skipped, so there is no failure
+      And I fail the scenario

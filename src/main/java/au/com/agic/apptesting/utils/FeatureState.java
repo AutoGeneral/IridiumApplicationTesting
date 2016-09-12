@@ -99,4 +99,16 @@ public interface FeatureState {
 	 */
 	void setAutoAlias(final boolean autoAlias);
 
+	/**
+	 *
+	 * @return true if all steps are to be skipped, false otherwise
+	 */
+	boolean getSkipSteps();
+
+	/**
+	 *
+	 * @param skip true if all steps are to be skipped, false otherwise
+	 */
+	void setSkipSteps(final boolean skip);
+
 }
