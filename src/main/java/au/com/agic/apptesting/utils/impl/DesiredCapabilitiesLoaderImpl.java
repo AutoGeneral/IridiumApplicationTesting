@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,6 @@ import javax.validation.constraints.NotNull;
 /**
  * Provides a service for loading desired capability profiles
  */
-@Component
 public class DesiredCapabilitiesLoaderImpl implements DesiredCapabilitiesLoader {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DesiredCapabilitiesLoaderImpl.class);

@@ -18,7 +18,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,7 +35,6 @@ import javaslang.control.Try;
  * property has been set, and is pointing to a version of the driver downloaded from
  * http://chromedriver.storage.googleapis.com/index.html
  */
-@Component
 public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LocalThreadWebDriverMapImpl.class);

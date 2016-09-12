@@ -3,7 +3,6 @@ package au.com.agic.apptesting.utils.impl;
 import au.com.agic.apptesting.utils.CleanupUtils;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.Iterator;
@@ -11,7 +10,6 @@ import java.util.Iterator;
 /**
  * An implementation of the cleanup service
  */
-@Component
 public class CleanupUtilsImpl implements CleanupUtils {
 
 	private static final String[] CLEANUP_EXTENSIONS = {"xml", "txt"};

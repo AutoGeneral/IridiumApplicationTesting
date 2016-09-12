@@ -19,7 +19,6 @@ import org.monte.media.math.Rational;
 import org.monte.screenrecorder.ScreenRecorder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.*;
 
 import java.awt.*;
 import java.io.File;
@@ -31,7 +30,6 @@ import javax.validation.constraints.NotNull;
  * An implementation of a screen capture service using the Monte Media Library
  * http://www.randelshofer.ch/monte/ <p> See http://unmesh.me/2012/01/13/recording-screencast-of-selenium-tests-in-java/
  */
-@org.springframework.stereotype.Component
 public class ScreenCaptureImpl implements ScreenCapture {
 
 	private static final int DEPTH = 24;

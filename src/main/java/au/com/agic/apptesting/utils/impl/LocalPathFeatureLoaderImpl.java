@@ -11,7 +11,6 @@ import au.com.agic.apptesting.utils.FeatureLoader;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,7 +25,7 @@ import javaslang.control.Try;
 /**
  * A feature loaded that just returns a local path name that contains existing feature files
  */
-@Component
+
 public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 
 	private static final FeatureFileUtils FEATURE_FILE_UTILS = new FeatureFileUtilsImpl();

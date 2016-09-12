@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +19,6 @@ import javax.validation.constraints.NotNull;
 /**
  * Implementation of exception saving service
  */
-@Component
 public class ExceptionWriterImpl implements ExceptionWriter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionWriterImpl.class);

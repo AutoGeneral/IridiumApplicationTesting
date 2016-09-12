@@ -4,7 +4,6 @@ import au.com.agic.apptesting.utils.DesktopInteraction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.*;
 
 import java.awt.*;
 import java.net.URI;
@@ -12,7 +11,6 @@ import java.net.URI;
 /**
  * Implementation of DesktopInteraction
  */
-@org.springframework.stereotype.Component
 public class DesktopInteractionImpl implements DesktopInteraction {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DesktopInteractionImpl.class);

@@ -8,7 +8,6 @@ import au.com.agic.apptesting.utils.LoggingConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
-import org.springframework.stereotype.Component;
 
 import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 
@@ -29,7 +28,6 @@ import ch.qos.logback.core.FileAppender;
 /**
  * An implementation of the LogginConfiguration service that configures LogBack
  */
-@Component
 public class LogbackConfiguration implements LoggingConfiguration {
 
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LogbackConfiguration.class);

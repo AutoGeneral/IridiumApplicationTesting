@@ -4,8 +4,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import au.com.agic.apptesting.utils.CrossPlatformUtils;
 
-import org.springframework.stereotype.Component;
-
 import java.util.regex.Pattern;
 
 import javax.validation.constraints.NotNull;
@@ -13,7 +11,6 @@ import javax.validation.constraints.NotNull;
 /**
  * implementation of CrossPlatformUtils
  */
-@Component
 public class CrossPlatformUtilsImpl implements CrossPlatformUtils {
 
 	private static final Pattern WINDOWS_LINE_ENDINGS = Pattern.compile("\r\n");

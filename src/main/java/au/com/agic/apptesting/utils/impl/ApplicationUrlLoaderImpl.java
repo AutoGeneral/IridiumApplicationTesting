@@ -14,7 +14,6 @@ import au.com.agic.apptesting.utils.ApplicationUrlLoader;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -31,7 +30,6 @@ import javax.validation.constraints.NotNull;
 /**
  * Loads the application urls from configuration
  */
-@Component
 public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();

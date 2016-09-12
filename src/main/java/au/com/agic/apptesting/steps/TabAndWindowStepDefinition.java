@@ -3,7 +3,6 @@ package au.com.agic.apptesting.steps;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
-import au.com.agic.apptesting.utils.impl.SleepUtilsImpl;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
