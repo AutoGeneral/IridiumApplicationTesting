@@ -74,7 +74,7 @@ jar {
 shadowJar {
     classifier = ''
     transform(ServiceFileTransformer) {
-        path = 'META-INF'
+        path = 'META-INF/spring.*'
         include 'spring.*'
     }
 }

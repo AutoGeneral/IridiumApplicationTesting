@@ -1,14 +1,11 @@
 package au.com.agic.apptesting.utils.impl;
 
-import org.springframework.stereotype.Component;
-
 import java.io.File;
 
 /**
  * Details of a file that may have been originally sourced from a URL. We will often
  * process the file differently if it is a copy of a remote file.
  */
-@Component
 public class FileDetails {
 	private final File file;
 	private final boolean localSource;
