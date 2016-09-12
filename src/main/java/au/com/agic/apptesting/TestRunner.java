@@ -382,6 +382,19 @@ public class TestRunner {
 				args.add("--glue");
 				args.add("au.com.agic.apptestingext.steps");
 
+				/*
+					See if the dry run system property was set
+				 */
+				final boolean dryRun = Optional.ofNullable(SYSTEM_PROPERTY_UTILS.getProperty(Constants.DRY_RUN))
+					.map(String::toLowerCase)
+					.map(String::trim)
+					.map(Boolean::parseBoolean)
+					.orElse(false);
+
+				if (dryRun) {
+					args.add("--dry-run");
+				}
+
 				addTags(args, featureState);
 
 				args.add(featuresLocation);

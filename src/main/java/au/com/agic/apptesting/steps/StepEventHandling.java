@@ -47,22 +47,6 @@ public class StepEventHandling {
 	@Before
 	public void setup() {
 
-		/*
-			See if the dry run system property was set
-		 */
-		final boolean dryRun = Optional.ofNullable(SYSTEM_PROPERTY_UTILS.getProperty(Constants.DRY_RUN))
-			.map(String::toLowerCase)
-			.map(String::trim)
-			.map(Boolean::parseBoolean)
-			.orElse(false);
-
-		/*
-			If so, skip all steps
-		 */
-		if (dryRun) {
-			featureState.setSkipSteps(true);
-		}
-
 		final String endAfterFirstError =
 			SYSTEM_PROPERTY_UTILS.getProperty(Constants.FAIL_ALL_AFTER_FIRST_SCENARIO_ERROR);
 		final boolean endAfterFirstErrorBool = StringUtils.isBlank(endAfterFirstError)
