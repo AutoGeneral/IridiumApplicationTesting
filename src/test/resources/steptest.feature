@@ -45,6 +45,25 @@ Feature: Test of the steps provided by Iridium
     Scenario: Imediate wait
       And I wait "0" seconds for the element found by "eventButton" to be displayed
 
+    @tag1 @tag2
+    Scenario: Tag test
+      And I "mouseup" on the hidden element found by "eventButton"
+
+    @tag3
+    Scenario: Tag Test 2
+      Then I verify that the page contains the text "Button mouseup"
+
+    # This scenario is not expected to run
+    @tag4
+    Scenario: Tag Test 3
+      And I "mousedown" on the hidden element found by "eventButton"
+
+    # This scenario is expected to run, and the app should show Button mouseup
+    # from Scenario: Tag Test 2
+    @tag4 @tag5
+    Scenario: tag Test 4
+      Then I verify that the page contains the text "Button mouseup"
+
     Scenario: Test missing elements
       And I wait "2" seconds for the element with the ID of "thisdoesntexist" to not be present
       And I wait "2" seconds for the element with the xpath of "/html/body/div[100]/input[1000000]" to not be displayed

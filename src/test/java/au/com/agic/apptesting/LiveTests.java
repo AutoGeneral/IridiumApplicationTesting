@@ -62,6 +62,7 @@ public class LiveTests {
 					System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
 					System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
 					System.setProperty("testDestination", browser);
+					System.setProperty("tagsOverride", "@tag1,@tag2,@tag3,@tag5;~@tag4,@tag5");
 					final int failures = new TestRunner().run(globalTempFiles);
 					if (failures == 0) {
 						continue browserLoop;
@@ -272,5 +273,6 @@ public class LiveTests {
 		System.setProperty("saveReportsInHomeDir", "false");
 		System.setProperty("phantomJSLoggingLevel", "NONE");
 		System.setProperty("startInternalProxy", "");
+		System.setProperty("tagsOverride", "");
 	}
 }
