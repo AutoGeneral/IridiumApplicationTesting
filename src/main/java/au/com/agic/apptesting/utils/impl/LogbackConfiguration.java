@@ -90,7 +90,7 @@ public class LogbackConfiguration implements LoggingConfiguration {
 			if (inputStream.isPresent()) {
 				final Properties prop = new Properties();
 				prop.load(inputStream.get());
-				LOGGER.info("Version {}", prop.get("build"));
+				LOGGER.info("Iridium Build Timestamp: {}", prop.get("build"));
 			}
 		} catch (final IOException ex) {
 			LOGGER.error("Exception thrown while loading build.properties", ex);
