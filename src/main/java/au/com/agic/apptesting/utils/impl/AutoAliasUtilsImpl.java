@@ -8,6 +8,7 @@ import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Optional;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Implementation of the AutoAliasUtils service
  */
+@Component
 public class AutoAliasUtilsImpl implements AutoAliasUtils {
 
 	@Override

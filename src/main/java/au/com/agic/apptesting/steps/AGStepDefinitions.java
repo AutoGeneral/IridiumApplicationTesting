@@ -19,6 +19,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
@@ -27,10 +29,14 @@ import cucumber.api.java.en.When;
 /**
  * Steps that are specific to Auto and General web apps
  */
+@Component
 public class AGStepDefinitions {
-	private static final GetBy GET_BY = new GetByImpl();
-	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
-	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
+	@Autowired
+	private GetBy GET_BY;
+	@Autowired
+	private SleepUtils SLEEP_UTILS;
+	@Autowired
+	private AutoAliasUtils AUTO_ALIAS_UTILS;
 
 	/**
 	 * Get the web driver for this thread

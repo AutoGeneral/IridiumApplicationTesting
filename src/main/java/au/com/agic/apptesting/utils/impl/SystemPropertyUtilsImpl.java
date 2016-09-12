@@ -8,6 +8,7 @@ import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.GeckoDriverService;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Objects;
 /**
  * Implementation that deals with the restrictions imposed by web start
  */
+@Component
 public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 
 	/**

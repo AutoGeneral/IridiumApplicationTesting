@@ -28,6 +28,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -38,6 +40,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * An implementation of the web driver factory
  */
+@Component
 public class WebDriverFactoryImpl implements WebDriverFactory {
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverFactoryImpl.class);
 	private static final int PHANTOM_JS_SCREEN_WIDTH = 1280;

@@ -9,6 +9,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Implementation of checks required to maintain compatibility between browsers
  */
+@Component
 public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 	private static final int SLEEP_TIME = 1000;

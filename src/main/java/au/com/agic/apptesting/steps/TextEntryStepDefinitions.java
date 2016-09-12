@@ -24,6 +24,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -37,14 +39,18 @@ import cucumber.api.java.en.When;
  * These steps have Atom snipptets that start with the prefix "populate".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
+@Component
 public class TextEntryStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TextEntryStepDefinitions.class);
-	private static final GetBy GET_BY = new GetByImpl();
-	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
-	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
-	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
-		new SimpleWebElementInteractionImpl();
+	@Autowired
+	private GetBy GET_BY;
+	@Autowired
+	private SleepUtils SLEEP_UTILS;
+	@Autowired
+	private AutoAliasUtils AUTO_ALIAS_UTILS;
+	@Autowired
+	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
 
 	private static final Pattern BLANK_OR_MASKED_RE = Pattern.compile("^(_|\\s)+$");
 	private static final Pattern SINGLE_QUOTE_RE = Pattern.compile("'");

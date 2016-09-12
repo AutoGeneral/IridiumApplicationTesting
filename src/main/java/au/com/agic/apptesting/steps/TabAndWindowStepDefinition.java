@@ -10,6 +10,8 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +21,11 @@ import cucumber.api.java.en.When;
 /**
  * This class contains Gherkin step definitions for working with tabs and windows
  */
+@Component
 public class TabAndWindowStepDefinition {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TabAndWindowStepDefinition.class);
-	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
+	@Autowired
+	private SleepUtils SLEEP_UTILS;
 
 	/**
 	 * Get the web driver for this thread

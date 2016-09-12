@@ -31,6 +31,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,14 +46,18 @@ import cucumber.api.java.en.Then;
  * These steps have Atom snipptets that start with the prefix "verify".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
+@Component
 public class ValidationStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ValidationStepDefinitions.class);
-	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
-	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
-	private static final GetBy GET_BY = new GetByImpl();
-	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
-		new SimpleWebElementInteractionImpl();
+	@Autowired
+	private SleepUtils SLEEP_UTILS;
+	@Autowired
+	private AutoAliasUtils AUTO_ALIAS_UTILS;
+	@Autowired
+	private GetBy GET_BY;
+	@Autowired
+	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
 
 	/**
 	 * Get the web driver for this thread

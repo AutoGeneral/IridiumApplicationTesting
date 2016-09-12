@@ -13,6 +13,11 @@ import au.com.agic.apptesting.utils.impl.WebDriverFactoryImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -21,12 +26,16 @@ import cucumber.api.java.Before;
 /**
  * Deals with the events that related to step and scenario handing
  */
+@Component
 public class StepEventHandling {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StepEventHandling.class);
-	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
-	private static final ScreenshotUtils SCREENSHOT_UTILS = new ScreenshotUtilsImpl();
-	private static final WebDriverFactory WEB_DRIVER_FACTORY = new WebDriverFactoryImpl();
+	@Autowired
+	private SystemPropertyUtils SYSTEM_PROPERTY_UTILS;
+	@Autowired
+	private ScreenshotUtils SCREENSHOT_UTILS;
+	@Autowired
+	private WebDriverFactory WEB_DRIVER_FACTORY;
 
 	/**
 	 * Get the web driver for this thread

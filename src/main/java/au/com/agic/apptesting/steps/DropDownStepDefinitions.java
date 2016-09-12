@@ -26,6 +26,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import cucumber.api.java.en.When;
 
@@ -35,15 +37,20 @@ import cucumber.api.java.en.When;
  * These steps have Atom snipptets that start with the prefix "select".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
+@Component
 public class DropDownStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DropDownStepDefinitions.class);
-	private static final GetBy GET_BY = new GetByImpl();
-	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
-	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
-		new SimpleWebElementInteractionImpl();
-	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
-	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
+	@Autowired
+	private GetBy GET_BY;
+	@Autowired
+	private AutoAliasUtils AUTO_ALIAS_UTILS;
+	@Autowired
+	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
+	@Autowired
+	private SleepUtils SLEEP_UTILS;
+	@Autowired
+	private SystemPropertyUtils SYSTEM_PROPERTY_UTILS;
 
 	/**
 	 * Get the web driver for this thread

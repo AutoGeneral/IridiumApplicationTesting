@@ -3,6 +3,8 @@ package au.com.agic.apptesting.steps;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Map;
 
 import cucumber.api.java.en.Given;
@@ -14,6 +16,7 @@ import cucumber.api.java.en.When;
  * These steps have Atom snipptets that start with the prefix "set".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
+@Component
 public class InitialisationStepDefinitions {
 	private static final long MILLISECONDS_PER_SECOND = 1000;
 

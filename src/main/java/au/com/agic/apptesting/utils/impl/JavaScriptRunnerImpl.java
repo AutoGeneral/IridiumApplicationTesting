@@ -4,12 +4,14 @@ import au.com.agic.apptesting.utils.JavaScriptRunner;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
 
 /**
  * An implementation of the JavaScript runner service
  */
+@Component
 public class JavaScriptRunnerImpl implements JavaScriptRunner {
 
 	@Override

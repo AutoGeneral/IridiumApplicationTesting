@@ -20,6 +20,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import cucumber.api.java.en.When;
 
@@ -29,14 +31,18 @@ import cucumber.api.java.en.When;
  * These steps have Atom snipptets that start with the prefix "wait".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
+@Component
 public class WaitStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WaitStepDefinitions.class);
-	private static final SleepUtils SLEEP_UTILS = new SleepUtilsImpl();
-	private static final GetBy GET_BY = new GetByImpl();
-	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
-	private static final SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION =
-		new SimpleWebElementInteractionImpl();
+	@Autowired
+	private SleepUtils SLEEP_UTILS;
+	@Autowired
+	private GetBy GET_BY;
+	@Autowired
+	private AutoAliasUtils AUTO_ALIAS_UTILS;
+	@Autowired
+	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
 
 	private static final long MILLISECONDS_PER_SECOND = 1000;
 

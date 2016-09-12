@@ -20,6 +20,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.zaproxy.clientapi.core.Alert;
 import org.zaproxy.clientapi.core.ApiResponseElement;
 import org.zaproxy.clientapi.core.ApiResponseList;
@@ -54,6 +55,7 @@ import javaslang.control.Try;
 /**
  * These are Cucubmber steps that are used by ZAP
  */
+@Component
 public class ZAPStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ZAPStepDefinitions.class);

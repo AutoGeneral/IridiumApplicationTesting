@@ -6,13 +6,17 @@ import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 
 import org.openqa.selenium.By;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of the GetBy service
  */
+@Component
 public class GetByImpl implements GetBy {
 
-	private static final AutoAliasUtils AUTO_ALIAS_UTILS = new AutoAliasUtilsImpl();
+	@Autowired
+	private AutoAliasUtils AUTO_ALIAS_UTILS;
 
 	@Override
 	public By getBy(
