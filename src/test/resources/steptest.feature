@@ -74,12 +74,12 @@ Feature: Test of the steps provided by Iridium
 
     @test
     Scenario: Test missing elements
-      And I wait "2" seconds for the element with the ID of "thisdoesntexist" to not be present
-      And I wait "2" seconds for the element with the xpath of "/html/body/div[100]/input[1000000]" to not be displayed
-      And I wait "2" seconds for the element with the class of "thisdoesntexist" to not be displayed
-      And I wait "2" seconds for the element with the css selector of "thisdoesntexist" to not be displayed
-      And I wait "2" seconds for the element found by "thisdoesntexist" to not be present
-      And I wait "2" seconds for the element found by "thisdoesntexist" to not be displayed
+      And I wait "1" seconds for the element with the ID of "thisdoesntexist" to not be present
+      And I wait "1" seconds for the element with the xpath of "/html/body/div[100]/input[1000000]" to not be displayed
+      And I wait "1" seconds for the element with the class of "thisdoesntexist" to not be displayed
+      And I wait "1" seconds for the element with the css selector of "thisdoesntexist" to not be displayed
+      And I wait "1" seconds for the element found by "thisdoesntexist" to not be present
+      And I wait "1" seconds for the element found by "thisdoesntexist" to not be displayed
 
     @test
     Scenario: Modify aliased values
@@ -357,14 +357,14 @@ Feature: Test of the steps provided by Iridium
     @test
 	Scenario: Wait steps
 		And I wait "30" seconds for the element found by "verifyDivClass" to be displayed
-		And I wait "2" seconds for the element found by "thisDoesntExist" to be displayed ignoring timeouts
+		And I wait "1" seconds for the element found by "thisDoesntExist" to be displayed ignoring timeouts
 		And I wait "30" seconds for the element with the ID of "verifyDivClass" to be displayed
-		And I wait "2" seconds for the element with the ID alias of "Non-Existant Field" to be displayed ignoring timeouts
+		And I wait "1" seconds for the element with the ID alias of "Non-Existant Field" to be displayed ignoring timeouts
 		And I sleep for "1" second
 		And I wait "30" seconds for the element found by alias "Button ID" to be present
 		And I wait "30" seconds for the element found by alias "Button ID" to be clickable
-		And I wait "2" seconds for the element found by alias "Non-Existant Field" to be present ignoring timeouts
-		And I wait "2" seconds for the element found by alias "Non-Existant Field" to be clickable ignoring timeouts
+		And I wait "1" seconds for the element found by alias "Non-Existant Field" to be present ignoring timeouts
+		And I wait "1" seconds for the element found by alias "Non-Existant Field" to be clickable ignoring timeouts
 
     @test
     Scenario: Save HAR file
