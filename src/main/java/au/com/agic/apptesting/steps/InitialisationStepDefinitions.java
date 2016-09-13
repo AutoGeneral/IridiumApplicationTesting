@@ -34,9 +34,10 @@ public class InitialisationStepDefinitions {
 	 *
 	 * @param numberOfSeconds The number of seconds to wait before each step completes
 	 */
-	@When("^I set the default wait time between steps to \"(\\d+)\"(?: seconds?)?$")
+	@When("^I set the default wait time between steps to \"(\\d+(?:\\.\\d+)?)\"(?: seconds?)?$")
 	public void setDefaultSleepTime(final String numberOfSeconds) {
-		featureState.setDefaultSleep(Integer.parseInt(numberOfSeconds) * MILLISECONDS_PER_SECOND);
+		final float waitTime = Float.parseFloat(numberOfSeconds) * MILLISECONDS_PER_SECOND;
+		featureState.setDefaultSleep((long)waitTime);
 	}
 
 	/**
@@ -51,10 +52,6 @@ public class InitialisationStepDefinitions {
 	public void setDefaultWaitTime(final String numberOfSeconds) {
 		featureState.setDefaultWait(Integer.parseInt(numberOfSeconds));
 	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="Open Page">
 
 	/**
 	 * Takes a gerkin table and saves the key value pairs (key being alias names referenced in other steps).

@@ -6,7 +6,7 @@ Feature: Test of the steps provided by Iridium
 		Given I open the application
 		# Load the page from the URL
 		And I open the page "https://mcasperson.github.io/iridium/examples/test.html"
-		And I set the default wait time between steps to "1" seconds
+		And I set the default wait time between steps to "0.2" seconds
 		And I set the default wait for elements to be available to "3" seconds
 		And I set the alias mappings
 			| Button ID           | buttonId                |
@@ -74,12 +74,12 @@ Feature: Test of the steps provided by Iridium
 
     @test
     Scenario: Test missing elements
-      And I wait "2" seconds for the element with the ID of "thisdoesntexist" to not be present
-      And I wait "2" seconds for the element with the xpath of "/html/body/div[100]/input[1000000]" to not be displayed
-      And I wait "2" seconds for the element with the class of "thisdoesntexist" to not be displayed
-      And I wait "2" seconds for the element with the css selector of "thisdoesntexist" to not be displayed
-      And I wait "2" seconds for the element found by "thisdoesntexist" to not be present
-      And I wait "2" seconds for the element found by "thisdoesntexist" to not be displayed
+      And I wait "1" seconds for the element with the ID of "thisdoesntexist" to not be present
+      And I wait "1" seconds for the element with the xpath of "/html/body/div[100]/input[1000000]" to not be displayed
+      And I wait "1" seconds for the element with the class of "thisdoesntexist" to not be displayed
+      And I wait "1" seconds for the element with the css selector of "thisdoesntexist" to not be displayed
+      And I wait "1" seconds for the element found by "thisdoesntexist" to not be present
+      And I wait "1" seconds for the element found by "thisdoesntexist" to not be displayed
 
     @test
     Scenario: Modify aliased values
@@ -126,6 +126,7 @@ Feature: Test of the steps provided by Iridium
   Scenario: Manual Mouse Events
 		And I "mousedown" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mousedown"
+        Then I verify that the page does not contain the text "This text does not exist"
 		And I "mouseup" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mouseup"
 		And I "mouseover" on the hidden element found by "eventButton"
@@ -353,18 +354,19 @@ Feature: Test of the steps provided by Iridium
 		# Note that Safari doesn't support this kind of navigation
 		And I go back ignoring errors
 		And I go forward ignoring errors
+        And I go to the hash location "whatever"
 
     @test
 	Scenario: Wait steps
 		And I wait "30" seconds for the element found by "verifyDivClass" to be displayed
-		And I wait "2" seconds for the element found by "thisDoesntExist" to be displayed ignoring timeouts
+		And I wait "1" seconds for the element found by "thisDoesntExist" to be displayed ignoring timeouts
 		And I wait "30" seconds for the element with the ID of "verifyDivClass" to be displayed
-		And I wait "2" seconds for the element with the ID alias of "Non-Existant Field" to be displayed ignoring timeouts
+		And I wait "1" seconds for the element with the ID alias of "Non-Existant Field" to be displayed ignoring timeouts
 		And I sleep for "1" second
 		And I wait "30" seconds for the element found by alias "Button ID" to be present
 		And I wait "30" seconds for the element found by alias "Button ID" to be clickable
-		And I wait "2" seconds for the element found by alias "Non-Existant Field" to be present ignoring timeouts
-		And I wait "2" seconds for the element found by alias "Non-Existant Field" to be clickable ignoring timeouts
+		And I wait "1" seconds for the element found by alias "Non-Existant Field" to be present ignoring timeouts
+		And I wait "1" seconds for the element found by alias "Non-Existant Field" to be clickable ignoring timeouts
 
     @test
     Scenario: Save HAR file

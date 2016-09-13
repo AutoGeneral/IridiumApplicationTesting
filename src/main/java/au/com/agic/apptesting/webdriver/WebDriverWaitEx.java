@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * A wait class that works with units other than seconds
  */
 public class WebDriverWaitEx extends FluentWait<WebDriver> {
-	public static final long DEFAULT_SLEEP_TIMEOUT = 500;
+	public static final long DEFAULT_SLEEP_TIMEOUT = 100;
 	private final WebDriver driver;
 
 	public WebDriverWaitEx(final WebDriver driver, final long timeOutInSeconds) {

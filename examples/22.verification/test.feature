@@ -14,7 +14,8 @@ Feature: Buy Concert Tickets on TicketMonster
       | Created on | //*[@id="content"]/div[2]/div[1]/div/p[5] |
 
   Scenario: Open Application
-    When I set the default wait time between steps to "2" seconds
+    When I set the default wait time between steps to "0.2" seconds
+    And I set the default wait for elements to be available to "60" seconds
     And I open the application
     And I wait "30" seconds for the element found by "logo" to be displayed
 
