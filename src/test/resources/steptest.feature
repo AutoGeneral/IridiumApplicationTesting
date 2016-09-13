@@ -6,7 +6,7 @@ Feature: Test of the steps provided by Iridium
 		Given I open the application
 		# Load the page from the URL
 		And I open the page "https://mcasperson.github.io/iridium/examples/test.html"
-		And I set the default wait time between steps to "1" seconds
+		And I set the default wait time between steps to "0.2" seconds
 		And I set the default wait for elements to be available to "3" seconds
 		And I set the alias mappings
 			| Button ID           | buttonId                |
