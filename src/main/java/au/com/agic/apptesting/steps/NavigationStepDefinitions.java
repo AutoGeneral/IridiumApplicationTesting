@@ -5,6 +5,7 @@ import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -93,5 +94,17 @@ public class NavigationStepDefinitions {
 				throw ex;
 			}
 		}
+	}
+
+	/**
+	 * Updates the location with the given hash. This is useful for manually navigating
+	 * around a single page application.
+	 * @param hash The name of the hash
+	 */
+	@When("I go to the hash location called \"(.*?)\"")
+	public void openHash(final String hash) {
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		((JavascriptExecutor) webDriver).executeScript("window.location.hash='#" + hash + "'");
+		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 }
