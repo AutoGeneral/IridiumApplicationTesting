@@ -283,6 +283,11 @@ public final class Constants {
 	 */
 	public static final int KEY_STROKE_DELAY = 300;
 
+	/**
+	 * How quickly Selenium should poll the browser for an element it is waiting for
+	 */
+	public static final int ELEMENT_WAIT_SLEEP_TIMEOUT = 100;
+
 	private Constants() {
 	}
 

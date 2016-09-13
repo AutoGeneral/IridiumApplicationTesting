@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FeatureState;
 
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +41,10 @@ public class LoginStepDefinitions {
 	public void login(final String username, final String password, final String exists) {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				featureState.getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final Alert alert = wait.until(ExpectedConditions.alertIsPresent());
 			alert.authenticateUsing(new UserAndPassword(username, password));
 		} catch (final TimeoutException | NoSuchElementException ex) {

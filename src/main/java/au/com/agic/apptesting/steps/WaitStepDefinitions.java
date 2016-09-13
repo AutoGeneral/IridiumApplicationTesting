@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
@@ -165,7 +166,9 @@ public class WaitStepDefinitions {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
 		final WebDriverWait wait = new WebDriverWait(
-			webDriver, Integer.parseInt(waitDuration));
+			webDriver,
+			Integer.parseInt(waitDuration),
+			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 
 		try {
 			wait.until(ExpectedConditions.visibilityOfElementLocated(by));
@@ -208,7 +211,9 @@ public class WaitStepDefinitions {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
 		final WebDriverWait wait = new WebDriverWait(
-			webDriver, Integer.parseInt(waitDuration));
+			webDriver,
+			Integer.parseInt(waitDuration),
+			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 
 		try {
 			final boolean result = wait.until(
@@ -291,7 +296,9 @@ public class WaitStepDefinitions {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
 		final WebDriverWait wait = new WebDriverWait(
-			webDriver, Integer.parseInt(waitDuration));
+			webDriver,
+			Integer.parseInt(waitDuration),
+			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 
 		try {
 			wait.until(ExpectedConditions.elementToBeClickable(by));
@@ -412,7 +419,9 @@ public class WaitStepDefinitions {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
 		final WebDriverWait wait = new WebDriverWait(
-			webDriver, Integer.parseInt(waitDuration));
+			webDriver,
+			Integer.parseInt(waitDuration),
+			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 		try {
 			wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		} catch (final TimeoutException ex) {
@@ -454,7 +463,9 @@ public class WaitStepDefinitions {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
 		final WebDriverWait wait = new WebDriverWait(
-			webDriver, Integer.parseInt(waitDuration));
+			webDriver,
+			Integer.parseInt(waitDuration),
+			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 		try {
 			final boolean result = wait.until(
 				ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(by)));
@@ -496,7 +507,9 @@ public class WaitStepDefinitions {
 			final String content = AUTO_ALIAS_UTILS.getValue(
 				linkContent, StringUtils.isNotBlank(alias), featureState);
 			final WebDriverWait wait = new WebDriverWait(
-				webDriver, Integer.parseInt(waitDuration));
+				webDriver,
+				Integer.parseInt(waitDuration),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText(content)));
 		} catch (final TimeoutException ex) {
 			/*
@@ -531,7 +544,9 @@ public class WaitStepDefinitions {
 			final String content = AUTO_ALIAS_UTILS.getValue(
 				linkContent, StringUtils.isNotBlank(alias), featureState);
 			final WebDriverWait wait = new WebDriverWait(
-				webDriver, Integer.parseInt(waitDuration));
+				webDriver,
+				Integer.parseInt(waitDuration),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final boolean result = wait.until(
 				ExpectedConditions.not(
 					ExpectedConditions.presenceOfAllElementsLocatedBy(By.linkText(content))));
@@ -578,7 +593,9 @@ public class WaitStepDefinitions {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
-				webDriver, Integer.parseInt(waitDuration));
+				webDriver,
+				Integer.parseInt(waitDuration),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(
 				By.cssSelector("[" + attribute + "='" + attributeValue + "']")));
 		} catch (final TimeoutException ex) {
@@ -618,7 +635,9 @@ public class WaitStepDefinitions {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
-				webDriver, Integer.parseInt(waitDuration));
+				webDriver,
+				Integer.parseInt(waitDuration),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final boolean result = wait.until(
 				ExpectedConditions.not(ExpectedConditions.visibilityOfAllElementsLocatedBy(
 				By.cssSelector("[" + attribute + "='" + attributeValue + "']"))));
@@ -664,7 +683,9 @@ public class WaitStepDefinitions {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
-				webDriver, Integer.parseInt(waitDuration));
+				webDriver,
+				Integer.parseInt(waitDuration),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			wait.until(ExpectedConditions.presenceOfElementLocated(
 				By.cssSelector("[" + attribute + "='" + attributeValue + "']")));
 		} catch (final TimeoutException ex) {
@@ -704,7 +725,9 @@ public class WaitStepDefinitions {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
-				webDriver, Integer.parseInt(waitDuration));
+				webDriver,
+				Integer.parseInt(waitDuration),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final boolean result = wait.until(
 				ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(
 				By.cssSelector("[" + attribute + "='" + attributeValue + "']"))));

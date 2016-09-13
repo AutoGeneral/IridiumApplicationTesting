@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
@@ -162,7 +163,10 @@ public class DataExtractionStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState);
-			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				featureState.getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 
 			final Map<String, String> dataSet = featureState.getDataSet();
@@ -241,7 +245,10 @@ public class DataExtractionStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState);
-			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				featureState.getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 
 			final Map<String, String> dataSet = featureState.getDataSet();
@@ -328,7 +335,10 @@ public class DataExtractionStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState);
-			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				featureState.getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;

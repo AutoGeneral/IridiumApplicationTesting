@@ -4,6 +4,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.HttpResponseException;
 import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
@@ -146,7 +147,10 @@ public class ValidationStepDefinitions {
 				selectorValue,
 				featureState);
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				featureState.getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			final String className = AUTO_ALIAS_UTILS.getValue(

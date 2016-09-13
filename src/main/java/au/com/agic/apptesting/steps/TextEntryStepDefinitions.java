@@ -4,6 +4,7 @@ import static au.com.agic.apptesting.constants.Constants.KEY_STROKE_DELAY;
 import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
@@ -91,7 +92,10 @@ public class TextEntryStepDefinitions {
 	public void clearElement(final String selector, final String alias, final String selectorValue) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
-		final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
+		final WebDriverWait wait = new WebDriverWait(
+			webDriver,
+			featureState.getDefaultWait(),
+			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		element.clear();
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
@@ -135,7 +139,10 @@ public class TextEntryStepDefinitions {
 	public void clearHiddenElement(final String selector, final String alias, final String selectorValue) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
-		final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
+		final WebDriverWait wait = new WebDriverWait(
+			webDriver,
+			featureState.getDefaultWait(),
+			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("arguments[0].value='';", element);
@@ -222,7 +229,10 @@ public class TextEntryStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState);
-			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				featureState.getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			// Simulate key presses
@@ -352,7 +362,10 @@ public class TextEntryStepDefinitions {
 				selectorValue,
 				featureState);
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				featureState.getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			/*
@@ -491,7 +504,10 @@ public class TextEntryStepDefinitions {
 				featureState);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				featureState.getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			final String startValue = AUTO_ALIAS_UTILS.getValue(
@@ -600,7 +616,10 @@ public class TextEntryStepDefinitions {
 				selectorValue,
 				featureState);
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				featureState.getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 
 			final String textValue = AUTO_ALIAS_UTILS.getValue(
@@ -660,7 +679,10 @@ public class TextEntryStepDefinitions {
 				attributeValue, StringUtils.isNotBlank(attributeValueAlias), featureState);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(webDriver, featureState.getDefaultWait());
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				featureState.getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(
 				ExpectedConditions.elementToBeClickable(
 					By.cssSelector("[" + attr + "='" + value + "']")));
