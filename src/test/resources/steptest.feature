@@ -126,6 +126,7 @@ Feature: Test of the steps provided by Iridium
   Scenario: Manual Mouse Events
 		And I "mousedown" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mousedown"
+        Then I verify that the page does not contain the text "This text does not exist"
 		And I "mouseup" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mouseup"
 		And I "mouseover" on the hidden element found by "eventButton"
