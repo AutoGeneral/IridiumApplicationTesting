@@ -355,6 +355,24 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
+	 * Checks for the absence of some text on the page.
+	 * @param alias This text appears if the text is astucally an alias key
+	 * @param text The text to find on the page, or the alias to the text
+	 */
+	@Then("^I verify that the page does not contain the text( alias)? \"(.*?)\"")
+	public void verifyPageContentAbsent(final String alias, final String text) {
+		final String fixedtext = AUTO_ALIAS_UTILS.getValue(text, StringUtils.isNotBlank(alias), featureState);
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final String pageText =
+			webDriver.findElement(By.tagName("body")).getText();
+
+		if (pageText.contains(fixedtext)) {
+			throw new ValidationException("Found the text \"" + fixedtext + "\" on the page");
+		}
+	}
+
+	/**
 	 * Verify that an aliased value is bigger than another alias value
 	 * @param alias1 The aliased value to check
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
