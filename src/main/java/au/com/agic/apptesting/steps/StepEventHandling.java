@@ -40,20 +40,21 @@ public class StepEventHandling {
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
-	 * If any scenario failed, we throw an exception which prevents the new scenario from loading. This
-	 * prevents a situation where the test script continues to run after some earlier failure, which doesn't
-	 * make sense in end to end tests.
+	 * If any scenario failed, and Iridium is not set to continue after a scenario failure,
+	 * we skip any additional steps. This prevents a situation where the test script continues
+	 * to run after some earlier failure, which doesn't make sense in end to end tests.
 	 */
 	@Before
 	public void setup() {
 
 		final String endAfterFirstError =
 			SYSTEM_PROPERTY_UTILS.getProperty(Constants.FAIL_ALL_AFTER_FIRST_SCENARIO_ERROR);
+
 		final boolean endAfterFirstErrorBool = StringUtils.isBlank(endAfterFirstError)
 			|| Boolean.parseBoolean(endAfterFirstError);
 
 		if (endAfterFirstErrorBool && featureState.getFailed()) {
-			throw new IllegalStateException("Previous scenario failed!");
+			featureState.setSkipSteps(true);
 		}
 	}
 
