@@ -53,10 +53,6 @@ public class InitialisationStepDefinitions {
 		featureState.setDefaultWait(Integer.parseInt(numberOfSeconds));
 	}
 
-	// </editor-fold>
-
-	// <editor-fold desc="Open Page">
-
 	/**
 	 * Takes a gerkin table and saves the key value pairs (key being alias names referenced in other steps).
 	 *
