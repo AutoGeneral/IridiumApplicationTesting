@@ -105,7 +105,7 @@ public class NavigationStepDefinitions {
 	 * @param alias Add this word to indicate that the hash comes from an alias
 	 * @param hash The name of the hash
 	 */
-	@When("I go to the hash location called( alias)? \"(.*?)\"")
+	@When("I go to the hash location( alias)? \"(.*?)\"")
 	public void openHash(final String alias, final String hash) {
 		final String hashValue = AUTO_ALIAS_UTILS.getValue(hash, StringUtils.isNotBlank(alias), featureState);
 

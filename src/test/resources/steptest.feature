@@ -354,7 +354,7 @@ Feature: Test of the steps provided by Iridium
 		# Note that Safari doesn't support this kind of navigation
 		And I go back ignoring errors
 		And I go forward ignoring errors
-        And I go to the hash location called "whatever"
+        And I go to the hash location "whatever"
 
     @test
 	Scenario: Wait steps
