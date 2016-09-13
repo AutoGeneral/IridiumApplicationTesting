@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
 
@@ -23,6 +24,8 @@ public class NavigationStepDefinitions {
 
 	@Autowired
 	private SleepUtils SLEEP_UTILS;
+	@Autowired
+	private AutoAliasUtils AUTO_ALIAS_UTILS;
 
 	/**
 	 * Get the web driver for this thread
@@ -99,12 +102,15 @@ public class NavigationStepDefinitions {
 	/**
 	 * Updates the location with the given hash. This is useful for manually navigating
 	 * around a single page application.
+	 * @param alias Add this word to indicate that the hash comes from an alias
 	 * @param hash The name of the hash
 	 */
-	@When("I go to the hash location called \"(.*?)\"")
-	public void openHash(final String hash) {
+	@When("I go to the hash location called( alias)? \"(.*?)\"")
+	public void openHash(final String alias, final String hash) {
+		final String hashValue = AUTO_ALIAS_UTILS.getValue(hash, StringUtils.isNotBlank(alias), featureState);
+
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		((JavascriptExecutor) webDriver).executeScript("window.location.hash='#" + hash + "'");
+		((JavascriptExecutor) webDriver).executeScript("window.location.hash='#" + hashValue + "'");
 		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 }
