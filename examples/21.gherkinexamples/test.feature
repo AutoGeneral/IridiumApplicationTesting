@@ -9,7 +9,8 @@ Feature: Open an application
 
   # Open up the web page
   Scenario: Launch App
-    And I set the default wait time between steps to "2"
+    And I set the default wait time between steps to "0.2"
+    And I set the default wait for elements to be available to "60" seconds
     And I open the application
     And I maximise the window
     And I click the element found by alias "SearchMenu"
