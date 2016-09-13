@@ -70,7 +70,6 @@ public class ValidationStepDefinitions {
 	public void checkBrowserTitleStep(final String browserTitle) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		Assert.assertEquals(browserTitle, webDriver.getTitle());
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 	}
 
 	/**
