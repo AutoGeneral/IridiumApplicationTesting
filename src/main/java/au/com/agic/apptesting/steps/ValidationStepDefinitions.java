@@ -241,23 +241,31 @@ public class ValidationStepDefinitions {
 	/**
 	 * Verify that an aliased value is equal to the supplied string
 	 * @param alias The aliased value to check
+	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param expectedValue The value that the aliased value is expected to equal
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is equal to \"([^\"]*)\"")
-	public void verifyIsEqual(final String alias, final String expectedValue) {
+	@Then("I verify that the alias \"([^\"]*)\" is equal to( alias)? \"([^\"]*)\"")
+	public void verifyIsEqual(final String alias, final String valueAlias, final String expectedValue) {
+		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
+			expectedValue, StringUtils.isNotBlank(valueAlias), featureState);
+
 		final String value = featureState.getDataSet().get(alias);
-		Assert.assertEquals(expectedValue, value);
+		Assert.assertEquals(fixedValue, value);
 	}
 
 	/**
 	 * Verify that an aliased value is not equal to the supplied string
 	 * @param alias The aliased value to check
+	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param expectedValue The value that the aliased value is expected to equal
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is not equal to \"([^\"]*)\"")
-	public void verifyIsNotEqual(final String alias, final String expectedValue) {
+	@Then("I verify that the alias \"([^\"]*)\" is not equal to( alias)? \"([^\"]*)\"")
+	public void verifyIsNotEqual(final String alias, final String valueAlias, final String expectedValue) {
+		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
+			expectedValue, StringUtils.isNotBlank(valueAlias), featureState);
+
 		final String value = featureState.getDataSet().get(alias);
-		Assert.assertNotEquals(expectedValue, value);
+		Assert.assertNotEquals(fixedValue, value);
 	}
 
 	/**
@@ -281,7 +289,10 @@ public class ValidationStepDefinitions {
 					final StringBuilder message =
 						new StringBuilder("The following URLs returned HTTP errors\n");
 
-					responses.stream().forEach(x -> message.append(x.getOriginalUrl() + "\n"));
+					responses.stream().forEach(x -> {
+						message.append(x.getOriginalUrl());
+						message.append("\n");
+					});
 
 					throw new HttpResponseException(message.toString());
 				}
@@ -311,7 +322,10 @@ public class ValidationStepDefinitions {
 					final StringBuilder message =
 						new StringBuilder("The following URLs returned HTTP errors\n");
 
-					responses.stream().forEach(x -> message.append(x.getOriginalUrl() + "\n"));
+					responses.stream().forEach(x -> {
+						message.append(x.getOriginalUrl());
+						message.append("\n");
+					});
 
 					LOGGER.info(message.toString());
 				}
@@ -340,63 +354,79 @@ public class ValidationStepDefinitions {
 	/**
 	 * Verify that an aliased value is bigger than another alias value
 	 * @param alias1 The aliased value to check
-	 * @param alias2 The second aliased value to compare the first too
+	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
+	 * @param value The second aliased value to compare the first too
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is larger than the alias \"([^\"]*)\"")
-	public void verifyAliasBigger(final String alias1, final String alias2) {
+	@Then("I verify that the alias \"([^\"]*)\" is larger than( (?:the )alias)? \"([^\"]*)\"")
+	public void verifyAliasBigger(final String alias1, final String valueAlias, final String value) {
 		final String value1 = featureState.getDataSet().get(alias1);
-		final String value2 = featureState.getDataSet().get(alias2);
+
+		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
+			value, StringUtils.isNotBlank(valueAlias), featureState);
+
 		Assert.assertTrue(
 			"Alias " + alias1 + " with value " + Double.parseDouble(value1)
-				+ " was not larger than alias " + alias2 + " with value " + Double.parseDouble(value2),
-			Double.parseDouble(value1) > Double.parseDouble(value2));
+				+ " was not larger than " + fixedValue + " with value " + Double.parseDouble(fixedValue),
+			Double.parseDouble(value1) > Double.parseDouble(fixedValue));
 	}
 
 	/**
 	 * Verify that an aliased value is bigger than or equal to another alias value
 	 * @param alias1 The aliased value to check
-	 * @param alias2 The second aliased value to compare the first to
+	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
+	 * @param value The second aliased value to compare the first to
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is larger than or equal to the alias \"([^\"]*)\"")
-	public void verifyAliasBiggerOrEqual(final String alias1, final String alias2) {
+	@Then("I verify that the alias \"([^\"]*)\" is larger than or equal to( (?:the )alias)? \"([^\"]*)\"")
+	public void verifyAliasBiggerOrEqual(final String alias1, final String valueAlias, final String value) {
 		final String value1 = featureState.getDataSet().get(alias1);
-		final String value2 = featureState.getDataSet().get(alias2);
+
+		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
+			value, StringUtils.isNotBlank(valueAlias), featureState);
+
 		Assert.assertTrue(
 			"Alias " + alias1 + " with value " + Double.parseDouble(value1)
-				+ " was not larger than or equal to alias " + alias2
-				+ " with value " + Double.parseDouble(value2),
-			Double.parseDouble(value1) >= Double.parseDouble(value2));
+				+ " was not larger than or equal to " + fixedValue
+				+ " with value " + Double.parseDouble(fixedValue),
+			Double.parseDouble(value1) >= Double.parseDouble(fixedValue));
 	}
 
 	/**
 	 * Verify that an aliased value is smaller than another alias value
 	 * @param alias1 The aliased value to check
-	 * @param alias2 The second aliased value to compare the first to
+	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
+	 * @param value The second aliased value to compare the first to
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is smaller than the alias \"([^\"]*)\"")
-	public void verifyAliasSmaller(final String alias1, final String alias2) {
+	@Then("I verify that the alias \"([^\"]*)\" is smaller than( (?:the )alias)? \"([^\"]*)\"")
+	public void verifyAliasSmaller(final String alias1, final String valueAlias, final String value) {
 		final String value1 = featureState.getDataSet().get(alias1);
-		final String value2 = featureState.getDataSet().get(alias2);
+
+		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
+			value, StringUtils.isNotBlank(valueAlias), featureState);
+
 		Assert.assertTrue(
 			"Alias " + alias1 + " with value " + Double.parseDouble(value1)
-				+ " was not smaller than alias " + alias2 + " with value " + Double.parseDouble(value2),
-			Double.parseDouble(value1) < Double.parseDouble(value2));
+				+ " was not smaller than " + fixedValue + " with value " + Double.parseDouble(fixedValue),
+			Double.parseDouble(value1) < Double.parseDouble(fixedValue));
 	}
 
 	/**
 	 * Verify that an aliased value is smaller than or equal to another alias value
 	 * @param alias1 The aliased value to check
-	 * @param alias2 The second aliased value to compare the first to
+	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
+	 * @param value The second aliased value to compare the first to
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is smaller than or equal to the alias \"([^\"]*)\"")
-	public void verifyAliasSmallerOrEqual(final String alias1, final String alias2) {
+	@Then("I verify that the alias \"([^\"]*)\" is smaller than or equal to( (?:the )alias)? \"([^\"]*)\"")
+	public void verifyAliasSmallerOrEqual(final String alias1, final String valueAlias, final String value) {
 		final String value1 = featureState.getDataSet().get(alias1);
-		final String value2 = featureState.getDataSet().get(alias2);
+
+		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
+			value, StringUtils.isNotBlank(valueAlias), featureState);
+
 		Assert.assertTrue(
 			"Alias " + alias1 + " with value " + Double.parseDouble(value1)
-				+ " was not smaller than or equal to alias " + alias2
-				+ " with value " + Double.parseDouble(value2),
-			Double.parseDouble(value1) <= Double.parseDouble(value2));
+				+ " was not smaller than or equal to " + fixedValue
+				+ " with value " + Double.parseDouble(fixedValue),
+			Double.parseDouble(value1) <= Double.parseDouble(fixedValue));
 	}
 
 	/**
