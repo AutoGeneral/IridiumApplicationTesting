@@ -132,7 +132,7 @@ public class ValidationStepDefinitions {
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@Then("^(?:I verify that )?the element with the (ID|class|xpath|name|css selector)( alias)? \"([^\"]*)\""
-		+ " should have a class( alias)? of \"([^\"]*)\"( if it exists)?$")
+		+ " (?:(should have)|(has)) a class( alias)? of \"([^\"]*)\"( if it exists)?$")
 	public void checkElementClassStep(
 		final String selector,
 		final String selectorAlias,
@@ -174,7 +174,7 @@ public class ValidationStepDefinitions {
 	 * Verify that an aliased value a blank string
 	 * @param alias The aliased value to check
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is empty")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" is empty")
 	public void verifyBlank(final String alias) {
 		final String value = featureState.getDataSet().get(alias);
 		Assert.assertTrue(StringUtils.isBlank(value));
@@ -184,7 +184,7 @@ public class ValidationStepDefinitions {
 	 * Verify that an aliased value is not a blank string
 	 * @param alias The aliased value to check
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is not empty")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" is not empty")
 	public void verifyNotBlank(final String alias) {
 		final String value = featureState.getDataSet().get(alias);
 		Assert.assertTrue(StringUtils.isNotBlank(value));
@@ -194,7 +194,7 @@ public class ValidationStepDefinitions {
 	 * Verify that an aliased value is a number
 	 * @param alias The aliased value to check
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is a number")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" is a number")
 	public void verifyIsNumber(final String alias) {
 		final String value = featureState.getDataSet().get(alias);
 		Double.parseDouble(value);
@@ -204,7 +204,7 @@ public class ValidationStepDefinitions {
 	 * Verify that an aliased value is not a number
 	 * @param alias The aliased value to check
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is not a number")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" is not a number")
 	public void verifyIsNotNumber(final String alias) {
 		final String value = featureState.getDataSet().get(alias);
 		try {
@@ -221,7 +221,7 @@ public class ValidationStepDefinitions {
 	 * @param alias The aliased value to check
 	 * @param regex The regex to match against the aliased value
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" matches the regex \"([^\"]*)\"")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" matches the regex \"([^\"]*)\"")
 	public void verifyMatchesRegex(final String alias, final String regex) {
 		final String value = featureState.getDataSet().get(alias);
 		Assert.assertTrue("Value " + value + " should match regex " + regex, Pattern.matches(regex, value));
@@ -232,7 +232,7 @@ public class ValidationStepDefinitions {
 	 * @param alias The aliased value to check
 	 * @param regex The regex to match against the aliased value
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" does not match the regex \"([^\"]*)\"")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" does not match the regex \"([^\"]*)\"")
 	public void verifyNotMatchesRegex(final String alias, final String regex) {
 		final String value = featureState.getDataSet().get(alias);
 		final Pattern pattern = Pattern.compile(regex);
@@ -247,7 +247,7 @@ public class ValidationStepDefinitions {
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param expectedValue The value that the aliased value is expected to equal
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is equal to( alias)? \"([^\"]*)\"")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" is equal to((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyIsEqual(final String alias, final String valueAlias, final String expectedValue) {
 		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
 			expectedValue, StringUtils.isNotBlank(valueAlias), featureState);
@@ -262,7 +262,7 @@ public class ValidationStepDefinitions {
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param expectedValue The value that the aliased value is expected to equal
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is not equal to( alias)? \"([^\"]*)\"")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" is not equal to((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyIsNotEqual(final String alias, final String valueAlias, final String expectedValue) {
 		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
 			expectedValue, StringUtils.isNotBlank(valueAlias), featureState);
@@ -360,7 +360,7 @@ public class ValidationStepDefinitions {
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param value The second aliased value to compare the first too
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is larger than( (?:the )alias)? \"([^\"]*)\"")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" is larger than((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyAliasBigger(final String alias1, final String valueAlias, final String value) {
 		final String value1 = featureState.getDataSet().get(alias1);
 
@@ -379,7 +379,7 @@ public class ValidationStepDefinitions {
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param value The second aliased value to compare the first to
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is larger than or equal to( (?:the )alias)? \"([^\"]*)\"")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" is larger than or equal to((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyAliasBiggerOrEqual(final String alias1, final String valueAlias, final String value) {
 		final String value1 = featureState.getDataSet().get(alias1);
 
@@ -399,7 +399,7 @@ public class ValidationStepDefinitions {
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param value The second aliased value to compare the first to
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is smaller than( (?:the )alias)? \"([^\"]*)\"")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" is smaller than((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyAliasSmaller(final String alias1, final String valueAlias, final String value) {
 		final String value1 = featureState.getDataSet().get(alias1);
 
@@ -418,7 +418,7 @@ public class ValidationStepDefinitions {
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param value The second aliased value to compare the first to
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is smaller than or equal to( (?:the )alias)? \"([^\"]*)\"")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" is smaller than or equal to((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyAliasSmallerOrEqual(final String alias1, final String valueAlias, final String value) {
 		final String value1 = featureState.getDataSet().get(alias1);
 
@@ -437,7 +437,7 @@ public class ValidationStepDefinitions {
 	 * @param alias The aliased value to check
 	 * @param length The expected length of the aliased value
 	 */
-	@Then("I verify that the alias \"([^\"]*)\" is \"(\\d+)\" characters long")
+	@Then("I verify that(?: the)? alias \"([^\"]*)\" is \"(\\d+)\" characters long")
 	public void verifyLength(final String alias, final String length) {
 		final String value = featureState.getDataSet().get(alias);
 		final Integer lengthInt = Integer.parseInt(length);

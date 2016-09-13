@@ -51,7 +51,7 @@ public class ModifyStepDefinitions {
 	 * @param alias The alias to modify
 	 * @param regex The regex to match
 	 */
-	@Then("^I modify the alias \"(.*?)\" by removing all characters that match the regex \"(.*?)\"$")
+	@Then("^I modify(?: the)? alias \"(.*?)\" by removing all characters that match the regex \"(.*?)\"$")
 	public void removeCharsInAlias(final String alias, final String regex) {
 		final String value = featureState.getDataSet().get(alias);
 		final String fixedValue = value.replaceAll(regex, "");
@@ -67,7 +67,7 @@ public class ModifyStepDefinitions {
 	 * @param regex The regex to match
 	 * @param replacement The text to replace any matched string with
 	 */
-	@Then("^I modify the alias \"(.*?)\" by replacing all characters that match the regex "
+	@Then("^I modify(?: the)? alias \"(.*?)\" by replacing all characters that match the regex "
 			+ "\"(.*?)\" with \"(.*?)\"$")
 	public void replaceCharsInAlias(final String alias, final String regex, final String replacement) {
 		final String value = featureState.getDataSet().get(alias);
@@ -84,7 +84,7 @@ public class ModifyStepDefinitions {
 	 * @param regex The regex to match
 	 * @param replacement The text to replace the first matched string with
 	 */
-	@Then("^I modify the alias \"(.*?)\" by replacing the first characters that match the regex "
+	@Then("^I modify(?: the)? alias \"(.*?)\" by replacing the first characters that match the regex "
 			+ "\"(.*?)\" with \"(.*?)\"$")
 	public void replaceFirstCharsInAlias(final String alias, final String regex, final String replacement) {
 		final String value = featureState.getDataSet().get(alias);
@@ -101,7 +101,7 @@ public class ModifyStepDefinitions {
 	 * @param valueAlias Set this text to get the value to be prepended from an existing alias
 	 * @param prepend The text to prepend the aliased value with
 	 */
-	@Then("^I modify the alias \"(.*?)\" by prepending it with( alias)? \"(.*?)\"$")
+	@Then("^I modify(?: the)? alias \"(.*?)\" by prepending it with( alias)? \"(.*?)\"$")
 	public void prependAlias(final String alias, final String valueAlias, final String prepend) {
 		final String value = featureState.getDataSet().get(alias);
 		final String prependValue = StringUtils.isNotBlank(valueAlias)
@@ -120,7 +120,7 @@ public class ModifyStepDefinitions {
 	 * @param valueAlias Set this text to get the value to be appended from an existing alias
 	 * @param append The text to append the aliased value with
 	 */
-	@Then("^I modify the alias \"(.*?)\" by appending it with( alias)? \"(.*?)\"$")
+	@Then("^I modify(?: the)? alias \"(.*?)\" by appending it with( alias)? \"(.*?)\"$")
 	public void appendAlias(final String alias, final String valueAlias, final String append) {
 		final String value = featureState.getDataSet().get(alias);
 		final String appendValue = StringUtils.isNotBlank(valueAlias)
@@ -136,7 +136,7 @@ public class ModifyStepDefinitions {
 	 * Trims the string referenced by the alias
 	 * @param alias The text to append the aliased value with
 	 */
-	@Then("^I modify the alias \"(.*?)\" by trimming it$")
+	@Then("^I modify(?: the)? alias \"(.*?)\" by trimming it$")
 	public void trimAlias(final String alias) {
 		final String value = featureState.getDataSet().get(alias);
 		final String trimmedValue = value.trim();
@@ -152,7 +152,7 @@ public class ModifyStepDefinitions {
 	 * @param source The source alias
 	 * @param destination The destination alias
 	 */
-	@Then("^I copy the alias \"(.*?)\" to the alias \"(.*?)\"$")
+	@Then("^I copy(?: the)? alias \"(.*?)\" to(?: the)? alias \"(.*?)\"$")
 	public void copyAlias(final String source, final String destination) {
 		final String value = featureState.getDataSet().get(source);
 
@@ -168,7 +168,7 @@ public class ModifyStepDefinitions {
 	 * @param offsetAmount The optional amount to offset todays date by e.g. "1 day" or "2 weeks"
 	 * @param alias The alias to save the date into
 	 */
-	@When("^I save the current date(?: offset by( alias)? \"(.*?)\")? with the format \"(.*?)\" to the alias \"(.*?)\"")
+	@When("^I save the current date(?: offset by( alias)? \"(.*?)\")? with the format \"(.*?)\" to(?: the)? alias \"(.*?)\"")
 	public void saveDateToAlias(
 		final String offsetAlias,
 		final String offsetAmount,
