@@ -31,6 +31,9 @@ Feature: Test of the steps provided by Iridium
             | Test Value 4        | $1,234.50               |
             | Test Value 6        | Test Value              |
             | Test Value 7        | Another Value           |
+            | Test Value 8        | A test value            |
+            | Test Value 9        | A test value            |
+            | Test Value 10       | 123.45                  |
             | Event Button        | eventButton             |
             | MouseDown Text      | Button mousedown        |
             | Date Offset         | 2 weeks                 |
@@ -80,41 +83,44 @@ Feature: Test of the steps provided by Iridium
 
     @test
     Scenario: Modify aliased values
+      Then I verify that the alias "Test Value 8" is equal to alias "Test Value 9"
+      Then I verify that the alias "Test Value 10" is equal to or larger than "12.345"
+      Then I verify that the alias "Test Value 10" is equal to or smaller than "12345"
       And I modify the alias "Test Value 4" by removing all characters that match the regex "[^0-9.]"
-      And I verify that the alias "Test Value 4" is equal to "1234.50"
+      Then I verify that the alias "Test Value 4" is equal to "1234.50"
       And I modify the alias "Test Value 4" by replacing all characters that match the regex "1" with "2"
-      And I verify that the alias "Test Value 4" is equal to "2234.50"
+      Then I verify that the alias "Test Value 4" is equal to "2234.50"
       And I modify the alias "Test Value 4" by replacing the first characters that match the regex "2" with "1"
-      And I verify that the alias "Test Value 4" is equal to "1234.50"
+      Then I verify that the alias "Test Value 4" is equal to "1234.50"
       And I modify the alias "Test Value 4" by prepending it with "9"
-      And I verify that the alias "Test Value 4" is equal to "91234.50"
+      Then I verify that the alias "Test Value 4" is equal to "91234.50"
       And I modify the alias "Test Value 4" by appending it with "0"
-      And I verify that the alias "Test Value 4" is equal to "91234.500"
+      Then I verify that the alias "Test Value 4" is equal to "91234.500"
       And I modify the alias "Test Value 4" by replacing all characters that match the regex "(\d+)\.(\d+)" with "$2.$1"
-      And I verify that the alias "Test Value 4" is equal to "500.91234"
+      Then I verify that the alias "Test Value 4" is equal to "500.91234"
       And I copy the alias "Test Value 4" to the alias "Test Value 5"
       And I verify that the alias "Test Value 5" is equal to "500.91234"
       And I modify the alias "Test Value 4" by appending it with " "
       And I modify the alias "Test Value 4" by appending it with alias "Test Value 7"
-      And I verify that the alias "Test Value 4" is equal to "500.91234 Another Value"
+      Then I verify that the alias "Test Value 4" is equal to "500.91234 Another Value"
       And I modify the alias "Test Value 4" by prepending it with " "
       And I modify the alias "Test Value 4" by prepending it with alias "Test Value 6"
-      And I verify that the alias "Test Value 4" is equal to "Test Value 500.91234 Another Value"
+      Then I verify that the alias "Test Value 4" is equal to "Test Value 500.91234 Another Value"
       And I save the current date with the format "dd MMM yyyy" to the alias "Todays Date"
       And I verify that the alias "Todays Date" matches the regex "\d{2} \w{3} \d{4}"
       And I save the current date offset by "1 day" with the format "dd MMM yyyy" to the alias "Tomorrows Date"
-      And I verify that the alias "Tomorrows Date" matches the regex "\d{2} \w{3} \d{4}"
+      Then I verify that the alias "Tomorrows Date" matches the regex "\d{2} \w{3} \d{4}"
       And I save the current date offset by "-1 day" with the format "dd MMM yyyy" to the alias "Yesterdays Date"
-      And I verify that the alias "Yesterdays Date" matches the regex "\d{2} \w{3} \d{4}"
+      Then I verify that the alias "Yesterdays Date" matches the regex "\d{2} \w{3} \d{4}"
       And I save the current date offset by "2 years" with the format "dd MMM yyyy" to the alias "Two Years From Now"
-      And I verify that the alias "Two Years From Now" matches the regex "\d{2} \w{3} \d{4}"
-      And I verify that the alias "Tomorrows Date" is not equal to "Yesterdays Date"
+      Then I verify that the alias "Two Years From Now" matches the regex "\d{2} \w{3} \d{4}"
+      Then I verify that the alias "Tomorrows Date" is not equal to "Yesterdays Date"
       And I modify the alias "Tomorrows Date" by prepending it with "     "
       And I modify the alias "Tomorrows Date" by trimming it
-      And I verify that the alias "Tomorrows Date" matches the regex "^\d{2} \w{3} \d{4}$"
-      And I verify that the alias "Tomorrows Date" is "11" characters long
+      Then I verify that the alias "Tomorrows Date" matches the regex "^\d{2} \w{3} \d{4}$"
+      Then I verify that the alias "Tomorrows Date" is "11" characters long
       And I save the current date offset by "Date Offset" with the format "dd MMM yyyy" to the alias "Two Weeks From Now"
-      And I verify that the alias "Two Weeks From Now" matches the regex "^\d{2} \w{3} \d{4}$"
+      Then I verify that the alias "Two Weeks From Now" matches the regex "^\d{2} \w{3} \d{4}$"
 
   @test
   Scenario: Manual Mouse Events

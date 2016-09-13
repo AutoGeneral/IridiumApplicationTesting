@@ -132,7 +132,7 @@ public class TestRunner {
 
 			JAR_DOWNLOADER.downloadJar(tempFiles);
 			SYSTEM_PROPERTY_UTILS.copyDependentSystemProperties();
-			WEB_DRIVER_HANDLER.configureWebDriver(tempFiles);
+			WEB_DRIVER_HANDLER.configureWebDriver(globalTempFiles);
 			proxies = PROXY_MANAGER.configureProxies(globalTempFiles, tempFiles);
 			CLEANUP_UTILS.cleanupOldReports();
 			init(reportOutput, tempFiles, proxies);
