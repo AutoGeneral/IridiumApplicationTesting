@@ -111,4 +111,18 @@ public interface FeatureState {
 	 */
 	void setSkipSteps(final boolean skip);
 
+	/**
+	 *
+	 * @return The default amount of time to wait between keypresses in textboxes
+	 *			and other text input fields
+	 */
+	int getDefaultKeyStrokeDelay();
+
+	/**
+	 *
+	 * @param defaultKeyStrokeDelay The default amount of time to wait between keypresses in textboxes
+	 *			and other text input fields
+	 */
+	void setDefaultKeyStrokeDelay(final int defaultKeyStrokeDelay);
+
 }

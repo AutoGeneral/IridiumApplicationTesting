@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
  */
 public class FeatureStateImpl implements FeatureState {
 
-
+	private int defaultKeyStrokeDelay = Constants.KEY_STROKE_DELAY;
 	private boolean autoAlias = true;
 	private final UrlMapping url;
 	private final Map<String, String> dataset = new HashMap<>();
@@ -128,6 +128,16 @@ public class FeatureStateImpl implements FeatureState {
 	@Override
 	public void setSkipSteps(final boolean skip) {
 		this.skip = skip;
+	}
+
+	@Override
+	public int getDefaultKeyStrokeDelay() {
+		return defaultKeyStrokeDelay;
+	}
+
+	@Override
+	public void setDefaultKeyStrokeDelay(final int defaultKeyStrokeDelay) {
+		this.defaultKeyStrokeDelay = defaultKeyStrokeDelay;
 	}
 
 	@Override
