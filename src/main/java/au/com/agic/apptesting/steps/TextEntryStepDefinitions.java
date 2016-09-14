@@ -1,6 +1,5 @@
 package au.com.agic.apptesting.steps;
 
-import static au.com.agic.apptesting.constants.Constants.KEY_STROKE_DELAY;
 import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.State;
@@ -184,11 +183,11 @@ public class TextEntryStepDefinitions {
 				content, StringUtils.isNotBlank(contentAlias), featureState);
 
 			for (final Character character : value.toCharArray()) {
-				SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+				SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
 				element.sendKeys(character.toString());
 			}
 
-			SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+			SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
 			element.submit();
 			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException ex) {
@@ -240,11 +239,11 @@ public class TextEntryStepDefinitions {
 				content, StringUtils.isNotBlank(contentAlias), featureState);
 
 			for (final Character character : value.toCharArray()) {
-				SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+				SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
 				element.sendKeys(character.toString());
 			}
 
-			SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+			SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
 			element.submit();
 			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
 		} catch (final TimeoutException ex) {
@@ -285,7 +284,9 @@ public class TextEntryStepDefinitions {
 		final String empty,
 		final Integer delay) {
 		try {
-			final Integer fixedDelay = delay == null ? KEY_STROKE_DELAY : delay;
+			final Integer fixedDelay = delay == null
+				? featureState.getDefaultKeyStrokeDelay()
+				: delay;
 
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -354,7 +355,9 @@ public class TextEntryStepDefinitions {
 		final String empty,
 		final Integer delay) {
 		try {
-			final Integer fixedDelay = delay == null ? KEY_STROKE_DELAY : delay;
+			final Integer fixedDelay = delay == null
+				? featureState.getDefaultKeyStrokeDelay()
+				: delay;
 
 			final By by = GET_BY.getBy(
 				selector,
@@ -448,7 +451,7 @@ public class TextEntryStepDefinitions {
 
 			// Simulate key presses
 			for (final Character character : random.toString().toCharArray()) {
-				SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+				SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
 				element.sendKeys(character.toString());
 			}
 			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
@@ -523,7 +526,7 @@ public class TextEntryStepDefinitions {
 
 			// Simulate key presses
 			for (final Character character : random.toString().toCharArray()) {
-				SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+				SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
 				element.sendKeys(character.toString());
 			}
 			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
@@ -701,7 +704,7 @@ public class TextEntryStepDefinitions {
 					content, StringUtils.isNotBlank(contentAlias), featureState);
 
 				for (final Character character : textValue.toCharArray()) {
-					SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+					SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
 					element.sendKeys(character.toString());
 				}
 				SLEEP_UTILS.sleep(featureState.getDefaultSleep());

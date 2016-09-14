@@ -1,7 +1,5 @@
 package au.com.agic.apptesting.steps;
 
-import static au.com.agic.apptesting.constants.Constants.KEY_STROKE_DELAY;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FeatureState;
@@ -127,7 +125,7 @@ public class KeyEventSetpDefinitions {
 
 			for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
 				element.sendKeys(Keys.DELETE);
-				SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+				SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
 			}
 
 			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
@@ -189,7 +187,7 @@ public class KeyEventSetpDefinitions {
 			final WebElement element = webDriver.switchTo().activeElement();
 			for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
 				element.sendKeys(Keys.BACK_SPACE);
-				SLEEP_UTILS.sleep(KEY_STROKE_DELAY);
+				SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
 			}
 
 			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
@@ -235,6 +233,7 @@ public class KeyEventSetpDefinitions {
 		final String event,
 		final String alias,
 		final String selectorValue) {
+
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,

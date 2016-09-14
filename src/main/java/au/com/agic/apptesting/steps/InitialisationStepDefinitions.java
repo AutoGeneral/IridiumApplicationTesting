@@ -1,5 +1,7 @@
 package au.com.agic.apptesting.steps;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
 
@@ -27,6 +29,16 @@ public class InitialisationStepDefinitions {
 		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
 
 	/**
+	 * Sets the default amount of time to wait between simulated key presses
+	 * @param delay The number of milliseconds to pause between simulated key presses
+	 */
+	@When("^I set the default keystroke delay to \"(\\d+)\" milliseconds$")
+	public void setKeystrokeDelay(final Integer delay) {
+		checkArgument(delay >= 0);
+		featureState.setDefaultKeyStrokeDelay(delay);
+	}
+
+	/**
 	 * This step can be used to define the amount of time each additional step will wait before continuing.
 	 * This is useful for web applications that pop new elements into the page in response to user
 	 * interaction, as there can be a delay before those elements are available. <p> Set this to 0 to make
@@ -49,8 +61,9 @@ public class InitialisationStepDefinitions {
 	 *                        before continuing with a step
 	 */
 	@When("^I set the default wait for elements to be available to \"(\\d+)\"(?: seconds?)?$")
-	public void setDefaultWaitTime(final String numberOfSeconds) {
-		featureState.setDefaultWait(Integer.parseInt(numberOfSeconds));
+	public void setDefaultWaitTime(final Integer numberOfSeconds) {
+		checkArgument(numberOfSeconds >= 0);
+		featureState.setDefaultWait(numberOfSeconds);
 	}
 
 	/**
