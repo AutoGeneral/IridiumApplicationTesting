@@ -46,7 +46,7 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 	public boolean getPropertyAsBoolean(final String name, boolean defaultValue) {
 		checkArgument(StringUtils.isNotBlank(name));
 
-		Optional.ofNullable(SYSTEM_PROPERTY_UTILS.getProperty(name))
+		return Optional.ofNullable(SYSTEM_PROPERTY_UTILS.getProperty(name))
 			.map(String::toLowerCase)
 			.map(String::trim)
 			.map(Boolean::parseBoolean)
