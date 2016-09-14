@@ -154,6 +154,8 @@ Feature: Test of the steps provided by Iridium
 		And I select "Option 2" from the drop down list found by "selectList"
         And I save the content of the first selected option from the drop down list found by "selectList" to the alias "Drop Down List Text"
         Then I verify that the alias "Drop Down List Text" is equal to "Option 2"
+        And I save the content of the first selected option from the drop down list with the ID of "selectList" to the alias "Drop Down List Text"
+        Then I verify that the alias "Drop Down List Text" is equal to "Option 2"
 		# This step adds "if it exists" because the Firefox Marionette driver has a bug
 		# that will cause this step to fail.
 		And I select option number "3" from the drop down list found by "selectList" if it exists
