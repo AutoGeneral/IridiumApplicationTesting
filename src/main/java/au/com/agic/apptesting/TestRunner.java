@@ -366,7 +366,6 @@ public class TestRunner {
 				*/
 				final List<String> args = new ArrayList<>();
 
-				args.add("--monochrome");
 				args.add("--plugin");
 				args.add("json:" + reportDirectory + Thread.currentThread().getName() + ".json");
 				args.add("--plugin");
@@ -385,14 +384,15 @@ public class TestRunner {
 				/*
 					See if the dry run system property was set
 				 */
-				final boolean dryRun = Optional.ofNullable(SYSTEM_PROPERTY_UTILS.getProperty(Constants.DRY_RUN))
-					.map(String::toLowerCase)
-					.map(String::trim)
-					.map(Boolean::parseBoolean)
-					.orElse(false);
-
-				if (dryRun) {
+				if (SYSTEM_PROPERTY_UTILS.getPropertyAsBoolean(Constants.DRY_RUN, false)) {
 					args.add("--dry-run");
+				}
+
+				/*
+					Set the monochrome output option
+				 */
+				if (SYSTEM_PROPERTY_UTILS.getPropertyAsBoolean(Constants.MONOCHROME_OUTPUT, true)) {
+					args.add("--monochrome");
 				}
 
 				addTags(args, featureState);

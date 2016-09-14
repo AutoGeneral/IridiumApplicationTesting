@@ -14,6 +14,14 @@ public interface SystemPropertyUtils {
 	String getProperty(final String name);
 
 	/**
+	 * Gets a system property as a boolean
+	 * @param name The name of the property
+	 * @param defaultValue The default value if the property is empty or null
+	 * @return the boolean value of the system property, or the default value if the system property is empty
+	 */
+	boolean getPropertyAsBoolean(final String name, final boolean defaultValue);
+
+	/**
 	 * Extracts system properties, either from their default name, or with the javaws prefix.
 	 * Treats empty strings as null.
 	 *

@@ -266,7 +266,8 @@ def passThroughProperties = [
 		"phantomJSUserAgent",
 		"testBrowsers",
         "testRetryCount",
-        "dryRun"
+        "dryRun",
+        "monochromeOutput"
 ]
 
 test {
