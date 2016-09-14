@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Implementation that deals with the restrictions imposed by web start
@@ -28,6 +29,8 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 	 */
 	private static final List<String> SYSTEM_PROPERTY_PREFIXES = Arrays.asList("", "jnlp.", "javaws.");
 
+	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
+
 	@Override
 	public String getProperty(final String name) {
 		checkArgument(StringUtils.isNotBlank(name));
@@ -37,6 +40,17 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 			.filter(Objects::nonNull)
 			.findFirst()
 			.orElse(null);
+	}
+
+	@Override
+	public boolean getPropertyAsBoolean(final String name, boolean defaultValue) {
+		checkArgument(StringUtils.isNotBlank(name));
+
+		return Optional.ofNullable(SYSTEM_PROPERTY_UTILS.getProperty(name))
+			.map(String::toLowerCase)
+			.map(String::trim)
+			.map(Boolean::parseBoolean)
+			.orElse(defaultValue);
 	}
 
 	@Override

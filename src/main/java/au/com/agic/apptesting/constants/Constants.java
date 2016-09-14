@@ -8,6 +8,11 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * Set this system property to true to configure cucumber to output text in monochrome
+	 */
+	public static final String MONOCHROME_OUTPUT = "monochromeOutput";
+
+	/**
 	 * The system property that is set to enable a dry run through the script
 	 */
 	public static final String DRY_RUN = "dryRun";
