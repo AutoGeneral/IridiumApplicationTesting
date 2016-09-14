@@ -32,7 +32,7 @@ public class InitialisationStepDefinitions {
 	 * Sets the default amount of time to wait between simulated key presses
 	 * @param delay The number of milliseconds to pause between simulated key presses
 	 */
-	@When("^I set the default keystroke delay to \"\\d+\" milliseconds$")
+	@When("^I set the default keystroke delay to \"(\\d+)\" milliseconds$")
 	public void setKeystrokeDelay(final Integer delay) {
 		checkArgument(delay >= 0);
 		featureState.setDefaultKeyStrokeDelay(delay);
