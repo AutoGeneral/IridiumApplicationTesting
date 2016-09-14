@@ -358,7 +358,7 @@ public class DataExtractionStepDefinitions {
 	}
 
 	@When("^I save the ((?:content)|(value)) of the first selected option from (?:a|an|the) "
-		+ "element with (?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" "
+		+ "drop down list with (?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" "
 		+ "to the alias \"([^\"]*)\"( if it exists)?")
 	public void saveSelectedTextContent(
 		final String valueOrContent,
