@@ -13,6 +13,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -356,5 +357,91 @@ public class DataExtractionStepDefinitions {
 		}
 	}
 
-	// </editor-fold>
+	@When("^I save the ((?:content)|(value)) of the first selected option from (?:a|an|the) "
+		+ "element with (?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" "
+		+ "to the alias \"([^\"]*)\"( if it exists)?")
+	public void saveSelectedTextContent(
+		final String valueOrContent,
+		final String selector,
+		final String alias,
+		final String selectorValue,
+		final String destinationAlias,
+		final String exists) {
+
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+
+			final By by = GET_BY.getBy(
+				selector,
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				featureState);
+
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				featureState.getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+			final WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+
+			final Select select = new Select(element);
+
+			final String extractedValue = "content".equalsIgnoreCase(valueOrContent)
+				? select.getFirstSelectedOption().getText()
+				: select.getFirstSelectedOption().getAttribute("value");
+
+			final Map<String, String> dataSet = featureState.getDataSet();
+			dataSet.put(destinationAlias, extractedValue);
+			featureState.setDataSet(dataSet);
+
+		} catch (final TimeoutException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Saves the text content the first selected element in a drop down list
+	 *
+	 * @param valueOrContent   Defines whether or not we are saving the text content or the value attribute
+	 *                         of the selected option
+	 * @param alias            If this word is found in the step, it means the selectorValue is found from the
+	 *                         data set.
+	 * @param selectorValue    The value used in conjunction with the selector to match the element. If alias
+	 *                         was set, ' this value is found from the data set. Otherwise it is a literal
+	 *                         value.
+	 * @param destinationAlias The name of the alias to save the text content against
+	 * @param exists           If this text is set, an error that would be thrown because the element was not
+	 *                         found is ignored. Essentially setting this text makes this an optional
+	 *                         statement.
+	 */
+	@When("^I save the ((?:content)|(value)) of the first selected option from (?:a|an|the) drop down list "
+		+ "found by( alias)? \"([^\"]*)\" to the alias \"([^\"]*)\"( if it exists)?")
+	public void saveSelectedTextContent(
+		final String valueOrContent,
+		final String alias,
+		final String selectorValue,
+		final String destinationAlias,
+		final String exists) {
+		try {
+			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				featureState);
+
+			final Select select = new Select(element);
+
+			final String extractedValue = "content".equalsIgnoreCase(valueOrContent)
+				? select.getFirstSelectedOption().getText()
+				: select.getFirstSelectedOption().getAttribute("value");
+
+			final Map<String, String> dataSet = featureState.getDataSet();
+			dataSet.put(destinationAlias, extractedValue);
+			featureState.setDataSet(dataSet);
+		} catch (final TimeoutException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
 }
