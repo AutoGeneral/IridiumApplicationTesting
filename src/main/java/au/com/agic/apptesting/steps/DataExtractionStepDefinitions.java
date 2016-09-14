@@ -357,7 +357,7 @@ public class DataExtractionStepDefinitions {
 		}
 	}
 
-	@When("^I save the ((?:content)|(value)) of the first selected option from (?:a|an|the) "
+	@When("^I save the ((?:content)|(?:value)) of the first selected option from (?:a|an|the) "
 		+ "drop down list with (?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" "
 		+ "to the alias \"([^\"]*)\"( if it exists)?")
 	public void saveSelectedTextContent(
@@ -415,7 +415,7 @@ public class DataExtractionStepDefinitions {
 	 *                         found is ignored. Essentially setting this text makes this an optional
 	 *                         statement.
 	 */
-	@When("^I save the ((?:content)|(value)) of the first selected option from (?:a|an|the) drop down list "
+	@When("^I save the ((?:content)|(?:value)) of the first selected option from (?:a|an|the) drop down list "
 		+ "found by( alias)? \"([^\"]*)\" to the alias \"([^\"]*)\"( if it exists)?")
 	public void saveSelectedTextContent(
 		final String valueOrContent,
