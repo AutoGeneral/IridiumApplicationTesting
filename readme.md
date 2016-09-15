@@ -43,3 +43,5 @@ Find past releases [here](https://github.com/mcasperson/IridiumApplicationTestin
 * [Are Cucumber Features and Scenarios to Be Taken Literally?](https://dzone.com/articles/do-you-need-to-take-a-literal-view-of-features-and)
 
 * [Running Iridium Scripts in Firefox With Jenkins](https://dzone.com/articles/running-iridium-scripts-in-firefox-in-jenkins)
+
+* [Introducing PICQT for Writing Cucumber Tests With Iridium](https://dzone.com/articles/introducing-picqt-for-writing-cucumber-tests-with)
