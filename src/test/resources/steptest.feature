@@ -124,6 +124,11 @@ Feature: Test of the steps provided by Iridium
       Then I verify that the alias "Two Weeks From Now" matches the regex "^\d{2} \w{3} \d{4}$"
 
   @test
+  Scenario: Test class verification
+    Then the element with the ID "verifyDivClass" should have a class of "divClass"
+    Then the element with the ID "thisdoesntexist" should have a class of "divClass" if it exists
+
+  @test
   Scenario: Manual Mouse Events
 		And I "mousedown" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mousedown"

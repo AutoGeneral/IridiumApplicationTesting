@@ -132,7 +132,7 @@ public class ValidationStepDefinitions {
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@Then("^(?:I verify that )?the element with the (ID|class|xpath|name|css selector)( alias)? \"([^\"]*)\""
-		+ " (?:(should have)|(has)) a class( alias)? of \"([^\"]*)\"( if it exists)?$")
+		+ " (?:(?:should have)|(?:has))? a class( alias)? of \"([^\"]*)\"( if it exists)?$")
 	public void checkElementClassStep(
 		final String selector,
 		final String selectorAlias,
