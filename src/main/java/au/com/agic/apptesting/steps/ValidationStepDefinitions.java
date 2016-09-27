@@ -357,7 +357,7 @@ public class ValidationStepDefinitions {
 	/**
 	 * Checks for the presence of a regex on the page.
 	 * @param alias This text appears if the regex is astucally an alias key
-	 * @param text The regex to find on the page, or the alias to the regex
+	 * @param regex The regex to find on the page, or the alias to the regex
 	 */
 	@Then("^I verify that the page contains the regex( alias)? \"(.*?)\"")
 	public void verifyPageRegexContent(final String alias, final String regex) {
@@ -394,9 +394,9 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Checks for the presence of a regex on the page.
+	 * Checks for the absence of a regex on the page.
 	 * @param alias This text appears if the regex is astucally an alias key
-	 * @param text The regex to find on the page, or the alias to the regex
+	 * @param regex The regex to find on the page, or the alias to the regex
 	 */
 	@Then("^I verify that the page does not contain the regex( alias)? \"(.*?)\"")
 	public void verifyPageRegexNotContent(final String alias, final String regex) {
