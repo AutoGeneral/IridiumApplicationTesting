@@ -134,7 +134,7 @@ Feature: Test of the steps provided by Iridium
 		Then I verify that the page contains the text "Button mousedown"
         Then I verify that the page does not contain the text "This text does not exist"
 		And I "mouseup" on the hidden element found by "eventButton"
-		Then I verify that the page contains the text "Button mouseup"
+		Then I verify that the page contains the regex "(Button)\s(mouseup)"
 		And I "mouseover" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mouseover"
 		And I "mouseout" on the hidden element found by "eventButton"
