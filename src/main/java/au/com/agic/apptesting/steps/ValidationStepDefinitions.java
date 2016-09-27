@@ -361,7 +361,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^I verify that the page contains the regex( alias)? \"(.*?)\"")
 	public void verifyPageRegexContent(final String alias, final String regex) {
-		final String fixedRegex = AUTO_ALIAS_UTILS.getValue(text, StringUtils.isNotBlank(alias), featureState);
+		final String fixedRegex = AUTO_ALIAS_UTILS.getValue(regex, StringUtils.isNotBlank(alias), featureState);
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
@@ -370,7 +370,7 @@ public class ValidationStepDefinitions {
 		final String pageText =
 			webDriver.findElement(By.tagName("body")).getText();
 
-		if (!pattern.matcher(pageText).find) {
+		if (!pattern.matcher(pageText).find()) {
 			throw new ValidationException("Could not find the regex \"" + fixedRegex + "\" on the page");
 		}
 	}
@@ -390,6 +390,27 @@ public class ValidationStepDefinitions {
 
 		if (pageText.contains(fixedtext)) {
 			throw new ValidationException("Found the text \"" + fixedtext + "\" on the page");
+		}
+	}
+
+	/**
+	 * Checks for the presence of a regex on the page.
+	 * @param alias This text appears if the regex is astucally an alias key
+	 * @param text The regex to find on the page, or the alias to the regex
+	 */
+	@Then("^I verify that the page does not contain the regex( alias)? \"(.*?)\"")
+	public void verifyPageRegexNotContent(final String alias, final String regex) {
+		final String fixedRegex = AUTO_ALIAS_UTILS.getValue(regex, StringUtils.isNotBlank(alias), featureState);
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+
+		final Pattern pattern = Pattern.compile(fixedRegex);
+
+		final String pageText =
+			webDriver.findElement(By.tagName("body")).getText();
+
+		if (pattern.matcher(pageText).find()) {
+			throw new ValidationException("Found the regex \"" + fixedRegex + "\" on the page");
 		}
 	}
 
