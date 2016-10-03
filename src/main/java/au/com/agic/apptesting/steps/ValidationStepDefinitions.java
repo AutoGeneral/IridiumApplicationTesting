@@ -509,9 +509,8 @@ public class ValidationStepDefinitions {
 /**************************************************************/
 
 	/**
-	 * Waits the given amount of time for an element to be displayed (i.e. to be visible) on the page.
-	 * This is most useful when waiting for a page to load completely. You can use this step to verify that
-	 * the page is in the correct state before proceeding with the script.
+	 * Verifies that the element is displayed (i.e. to be visible) on the page within a given amount of time.
+	 * You can use this step to verify that the page is in the correct state before proceeding with the script.
 	 *
 	 * @param waitDuration    The maximum amount of time to wait for
 	 * @param alias           If this word is found in the step, it means the selectorValue is found from the
@@ -547,7 +546,7 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element to not be displayed (i.e. to be visible) on the page.
+	 * Verifies that the element is not displayed (i.e. to be visible) on the page within a given amount of time.
 	 * You can use this step to verify that the page is in the correct state before proceeding with the script.
 	 *
 	 * @param waitDuration    The maximum amount of time to wait for
@@ -584,7 +583,7 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element to be displayed (i.e. to be visible) on the page.
+	 * Verifies that the element is displayed (i.e. to be visible) on the page within a given amount of time.
 	 * You can use this step to verify that the page is in the correct state before proceeding with the script.
 	 *
 	 * @param waitDuration    The maximum amount of time to wait for
@@ -627,7 +626,7 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Verifies an element is not be displayed (i.e. to be visible) on the page within a given amount of time.
+	 * Verifies that the element is not displayed (i.e. to be visible) on the page within a given amount of time.
 	 * You can use this step to verify that the page is in the correct state before proceeding with the script.
 	 *
 	 * @param waitDuration    The maximum amount of time to wait for
@@ -676,7 +675,7 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element to be clickable on the page.
+	 * Verifies that the element is clickable within a given amount of time.
 	 * You can use this step to verify that the page is in the correct state before proceeding with the script.
 	 *
 	 * @param waitDuration    The maximum amount of time to wait for
@@ -712,7 +711,7 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element to be clickable on the page.
+	 * Verifies that the element is clickable within a given amount of time.
 	 * You can use this step to verify that the page is in the correct state before proceeding with the script.
 	 *
 	 * @param waitDuration    The maximum amount of time to wait for
@@ -755,9 +754,9 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element to be placed in the DOM. Note that the element does not
-	 * have to be visible, just present in the HTML. <p> You can use this step to verify that the page is in
-	 * the correct state before proceeding with the script.
+	 * Verifies that the element is placed in the DOM within a certain amount of time. Note that the element
+	 * does not have to be visible, just present in the HTML.
+	 * You can use this step to verify that the page is in the correct state before proceeding with the script.
 	 *
 	 * @param waitDuration    The maximum amount of time to wait for
 	 * @param alias           If this word is found in the step, it means the selectorValue is found from the
@@ -793,9 +792,8 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element to not be placed in the DOM. Note that the element does not
-	 * have to be visible, just present in the HTML. <p> You can use this step to verify that the page is in
-	 * the correct state before proceeding with the script.
+	 * Verifies that the element is not placed in the DOM within a certain amount of time.
+	 * You can use this step to verify that the page is in the correct state before proceeding with the script.
 	 *
 	 * @param waitDuration    The maximum amount of time to wait for
 	 * @param alias           If this word is found in the step, it means the selectorValue is found from the
@@ -831,9 +829,9 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element to be placed in the DOM. Note that the element does not
-	 * have to be visible, just present in the HTML. <p> You can use this step to verify that the page is in
-	 * the correct state before proceeding with the script.
+	 * Verifies that the element is placed in the DOM within a certain amount of time. Note that the element
+	 * does not have to be visible, just present in the HTML.
+	 * You can use this step to verify that the page is in the correct state before proceeding with the script.
 	 *
 	 * @param waitDuration    The maximum amount of time to wait for
 	 * @param selector        Either ID, class, xpath, name or css selector
@@ -874,9 +872,8 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element to be placed in the DOM. Note that the element does not
-	 * have to be visible, just present in the HTML. <p> You can use this step to verify that the page is in
-	 * the correct state before proceeding with the script.
+	 * Verifies that the element is not placed in the DOM within a certain amount of time.
+	 * You can use this step to verify that the page is in the correct state before proceeding with the script.
 	 *
 	 * @param waitDuration    The maximum amount of time to wait for
 	 * @param selector        Either ID, class, xpath, name or css selector
@@ -923,8 +920,8 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for a link with the supplied text to be placed in the DOM. Note that the
-	 * element does not have to be visible just present in the HTML.
+	 * Verifies that a link with the supplied text is placed in the DOM within a certain amount of time.
+	 * Note that the element does not have to be visible just present in the HTML.
 	 *
 	 * @param waitDuration The maximum amount of time to wait for
 	 * @param alias           If this word is found in the step, it means the linkContent is found from the
@@ -960,8 +957,7 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for a link with the supplied text to be placed in the DOM. Note that the
-	 * element does not have to be visible just present in the HTML.
+	 * Verifies that a link with the supplied text is not placed in the DOM within a certain amount of time.
 	 *
 	 * @param waitDuration The maximum amount of time to wait for
 	 * @param alias           If this word is found in the step, it means the linkContent is found from the
@@ -1005,8 +1001,8 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element with the supplied attribute and attribute value to be displayed
-	 * (i.e. to be visible) on the page.
+	 * Verifies that an element with the supplied attribute and attribute value is displayed
+	 * (i.e. to be visible) on the page within a certain amount of time.
 	 *
 	 * @param waitDuration  The maximum amount of time to wait for
 	 * @param attribute     The attribute to use to select the element with
@@ -1047,8 +1043,8 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element with the supplied attribute and attribute value to be displayed
-	 * (i.e. to be visible) on the page.
+	 * Verifies that an element with the supplied attribute and attribute value is not displayed
+	 * (i.e. to be visible) on the page within a certain amount of time.
 	 *
 	 * @param waitDuration  The maximum amount of time to wait for
 	 * @param attribute     The attribute to use to select the element with
@@ -1095,8 +1091,8 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element with the supplied attribute and attribute value to be displayed
-	 * (i.e. to be visible) on the page.
+	 * Verifies that an element with the supplied attribute and attribute value is present in the DOM
+	 * within a certain amount of time.
 	 *
 	 * @param waitDuration  The maximum amount of time to wait for
 	 * @param attribute     The attribute to use to select the element with
@@ -1137,8 +1133,8 @@ public class ValidationStepDefinitions {
 	}
 
 	/**
-	 * Waits the given amount of time for an element with the supplied attribute and attribute value to be displayed
-	 * (i.e. to be visible) on the page.
+	 * Verifies that an element with the supplied attribute and attribute value is not present in the DOM
+	 * within a certain amount of time.
 	 *
 	 * @param waitDuration  The maximum amount of time to wait for
 	 * @param attribute     The attribute to use to select the element with
