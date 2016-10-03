@@ -129,9 +129,26 @@ Feature: Test of the steps provided by Iridium
     Then the element with the ID "thisdoesntexist" should have a class of "divClass" if it exists
 
   @test
+  Scenario: test element verification steps
+    Then I verify the element found by "output" is present within "2" seconds
+    Then I verify the element found by "thisdoesntexist" is not present within "1" second
+
+    Then I verify the element with the ID of "output" is present
+    Then I verify the element with the ID of "thisdoesntexist" is not present within "1" second
+    Then I verify the element with the ID of "output" is displayed
+    Then I verify the element with the ID of "thisdoesntexist" is not displayed within "1" second
+
+    Then I verify the element with the css selector of "#output" is present
+    Then I verify the element with the css selector of "#thisdoesntexist" is not present within "1" second
+
+    Then I verify the element with the xpath of "//*[@id="output"]" is present
+    Then I verify the element with the xpath of "//*[@id="thisdoesnotexist"]" is not present within "1" second
+
+  @test
   Scenario: Manual Mouse Events
 		And I "mousedown" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mousedown"
+        Then I verify the element found by "output" is displayed
         Then I verify that the page does not contain the text "This text does not exist"
         Then I verify that the page does not contain the regex "(This)\s\w+does not exist"
 		And I "mouseup" on the hidden element found by "eventButton"
