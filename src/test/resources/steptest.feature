@@ -131,7 +131,7 @@ Feature: Test of the steps provided by Iridium
   @test
   Scenario: test element verification steps
     Then I verify the element found by "output" is present within "2" seconds
-    Then I verify the element found by "thisdoesntexist" is not present within "1" second
+    Then I verify the element found by alias "thisdoesntexist" is not present within "1" second
 
     Then I verify the element with the ID of "output" is present
     Then I verify the element with the ID of "thisdoesntexist" is not present within "1" second
@@ -139,7 +139,16 @@ Feature: Test of the steps provided by Iridium
     Then I verify the element with the ID of "thisdoesntexist" is not displayed within "1" second
 
     Then I verify the element with the css selector of "#output" is present
-    Then I verify the element with the css selector of "#thisdoesntexist" is not present within "1" second
+    Then I verify the element with the css selector alias of "aliasdoesnotexist" is not present within "1" second
+
+    Then I verify the element with the xpath of "//*[@id='output']" is present
+    Then I verify the element with the xpath alias of "aliasdoesnotexist" is not present within "1" second
+
+    Then I verify the element with the name of "buttonName" is present
+    Then I verify the element with the name alias of "aliasdoesnotexist" is not present within "1" second
+
+    Then I verify the element with the class of "buttonClass" is present
+    Then I verify the element with the class alias of "aliasdoesnotexist" is not present within "1" second
 
   @test
   Scenario: Manual Mouse Events
