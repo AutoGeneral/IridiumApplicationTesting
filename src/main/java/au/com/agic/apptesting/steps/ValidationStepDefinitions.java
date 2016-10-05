@@ -768,7 +768,7 @@ public class ValidationStepDefinitions {
 	 *                        present
 	 */
 	@Then("^I verify (?:a|an|the) element found by( alias)? \"([^\"]*)\" "
-		+ "is present( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void presentSimpleWaitStep(
 		final String alias,
 		final String selectorValue,
@@ -805,7 +805,7 @@ public class ValidationStepDefinitions {
 	 *                        present
 	 */
 	@Then("^I verify (?:a|an|the) element found by( alias)? \"([^\"]*)\" "
-		+ "is not present( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notPresentSimpleWaitStep(
 		final String alias,
 		final String selectorValue,
@@ -845,7 +845,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^I verify (?:a|an|the) element with (?:a|an|the) "
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" "
-		+ "is present( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void presentWaitStep(
 		final String selector,
 		final String alias,
@@ -887,7 +887,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^I verify (?:a|an|the) element with (?:a|an|the) "
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" "
-		+ "is not present( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notPresentWaitStep(
 		final String selector,
 		final String alias,
@@ -930,7 +930,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout The presence of this text indicates that timeouts are ignored
 	 */
 	@Then("^I verify a link with the text content of"
-		+ "( alias) \"([^\"]*)\" is present( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "( alias) \"([^\"]*)\" is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void presentLinkStep(
 		final String alias,
 		final String linkContent,
@@ -966,7 +966,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout The presence of this text indicates that timeouts are ignored
 	 */
 	@Then("^I verify a link with the text content of"
-		+ "( alias) \"([^\"]*)\" is not present( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "( alias) \"([^\"]*)\" is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notPresentLinkStep(
 		final String alias,
 		final String linkContent,
@@ -1013,7 +1013,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
 	@Then("^I verify (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
-		+ "equal to( alias)? \"([^\"]*)\" is displayed( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "equal to( alias)? \"([^\"]*)\" is displayed(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void displayAttrWait(
 		final String attribute,
 		final String alias,
@@ -1055,7 +1055,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
 	@Then("^I verify (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
-		+ "equal to( alias)? \"([^\"]*)\" is not displayed( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "equal to( alias)? \"([^\"]*)\" is not displayed(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notDisplayAttrWait(
 		final String attribute,
 		final String alias,
@@ -1103,7 +1103,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
 	@Then("^I verify (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
-		+ "equal to( alias)? \"([^\"]*)\" is present( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "equal to( alias)? \"([^\"]*)\" is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void presentAttrWait(
 		final String attribute,
 		final String alias,
@@ -1145,7 +1145,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
 	@Then("^I verify (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
-		+ "equal to( alias)? \"([^\"]*)\" is not present( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "equal to( alias)? \"([^\"]*)\" is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notPresentAttrWait(
 		final String attribute,
 		final String alias,
