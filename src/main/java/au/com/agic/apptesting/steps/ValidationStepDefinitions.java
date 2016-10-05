@@ -522,7 +522,7 @@ public class ValidationStepDefinitions {
 	 *                        found
 	 */
 	@Then("^I verify (?:a|an|the) element found by( alias)? \"([^\"]*)\" is displayed"
-		+ "( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void displaySimpleWaitStep(
 		final String alias,
 		final String selectorValue,
@@ -559,7 +559,7 @@ public class ValidationStepDefinitions {
 	 *                        found
 	 */
 	@Then("^I verify (?:a|an|the) element found by( alias)? \"([^\"]*)\" is not displayed"
-		+ "( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notDisplaySimpleWaitStep(
 		final String alias,
 		final String selectorValue,
@@ -598,7 +598,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^I verify (?:a|an|the) element with "
 		+ "(?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" is displayed"
-		+ "( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void displayWaitStep(
 		final String selector,
 		final String alias,
@@ -641,7 +641,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^I verify (?:a|an|the) element with "
 		+ "(?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" is not displayed"
-		+ "( within \"(\\d+)\" seconds?)(,? ignoring timeouts?)?")
+		+ "(?: within \"(\\d+)\" seconds?)(,? ignoring timeouts?)?")
 	public void notDisplayWaitStep(
 		final String selector,
 		final String alias,
@@ -688,7 +688,7 @@ public class ValidationStepDefinitions {
 	 *                        found
 	 */
 	@When("^I verify (?:a|an|the) element found by"
-		+ "( alias)? \"([^\"]*)\" is clickable( within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "( alias)? \"([^\"]*)\" is clickable(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void clickWaitStep(
 		final String alias,
 		final String selectorValue,
@@ -726,7 +726,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^I verify (?:a|an|the) element with "
 		+ "(?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" is clickable"
-		+ "( within \"(\\d+)\" seconds?)(,? ignoring timeouts?)?")
+		+ "(?: within \"(\\d+)\" seconds?)(,? ignoring timeouts?)?")
 	public void clickWaitStep(
 		final String selector,
 		final String alias,
