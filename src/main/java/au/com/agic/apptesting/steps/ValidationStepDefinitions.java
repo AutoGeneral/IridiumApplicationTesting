@@ -535,7 +535,7 @@ public class ValidationStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState,
-				Long.parseLong(waitDuration));
+				NumberUtils.toLong(waitDuration, featureState.getDefaultWait()));
 		} catch (final Exception ex) {
 			/*
 				Rethrow if we have not ignored errors
@@ -572,7 +572,7 @@ public class ValidationStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState,
-				Long.parseLong(waitDuration));
+				NumberUtils.toLong(waitDuration, featureState.getDefaultWait()));
 		} catch (final Exception ex) {
 			/*
 				Rethrow if we have not ignored errors
@@ -611,7 +611,7 @@ public class ValidationStepDefinitions {
 		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
-			Integer.parseInt(waitDuration),
+			NumberUtils.toLong(waitDuration, featureState.getDefaultWait()),
 			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 
 		try {
@@ -654,7 +654,7 @@ public class ValidationStepDefinitions {
 		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
-			Integer.parseInt(waitDuration),
+			NumberUtils.toLong(waitDuration, featureState.getDefaultWait()),
 			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 
 		try {
@@ -700,7 +700,7 @@ public class ValidationStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				featureState,
-				Long.parseLong(waitDuration));
+				NumberUtils.toLong(waitDuration, featureState.getDefaultWait()));
 		} catch (final WebElementException ex) {
 			/*
 				Rethrow if we have not ignored errors
