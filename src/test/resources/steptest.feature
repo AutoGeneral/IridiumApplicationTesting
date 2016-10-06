@@ -37,6 +37,7 @@ Feature: Test of the steps provided by Iridium
             | Event Button        | eventButton             |
             | MouseDown Text      | Button mousedown        |
             | Date Offset         | 2 weeks                 |
+            | Non Existant Element | thisdoesnotexist       |
 
     @test
     Scenario: Test Autoaliasing
@@ -129,9 +130,32 @@ Feature: Test of the steps provided by Iridium
     Then the element with the ID "thisdoesntexist" should have a class of "divClass" if it exists
 
   @test
+  Scenario: test element verification steps
+    Then I verify the element found by "output" is present within "2" seconds
+    Then I verify the element found by alias "Non Existant Element" is not present within "1" second
+
+    Then I verify the element with the ID of "output" is present
+    Then I verify the element with the ID alais of "Non Existant Element" is not present within "1" second
+    Then I verify the element with the ID of "output" is displayed
+    Then I verify the element with the ID alias of "Non Existant Element" is not displayed within "1" second
+
+    Then I verify the element with the css selector of "#output" is present
+    Then I verify the element with the css selector alias of "aliasdoesnotexist" is not present within "1" second
+
+    Then I verify the element with the xpath of "//*[@id='output']" is present
+    Then I verify the element with the xpath alias of "Non Existant Element" is not present within "1" second
+
+    Then I verify the element with the name of "buttonName" is present
+    Then I verify the element with the name alias of "Non Existant Element" is not present within "1" second
+
+    Then I verify the element with the class of "buttonClass" is present
+    Then I verify the element with the class alias of "Non Existant Element" is not present within "1" second
+
+  @test
   Scenario: Manual Mouse Events
 		And I "mousedown" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mousedown"
+        Then I verify the element found by "output" is displayed
         Then I verify that the page does not contain the text "This text does not exist"
         Then I verify that the page does not contain the regex "(This)\s\w+does not exist"
 		And I "mouseup" on the hidden element found by "eventButton"
