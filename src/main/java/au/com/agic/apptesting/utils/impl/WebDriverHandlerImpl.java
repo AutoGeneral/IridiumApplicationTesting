@@ -181,7 +181,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
-						"/drivers/mac32/chrome/chromedriver",
+						"/drivers/mac64/chrome/chromedriver",
 						"chrome",
 						tempFiles));
 			}
