@@ -194,29 +194,6 @@ public class LiveTests {
 	}
 
 	@Test
-	public void verificationTest22() {
-		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
-			try {
-				setCommonProperties();
-				System.setProperty("appURLOverride", "http://ticketmonster-jdf.rhcloud.com");
-				System.setProperty("testSource", "https://raw.githubusercontent.com/mcasperson/IridiumApplicationTesting/master/examples/22.verification/test.feature");
-				System.setProperty("testDestination", "Chrome");
-				final int failures = new TestRunner().run(globalTempFiles);
-				if (failures == 0) {
-					return;
-				}
-				Thread.sleep(SLEEP);
-			} catch (final Exception ignored) {
-				/*
-					Ignored
-				 */
-			}
-		}
-
-		Assert.fail();
-	}
-
-	@Test
 	public void deadLinkCheck23() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
