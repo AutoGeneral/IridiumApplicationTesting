@@ -165,7 +165,7 @@ Feature: Test of the steps provided by Iridium
 		And I "mouseout" on the hidden element found by "eventButton"
         Then I wait "30" seconds for the for the page to contain the text "Button mouseout"
 		And I "mousemove" on the hidden element found by "eventButton"
-		Then I verify that the page contains the text "Button mousemove"
+        Then I wait "30" seconds for the for the page to contain the regex "Button mousemove"
 		And I "mouseenter" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mouseenter"
 		And I "mouseleave" on the hidden element found by "eventButton"
