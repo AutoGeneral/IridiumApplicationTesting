@@ -2,6 +2,7 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.FeatureState;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 /**
@@ -744,5 +746,30 @@ public class WaitStepDefinitions {
 				throw ex;
 			}
 		}
+	}
+
+	/**
+	 * Waits a period of time for the presence of some text on the page.
+	 * @param alias This text appears if the text is astucally an alias key
+	 * @param text The text to find on the page, or the alias to the text
+	 */
+	@Then("^I wait \"(\\d+)\" seconds for the page to contain the text( alias)? \"(.*?)\"")
+	public void verifyPageContent(final Integer wait, final String alias, final String text) {
+		final String fixedtext = AUTO_ALIAS_UTILS.getValue(text, StringUtils.isNotBlank(alias), featureState);
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+
+		final long start = System.currentTimeMillis();
+
+		do {
+			final String pageText =
+				webDriver.findElement(By.tagName("body")).getText();
+
+			if (pageText.contains(fixedtext)) {
+				return;
+			}
+		} while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
+
+		throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");
 	}
 }

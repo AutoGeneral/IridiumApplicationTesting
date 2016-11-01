@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
@@ -35,13 +36,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 	private static final Logger LOGGER = LoggerFactory.getLogger(SimpleWebElementInteractionImpl.class);
 	@Autowired
 	private GetBy GET_BY;
-	/**
-	 * Because the web driver is not thread safe, we need to do a running loop over
-	 * each of the different element location methods in short time slices to emulate
-	 * a parallel search.
-     */
-	private static final int TIME_SLICE = 100;
-	private static final int MILLISECONDS_PER_SECOND = 1000;
+
 	private static final List<String> LOCATION_METHODS = Arrays.asList(
 		GetBy.ID,
 		GetBy.CLASS,
@@ -76,26 +71,25 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
-		while (time < waitTime * MILLISECONDS_PER_SECOND) {
+		while (time < waitTime * Constants.MILLISECONDS_PER_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
 					final WebDriverWaitEx wait = new WebDriverWaitEx(
 						webDriver,
-						TIME_SLICE,
+						Constants.TIME_SLICE,
 						TimeUnit.MILLISECONDS);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.elementToBeClickable(by);
 
-					final WebElement element = wait.until(condition);
-					return element;
+					return wait.until(condition);
 				} catch (final Exception ignored) {
 					/*
 						Do nothing
 					 */
 				}
 
-				time += TIME_SLICE;
+				time += Constants.TIME_SLICE;
 			}
 		}
 
@@ -134,22 +128,21 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
 					final WebDriverWaitEx wait = new WebDriverWaitEx(
 						webDriver,
-						TIME_SLICE,
+						Constants.TIME_SLICE,
 						TimeUnit.MILLISECONDS);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.visibilityOfElementLocated(by);
 
-					final WebElement element = wait.until(condition);
-					return element;
+					return wait.until(condition);
 				} catch (final Exception ignored) {
 					/*
 						Do nothing
 					 */
 				}
 
-				time += TIME_SLICE;
+				time += Constants.TIME_SLICE;
 			}
-		} while (time < waitTime * MILLISECONDS_PER_SECOND);
+		} while (time < waitTime * Constants.MILLISECONDS_PER_SECOND);
 
 		throw new WebElementException("All attempts to find element failed");
 	}
@@ -179,16 +172,16 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
-		while (time < waitTime * MILLISECONDS_PER_SECOND) {
+		while (time < waitTime * Constants.MILLISECONDS_PER_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
 
-				time += TIME_SLICE;
+				time += Constants.TIME_SLICE;
 
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
 					final WebDriverWaitEx wait = new WebDriverWaitEx(
 						webDriver,
-						TIME_SLICE,
+						Constants.TIME_SLICE,
 						TimeUnit.MILLISECONDS);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.visibilityOfElementLocated(by);
@@ -242,26 +235,25 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
-		while (time < waitTime * MILLISECONDS_PER_SECOND) {
+		while (time < waitTime * Constants.MILLISECONDS_PER_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
 					final WebDriverWaitEx wait = new WebDriverWaitEx(
 						webDriver,
-						TIME_SLICE,
+						Constants.TIME_SLICE,
 						TimeUnit.MILLISECONDS);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.presenceOfElementLocated(by);
 
-					final WebElement element = wait.until(condition);
-					return element;
+					return wait.until(condition);
 				} catch (final Exception ignored) {
 					/*
 						Do nothing
 					 */
 				}
 
-				time += TIME_SLICE;
+				time += Constants.TIME_SLICE;
 			}
 		}
 
@@ -293,16 +285,16 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
-		while (time < waitTime * MILLISECONDS_PER_SECOND) {
+		while (time < waitTime * Constants.MILLISECONDS_PER_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
 
-				time += TIME_SLICE;
+				time += Constants.TIME_SLICE;
 
 				try {
 					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
 					final WebDriverWaitEx wait = new WebDriverWaitEx(
 						webDriver,
-						TIME_SLICE,
+						Constants.TIME_SLICE,
 						TimeUnit.MILLISECONDS);
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.presenceOfElementLocated(by);

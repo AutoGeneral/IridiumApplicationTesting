@@ -8,6 +8,17 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * Because the web driver is not thread safe, we need to do a running loop over
+	 * each of the different element location methods in short time slices to emulate
+	 * a parallel search.
+	 *
+	 * This value also serves as the default sleep time for any loop.
+	 */
+	public static final int TIME_SLICE = 100;
+
+	public static final int MILLISECONDS_PER_SECOND = 1000;
+
+	/**
 	 * Set this system property to true to configure cucumber to output text in monochrome
 	 */
 	public static final String MONOCHROME_OUTPUT = "monochromeOutput";
