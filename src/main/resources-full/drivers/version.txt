@@ -1,5 +1,5 @@
 PhantomJS 2.1.1
 Chrome 2.2.4
 Opera 0.2.2
-IE 2.53.1
+IE 3.0.0
 GeckoDriver 0.11.1

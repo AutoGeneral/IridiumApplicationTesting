@@ -125,7 +125,7 @@ def mysqlDriverVersion = '5.1.34'
 def guavaVersion = '19.0'
 def seleniumVersion = '3.0.0'
 def validationVersion = '1.1.0.Final'
-def cucumberVersion = '1.2.4'
+def cucumberVersion = '1.2.5'
 def logbackVersion = '1.1.7'
 def slf4jVersion = '1.7.21'
 def threadPoolVersion = '20030513.073905'
@@ -141,7 +141,7 @@ def browsermobVersion = '2.1.2'
 def compressCommonsVersion = '1.12'
 def xmlApisVersion =  '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2';
-def cucumberSpringVersion = '1.2.4';
+def cucumberSpringVersion = '1.2.5';
 def springFrameworkVersion = '4.3.2.RELEASE';
 def aspectJVersion='1.8.9'
 
