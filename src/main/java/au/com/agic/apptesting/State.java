@@ -1,6 +1,7 @@
 package au.com.agic.apptesting;
 
 import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.ThreadWebDriverMap;
 import au.com.agic.apptesting.utils.impl.LocalThreadWebDriverMapImpl;
@@ -27,5 +28,10 @@ public final class State {
 	}
 
 	private State() {
+	}
+
+	public static FeatureState getFeatureStateForThread() {
+		return THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
+			Thread.currentThread().getName());
 	}
 }

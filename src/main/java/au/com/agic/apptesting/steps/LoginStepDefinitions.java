@@ -2,7 +2,6 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
-import au.com.agic.apptesting.utils.FeatureState;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Alert;
@@ -23,12 +22,6 @@ import cucumber.api.java.en.When;
 public class LoginStepDefinitions {
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * This code is supposed to populate the login dialog, but it actually doesn't work with most modern
 	 * browsers.
 	 *
@@ -43,7 +36,7 @@ public class LoginStepDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
-				featureState.getDefaultWait(),
+				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final Alert alert = wait.until(ExpectedConditions.alertIsPresent());
 			alert.authenticateUsing(new UserAndPassword(username, password));

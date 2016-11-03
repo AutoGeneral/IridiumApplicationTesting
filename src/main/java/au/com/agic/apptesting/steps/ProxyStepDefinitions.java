@@ -3,7 +3,6 @@ package au.com.agic.apptesting.steps;
 import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
 
@@ -42,18 +41,12 @@ public class ProxyStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProxyStepDefinitions.class);
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * EWnable HAR logging
 	 */
 	@When("^I enable HAR logging$")
 	public void enableHar() {
 		final Optional<ProxyDetails<?>> proxy =
-			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 		if (proxy.isPresent()) {
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
 			browserMobProxy.setHarCaptureTypes(CaptureType.getAllContentCaptureTypes());
@@ -69,7 +62,7 @@ public class ProxyStepDefinitions {
 	@When("^I dump the HAR file(?: to \"(.*?)\")?$")
 	public void saveHarFile(final String filename) throws IOException {
 		final Optional<ProxyDetails<?>> proxy =
-			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 		if (proxy.isPresent()) {
 			final String fixedFilename = StringUtils.defaultString(filename, "browsermob.har");
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
@@ -79,7 +72,7 @@ public class ProxyStepDefinitions {
 				har != null,
 				"You need to add the step \"I enable HAR logging\" before saving the HAR file");
 
-			final File file = new File(featureState.getReportDirectory() + "/" + fixedFilename);
+			final File file = new File(State.getFeatureStateForThread().getReportDirectory() + "/" + fixedFilename);
 			har.writeTo(file);
 		}
 	}
@@ -93,7 +86,7 @@ public class ProxyStepDefinitions {
 	@When("^I block access to the URL regex \"(.*?)\" with response \"(\\d+)\"$")
 	public void blockUrl(final String url, final Integer response) {
 		final Optional<ProxyDetails<?>> proxy =
-			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 		if (proxy.isPresent()) {
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
 			browserMobProxy.blacklistRequests(url, response);
@@ -110,7 +103,7 @@ public class ProxyStepDefinitions {
 	@When("^I block access to the URL regex \"(.*?)\" of the type \"(.*?)\" with response \"(\\d+)\"$")
 	public void blockUrl(final String url, final String type, final Integer response) {
 		final Optional<ProxyDetails<?>> proxy =
-			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 		if (proxy.isPresent()) {
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
 			browserMobProxy.blacklistRequests(url, response, type);
@@ -125,7 +118,7 @@ public class ProxyStepDefinitions {
 	@When("^I enable the whitelist with responding with \"(\\d+)\" for unmatched requests$")
 	public void enableWhitelist(final Integer response) {
 		final Optional<ProxyDetails<?>> proxy =
-			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 		if (proxy.isPresent()) {
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
 			browserMobProxy.enableEmptyWhitelist(response);
@@ -140,7 +133,7 @@ public class ProxyStepDefinitions {
 	@When("^I allow access to the URL regex \"(.*?)\"$")
 	public void allowUrl(final String url) {
 		final Optional<ProxyDetails<?>> proxy =
-			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 		if (proxy.isPresent()) {
 			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
 			browserMobProxy.addWhitelistPattern(url);
@@ -158,7 +151,7 @@ public class ProxyStepDefinitions {
 	@When("^I (?:remove|delete) root AWSELB cookie from the request to the URL regex \"(.*?)\"$")
 	public void stripHeaders(final String url) {
 		final Optional<ProxyDetails<?>> proxy =
-			featureState.getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 
 		/*
 			Get the name of the thread running the test

@@ -5,7 +5,6 @@ import static com.google.common.base.Preconditions.checkState;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
@@ -49,12 +48,6 @@ public class DropDownStepDefinitions {
 	private SystemPropertyUtils SYSTEM_PROPERTY_UTILS;
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * Select an item from a drop down list using simple selection
 	 *
 	 * @param itemAlias     If this word is found in the step, it means the itemName is found from the data
@@ -78,19 +71,19 @@ public class DropDownStepDefinitions {
 
 		try {
 			final String selection = AUTO_ALIAS_UTILS.getValue(
-				itemName, StringUtils.isNotBlank(itemAlias), featureState);
+				itemName, StringUtils.isNotBlank(itemAlias), State.getFeatureStateForThread());
 
 			checkState(selection != null, "the aliased item name does not exist");
 
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 
 			final Select select = new Select(element);
 			select.selectByVisibleText(selection);
 
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -124,7 +117,7 @@ public class DropDownStepDefinitions {
 
 		try {
 			final String selection = AUTO_ALIAS_UTILS.getValue(
-				itemName, StringUtils.isNotBlank(itemAlias), featureState);
+				itemName, StringUtils.isNotBlank(itemAlias), State.getFeatureStateForThread());
 
 			checkState(selection != null, "the aliased item name does not exist");
 
@@ -132,18 +125,18 @@ public class DropDownStepDefinitions {
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
-				featureState.getDefaultWait(),
+				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			final Select select = new Select(element);
 			select.selectByVisibleText(selection);
 
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -174,18 +167,18 @@ public class DropDownStepDefinitions {
 		final String exists) {
 		try {
 			final String selection = AUTO_ALIAS_UTILS.getValue(
-				itemIndex, StringUtils.isNotBlank(itemAlias), featureState);
+				itemIndex, StringUtils.isNotBlank(itemAlias), State.getFeatureStateForThread());
 
 			checkState(selection != null, "the aliased item index does not exist");
 
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 
 			final Select select = new Select(element);
 			select.selectByIndex(Integer.parseInt(selection));
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -218,7 +211,7 @@ public class DropDownStepDefinitions {
 		final String exists) {
 		try {
 			final String selection = AUTO_ALIAS_UTILS.getValue(
-				itemIndex, StringUtils.isNotBlank(itemAlias), featureState);
+				itemIndex, StringUtils.isNotBlank(itemAlias), State.getFeatureStateForThread());
 
 			checkState(selection != null, "the aliased item index does not exist");
 
@@ -226,17 +219,17 @@ public class DropDownStepDefinitions {
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
-				featureState.getDefaultWait(),
+				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			final Select select = new Select(element);
 			select.selectByIndex(Integer.parseInt(selection));
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;

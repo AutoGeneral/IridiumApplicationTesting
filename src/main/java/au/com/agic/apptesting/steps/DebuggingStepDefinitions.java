@@ -1,7 +1,6 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,12 +30,6 @@ public class DebuggingStepDefinitions {
 	private ScreenshotUtils SCREENSHOT_UTILS;
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * Manually save a screenshot
 	 *
 	 * @param filename The optional filename to use for the screenshot
@@ -45,7 +38,7 @@ public class DebuggingStepDefinitions {
 	public void takeScreenshotStep(final String filename) {
 		SCREENSHOT_UTILS.takeScreenshot(
 			StringUtils.defaultIfBlank(filename, ""),
-			featureState);
+			State.getFeatureStateForThread());
 	}
 
 	/**
@@ -95,8 +88,8 @@ public class DebuggingStepDefinitions {
 	@When("I dump the alias map to the console$")
 	public void dumpAliasMap() {
 		LOGGER.info("Dump of the alias map for thread {}", Thread.currentThread().getName());
-		for (final String key : featureState.getDataSet().keySet()) {
-			LOGGER.info("{}: {}", key, featureState.getDataSet().get(key));
+		for (final String key : State.getFeatureStateForThread().getDataSet().keySet()) {
+			LOGGER.info("{}: {}", key, State.getFeatureStateForThread().getDataSet().get(key));
 		}
 	}
 

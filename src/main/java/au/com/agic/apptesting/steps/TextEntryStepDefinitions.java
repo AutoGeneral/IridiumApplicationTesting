@@ -5,7 +5,6 @@ import static com.google.common.base.Preconditions.checkState;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
@@ -52,12 +51,6 @@ public class TextEntryStepDefinitions {
 	private static final Pattern SINGLE_QUOTE_RE = Pattern.compile("'");
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * Clears the contents of an element using simple selection
 	 *
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
@@ -72,9 +65,9 @@ public class TextEntryStepDefinitions {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
-			featureState);
+			State.getFeatureStateForThread());
 		element.clear();
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -90,14 +83,14 @@ public class TextEntryStepDefinitions {
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
 	public void clearElement(final String selector, final String alias, final String selectorValue) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
-			featureState.getDefaultWait(),
+			State.getFeatureStateForThread().getDefaultWait(),
 			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		element.clear();
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -117,11 +110,11 @@ public class TextEntryStepDefinitions {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
-			featureState);
+			State.getFeatureStateForThread());
 
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("arguments[0].value='';", element);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -137,15 +130,15 @@ public class TextEntryStepDefinitions {
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
 	public void clearHiddenElement(final String selector, final String alias, final String selectorValue) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
-			featureState.getDefaultWait(),
+			State.getFeatureStateForThread().getDefaultWait(),
 			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("arguments[0].value='';", element);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 
@@ -176,20 +169,20 @@ public class TextEntryStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 
 			// Simulate key presses
 			final String value = AUTO_ALIAS_UTILS.getValue(
-				content, StringUtils.isNotBlank(contentAlias), featureState);
+				content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
 			for (final Character character : value.toCharArray()) {
-				SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
+				SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 				element.sendKeys(character.toString());
 			}
 
-			SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 			element.submit();
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -227,25 +220,25 @@ public class TextEntryStepDefinitions {
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
-				featureState.getDefaultWait(),
+				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			// Simulate key presses
 			final String value = AUTO_ALIAS_UTILS.getValue(
-				content, StringUtils.isNotBlank(contentAlias), featureState);
+				content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
 			for (final Character character : value.toCharArray()) {
-				SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
+				SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 				element.sendKeys(character.toString());
 			}
 
-			SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 			element.submit();
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -285,13 +278,13 @@ public class TextEntryStepDefinitions {
 		final Integer delay) {
 		try {
 			final Integer fixedDelay = delay == null
-				? featureState.getDefaultKeyStrokeDelay()
+				? State.getFeatureStateForThread().getDefaultKeyStrokeDelay()
 				: delay;
 
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 
 			/*
 				See if the element is blank, or contains only underscores (as you might find in
@@ -305,7 +298,7 @@ public class TextEntryStepDefinitions {
 			if (processElement) {
 				// Simulate key presses
 				final String textValue = AUTO_ALIAS_UTILS.getValue(
-					content, StringUtils.isNotBlank(contentAlias), featureState);
+					content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
 				checkState(textValue != null, "the aliased text value does not exist");
 
@@ -313,7 +306,7 @@ public class TextEntryStepDefinitions {
 					SLEEP_UTILS.sleep(fixedDelay);
 					element.sendKeys(character.toString());
 				}
-				SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+				SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
 		} catch (final Exception ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -356,18 +349,18 @@ public class TextEntryStepDefinitions {
 		final Integer delay) {
 		try {
 			final Integer fixedDelay = delay == null
-				? featureState.getDefaultKeyStrokeDelay()
+				? State.getFeatureStateForThread().getDefaultKeyStrokeDelay()
 				: delay;
 
 			final By by = GET_BY.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
-				featureState.getDefaultWait(),
+				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
@@ -383,7 +376,7 @@ public class TextEntryStepDefinitions {
 			if (processElement) {
 				// Simulate key presses
 				final String textValue = AUTO_ALIAS_UTILS.getValue(
-					content, StringUtils.isNotBlank(contentAlias), featureState);
+					content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
 				checkState(textValue != null, "the aliased text value does not exist");
 
@@ -391,7 +384,7 @@ public class TextEntryStepDefinitions {
 					SLEEP_UTILS.sleep(fixedDelay);
 					element.sendKeys(character.toString());
 				}
-				SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+				SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -434,12 +427,12 @@ public class TextEntryStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 
 			final String startValue = AUTO_ALIAS_UTILS.getValue(
-				randomStart, StringUtils.isNotBlank(randomStartAlias), featureState);
+				randomStart, StringUtils.isNotBlank(randomStartAlias), State.getFeatureStateForThread());
 			final String endValue = AUTO_ALIAS_UTILS.getValue(
-				randomEnd, StringUtils.isNotBlank(randomEndAlias), featureState);
+				randomEnd, StringUtils.isNotBlank(randomEndAlias), State.getFeatureStateForThread());
 
 			checkState(startValue != null, "the aliased start value does not exist");
 			checkState(endValue != null, "the aliased end value does not exist");
@@ -451,10 +444,10 @@ public class TextEntryStepDefinitions {
 
 			// Simulate key presses
 			for (final Character character : random.toString().toCharArray()) {
-				SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
+				SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 				element.sendKeys(character.toString());
 			}
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -504,20 +497,20 @@ public class TextEntryStepDefinitions {
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
-				featureState.getDefaultWait(),
+				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			final String startValue = AUTO_ALIAS_UTILS.getValue(
-				randomStart, StringUtils.isNotBlank(randomStartAlias), featureState);
+				randomStart, StringUtils.isNotBlank(randomStartAlias), State.getFeatureStateForThread());
 
 			final String endValue = AUTO_ALIAS_UTILS.getValue(
-				randomEnd, StringUtils.isNotBlank(randomEndAlias), featureState);
+				randomEnd, StringUtils.isNotBlank(randomEndAlias), State.getFeatureStateForThread());
 
 			final Integer int1 = Integer.parseInt(startValue);
 			final Integer int2 = Integer.parseInt(endValue);
@@ -526,10 +519,10 @@ public class TextEntryStepDefinitions {
 
 			// Simulate key presses
 			for (final Character character : random.toString().toCharArray()) {
-				SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
+				SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 				element.sendKeys(character.toString());
 			}
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -568,10 +561,10 @@ public class TextEntryStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 
 			final String textValue = AUTO_ALIAS_UTILS.getValue(
-				content, StringUtils.isNotBlank(contentAlias), featureState);
+				content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -580,7 +573,7 @@ public class TextEntryStepDefinitions {
 					+ SINGLE_QUOTE_RE.matcher(textValue).replaceAll("\\'")
 					+ "';", element);
 
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -617,16 +610,16 @@ public class TextEntryStepDefinitions {
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
-				featureState.getDefaultWait(),
+				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 
 			final String textValue = AUTO_ALIAS_UTILS.getValue(
-				content, StringUtils.isNotBlank(contentAlias), featureState);
+				content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript(
@@ -634,7 +627,7 @@ public class TextEntryStepDefinitions {
 					+ SINGLE_QUOTE_RE.matcher(textValue).replaceAll("\\'")
 					+ "';", element);
 
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -676,15 +669,15 @@ public class TextEntryStepDefinitions {
 		final String empty) {
 		try {
 			final String attr = AUTO_ALIAS_UTILS.getValue(
-				attributeName, StringUtils.isNotBlank(attributeNameAlias), featureState);
+				attributeName, StringUtils.isNotBlank(attributeNameAlias), State.getFeatureStateForThread());
 
 			final String value = AUTO_ALIAS_UTILS.getValue(
-				attributeValue, StringUtils.isNotBlank(attributeValueAlias), featureState);
+				attributeValue, StringUtils.isNotBlank(attributeValueAlias), State.getFeatureStateForThread());
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
-				featureState.getDefaultWait(),
+				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(
 				ExpectedConditions.elementToBeClickable(
@@ -701,13 +694,13 @@ public class TextEntryStepDefinitions {
 			if (processElement) {
 				// Simulate key presses
 				final String textValue = AUTO_ALIAS_UTILS.getValue(
-					content, StringUtils.isNotBlank(contentAlias), featureState);
+					content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
 				for (final Character character : textValue.toCharArray()) {
-					SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
+					SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 					element.sendKeys(character.toString());
 				}
-				SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+				SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {

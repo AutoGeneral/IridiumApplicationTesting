@@ -1,7 +1,6 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
 
 import org.openqa.selenium.Dimension;
@@ -27,12 +26,6 @@ public class TabAndWindowStepDefinition {
 	private SleepUtils SLEEP_UTILS;
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * Switchs to the specified tab. This is useful when you open a link that opens in a new window.
 	 *
 	 * @param tabIndex The index of the new tab. Usually 1 (the original tab will be 0)
@@ -42,7 +35,7 @@ public class TabAndWindowStepDefinition {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final List<String> tabs2 = new ArrayList<>(webDriver.getWindowHandles());
 		webDriver.switchTo().window(tabs2.get(Integer.parseInt(tabIndex)));
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -55,7 +48,7 @@ public class TabAndWindowStepDefinition {
 			.filter(e -> !e.equals(webDriver.getWindowHandle()))
 			.forEach(e -> webDriver.switchTo().window(e));
 
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -65,7 +58,7 @@ public class TabAndWindowStepDefinition {
 	public void maximiseWindow() {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		webDriver.manage().window().maximize();
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**

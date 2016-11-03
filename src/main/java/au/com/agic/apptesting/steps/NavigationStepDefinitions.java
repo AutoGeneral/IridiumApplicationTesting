@@ -2,7 +2,6 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,12 +27,6 @@ public class NavigationStepDefinitions {
 	private AutoAliasUtils AUTO_ALIAS_UTILS;
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * Go back
 	 * @param ignoreErrors Ignores any errors thrown by the web driver. Only useful for debugging
 	 */
@@ -42,7 +35,7 @@ public class NavigationStepDefinitions {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			webDriver.navigate().back();
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			/*
 				Safari doesn't support navigation:
@@ -64,7 +57,7 @@ public class NavigationStepDefinitions {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			webDriver.navigate().forward();
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			/*
 				Safari doesn't support navigation:
@@ -86,7 +79,7 @@ public class NavigationStepDefinitions {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			webDriver.navigate().refresh();
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			/*
 				Safari doesn't support navigation:
@@ -107,10 +100,10 @@ public class NavigationStepDefinitions {
 	 */
 	@When("I go to the hash location( alias)? \"(.*?)\"")
 	public void openHash(final String alias, final String hash) {
-		final String hashValue = AUTO_ALIAS_UTILS.getValue(hash, StringUtils.isNotBlank(alias), featureState);
+		final String hashValue = AUTO_ALIAS_UTILS.getValue(hash, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		((JavascriptExecutor) webDriver).executeScript("window.location.hash='#" + hashValue + "'");
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 }

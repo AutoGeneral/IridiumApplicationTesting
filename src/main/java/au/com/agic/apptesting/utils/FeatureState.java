@@ -1,5 +1,6 @@
 package au.com.agic.apptesting.utils;
 
+import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 
 import java.util.List;
@@ -12,6 +13,11 @@ import javax.validation.constraints.NotNull;
  * Represents the details required by a feature to run in a particular thread.
  */
 public interface FeatureState {
+
+	default FeatureState getFeatureStateForThread() {
+		return State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
+			Thread.currentThread().getName());
+	}
 
 	/**
 	 *

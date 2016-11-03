@@ -12,7 +12,6 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ZAPPolicyException;
 import au.com.agic.apptesting.utils.CastUtils;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.impl.ZapProxyUtilsImpl;
 import au.com.agic.apptesting.zap.ZAPFalsePositive;
 
@@ -132,12 +131,6 @@ public class ZAPStepDefinitions {
 	private static final int DEFAULT_SPIDER_THREAD_COUNT = 10;
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * The suffix of the directory that we will save zap report files in
 	 */
 	private static final String ZAP_REPORT_DIR_SUFFIX = "zap";
@@ -153,9 +146,9 @@ public class ZAPStepDefinitions {
 	 */
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	private ClientApi getClientApi() {
-		checkState(featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent(), ERROR_MESSAGE);
+		checkState(State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent(), ERROR_MESSAGE);
 
-		final Optional<?> proxyInterface = featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
+		final Optional<?> proxyInterface = State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getInterface();
 
 		checkState(proxyInterface.isPresent() && proxyInterface.get() instanceof ClientApi, ERROR_MESSAGE);
@@ -170,7 +163,7 @@ public class ZAPStepDefinitions {
 	@When("I create an empty ZAP session")
 	public void startSession() throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
-		final String url = featureState.getUrlDetails().getDefaultUrl();
+		final String url = State.getFeatureStateForThread().getUrlDetails().getDefaultUrl();
 		clientApi.httpSessions.createEmptySession(Constants.ZAP_API_KEY, url, "session");
 	}
 
@@ -181,7 +174,7 @@ public class ZAPStepDefinitions {
 	@When("I set the active ZAP session")
 	public void activeSession() throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
-		final String url = featureState.getUrlDetails().getDefaultUrl();
+		final String url = State.getFeatureStateForThread().getUrlDetails().getDefaultUrl();
 		clientApi.httpSessions.addSessionToken(Constants.ZAP_API_KEY, url, "session");
 	}
 
@@ -197,7 +190,7 @@ public class ZAPStepDefinitions {
 		final ClientApi clientApi = getClientApi();
 		final String report = new String(clientApi.core.xmlreport(Constants.ZAP_API_KEY));
 
-		final File reportDir = new File(featureState.getReportDirectory());
+		final File reportDir = new File(State.getFeatureStateForThread().getReportDirectory());
 		final File zapReportDir = new File(
 			reportDir,
 			Thread.currentThread().getName() + "." + ZAP_REPORT_DIR_SUFFIX);
@@ -219,10 +212,10 @@ public class ZAPStepDefinitions {
 		clientApi.pscan.enableAllScanners(Constants.ZAP_API_KEY);
 		clientApi.ascan.enableAllScanners(Constants.ZAP_API_KEY, null);
 
-		final Map<String, Object> properties = featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
+		final Map<String, Object> properties = State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties();
 		properties.put(GLOBAL_SCANNER_POLICY_KEY, "ALL");
-		featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
+		State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
 	}
 
 	/**
@@ -236,10 +229,10 @@ public class ZAPStepDefinitions {
 		clientApi.pscan.disableAllScanners(Constants.ZAP_API_KEY);
 		clientApi.ascan.disableAllScanners(Constants.ZAP_API_KEY, null);
 
-		final Map<String, Object> properties = featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
+		final Map<String, Object> properties = State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties();
 		properties.put(GLOBAL_SCANNER_POLICY_KEY, "NONE");
-		featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
+		State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
 	}
 
 	/**
@@ -249,16 +242,16 @@ public class ZAPStepDefinitions {
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Given("the passive scanner is enabled")
 	public void enablePassiveScanner() throws ClientApiException {
-		checkState(featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
+		checkState(State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
 
 		final ClientApi clientApi = getClientApi();
 		clientApi.pscan.enableAllScanners(Constants.ZAP_API_KEY);
 		clientApi.ascan.disableAllScanners(Constants.ZAP_API_KEY, null);
 
-		final Map<String, Object> properties = featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
+		final Map<String, Object> properties = State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties();
 		properties.put(GLOBAL_SCANNER_POLICY_KEY, "PASSIVE");
-		featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
+		State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
 	}
 
 	/**
@@ -268,16 +261,16 @@ public class ZAPStepDefinitions {
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Given("the active scanner is enabled")
 	public void enableActiveScanner() throws ClientApiException {
-		checkState(featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
+		checkState(State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
 
 		final ClientApi clientApi = getClientApi();
 		clientApi.pscan.disableAllScanners(Constants.ZAP_API_KEY);
 		clientApi.ascan.enableAllScanners(Constants.ZAP_API_KEY, null);
 
-		final Map<String, Object> properties = featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
+		final Map<String, Object> properties = State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties();
 		properties.put(GLOBAL_SCANNER_POLICY_KEY, "ACTIVE");
-		featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
+		State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
 	}
 
 	/**
@@ -289,7 +282,7 @@ public class ZAPStepDefinitions {
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@Given("the \"(.*?)\" policy is enabled")
 	public void enablePolicy(final String policyName) throws ClientApiException {
-		checkState(featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
+		checkState(State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
 
 		final ClientApi clientApi = getClientApi();
 
@@ -303,10 +296,10 @@ public class ZAPStepDefinitions {
 			throw new ZAPPolicyException("No matching policy found for: " + policyName);
 		}
 
-		final Map<String, Object> properties = featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
+		final Map<String, Object> properties = State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties();
 		properties.put(SCANNER_IDS_KEY, scannerIds);
-		featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
+		State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
 
 		clientApi.ascan.enableScanners(Constants.ZAP_API_KEY, scannerIds, null);
 	}
@@ -383,8 +376,8 @@ public class ZAPStepDefinitions {
 	public void runScanner(final String appName) throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
 		final String url = StringUtils.isNotBlank(appName)
-			? featureState.getUrlDetails().getUrl(appName)
-			: featureState.getUrlDetails().getDefaultUrl();
+			? State.getFeatureStateForThread().getUrlDetails().getUrl(appName)
+			: State.getFeatureStateForThread().getUrlDetails().getDefaultUrl();
 
 		LOGGER.info("Scanning: {}", url);
 		clientApi.ascan.scan(Constants.ZAP_API_KEY, url, "true", "false", null, null, null);
@@ -474,14 +467,14 @@ public class ZAPStepDefinitions {
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	@When("the following false positives are ignored")
 	public void removeFalsePositives(final List<ZAPFalsePositive> falsePositives) throws ClientApiException {
-		checkState(featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
+		checkState(State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
 
 		final ClientApi clientApi = getClientApi();
 
-		final Map<String, Object> properties = featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
+		final Map<String, Object> properties = State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties();
 		properties.put(FALSE_POSITIVES_KEY, falsePositives);
-		featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
+		State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().setProperties(properties);
 	}
 
 	/**
@@ -566,11 +559,11 @@ public class ZAPStepDefinitions {
 	@SuppressWarnings({"unchecked", "OptionalGetWithoutIsPresent"})
 	@And("^the application is spidered(?: to a depth of\"(\\d+)\")?(?: timing out after \"(\\d+)\" seconds)?$")
 	public void theApplicationIsSpidered(final Integer depth, final Integer timeout) throws ClientApiException {
-		checkState(featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
+		checkState(State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
 
 		final ClientApi clientApi = getClientApi();
 
-		final Map<String, Object> properties = featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
+		final Map<String, Object> properties = State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties();
 
 		if (!properties.containsKey(SPIDERED_KEY)
@@ -592,7 +585,7 @@ public class ZAPStepDefinitions {
 
 			clientApi.spider.scan(
 				Constants.ZAP_API_KEY,
-				featureState.getUrlDetails().getDefaultUrl(),
+				State.getFeatureStateForThread().getUrlDetails().getDefaultUrl(),
 				null,
 				null,
 				null,
@@ -656,9 +649,9 @@ public class ZAPStepDefinitions {
 	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	private Optional<String> getProxySetting(final String key) {
 		checkArgument(StringUtils.isNotBlank(key));
-		checkState(featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
+		checkState(State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
 
-		return featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
+		return State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties().entrySet().stream()
 			.filter(e -> key.equals(e.getKey()))
 			.filter(e -> Objects.nonNull(e.getValue()))
@@ -670,10 +663,10 @@ public class ZAPStepDefinitions {
 	@SuppressWarnings({"unchecked", "OptionalGetWithoutIsPresent"})
 	private List<Alert> removeFalsePositivesFromAlerts(@NotNull final List<Alert> alerts) {
 		checkNotNull(alerts);
-		checkState(featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
+		checkState(State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
 
 		final Map<String, Object> properties =
-			featureState.getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().getProperties();
+			State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).get().getProperties();
 		if (properties.containsKey(FALSE_POSITIVES_KEY)) {
 			final List<ZAPFalsePositive> falsePositives =
 				(List<ZAPFalsePositive>) properties.get(FALSE_POSITIVES_KEY);

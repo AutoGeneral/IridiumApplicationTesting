@@ -2,7 +2,6 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.JavaScriptRunner;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
@@ -43,12 +42,6 @@ public class MouseEventStepDefinitions {
 	private JavaScriptRunner JAVA_SCRIPT_RUNNER;
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * Some applications use mouse events instead of clicks, and PhantomJS will often need us to supply these
 	 * events manually. This step uses simple selection.
 	 *
@@ -73,14 +66,14 @@ public class MouseEventStepDefinitions {
 			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			/*
 				Just like the click, sometimes we need to trigger mousedown events manually
 			 */
 			JAVA_SCRIPT_RUNNER.interactHiddenElementMouseEvent(element, event, js);
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -115,11 +108,11 @@ public class MouseEventStepDefinitions {
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
-				featureState);
+				State.getFeatureStateForThread());
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
-				featureState.getDefaultWait(),
+				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -128,7 +121,7 @@ public class MouseEventStepDefinitions {
 				Just like the click, sometimes we need to trigger mousedown events manually
 			 */
 			JAVA_SCRIPT_RUNNER.interactHiddenElementMouseEvent(element, event, js);
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;

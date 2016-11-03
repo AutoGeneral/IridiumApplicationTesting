@@ -4,7 +4,6 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.exception.InvalidInputException;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.ChronoConverterUtils;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,12 +38,6 @@ public class ModifyStepDefinitions {
 	private AutoAliasUtils AUTO_ALIAS_UTILS;
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * Modify an aliased value. This is useful if you want to turn a string like $1,2345.50
 	 * to an decimal like 12345.50.
 	 *
@@ -53,11 +46,11 @@ public class ModifyStepDefinitions {
 	 */
 	@Then("^I modify(?: the)? alias \"(.*?)\" by removing all characters that match the regex \"(.*?)\"$")
 	public void removeCharsInAlias(final String alias, final String regex) {
-		final String value = featureState.getDataSet().get(alias);
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final String fixedValue = value.replaceAll(regex, "");
-		final Map<String, String> dataset = featureState.getDataSet();
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
 		dataset.put(alias, fixedValue);
-		featureState.setDataSet(dataset);
+		State.getFeatureStateForThread().setDataSet(dataset);
 	}
 
 	/**
@@ -70,11 +63,11 @@ public class ModifyStepDefinitions {
 	@Then("^I modify(?: the)? alias \"(.*?)\" by replacing all characters that match the regex "
 			+ "\"(.*?)\" with \"(.*?)\"$")
 	public void replaceCharsInAlias(final String alias, final String regex, final String replacement) {
-		final String value = featureState.getDataSet().get(alias);
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final String fixedValue = value.replaceAll(regex, replacement);
-		final Map<String, String> dataset = featureState.getDataSet();
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
 		dataset.put(alias, fixedValue);
-		featureState.setDataSet(dataset);
+		State.getFeatureStateForThread().setDataSet(dataset);
 	}
 
 	/**
@@ -87,11 +80,11 @@ public class ModifyStepDefinitions {
 	@Then("^I modify(?: the)? alias \"(.*?)\" by replacing the first characters that match the regex "
 			+ "\"(.*?)\" with \"(.*?)\"$")
 	public void replaceFirstCharsInAlias(final String alias, final String regex, final String replacement) {
-		final String value = featureState.getDataSet().get(alias);
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final String fixedValue = value.replaceFirst(regex, replacement);
-		final Map<String, String> dataset = featureState.getDataSet();
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
 		dataset.put(alias, fixedValue);
-		featureState.setDataSet(dataset);
+		State.getFeatureStateForThread().setDataSet(dataset);
 	}
 
 	/**
@@ -103,14 +96,14 @@ public class ModifyStepDefinitions {
 	 */
 	@Then("^I modify(?: the)? alias \"(.*?)\" by prepending it with( alias)? \"(.*?)\"$")
 	public void prependAlias(final String alias, final String valueAlias, final String prepend) {
-		final String value = featureState.getDataSet().get(alias);
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final String prependValue = StringUtils.isNotBlank(valueAlias)
-			? featureState.getDataSet().get(prepend)
+			? State.getFeatureStateForThread().getDataSet().get(prepend)
 			: prepend;
 
-		final Map<String, String> dataset = featureState.getDataSet();
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
 		dataset.put(alias, prependValue + value);
-		featureState.setDataSet(dataset);
+		State.getFeatureStateForThread().setDataSet(dataset);
 	}
 
 	/**
@@ -122,14 +115,14 @@ public class ModifyStepDefinitions {
 	 */
 	@Then("^I modify(?: the)? alias \"(.*?)\" by appending it with( alias)? \"(.*?)\"$")
 	public void appendAlias(final String alias, final String valueAlias, final String append) {
-		final String value = featureState.getDataSet().get(alias);
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final String appendValue = StringUtils.isNotBlank(valueAlias)
-			? featureState.getDataSet().get(append)
+			? State.getFeatureStateForThread().getDataSet().get(append)
 			: append;
 
-		final Map<String, String> dataset = featureState.getDataSet();
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
 		dataset.put(alias, value + appendValue);
-		featureState.setDataSet(dataset);
+		State.getFeatureStateForThread().setDataSet(dataset);
 	}
 
 	/**
@@ -138,12 +131,12 @@ public class ModifyStepDefinitions {
 	 */
 	@Then("^I modify(?: the)? alias \"(.*?)\" by trimming it$")
 	public void trimAlias(final String alias) {
-		final String value = featureState.getDataSet().get(alias);
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final String trimmedValue = value.trim();
 
-		final Map<String, String> dataset = featureState.getDataSet();
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
 		dataset.put(alias, trimmedValue);
-		featureState.setDataSet(dataset);
+		State.getFeatureStateForThread().setDataSet(dataset);
 	}
 
 	/**
@@ -154,11 +147,11 @@ public class ModifyStepDefinitions {
 	 */
 	@Then("^I copy(?: the)? alias \"(.*?)\" to(?: the)? alias \"(.*?)\"$")
 	public void copyAlias(final String source, final String destination) {
-		final String value = featureState.getDataSet().get(source);
+		final String value = State.getFeatureStateForThread().getDataSet().get(source);
 
-		final Map<String, String> dataset = featureState.getDataSet();
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
 		dataset.put(destination, value);
-		featureState.setDataSet(dataset);
+		State.getFeatureStateForThread().setDataSet(dataset);
 	}
 
 	/**
@@ -176,7 +169,7 @@ public class ModifyStepDefinitions {
 		final String alias) {
 
 		final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(format);
-		final Map<String, String> dataset = featureState.getDataSet();
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
 
 		LocalDateTime date = LocalDateTime.now();
 
@@ -184,7 +177,7 @@ public class ModifyStepDefinitions {
 			final String fixedOffsetAmount = AUTO_ALIAS_UTILS.getValue(
 				offsetAmount,
 				StringUtils.isNotBlank(offsetAlias),
-				featureState);
+				State.getFeatureStateForThread());
 
 			if (!fixedOffsetAmount.matches("^-?\\d+ \\w+$")) {
 				throw new InvalidInputException(
@@ -198,7 +191,7 @@ public class ModifyStepDefinitions {
 		}
 
 		dataset.put(alias, dateFormatter.format(date));
-		featureState.setDataSet(dataset);
+		State.getFeatureStateForThread().setDataSet(dataset);
 	}
 
 }
