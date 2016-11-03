@@ -94,7 +94,7 @@ public class DebuggingStepDefinitions {
 
 	@When("I dump the alias map to the console$")
 	public void dumpAliasMap() {
-		LOGGER.info("Dump of the alias map.");
+		LOGGER.info("Dump of the alias map for thread {}", Thread.currentThread().getName());
 		for (final String key : featureState.getDataSet().keySet()) {
 			LOGGER.info("{}: {}", key, featureState.getDataSet().get(key));
 		}

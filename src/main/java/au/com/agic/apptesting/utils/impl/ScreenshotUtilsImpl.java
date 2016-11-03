@@ -57,7 +57,7 @@ public class ScreenshotUtilsImpl implements ScreenshotUtils {
 						sorting.
 					 */
 					final String filename = new SimpleDateFormat(SCREENSHOT_DATE_FORMAT)
-						.format(new Date()) + suffix + ".png";
+						.format(new Date()) + " " + Thread.currentThread().getName() + suffix + ".png";
 
 					final File reportFile =
 						new File(featureState.getReportDirectory() + "/" + filename);

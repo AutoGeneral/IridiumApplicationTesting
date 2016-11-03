@@ -206,7 +206,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		return tempFolders;
 	}
 
-	private Integer getMaxDataSets() {
+	private synchronized Integer getMaxDataSets() {
 		try {
 			final String maxDataSets =
 				SYSTEM_PROPERTY_UTILS.getProperty(Constants.NUMBER_DATA_SETS_SYSTEM_PROPERTY);
