@@ -49,6 +49,7 @@ public class JUnitReportMergeImpl implements JUnitReportMerge {
 				/*
 					Bamboo requires that test names be unique, so we prefix each with
 					an index.
+					https://answers.atlassian.com/questions/192018/bamboo-junit-parser-with-duplicate-testcase-names
 				 */
 				for (final Testcase testCase : testSuite.getTestcase()) {
 					testCase.setName(index + ": " + testCase.getName());
