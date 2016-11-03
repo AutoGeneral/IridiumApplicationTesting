@@ -23,19 +23,13 @@ public class InitialisationStepDefinitions {
 	private static final long MILLISECONDS_PER_SECOND = 1000;
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * Sets the default amount of time to wait between simulated key presses
 	 * @param delay The number of milliseconds to pause between simulated key presses
 	 */
 	@When("^I set the default keystroke delay to \"(\\d+)\" milliseconds$")
 	public void setKeystrokeDelay(final Integer delay) {
 		checkArgument(delay >= 0);
-		featureState.setDefaultKeyStrokeDelay(delay);
+		State.getFeatureStateForThread().setDefaultKeyStrokeDelay(delay);
 	}
 
 	/**
@@ -49,7 +43,7 @@ public class InitialisationStepDefinitions {
 	@When("^I set the default wait time between steps to \"(\\d+(?:\\.\\d+)?)\"(?: seconds?)?$")
 	public void setDefaultSleepTime(final String numberOfSeconds) {
 		final float waitTime = Float.parseFloat(numberOfSeconds) * MILLISECONDS_PER_SECOND;
-		featureState.setDefaultSleep((long)waitTime);
+		State.getFeatureStateForThread().setDefaultSleep((long)waitTime);
 	}
 
 	/**
@@ -63,7 +57,7 @@ public class InitialisationStepDefinitions {
 	@When("^I set the default wait for elements to be available to \"(\\d+)\"(?: seconds?)?$")
 	public void setDefaultWaitTime(final Integer numberOfSeconds) {
 		checkArgument(numberOfSeconds >= 0);
-		featureState.setDefaultWait(numberOfSeconds);
+		State.getFeatureStateForThread().setDefaultWait(numberOfSeconds);
 	}
 
 	/**
@@ -73,9 +67,9 @@ public class InitialisationStepDefinitions {
 	 */
 	@Given("^(?:I set )?the alias mappings")
 	public void pageObjectMappings(final Map<String, String> aliasTable) {
-		final Map<String, String> dataset = featureState.getDataSet();
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
 		dataset.putAll(aliasTable);
-		featureState.setDataSet(dataset);
+		State.getFeatureStateForThread().setDataSet(dataset);
 	}
 
 	/**
@@ -85,7 +79,7 @@ public class InitialisationStepDefinitions {
 	@Given("^I set autoaliasing to \"((?:true)|(?:false))\"$")
 	public void configureAutoaliasing(final String enabled) {
 		final boolean enabledValue = Boolean.parseBoolean(enabled);
-		featureState.setAutoAlias(enabledValue);
+		State.getFeatureStateForThread().setAutoAlias(enabledValue);
 	}
 
 	/**
@@ -93,7 +87,7 @@ public class InitialisationStepDefinitions {
 	 */
 	@Given("^I enable autoaliasing$")
 	public void enableAutoaliasing() {
-		featureState.setAutoAlias(true);
+		State.getFeatureStateForThread().setAutoAlias(true);
 	}
 
 	/**
@@ -101,6 +95,6 @@ public class InitialisationStepDefinitions {
 	 */
 	@Given("^I disable autoaliasing$")
 	public void disableAutoaliasing() {
-		featureState.setAutoAlias(false);
+		State.getFeatureStateForThread().setAutoAlias(false);
 	}
 }

@@ -45,13 +45,7 @@ public class OpenStepDefinitions {
 	 * and testing a page with lots of links will take forever.
 	 */
 	private static final int TAB_OPEN_TIME = 5000;
-
-	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
+	
 	/**
 	 * Opens up the supplied URL.
 	 *
@@ -62,9 +56,9 @@ public class OpenStepDefinitions {
 	@When("^I open the page( alias)? \"([^\"]*)\"$")
 	public void openPage(final String alias, final String url) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final String urlValue = AUTO_ALIAS_UTILS.getValue(url, StringUtils.isNotBlank(alias), featureState);
+		final String urlValue = AUTO_ALIAS_UTILS.getValue(url, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 		webDriver.get(urlValue);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -83,9 +77,9 @@ public class OpenStepDefinitions {
 
 		if (StringUtils.isNotBlank(urlName)) {
 			LOGGER.info("WEBAPPTESTER-INFO-0001: Opened the url {}",
-				featureState.getUrlDetails().getUrl(urlName));
+				State.getFeatureStateForThread().getUrlDetails().getUrl(urlName));
 
-			final String url = featureState.getUrlDetails().getUrl(urlName);
+			final String url = State.getFeatureStateForThread().getUrlDetails().getUrl(urlName);
 
 			checkState(StringUtils.isNotBlank(url), "The url associated with the app name "
 				+ urlName + " was not found. "
@@ -99,11 +93,11 @@ public class OpenStepDefinitions {
 			webDriver.get(url);
 		} else {
 			LOGGER.info("WEBAPPTESTER-INFO-0001: Opened the url {}",
-				featureState.getUrlDetails().getDefaultUrl());
-			webDriver.get(featureState.getUrlDetails().getDefaultUrl());
+				State.getFeatureStateForThread().getUrlDetails().getDefaultUrl());
+			webDriver.get(State.getFeatureStateForThread().getUrlDetails().getDefaultUrl());
 		}
 
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**

@@ -34,12 +34,6 @@ public class StepEventHandling {
 	private WebDriverFactory WEB_DRIVER_FACTORY;
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * If any scenario failed, and Iridium is not set to continue after a scenario failure,
 	 * we skip any additional steps. This prevents a situation where the test script continues
 	 * to run after some earlier failure, which doesn't make sense in end to end tests.
@@ -53,8 +47,8 @@ public class StepEventHandling {
 		final boolean endAfterFirstErrorBool = StringUtils.isBlank(endAfterFirstError)
 			|| Boolean.parseBoolean(endAfterFirstError);
 
-		if (endAfterFirstErrorBool && featureState.getFailed()) {
-			featureState.setSkipSteps(true);
+		if (endAfterFirstErrorBool && State.getFeatureStateForThread().getFailed()) {
+			State.getFeatureStateForThread().setSkipSteps(true);
 		}
 	}
 
@@ -84,10 +78,10 @@ public class StepEventHandling {
 		/*
 			Take a screenshot
 		 */
-		if (!featureState.getFailed()) {
-			SCREENSHOT_UTILS.takeScreenshot(" " + scenario.getName(), featureState);
+		if (!State.getFeatureStateForThread().getFailed()) {
+			SCREENSHOT_UTILS.takeScreenshot(" " + scenario.getName(), State.getFeatureStateForThread());
 		}
 
-		featureState.setFailed(scenario.isFailed());
+		State.getFeatureStateForThread().setFailed(scenario.isFailed());
 	}
 }

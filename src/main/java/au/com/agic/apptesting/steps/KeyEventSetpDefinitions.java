@@ -44,12 +44,6 @@ public class KeyEventSetpDefinitions {
 	private JavaScriptRunner JAVA_SCRIPT_RUNNER;
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * Press the CTRL-A keys to the active element. This step is known to have issues
 	 * with the Firefox Marionette driver.
 	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
@@ -60,7 +54,7 @@ public class KeyEventSetpDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			if (StringUtils.isBlank(ignoreErrors)) {
 				throw ex;
@@ -79,7 +73,7 @@ public class KeyEventSetpDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.chord(Keys.COMMAND, "a"));
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			if (StringUtils.isBlank(ignoreErrors)) {
 				throw ex;
@@ -103,7 +97,7 @@ public class KeyEventSetpDefinitions {
 			} else {
 				element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
 			}
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			if (StringUtils.isBlank(ignoreErrors)) {
 				throw ex;
@@ -125,10 +119,10 @@ public class KeyEventSetpDefinitions {
 
 			for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
 				element.sendKeys(Keys.DELETE);
-				SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
+				SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 			}
 
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			if (StringUtils.isBlank(ignoreErrors)) {
 				throw ex;
@@ -147,7 +141,7 @@ public class KeyEventSetpDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.TAB);
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			if (StringUtils.isBlank(ignoreErrors)) {
 				throw ex;
@@ -166,7 +160,7 @@ public class KeyEventSetpDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.ARROW_DOWN);
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			if (StringUtils.isBlank(ignoreErrors)) {
 				throw ex;
@@ -187,10 +181,10 @@ public class KeyEventSetpDefinitions {
 			final WebElement element = webDriver.switchTo().activeElement();
 			for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
 				element.sendKeys(Keys.BACK_SPACE);
-				SLEEP_UTILS.sleep(featureState.getDefaultKeyStrokeDelay());
+				SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 			}
 
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			if (StringUtils.isBlank(ignoreErrors)) {
 				throw ex;
@@ -209,7 +203,7 @@ public class KeyEventSetpDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.ENTER);
-			SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			if (StringUtils.isBlank(ignoreErrors)) {
 				throw ex;
@@ -237,12 +231,12 @@ public class KeyEventSetpDefinitions {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
-			featureState);
+			State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		JAVA_SCRIPT_RUNNER.interactHiddenElementKeyEvent(element, event, js);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -266,14 +260,14 @@ public class KeyEventSetpDefinitions {
 			final String selectorValue) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
-			featureState.getDefaultWait(),
+			State.getFeatureStateForThread().getDefaultWait(),
 			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		JAVA_SCRIPT_RUNNER.interactHiddenElementKeyEvent(element, event, js);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 }

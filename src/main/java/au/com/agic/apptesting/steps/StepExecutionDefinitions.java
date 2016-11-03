@@ -17,9 +17,6 @@ public class StepExecutionDefinitions {
 	 */
 	@When("I skip all remaining steps")
 	public void skip() {
-		final FeatureState featureState =
-			State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-		featureState.setSkipSteps(true);
+		State.getFeatureStateForThread().setSkipSteps(true);
 	}
 }

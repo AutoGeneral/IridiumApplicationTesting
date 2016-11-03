@@ -41,12 +41,6 @@ public class CustomEventStepDefinitions {
 	private JavaScriptRunner JAVA_SCRIPT_RUNNER;
 
 	/**
-	 * Get the web driver for this thread
-	 */
-	private final FeatureState featureState =
-		State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
-
-	/**
 	 * Manually dispatch a change event to the element
 	 *
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
@@ -62,7 +56,7 @@ public class CustomEventStepDefinitions {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
-			featureState);
+			State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -73,7 +67,7 @@ public class CustomEventStepDefinitions {
 			+ "		   true"
 			+ "    );"
 			+ "    arguments[0].dispatchEvent(ev);", element);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -93,10 +87,10 @@ public class CustomEventStepDefinitions {
 			final String selectorValue) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
-			featureState.getDefaultWait(),
+			State.getFeatureStateForThread().getDefaultWait(),
 			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -109,7 +103,7 @@ public class CustomEventStepDefinitions {
 			+ "    );"
 			+ "    arguments[0].dispatchEvent(ev);", element);
 
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -128,7 +122,7 @@ public class CustomEventStepDefinitions {
 		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
-			featureState);
+			State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -139,7 +133,7 @@ public class CustomEventStepDefinitions {
 			+ "		   true"
 			+ "    );"
 			+ "    arguments[0].dispatchEvent(ev);", element);
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -159,10 +153,10 @@ public class CustomEventStepDefinitions {
 		final String selectorValue) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, featureState);
+		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
-			featureState.getDefaultWait(),
+			State.getFeatureStateForThread().getDefaultWait(),
 			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -175,6 +169,6 @@ public class CustomEventStepDefinitions {
 			+ "    );"
 			+ "    arguments[0].dispatchEvent(ev);", element);
 
-		SLEEP_UTILS.sleep(featureState.getDefaultSleep());
+		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 }
