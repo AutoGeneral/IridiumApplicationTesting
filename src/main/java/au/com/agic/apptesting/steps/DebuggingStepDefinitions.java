@@ -85,12 +85,25 @@ public class DebuggingStepDefinitions {
 		webDriver.manage().deleteAllCookies();
 	}
 
+	/**
+	 * Dumps the alias map to the console
+	 */
 	@When("I dump the alias map to the console$")
 	public void dumpAliasMap() {
 		LOGGER.info("Dump of the alias map for thread {}", Thread.currentThread().getName());
 		for (final String key : State.getFeatureStateForThread().getDataSet().keySet()) {
 			LOGGER.info("{}: {}", key, State.getFeatureStateForThread().getDataSet().get(key));
 		}
+	}
+
+	/**
+	 * Dumps the value of an alias to the console. This is useful when running test scripts
+	 * with data sets and finding out what value was used in a step for a certain run.
+	 * @param alias The name of the alias
+	 */
+	@When("I dump the value of the alias \"(.*?)\" to the console$")
+	public void dumpIndividualAlias(final String alias) {
+		LOGGER.info("Alias {} is set to {}", alias, State.getFeatureStateForThread().getDataSet().get(alias));
 	}
 
 	/**
