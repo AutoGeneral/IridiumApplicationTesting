@@ -1,5 +1,6 @@
 package au.com.agic.apptesting.utils.impl;
 
+import au.com.agic.apptesting.junit.Testcase;
 import au.com.agic.apptesting.junit.Testsuite;
 import au.com.agic.apptesting.utils.JUnitReportMerge;
 
@@ -37,13 +38,25 @@ public class JUnitReportMergeImpl implements JUnitReportMerge {
 			// The master test suite
 			final Testsuite masterTestSuite = new Testsuite();
 
+			int index = 1;
 			for (final String report : reports) {
 				final Testsuite testSuite = (Testsuite) jaxbUnmarshaller.unmarshal(new File(report));
 				masterTestSuite.setFailures(masterTestSuite.getFailures() + testSuite.getFailures());
 				masterTestSuite.setSkipped(masterTestSuite.getSkipped() + testSuite.getSkipped());
 				masterTestSuite.setTests(masterTestSuite.getTests() + testSuite.getTests());
 				masterTestSuite.setTime(masterTestSuite.getTime() + testSuite.getTime());
+
+				/*
+					Bamboo requires that test names be unique, so we prefix each with
+					an index.
+				 */
+				for (final Testcase testCase : testSuite.getTestcase()) {
+					testCase.setName(index + ": " + testCase.getName());
+				}
+
 				masterTestSuite.getTestcase().addAll(testSuite.getTestcase());
+
+				++index;
 			}
 
 			final ByteArrayOutputStream output = new ByteArrayOutputStream();
