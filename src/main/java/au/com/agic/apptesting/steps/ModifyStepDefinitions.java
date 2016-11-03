@@ -4,7 +4,6 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.exception.InvalidInputException;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.ChronoConverterUtils;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
 
 import org.apache.commons.lang3.StringUtils;

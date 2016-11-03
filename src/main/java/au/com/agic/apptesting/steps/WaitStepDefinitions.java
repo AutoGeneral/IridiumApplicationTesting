@@ -5,7 +5,6 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;

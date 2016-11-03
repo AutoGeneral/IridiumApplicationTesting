@@ -5,7 +5,6 @@ import static com.google.common.base.Preconditions.checkState;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;

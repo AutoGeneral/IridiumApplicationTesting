@@ -1,7 +1,6 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;

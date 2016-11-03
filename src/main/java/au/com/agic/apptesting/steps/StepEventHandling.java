@@ -2,7 +2,6 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverFactory;
@@ -12,8 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;

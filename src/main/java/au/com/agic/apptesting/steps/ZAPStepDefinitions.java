@@ -12,7 +12,6 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ZAPPolicyException;
 import au.com.agic.apptesting.utils.CastUtils;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.impl.ZapProxyUtilsImpl;
 import au.com.agic.apptesting.zap.ZAPFalsePositive;
 

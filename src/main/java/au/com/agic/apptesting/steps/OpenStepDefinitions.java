@@ -4,7 +4,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.SleepUtils;
 
 import org.apache.commons.lang3.StringUtils;

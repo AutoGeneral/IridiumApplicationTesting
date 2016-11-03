@@ -9,7 +9,6 @@ import au.com.agic.apptesting.exception.HttpResponseException;
 import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;

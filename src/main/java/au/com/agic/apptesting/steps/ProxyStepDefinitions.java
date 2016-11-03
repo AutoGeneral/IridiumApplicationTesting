@@ -3,7 +3,6 @@ package au.com.agic.apptesting.steps;
 import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
 

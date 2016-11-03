@@ -2,7 +2,6 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
-import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.JavaScriptRunner;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;

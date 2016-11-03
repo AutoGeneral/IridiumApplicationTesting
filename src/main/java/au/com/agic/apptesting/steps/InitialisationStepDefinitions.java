@@ -3,7 +3,6 @@ package au.com.agic.apptesting.steps;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.utils.FeatureState;
 
 import org.springframework.stereotype.Component;
 
