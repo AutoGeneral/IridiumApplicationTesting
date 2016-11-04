@@ -38,6 +38,7 @@ Feature: Test of the steps provided by Iridium
             | MouseDown Text      | Button mousedown        |
             | Date Offset         | 2 weeks                 |
             | Non Existant Element | thisdoesnotexist       |
+        And I dump the value of the alias "Non Existant Element" to the console
 
     @test
     Scenario: Test Autoaliasing
