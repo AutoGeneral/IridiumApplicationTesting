@@ -745,8 +745,10 @@ public class WaitStepDefinitions {
 
 	/**
 	 * Waits a period of time for the presence of some text on the page.
+	 * @param wait  The maximum amount of time to wait for
 	 * @param alias This text appears if the text is astucally an alias key
 	 * @param text The text to find on the page, or the alias to the text
+	 * @throws InterruptedException Thread.sleep was interrupted
 	 */
 	@Then("^I wait \"(\\d+)\" seconds for the page to contain the text( alias)? \"(.*?)\"")
 	public void verifyPageContent(final Integer wait, final String alias, final String text) throws InterruptedException {
@@ -772,8 +774,10 @@ public class WaitStepDefinitions {
 
 	/**
 	 * Waits a period of time for the presence of some text matching a regular expression on the page.
+	 * @param wait  The maximum amount of time to wait for
 	 * @param alias This text appears if the text is astucally an alias key
 	 * @param text The text to find on the page, or the alias to the text
+	 * @throws InterruptedException Thread.sleep was interrupted
 	 */
 	@Then("^I wait \"(\\d+)\" seconds for the page to contain the regex( alias)? \"(.*?)\"")
 	public void verifyPageRegexContent(final Integer wait, final String alias, final String text) throws InterruptedException {
