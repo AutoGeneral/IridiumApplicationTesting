@@ -141,7 +141,7 @@ Feature: Test of the steps provided by Iridium
     Then I verify the element with the ID alias of "Non Existant Element" is not displayed within "1" second
 
     Then I verify the element with the css selector of "#output" is present
-    Then I verify the element with the css selector alias of "aliasdoesnotexist" is not present within "1" second
+    Then I verify the element with the css selector alias of "Non Existant Element" is not present within "1" second
 
     Then I verify the element with the xpath of "//*[@id='output']" is present
     Then I verify the element with the xpath alias of "Non Existant Element" is not present within "1" second
