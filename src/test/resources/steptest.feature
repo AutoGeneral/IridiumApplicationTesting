@@ -136,7 +136,7 @@ Feature: Test of the steps provided by Iridium
     Then I verify the element found by alias "Non Existant Element" is not present within "1" second
 
     Then I verify the element with the ID of "output" is present
-    Then I verify the element with the ID alais of "Non Existant Element" is not present within "1" second
+    Then I verify the element with the ID alias of "Non Existant Element" is not present within "1" second
     Then I verify the element with the ID of "output" is displayed
     Then I verify the element with the ID alias of "Non Existant Element" is not displayed within "1" second
 
