@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.logging.LogManager;
 
 import javax.validation.constraints.NotNull;
 
@@ -22,6 +23,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
+import ch.qos.logback.classic.jul.LevelChangePropagator;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.FileAppender;
 
@@ -71,10 +73,20 @@ public class LogbackConfiguration implements LoggingConfiguration {
 			iridiumLogger.setLevel(Level.INFO);
 
 			/*
+				Performance increase for redirected JUL loggers
+			 */
+			final LevelChangePropagator levelChangePropagator = new LevelChangePropagator();
+			levelChangePropagator.setContext(loggerContext);
+			levelChangePropagator.setResetJUL(true);
+			loggerContext.addListener(levelChangePropagator);
+
+			/*
 				Redirect java logging and sys out to slf4j
 			 */
-			SLF4JBridgeHandler.install();
+			LogManager.getLogManager().reset();
+			SLF4JBridgeHandler.removeHandlersForRootLogger();
 			SysOutOverSLF4J.sendSystemOutAndErrToSLF4J();
+			SLF4JBridgeHandler.install();
 		} catch (final Exception ex) {
 			LOGGER.error("WEBAPPTESTER-BUG-0006: Could not configure Logback", ex);
 		}
