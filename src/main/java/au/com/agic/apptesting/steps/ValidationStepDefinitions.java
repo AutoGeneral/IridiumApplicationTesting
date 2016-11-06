@@ -82,7 +82,7 @@ public class ValidationStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@Then("^(?:I verify that )?the element found by( alias)? \"([^\"]*)\" should have a "
+	@Then("^(?:I verify(?: that)? )?the element found by( alias)? \"([^\"]*)\" should have a "
 		+ "class( alias)? of \"([^\"]*)\"( if it exists)?$")
 	public void checkElementClassStep(
 		final String selectorAlias,
@@ -127,7 +127,7 @@ public class ValidationStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@Then("^(?:I verify that )?the element with the (ID|class|xpath|name|css selector)( alias)? \"([^\"]*)\""
+	@Then("^(?:I verify(?: that)? )?the element with the (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\""
 		+ " (?:(?:should have)|(?:has))? a class( alias)? of \"([^\"]*)\"( if it exists)?$")
 	public void checkElementClassStep(
 		final String selector,
@@ -170,7 +170,7 @@ public class ValidationStepDefinitions {
 	 * Verify that an aliased value a blank string
 	 * @param alias The aliased value to check
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" is empty")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is empty")
 	public void verifyBlank(final String alias) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		Assert.assertTrue(StringUtils.isBlank(value));
@@ -180,7 +180,7 @@ public class ValidationStepDefinitions {
 	 * Verify that an aliased value is not a blank string
 	 * @param alias The aliased value to check
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" is not empty")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is not empty")
 	public void verifyNotBlank(final String alias) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		Assert.assertTrue(StringUtils.isNotBlank(value));
@@ -190,7 +190,7 @@ public class ValidationStepDefinitions {
 	 * Verify that an aliased value is a number
 	 * @param alias The aliased value to check
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" is a number")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is a number")
 	public void verifyIsNumber(final String alias) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		Double.parseDouble(value);
@@ -200,7 +200,7 @@ public class ValidationStepDefinitions {
 	 * Verify that an aliased value is not a number
 	 * @param alias The aliased value to check
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" is not a number")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is not a number")
 	public void verifyIsNotNumber(final String alias) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		try {
@@ -217,7 +217,7 @@ public class ValidationStepDefinitions {
 	 * @param alias The aliased value to check
 	 * @param regex The regex to match against the aliased value
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" matches the regex \"([^\"]*)\"")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" matches the regex \"([^\"]*)\"")
 	public void verifyMatchesRegex(final String alias, final String regex) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		Assert.assertTrue("Value " + value + " should match regex " + regex, Pattern.matches(regex, value));
@@ -228,7 +228,7 @@ public class ValidationStepDefinitions {
 	 * @param alias The aliased value to check
 	 * @param regex The regex to match against the aliased value
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" does not match the regex \"([^\"]*)\"")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" does not match the regex \"([^\"]*)\"")
 	public void verifyNotMatchesRegex(final String alias, final String regex) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final Pattern pattern = Pattern.compile(regex);
@@ -243,7 +243,7 @@ public class ValidationStepDefinitions {
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param expectedValue The value that the aliased value is expected to equal
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" is equal to((?: the)? alias)? \"([^\"]*)\"")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is equal to((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyIsEqual(final String alias, final String valueAlias, final String expectedValue) {
 		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
 			expectedValue, StringUtils.isNotBlank(valueAlias), State.getFeatureStateForThread());
@@ -258,7 +258,7 @@ public class ValidationStepDefinitions {
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param expectedValue The value that the aliased value is expected to equal
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" is not equal to((?: the)? alias)? \"([^\"]*)\"")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is not equal to((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyIsNotEqual(final String alias, final String valueAlias, final String expectedValue) {
 		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
 			expectedValue, StringUtils.isNotBlank(valueAlias), State.getFeatureStateForThread());
@@ -272,7 +272,7 @@ public class ValidationStepDefinitions {
 	 * range 400 - 599, we output those as an error.
 	 */
 	@SuppressWarnings("unchecked")
-	@Then("I verify that there were no HTTP errors")
+	@Then("(?:I verify(?: that)? )?there were no HTTP errors")
 	public void verifyHttpCodes() {
 		final Optional<ProxyDetails<?>> browserMob =
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
@@ -337,7 +337,7 @@ public class ValidationStepDefinitions {
 	 * @param alias This text appears if the text is astucally an alias key
 	 * @param text The text to find on the page, or the alias to the text
 	 */
-	@Then("^I verify that the page contains the text( alias)? \"(.*?)\"")
+	@Then("^(?:I verify(?: that)? )?the page contains the text( alias)? \"(.*?)\"")
 	public void verifyPageContent(final String alias, final String text) {
 		final String fixedtext = AUTO_ALIAS_UTILS.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
@@ -355,7 +355,7 @@ public class ValidationStepDefinitions {
 	 * @param alias This text appears if the regex is astucally an alias key
 	 * @param regex The regex to find on the page, or the alias to the regex
 	 */
-	@Then("^I verify that the page contains the regex( alias)? \"(.*?)\"")
+	@Then("^(?:I verify(?: that)? )?the page contains the regex( alias)? \"(.*?)\"")
 	public void verifyPageRegexContent(final String alias, final String regex) {
 		final String fixedRegex = AUTO_ALIAS_UTILS.getValue(regex, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
@@ -376,7 +376,7 @@ public class ValidationStepDefinitions {
 	 * @param alias This text appears if the text is astucally an alias key
 	 * @param text The text to find on the page, or the alias to the text
 	 */
-	@Then("^I verify that the page does not contain the text( alias)? \"(.*?)\"")
+	@Then("^(?:I verify(?: that)? )?the page does not contain the text( alias)? \"(.*?)\"")
 	public void verifyPageContentAbsent(final String alias, final String text) {
 		final String fixedtext = AUTO_ALIAS_UTILS.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
@@ -394,7 +394,7 @@ public class ValidationStepDefinitions {
 	 * @param alias This text appears if the regex is astucally an alias key
 	 * @param regex The regex to find on the page, or the alias to the regex
 	 */
-	@Then("^I verify that the page does not contain the regex( alias)? \"(.*?)\"")
+	@Then("^(?:I verify(?: that)? )?the page does not contain the regex( alias)? \"(.*?)\"")
 	public void verifyPageRegexNotContent(final String alias, final String regex) {
 		final String fixedRegex = AUTO_ALIAS_UTILS.getValue(regex, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
@@ -416,7 +416,7 @@ public class ValidationStepDefinitions {
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param value The second aliased value to compare the first too
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" is larger than((?: the)? alias)? \"([^\"]*)\"")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is larger than((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyAliasBigger(final String alias1, final String valueAlias, final String value) {
 		final String value1 = State.getFeatureStateForThread().getDataSet().get(alias1);
 
@@ -435,7 +435,7 @@ public class ValidationStepDefinitions {
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param value The second aliased value to compare the first to
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" is larger than or equal to((?: the)? alias)? \"([^\"]*)\"")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is larger than or equal to((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyAliasBiggerOrEqual(final String alias1, final String valueAlias, final String value) {
 		final String value1 = State.getFeatureStateForThread().getDataSet().get(alias1);
 
@@ -455,7 +455,7 @@ public class ValidationStepDefinitions {
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param value The second aliased value to compare the first to
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" is smaller than((?: the)? alias)? \"([^\"]*)\"")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is smaller than((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyAliasSmaller(final String alias1, final String valueAlias, final String value) {
 		final String value1 = State.getFeatureStateForThread().getDataSet().get(alias1);
 
@@ -474,7 +474,7 @@ public class ValidationStepDefinitions {
 	 * @param valueAlias Add the word alias to indicate that the expected value is an alias key
 	 * @param value The second aliased value to compare the first to
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" is smaller than or equal to((?: the)? alias)? \"([^\"]*)\"")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is smaller than or equal to((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyAliasSmallerOrEqual(final String alias1, final String valueAlias, final String value) {
 		final String value1 = State.getFeatureStateForThread().getDataSet().get(alias1);
 
@@ -493,14 +493,12 @@ public class ValidationStepDefinitions {
 	 * @param alias The aliased value to check
 	 * @param length The expected length of the aliased value
 	 */
-	@Then("I verify that(?: the)? alias \"([^\"]*)\" is \"(\\d+)\" characters long")
+	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is \"(\\d+)\" characters long")
 	public void verifyLength(final String alias, final String length) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final Integer lengthInt = Integer.parseInt(length);
 		Assert.assertEquals(lengthInt.intValue(), value.length());
 	}
-
-/**************************************************************/
 
 	/**
 	 * Verifies that the element is displayed (i.e. to be visible) on the page within a given amount of time.
@@ -515,7 +513,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@Then("^I verify (?:a|an|the) element found by( alias)? \"([^\"]*)\" is displayed"
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element found by( alias)? \"([^\"]*)\" is displayed"
 		+ "(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void displaySimpleWaitStep(
 		final String alias,
@@ -552,7 +550,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@Then("^I verify (?:a|an|the) element found by( alias)? \"([^\"]*)\" is not displayed"
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element found by( alias)? \"([^\"]*)\" is not displayed"
 		+ "(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notDisplaySimpleWaitStep(
 		final String alias,
@@ -590,7 +588,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@Then("^I verify (?:a|an|the) element with "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element with "
 		+ "(?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" is displayed"
 		+ "(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void displayWaitStep(
@@ -633,7 +631,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@Then("^I verify (?:a|an|the) element with "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element with "
 		+ "(?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" is not displayed"
 		+ "(?: within \"(\\d+)\" seconds?)(,? ignoring timeouts?)?")
 	public void notDisplayWaitStep(
@@ -681,7 +679,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@When("^I verify (?:a|an|the) element found by"
+	@When("^(?:I verify(?: that)? )?(?:a|an|the) element found by"
 		+ "( alias)? \"([^\"]*)\" is clickable(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void clickWaitStep(
 		final String alias,
@@ -718,7 +716,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@Then("^I verify (?:a|an|the) element with "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element with "
 		+ "(?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" is clickable"
 		+ "(?: within \"(\\d+)\" seconds?)(,? ignoring timeouts?)?")
 	public void clickWaitStep(
@@ -761,7 +759,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
 	 *                        present
 	 */
-	@Then("^I verify (?:a|an|the) element found by( alias)? \"([^\"]*)\" "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element found by( alias)? \"([^\"]*)\" "
 		+ "is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void presentSimpleWaitStep(
 		final String alias,
@@ -798,7 +796,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
 	 *                        present
 	 */
-	@Then("^I verify (?:a|an|the) element found by( alias)? \"([^\"]*)\" "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element found by( alias)? \"([^\"]*)\" "
 		+ "is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notPresentSimpleWaitStep(
 		final String alias,
@@ -837,7 +835,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
 	 *                        present
 	 */
-	@Then("^I verify (?:a|an|the) element with (?:a|an|the) "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element with (?:a|an|the) "
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" "
 		+ "is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void presentWaitStep(
@@ -879,7 +877,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
 	 *                        present
 	 */
-	@Then("^I verify (?:a|an|the) element with (?:a|an|the) "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element with (?:a|an|the) "
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\" "
 		+ "is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notPresentWaitStep(
@@ -923,7 +921,7 @@ public class ValidationStepDefinitions {
 	 * @param linkContent  The text content of the link we are wait for
 	 * @param ignoringTimeout The presence of this text indicates that timeouts are ignored
 	 */
-	@Then("^I verify a link with the text content of"
+	@Then("^(?:I verify(?: that)? )?a link with the text content of"
 		+ "( alias) \"([^\"]*)\" is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void presentLinkStep(
 		final String alias,
@@ -959,7 +957,7 @@ public class ValidationStepDefinitions {
 	 * @param linkContent  The text content of the link we are wait for
 	 * @param ignoringTimeout The presence of this text indicates that timeouts are ignored
 	 */
-	@Then("^I verify a link with the text content of"
+	@Then("^(?:I verify(?: that)? )?a link with the text content of"
 		+ "( alias) \"([^\"]*)\" is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notPresentLinkStep(
 		final String alias,
@@ -1006,7 +1004,7 @@ public class ValidationStepDefinitions {
 	 *                         was set, this value is found from the data set. Otherwise it is a literal value.
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
-	@Then("^I verify (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
 		+ "equal to( alias)? \"([^\"]*)\" is displayed(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void displayAttrWait(
 		final String attribute,
@@ -1048,7 +1046,7 @@ public class ValidationStepDefinitions {
 	 *                         was set, this value is found from the data set. Otherwise it is a literal value.
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
-	@Then("^I verify (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
 		+ "equal to( alias)? \"([^\"]*)\" is not displayed(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notDisplayAttrWait(
 		final String attribute,
@@ -1096,7 +1094,7 @@ public class ValidationStepDefinitions {
 	 *                         was set, this value is found from the data set. Otherwise it is a literal value.
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
-	@Then("^I verify (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
 		+ "equal to( alias)? \"([^\"]*)\" is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void presentAttrWait(
 		final String attribute,
@@ -1138,7 +1136,7 @@ public class ValidationStepDefinitions {
 	 *                         set, this value is found from the data set. Otherwise it is a literal value.
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be present
 	 */
-	@Then("^I verify (?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element with (?:a|an|the) attribute of \"([^\"]*)\" "
 		+ "equal to( alias)? \"([^\"]*)\" is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notPresentAttrWait(
 		final String attribute,

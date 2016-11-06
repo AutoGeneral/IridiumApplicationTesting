@@ -87,8 +87,8 @@ Feature: Test of the steps provided by Iridium
     @test
     Scenario: Modify aliased values
       Then I verify that the alias "Test Value 8" is equal to alias "Test Value 9"
-      Then I verify that the alias "Test Value 10" is equal to or larger than "12.345"
-      Then I verify that the alias "Test Value 10" is equal to or smaller than "12345"
+      Then I verify that the alias "Test Value 10" is larger than or equal to "12.345"
+      Then I verify that the alias "Test Value 10" is smaller than or equal to "12345"
       And I modify the alias "Test Value 4" by removing all characters that match the regex "[^0-9.]"
       Then I verify that the alias "Test Value 4" is equal to "1234.50"
       And I modify the alias "Test Value 4" by replacing all characters that match the regex "1" with "2"
@@ -127,8 +127,8 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Test class verification
-    Then the element with the ID "verifyDivClass" should have a class of "divClass"
-    Then the element with the ID "thisdoesntexist" should have a class of "divClass" if it exists
+    Then I verify the element with the ID of "verifyDivClass" should have a class of "divClass"
+    Then I verify the element with the ID of "thisdoesntexist" should have a class of "divClass" if it exists
 
   @test
   Scenario: test element verification steps
@@ -136,12 +136,12 @@ Feature: Test of the steps provided by Iridium
     Then I verify the element found by alias "Non Existant Element" is not present within "1" second
 
     Then I verify the element with the ID of "output" is present
-    Then I verify the element with the ID alais of "Non Existant Element" is not present within "1" second
+    Then I verify the element with the ID alias of "Non Existant Element" is not present within "1" second
     Then I verify the element with the ID of "output" is displayed
     Then I verify the element with the ID alias of "Non Existant Element" is not displayed within "1" second
 
     Then I verify the element with the css selector of "#output" is present
-    Then I verify the element with the css selector alias of "aliasdoesnotexist" is not present within "1" second
+    Then I verify the element with the css selector alias of "Non Existant Element" is not present within "1" second
 
     Then I verify the element with the xpath of "//*[@id='output']" is present
     Then I verify the element with the xpath alias of "Non Existant Element" is not present within "1" second
@@ -162,11 +162,11 @@ Feature: Test of the steps provided by Iridium
 		And I "mouseup" on the hidden element found by "eventButton"
 		Then I verify that the page contains the regex "(Button)\s(mouseup)"
 		And I "mouseover" on the hidden element found by "eventButton"
-        Then I wait "30" seconds for the for the page to contain the text "Button mouseover"
+        Then I wait "30" seconds for the page to contain the text "Button mouseover"
 		And I "mouseout" on the hidden element found by "eventButton"
-        Then I wait "30" seconds for the for the page to contain the text "Button mouseout"
+        Then I wait "30" seconds for the page to contain the text "Button mouseout"
 		And I "mousemove" on the hidden element found by "eventButton"
-        Then I wait "30" seconds for the for the page to contain the regex "Button mousemove"
+        Then I wait "30" seconds for the page to contain the regex "Button mousemove"
 		And I "mouseenter" on the hidden element found by "eventButton"
 		Then I verify that the page contains the text "Button mouseenter"
 		And I "mouseleave" on the hidden element found by "eventButton"
