@@ -127,8 +127,8 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Test class verification
-    Then the element with the ID "verifyDivClass" should have a class of "divClass"
-    Then the element with the ID "thisdoesntexist" should have a class of "divClass" if it exists
+    Then I verify the element with the ID "verifyDivClass" should have a class of "divClass"
+    Then I verify the element with the ID "thisdoesntexist" should have a class of "divClass" if it exists
 
   @test
   Scenario: test element verification steps
