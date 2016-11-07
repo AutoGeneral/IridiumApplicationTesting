@@ -210,7 +210,7 @@ public class KeyEventSetpDefinitions {
 	 * the Firefox Marionette driver.
 	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
 	 */
-	@When("^I press(?: the)? left arrow(?: key)? on the active element( ignoring errors)?$")
+	@When("^I press(?: the)? right arrow(?: key)? on the active element( ignoring errors)?$")
 	public void pressRightArrowStep(final String ignoreErrors) {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
