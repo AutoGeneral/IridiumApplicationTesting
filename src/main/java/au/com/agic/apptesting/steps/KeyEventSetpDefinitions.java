@@ -149,7 +149,7 @@ public class KeyEventSetpDefinitions {
 	}
 
 	/**
-	 * Press the tab key on the active element. This step is known to have issues with
+	 * Press the down arrow on the active element. This step is known to have issues with
 	 * the Firefox Marionette driver.
 	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
 	 */
@@ -159,6 +159,63 @@ public class KeyEventSetpDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.ARROW_DOWN);
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Press the up arrow on the active element. This step is known to have issues with
+	 * the Firefox Marionette driver.
+	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
+	 */
+	@When("^I press(?: the)? up arrow(?: key)? on the active element( ignoring errors)?$")
+	public void pressUpArrowStep(final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebElement element = webDriver.switchTo().activeElement();
+			element.sendKeys(Keys.ARROW_UP);
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Press the left arrow on the active element. This step is known to have issues with
+	 * the Firefox Marionette driver.
+	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
+	 */
+	@When("^I press(?: the)? left arrow(?: key)? on the active element( ignoring errors)?$")
+	public void pressLeftArrowStep(final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebElement element = webDriver.switchTo().activeElement();
+			element.sendKeys(Keys.ARROW_LEFT);
+			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Press the right arrow on the active element. This step is known to have issues with
+	 * the Firefox Marionette driver.
+	 * @param ignoreErrors Add this text to ignore any exceptions. This is really only useful for debugging.
+	 */
+	@When("^I press(?: the)? left arrow(?: key)? on the active element( ignoring errors)?$")
+	public void pressRightArrowStep(final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebElement element = webDriver.switchTo().activeElement();
+			element.sendKeys(Keys.ARROW_RIGHT);
 			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			if (StringUtils.isBlank(ignoreErrors)) {
