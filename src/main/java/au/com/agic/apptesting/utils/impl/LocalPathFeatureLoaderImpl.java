@@ -33,22 +33,20 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
 	/**
-	 * @param identifier This is ignored
-	 * @param group      This is ignored
-	 * @param app        this is ignored
+	 * @param identifier
+	 * @param featureGroup
 	 * @return The path defined by the testSource system property
 	 */
 	@Override
 	public String loadFeatures(
 		@NotNull final String identifier,
-		@NotNull final String app,
-		@NotNull final String group) {
-		return loadFeatures(Arrays.asList(identifier), app);
+		@NotNull final String featureGroup) {
+		return loadFeatures(Arrays.asList(identifier), featureGroup);
 	}
 
 	/**
-	 * @param identifier   This is ignored
-	 * @param featureGroup this is ignored
+	 * @param identifier
+	 * @param featureGroup
 	 * @return The path defined by the testSource system property
 	 */
 	@Override

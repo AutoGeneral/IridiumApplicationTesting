@@ -3,6 +3,9 @@ package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
+
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.profiles.FileProfileAccess;
 import au.com.agic.apptesting.profiles.configuration.Configuration;
@@ -37,6 +40,9 @@ public class DesiredCapabilitiesLoaderImpl implements DesiredCapabilitiesLoader 
 	@Override
 	public List<DesiredCapabilities> getCapabilities() {
 
+		final String groupName = SYSTEM_PROPERTY_UTILS.getProperty(
+			Constants.GROUP_NAME_SYSTEM_PROPERTY);
+
 		final Optional<Configuration> configuration = PROFILE_ACCESS.getProfile();
 
 		if (configuration != null
@@ -45,6 +51,12 @@ public class DesiredCapabilitiesLoaderImpl implements DesiredCapabilitiesLoader 
 			&& configuration.get().getSettings().getDesiredCapabilities() != null) {
 
 			return configuration.get().getSettings().getDesiredCapabilities().stream()
+				.filter(x -> StringUtils.isBlank(groupName) || Lists.newArrayList(Splitter.on(',')
+						.trimResults()
+						.omitEmptyStrings()
+						.split(x.getGroup()))
+						.contains(groupName)
+				)
 				.map(this::generateFromXML)
 				.collect(Collectors.toList());
 		}
