@@ -23,7 +23,7 @@ public class LoginStepDefinitions {
 
 	/**
 	 * This code is supposed to populate the login dialog, but it actually doesn't work with most modern
-	 * browsers.
+	 * browsers. https://github.com/w3c/webdriver/issues/385
 	 *
 	 * @param username The username
 	 * @param password The password
