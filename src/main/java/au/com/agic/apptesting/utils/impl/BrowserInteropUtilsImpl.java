@@ -2,6 +2,7 @@ package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import au.com.agic.apptesting.utils.BrowserDetection;
 import au.com.agic.apptesting.utils.BrowserInteropUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,10 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -22,6 +27,10 @@ import javax.validation.constraints.NotNull;
 public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 	private static final int SLEEP_TIME = 1000;
+	private static final Logger LOGGER = LoggerFactory.getLogger(BrowserInteropUtilsImpl.class);
+
+	@Autowired
+	private BrowserDetection browserDetection;
 
 	@Override
 	public boolean treatElementAsHidden(
@@ -61,5 +70,29 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 		return isHiddenElement;
 	}
+
+	@Override
+	public void selectFromDropDownList(
+		@NotNull final WebDriver webDriver,
+		@NotNull final WebElement element,
+		@NotNull final String selectElement) {
+
+		checkNotNull(webDriver);
+		checkNotNull(element);
+		checkNotNull(selectElement);
+
+		if (browserDetection.isEdge(webDriver)) {
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Edge browser. Applying drop down list selection workaround.");
+			/*
+				Edge doesn't trigger the change event using the selectByVisibleText() method,
+				so select the item by pressing the keys in sequence.
+			 */
+			element.sendKeys(selectElement);
+		} else {
+			final Select select = new Select(element);
+			select.selectByVisibleText(selectElement);
+		}
+	}
+
 }
 

@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkState;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
+import au.com.agic.apptesting.utils.BrowserInteropUtils;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
@@ -46,6 +47,8 @@ public class DropDownStepDefinitions {
 	private SleepUtils SLEEP_UTILS;
 	@Autowired
 	private SystemPropertyUtils SYSTEM_PROPERTY_UTILS;
+	@Autowired
+	private BrowserInteropUtils BROWSER_INTEROP_UTILS;
 
 	/**
 	 * Select an item from a drop down list using simple selection
@@ -70,6 +73,7 @@ public class DropDownStepDefinitions {
 		final String exists) {
 
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final String selection = AUTO_ALIAS_UTILS.getValue(
 				itemName, StringUtils.isNotBlank(itemAlias), State.getFeatureStateForThread());
 
@@ -80,8 +84,7 @@ public class DropDownStepDefinitions {
 				selectorValue,
 				State.getFeatureStateForThread());
 
-			final Select select = new Select(element);
-			select.selectByVisibleText(selection);
+			BROWSER_INTEROP_UTILS.selectFromDropDownList(webDriver, element, selection);
 
 			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
@@ -133,8 +136,7 @@ public class DropDownStepDefinitions {
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
-			final Select select = new Select(element);
-			select.selectByVisibleText(selection);
+			BROWSER_INTEROP_UTILS.selectFromDropDownList(webDriver, element, selection);
 
 			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {

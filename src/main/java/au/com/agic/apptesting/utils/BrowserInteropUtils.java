@@ -26,4 +26,15 @@ public interface BrowserInteropUtils {
 		@NotNull final WebDriver webDriver,
 		@NotNull final WebElement element,
 		@NotNull final JavascriptExecutor js);
+
+	/**
+	 * Deals with inconsistenices between browsers in how they select items from a drop down list
+	 * @param webDriver The selenium webdriver
+	 * @param element The drop down list
+	 * @param selectElement The item that we want to select
+	 */
+	void selectFromDropDownList(
+		@NotNull final WebDriver webDriver,
+		@NotNull final WebElement element,
+		@NotNull final String selectElement);
 }
