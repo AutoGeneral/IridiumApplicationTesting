@@ -14,12 +14,11 @@ public interface FeatureLoader {
 	 * Load the features from some external source and save them to the disk
 	 *
 	 * @param identifier Some identifier that the implementing class can use to find the features
-	 * @param group      The group that the features have to belong to to be included
 	 * @param app        The name of the application we are testing
 	 * @return The path where the features were saved, so Cucumber can load them
 	 */
 	@NotNull
-	String loadFeatures(final String identifier, final String app, final String group);
+	String loadFeatures(final String identifier, final String app);
 
 	/**
 	 * Load the features from some external source and save them to the disk

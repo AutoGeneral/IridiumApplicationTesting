@@ -204,9 +204,6 @@ public class TestRunner {
 	private void runScripts(@NotNull final String reportDirectory) {
 		checkArgument(StringUtils.isNotBlank(reportDirectory));
 
-		final String groupName = SYSTEM_PROPERTY_UTILS.getProperty(
-			Constants.GROUP_NAME_SYSTEM_PROPERTY);
-
 		final String appName = SYSTEM_PROPERTY_UTILS.getProperty(
 			Constants.FEATURE_GROUP_SYSTEM_PROPERTY);
 
@@ -239,7 +236,7 @@ public class TestRunner {
 			/*
 				Get the file system path that holds the feature scripts
 			*/
-			testPath = featureLoader.loadFeatures("", appName, groupName);
+			testPath = featureLoader.loadFeatures("", appName);
 
 			/*
 				For each combination of browser and url run a test
