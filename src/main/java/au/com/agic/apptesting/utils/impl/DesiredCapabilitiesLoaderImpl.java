@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.profiles.FileProfileAccess;
 import au.com.agic.apptesting.profiles.configuration.Configuration;
+import au.com.agic.apptesting.profiles.configuration.Settings;
 import au.com.agic.apptesting.utils.DesiredCapabilitiesLoader;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
@@ -45,23 +46,19 @@ public class DesiredCapabilitiesLoaderImpl implements DesiredCapabilitiesLoader 
 
 		final Optional<Configuration> configuration = PROFILE_ACCESS.getProfile();
 
-		if (configuration != null
-			&& configuration.isPresent()
-			&& configuration.get().getSettings() != null
-			&& configuration.get().getSettings().getDesiredCapabilities() != null) {
-
-			return configuration.get().getSettings().getDesiredCapabilities().stream()
-				.filter(x -> StringUtils.isBlank(groupName) || Lists.newArrayList(Splitter.on(',')
-						.trimResults()
-						.omitEmptyStrings()
-						.split(x.getGroup()))
-						.contains(groupName)
+		return configuration
+			.map(Configuration::getSettings)
+			.map(Settings::getDesiredCapabilities)
+			.map(x -> x.stream()
+				.filter(y -> StringUtils.isBlank(groupName) || Lists.newArrayList(Splitter.on(',')
+					.trimResults()
+					.omitEmptyStrings()
+					.split(y.getGroup()))
+					.contains(groupName)
 				)
 				.map(this::generateFromXML)
-				.collect(Collectors.toList());
-		}
-
-		return new ArrayList<>();
+				.collect(Collectors.toList()))
+			.orElse(new ArrayList<>());
 	}
 
 	private DesiredCapabilities generateFromXML(
