@@ -8,6 +8,12 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * This system property can be set to true to disable all automatic workarounds implemented for different
+	 * browsers.
+	 */
+	public static final String DISABLE_INTEROP = "disableInterop";
+
+	/**
 	 * Because the web driver is not thread safe, we need to do a running loop over
 	 * each of the different element location methods in short time slices to emulate
 	 * a parallel search.

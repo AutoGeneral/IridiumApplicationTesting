@@ -2,8 +2,10 @@ package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.BrowserDetection;
 import au.com.agic.apptesting.utils.BrowserInteropUtils;
+import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
@@ -31,6 +33,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	@Autowired
 	private BrowserDetection browserDetection;
 
+	@Autowired
+	private SystemPropertyUtils systemPropertyUtils;
+
 	@Override
 	public boolean treatElementAsHidden(
 		@NotNull final WebDriver webDriver,
@@ -39,6 +44,10 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		checkNotNull(webDriver);
 		checkNotNull(element);
 		checkNotNull(js);
+
+		if (systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false)) {
+			return false;
+		}
 
 		/*
 			Note that we check for the presence of a # in the url, and not just that
@@ -80,7 +89,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		checkNotNull(element);
 		checkNotNull(selectElement);
 
-		if (browserDetection.isEdge(webDriver)) {
+		final boolean disableInterop = systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false);
+
+		if (!disableInterop && browserDetection.isEdge(webDriver)) {
 			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Edge browser. Applying drop down list selection workaround.");
 			/*
 				Edge doesn't trigger the change event using the selectByVisibleText() method,
