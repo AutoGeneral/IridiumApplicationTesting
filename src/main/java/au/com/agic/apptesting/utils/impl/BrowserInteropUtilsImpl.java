@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +45,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 			the url starts with the # sign, because we'll always get a absolute
 			url when we get the href attribute.
 		 */
-		final boolean isHiddenElement = webDriver instanceof PhantomJSDriver
+		final boolean isHiddenElement = browserDetection.isPhantomJS(webDriver)
 			&& Optional.of(element)
 				.filter(e -> "a".equalsIgnoreCase(e.getTagName()))
 				.filter(e -> StringUtils.isNotBlank(e.getAttribute("href")))

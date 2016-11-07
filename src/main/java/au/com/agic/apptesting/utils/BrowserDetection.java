@@ -15,4 +15,10 @@ public interface BrowserDetection {
 	 * @return true if the webdriver is controlling the Edge browser
 	 */
 	boolean isEdge(@NotNull final WebDriver webDriver);
+	/**
+	 *
+	 * @param webDriver The current web driver
+	 * @return true if the webdriver is controlling the PhantomJS browser
+	 */
+	boolean isPhantomJS(@NotNull final WebDriver webDriver);
 }
