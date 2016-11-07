@@ -97,8 +97,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		if (!disableInterop && (isMarionette || isEdge || isFirefox)) {
 			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Edge or Firefox Marionette driver. Applying drop down list selection workaround.");
 			/*
-				Edge doesn't trigger the change event using the selectByVisibleText() method,
-				so select the item by pressing the keys in sequence.
+				Edge doesn't trigger the change event using the selectByVisibleText() method.
+				Firefox Marionette does select anything at all.
+				So select the item by pressing the keys in sequence.
 			 */
 			element.sendKeys(selectElement);
 		} else {
