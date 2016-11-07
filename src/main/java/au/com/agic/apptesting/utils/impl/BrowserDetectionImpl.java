@@ -6,6 +6,8 @@ import au.com.agic.apptesting.utils.BrowserDetection;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.MarionetteDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.stereotype.Component;
@@ -34,7 +36,27 @@ public class BrowserDetectionImpl implements BrowserDetection {
 	@Override
 	public boolean isPhantomJS(@NotNull final WebDriver webDriver) {
 		checkNotNull(webDriver);
-
+		/*
+			TODO: find out the browser name from a remote driver
+		 */
 		return webDriver instanceof PhantomJSDriver;
+	}
+
+	@Override
+	public boolean isMarionette(@NotNull WebDriver webDriver) {
+		checkNotNull(webDriver);
+		/*
+			TODO: find out the browser name from a remote driver
+		 */
+		return webDriver instanceof MarionetteDriver;
+	}
+
+	@Override
+	public boolean isFirefox(@NotNull WebDriver webDriver) {
+		checkNotNull(webDriver);
+		/*
+			TODO: find out the browser name from a remote driver
+		 */
+		return webDriver instanceof FirefoxDriver;
 	}
 }

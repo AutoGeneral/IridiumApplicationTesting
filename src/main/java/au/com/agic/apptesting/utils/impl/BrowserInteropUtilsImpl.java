@@ -90,12 +90,16 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		checkNotNull(selectElement);
 
 		final boolean disableInterop = systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false);
+		final boolean isEdge = browserDetection.isEdge(webDriver);
+		final boolean isMarionette = browserDetection.isMarionette(webDriver);
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
-		if (!disableInterop && browserDetection.isEdge(webDriver)) {
-			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Edge browser. Applying drop down list selection workaround.");
+		if (!disableInterop && (isMarionette || isEdge || isFirefox)) {
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Edge or Firefox Marionette driver. Applying drop down list selection workaround.");
 			/*
-				Edge doesn't trigger the change event using the selectByVisibleText() method,
-				so select the item by pressing the keys in sequence.
+				Edge doesn't trigger the change event using the selectByVisibleText() method.
+				Firefox Marionette does select anything at all.
+				So select the item by pressing the keys in sequence.
 			 */
 			element.sendKeys(selectElement);
 		} else {
