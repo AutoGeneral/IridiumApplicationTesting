@@ -36,21 +36,27 @@ public class BrowserDetectionImpl implements BrowserDetection {
 	@Override
 	public boolean isPhantomJS(@NotNull final WebDriver webDriver) {
 		checkNotNull(webDriver);
-
+		/*
+			TODO: find out the browser name from a remote driver
+		 */
 		return webDriver instanceof PhantomJSDriver;
 	}
 
 	@Override
 	public boolean isMarionette(@NotNull WebDriver webDriver) {
 		checkNotNull(webDriver);
-
+		/*
+			TODO: find out the browser name from a remote driver
+		 */
 		return webDriver instanceof MarionetteDriver;
 	}
 
 	@Override
 	public boolean isFirefox(@NotNull WebDriver webDriver) {
 		checkNotNull(webDriver);
-
+		/*
+			TODO: find out the browser name from a remote driver
+		 */
 		return webDriver instanceof FirefoxDriver;
 	}
 }
