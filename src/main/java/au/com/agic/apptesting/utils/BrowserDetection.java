@@ -21,4 +21,18 @@ public interface BrowserDetection {
 	 * @return true if the webdriver is controlling the PhantomJS browser
 	 */
 	boolean isPhantomJS(@NotNull final WebDriver webDriver);
+
+	/**
+	 *
+	 * @param webDriver The current web driver
+	 * @return true if the webdriver is controlling the Firefox Marionette browser
+	 */
+	boolean isMarionette(@NotNull final WebDriver webDriver);
+
+	/**
+	 *
+	 * @param webDriver The current web driver
+	 * @return true if the webdriver is controlling the Firefox browser
+	 */
+	boolean isFirefox(@NotNull final WebDriver webDriver);
 }
