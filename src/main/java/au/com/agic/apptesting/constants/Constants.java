@@ -25,6 +25,23 @@ public final class Constants {
 	public static final int MILLISECONDS_PER_SECOND = 1000;
 
 	/**
+	 * A system property used to enable or disable the HTML report file
+	 */
+	public static final String HTML_REPORT_FILE = "htmReoprtFile";
+	/**
+	 * A system property used to enable or disable the JSON report file
+	 */
+	public static final String JSON_REPORT_FILE = "jsonReportFile";
+	/**
+	 * A system property used to enable or disable the Text report file
+	 */
+	public static final String TXT_REPORT_FILE = "txtReportFile";
+	/**
+	 * A system property used to enable or disable the JUnit report file
+	 */
+	public static final String JUNIT_REPORT_FILE = "junitReportFile";
+
+	/**
 	 * Set this system property to true to configure cucumber to output text in monochrome
 	 */
 	public static final String MONOCHROME_OUTPUT = "monochromeOutput";
