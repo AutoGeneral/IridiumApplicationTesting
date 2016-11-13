@@ -27,7 +27,7 @@ public final class Constants {
 	/**
 	 * A system property used to enable or disable the HTML report file
 	 */
-	public static final String HTML_REPORT_FILE = "htmReoprtFile";
+	public static final String HTML_REPORT_FILE = "htmlReportFile";
 	/**
 	 * A system property used to enable or disable the JSON report file
 	 */
