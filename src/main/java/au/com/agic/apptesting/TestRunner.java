@@ -458,7 +458,10 @@ public class TestRunner {
 		 * Scans the supplied directory for html files, which are then opened
 		 */
 		private void openReportFiles(@NotNull final String reportDir) {
-			if (Boolean.parseBoolean(SYSTEM_PROPERTY_UTILS.getProperty(OPEN_REPORT_FILE_SYSTEM_PROPERTY))) {
+			final boolean htmlReportEnabled = SYSTEM_PROPERTY_UTILS.getPropertyAsBoolean(Constants.HTML_REPORT_FILE, true);
+			final boolean openReportFile = SYSTEM_PROPERTY_UTILS.getPropertyAsBoolean(OPEN_REPORT_FILE_SYSTEM_PROPERTY, false);
+
+			if (htmlReportEnabled && openReportFile) {
 
 				final List<File> files = (List<File>) FileUtils.listFiles(
 					new File(reportDir), TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
