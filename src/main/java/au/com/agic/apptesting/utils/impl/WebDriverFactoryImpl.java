@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -49,7 +50,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
 	@Override
-	public WebDriver createWebDriver(final List<ProxyDetails<?>> proxies) {
+	public WebDriver createWebDriver(final List<ProxyDetails<?>> proxies, final List<File> tempFiles) {
 		final String browser = SYSTEM_PROPERTY_UTILS.getProperty(
 			Constants.TEST_DESTINATION_SYSTEM_PROPERTY);
 
@@ -102,7 +103,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		if (Constants.PHANTOMJS.equalsIgnoreCase(browser)) {
-			return buildPhantomJS(capabilities);
+			return buildPhantomJS(capabilities, tempFiles);
 		}
 
 		return new ChromeDriver(capabilities);
@@ -141,7 +142,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		return new FirefoxDriver(capabilities);
 	}
 
-	private WebDriver buildPhantomJS(final DesiredCapabilities capabilities) {
+	private WebDriver buildPhantomJS(final DesiredCapabilities capabilities, final List<File> tempFiles) {
 		try {
 			/*
 				PhantomJS will often report a lot of unnecessary errors, so by default
@@ -158,6 +159,8 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			 */
 			final Path cookies = Files.createTempFile("phantomjs-cookies", ".txt");
 			final Path session = Files.createTempDirectory("phantomjs-session");
+			tempFiles.add(cookies.toFile());
+			tempFiles.add(session.toFile());
 
 			/*
 				We need to ignore ssl errors
