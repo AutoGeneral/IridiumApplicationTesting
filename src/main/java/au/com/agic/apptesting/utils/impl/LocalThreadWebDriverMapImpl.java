@@ -171,7 +171,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
 		if (createIfMissing) {
 			LOGGER.info("WEBAPPTESTER-INFO-0006: Creating WebDriver");
-			final WebDriver webDriver = WEB_DRIVER_FACTORY.createWebDriver(proxies);
+			final WebDriver webDriver = WEB_DRIVER_FACTORY.createWebDriver(proxies, tempFolders);
 			threadIdToDriverMap.put(name, webDriver);
 
 			return webDriver;

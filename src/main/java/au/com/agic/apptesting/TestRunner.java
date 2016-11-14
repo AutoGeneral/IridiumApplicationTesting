@@ -363,16 +363,43 @@ public class TestRunner {
 				*/
 				final List<String> args = new ArrayList<>();
 
-				args.add("--plugin");
-				args.add("json:" + reportDirectory + Thread.currentThread().getName() + ".json");
-				args.add("--plugin");
-				args.add("html:" + reportDirectory + Thread.currentThread().getName() + ".html");
+				args.add("--strict");
+
+				/*
+					HTML report is enabled by default
+				 */
+				if (SYSTEM_PROPERTY_UTILS.getPropertyAsBoolean(Constants.JUNIT_REPORT_FILE, true)) {
+					args.add("--plugin");
+					args.add("junit:" + reportDirectory + Thread.currentThread().getName() + ".xml");
+				}
+
+				/*
+					JUnit report is enabled by default
+				 */
+				if (SYSTEM_PROPERTY_UTILS.getPropertyAsBoolean(Constants.HTML_REPORT_FILE, true)) {
+					args.add("--plugin");
+					args.add("html:" + reportDirectory + Thread.currentThread().getName() + ".html");
+				}
+
+				/*
+					JSON report can be manually enabled
+				 */
+				if (SYSTEM_PROPERTY_UTILS.getPropertyAsBoolean(Constants.JSON_REPORT_FILE, false)) {
+					args.add("--plugin");
+					args.add("json:" + reportDirectory + Thread.currentThread().getName() + ".json");
+				}
+
+				/*
+					Text report can be manually enabled
+				 */
+				if (SYSTEM_PROPERTY_UTILS.getPropertyAsBoolean(Constants.TXT_REPORT_FILE, false)) {
+					args.add("--plugin");
+					args.add("pretty:" + reportDirectory + Thread.currentThread().getName() + ".txt");
+				}
+
 				args.add("--plugin");
 				args.add("pretty");
-				args.add("--plugin");
-				args.add("pretty:" + reportDirectory + Thread.currentThread().getName() + ".txt");
-				args.add("--plugin");
-				args.add("junit:" + reportDirectory + Thread.currentThread().getName() + ".xml");
+
 				args.add("--glue");
 				args.add("au.com.agic.apptesting.steps");
 				args.add("--glue");
@@ -431,7 +458,10 @@ public class TestRunner {
 		 * Scans the supplied directory for html files, which are then opened
 		 */
 		private void openReportFiles(@NotNull final String reportDir) {
-			if (Boolean.parseBoolean(SYSTEM_PROPERTY_UTILS.getProperty(OPEN_REPORT_FILE_SYSTEM_PROPERTY))) {
+			final boolean htmlReportEnabled = SYSTEM_PROPERTY_UTILS.getPropertyAsBoolean(Constants.HTML_REPORT_FILE, true);
+			final boolean openReportFile = SYSTEM_PROPERTY_UTILS.getPropertyAsBoolean(OPEN_REPORT_FILE_SYSTEM_PROPERTY, false);
+
+			if (htmlReportEnabled && openReportFile) {
 
 				final List<File> files = (List<File>) FileUtils.listFiles(
 					new File(reportDir), TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
