@@ -6,6 +6,7 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.profiles.FileProfileAccess;
 import au.com.agic.apptesting.profiles.configuration.Configuration;
 import au.com.agic.apptesting.profiles.configuration.FeatureGroup;
+import au.com.agic.apptesting.profiles.configuration.Url;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.profiles.dataset.DataSet;
 import au.com.agic.apptesting.profiles.dataset.DatasetsRootElement;
@@ -24,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -55,13 +58,30 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 	public List<UrlMapping> getAppUrls(final String featureGroup) {
 
         /*
-			Deal with the override
+			Deal with the override. This system property takes precidence over
+			all other options.
          */
 		final String appUrlOverride = getAppUrl();
 		if (StringUtils.isNotBlank(appUrlOverride)) {
 			return Arrays.asList(new UrlMapping(appUrlOverride));
 		}
 
+		/*
+			We can also define a collection of URLs as system properties.
+		 */
+		final List<String> normalisedKeys = SYSTEM_PROPERTY_UTILS.getNormalisedProperties();
+		final List<Url> systemPropValues = normalisedKeys.stream()
+			.map(Constants.APP_URL_OVERRIDE_SYSTEM_PROPERTY_REGEX::matcher)
+			.filter(Matcher::matches)
+			.map(x -> new Url(SYSTEM_PROPERTY_UTILS.getProperty(x.group(0)), x.group(1)))
+			.collect(Collectors.toList());
+		if (!systemPropValues.isEmpty()) {
+			return Arrays.asList(new UrlMapping(systemPropValues));
+		}
+
+		/*
+			The final option is to get the mappins from the xml file
+		 */
 		final Optional<Configuration> configuration = PROFILE_ACCESS.getProfile();
 
 		if (configuration.isPresent()) {

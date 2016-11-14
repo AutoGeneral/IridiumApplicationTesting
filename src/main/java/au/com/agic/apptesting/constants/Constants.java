@@ -211,6 +211,10 @@ public final class Constants {
 	 */
 	public static final String APP_URL_OVERRIDE_SYSTEM_PROPERTY = "appURLOverride";
 	/**
+	 * Defines a URL to name mapping from a system property
+	 */
+	public static final Pattern APP_URL_OVERRIDE_SYSTEM_PROPERTY_REGEX = Pattern.compile("appURLOverride\\.(.+)");
+	/**
 	 * The tags to use for the test
 	 */
 	public static final String TAGS_OVERRIDE_SYSTEM_PROPERTY = "tagsOverride";
