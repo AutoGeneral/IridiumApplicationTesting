@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Implementation that deals with the restrictions imposed by web start
@@ -30,6 +32,16 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 	private static final List<String> SYSTEM_PROPERTY_PREFIXES = Arrays.asList("", "jnlp.", "javaws.");
 
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
+
+	@Override
+	public List<String> getNormalisedProperties() {
+		return System.getProperties().keySet().stream()
+			.map(Object::toString)
+			.map(x -> SYSTEM_PROPERTY_PREFIXES.stream()
+				.reduce(x, (memo, prefix) ->
+					memo.replaceFirst("^" + Pattern.quote(prefix), "")))
+			.collect(Collectors.toList());
+	}
 
 	@Override
 	public String getProperty(final String name) {

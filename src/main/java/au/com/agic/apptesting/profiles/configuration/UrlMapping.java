@@ -26,10 +26,32 @@ public class UrlMapping {
 
 	}
 
+	/**
+	 *
+	 * @param url A single URL representing the default application URL
+	 */
 	public UrlMapping(@NotNull final String url) {
 		urls = new ArrayList<>();
 		final Url urlEntity = new Url(url, Defaults.DEFAULT_URL_NAME);
 		urls.add(urlEntity);
+	}
+
+	/**
+	 *
+	 * @param urls A collection of URLs
+	 */
+	public UrlMapping(@NotNull final List<Url> urls) {
+		this.urls = new ArrayList<>(urls);
+	}
+
+	/**
+	 *
+	 * @param urls A collection of URLS
+	 * @param tags The tags to use with the URLs
+	 */
+	public UrlMapping(@NotNull final List<Url> urls, @NotNull final String tags) {
+		this.urls = new ArrayList<>(urls);
+		this.tags = tags;
 	}
 
 	@XmlAttribute

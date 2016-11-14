@@ -1,9 +1,17 @@
 package au.com.agic.apptesting.utils;
 
+import java.util.List;
+
 /**
  * Defines a service for working with system properties
  */
 public interface SystemPropertyUtils {
+
+	/**
+	 *
+	 * @return A list of all the system properties with web start prefixes removed
+	 */
+	List<String> getNormalisedProperties();
 
 	/**
 	 * Extracts system properties, either from their default name, or with the javaws prefix
