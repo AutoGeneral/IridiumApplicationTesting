@@ -200,7 +200,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 
 			return retValue;
 		} catch (final IOException ex) {
-			throw new DriverException("Could not create temp folder or file for PhantomJS cookies and session");
+			throw new DriverException("Could not create temp folder or file for PhantomJS cookies and session", ex);
 		}
 	}
 }
