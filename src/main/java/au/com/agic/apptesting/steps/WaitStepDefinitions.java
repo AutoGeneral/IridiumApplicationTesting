@@ -767,6 +767,7 @@ public class WaitStepDefinitions {
 			}
 
 			Thread.sleep(Constants.TIME_SLICE);
+
 		} while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
 
 		throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");
@@ -797,6 +798,7 @@ public class WaitStepDefinitions {
 			}
 
 			Thread.sleep(Constants.TIME_SLICE);
+			
 		} while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
 
 		throw new ValidationException("Could not find the regular expression \"" + fixedRegex + "\" on the page");

@@ -42,7 +42,7 @@ public class InitialisationStepDefinitions {
 	@When("^I set the default wait time between steps to \"(\\d+(?:\\.\\d+)?)\"(?: seconds?)?$")
 	public void setDefaultSleepTime(final String numberOfSeconds) {
 		final float waitTime = Float.parseFloat(numberOfSeconds) * MILLISECONDS_PER_SECOND;
-		State.getFeatureStateForThread().setDefaultSleep((long)waitTime);
+		State.getFeatureStateForThread().setDefaultSleep((long) waitTime);
 	}
 
 	/**

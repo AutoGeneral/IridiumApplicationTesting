@@ -142,6 +142,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 
 				time += Constants.TIME_SLICE;
 			}
+
 		} while (time < waitTime * Constants.MILLISECONDS_PER_SECOND);
 
 		throw new WebElementException("All attempts to find element failed");
