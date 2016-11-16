@@ -37,6 +37,7 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 	 * @param featureGroup
 	 * @return The path defined by the testSource system property
 	 */
+	@NotNull
 	@Override
 	public String loadFeatures(
 		@NotNull final String identifier,
@@ -49,6 +50,7 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 	 * @param featureGroup
 	 * @return The path defined by the testSource system property
 	 */
+	@NotNull
 	@Override
 	public String loadFeatures(
 			@NotNull final List<String> identifier,

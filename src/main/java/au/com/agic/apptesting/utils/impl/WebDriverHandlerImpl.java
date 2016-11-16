@@ -8,7 +8,6 @@ import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverHandler;
 
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorInputStream;
@@ -323,7 +322,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			.createCompressorInputStream(CompressorStreamFactory.GZIP, driverURL);
 
 		final TarArchiveInputStream tarInput = new TarArchiveInputStream(input);
-		final TarArchiveEntry entry = tarInput.getNextTarEntry();
+		tarInput.getNextTarEntry();
 
 		return copyDriver(tarInput, name, tempFiles);
 	}

@@ -78,6 +78,7 @@ public class ProxyDetailsImpl<T> implements ProxyDetails<T> {
 		return interfaceObject;
 	}
 
+	@NotNull
 	@Override
 	public Map<String, Object> getProperties() {
 		return new HashMap<>(properties);

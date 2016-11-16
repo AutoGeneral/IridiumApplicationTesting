@@ -123,6 +123,7 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		 */
 	}
 
+	@NotNull
 	@Override
 	public synchronized FeatureState getDesiredCapabilitiesForThread(@NotNull final String name) {
 		try {
@@ -193,6 +194,7 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		}
 	}
 
+	@NotNull
 	public synchronized WebDriver getWebDriverForThread(@NotNull final String name, final boolean createIfMissing) {
 		checkArgument(StringUtils.isNotEmpty(name));
 

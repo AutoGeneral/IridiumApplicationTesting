@@ -85,12 +85,11 @@ public class ProxyManagerImpl implements ProxyManager {
 	}
 
 	@Override
-	public void stopProxies(final List<ProxyDetails<?>> proxies) {
+	public void stopProxies(@NotNull final List<ProxyDetails<?>> proxies) {
+		checkNotNull(proxies);
 
-		if (proxies != null) {
-			proxies.stream()
-				.filter(BrowsermobProxyUtilsImpl.PROXY_NAME::equals)
-				.forEach(x -> BrowserMobProxy.class.cast(x.getInterface().get()).stop());
-		}
+		proxies.stream()
+			.filter(BrowsermobProxyUtilsImpl.PROXY_NAME::equals)
+			.forEach(x -> BrowserMobProxy.class.cast(x.getInterface().get()).stop());
 	}
 }

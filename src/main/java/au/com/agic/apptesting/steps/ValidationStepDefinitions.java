@@ -231,7 +231,6 @@ public class ValidationStepDefinitions {
 	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" does not match the regex \"([^\"]*)\"")
 	public void verifyNotMatchesRegex(final String alias, final String regex) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
-		final Pattern pattern = Pattern.compile(regex);
 		Assert.assertFalse(
 			"Value " + value + " should not match regex " + regex,
 			Pattern.matches(regex, value));

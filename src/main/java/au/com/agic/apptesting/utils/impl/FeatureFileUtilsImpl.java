@@ -122,12 +122,15 @@ public class FeatureFileUtilsImpl implements FeatureFileUtils {
 			processed.add(directory.toString());
 			if (directory.isDirectory()) {
 				final File[] files = directory.listFiles();
-				for (final File file : files) {
-					if (file.isDirectory()) {
-						loopOverFiles(file, features, processed);
-					} else {
-						if (file.getName().endsWith(FEATURE_EXT)) {
-							features.add(file);
+
+				if (files != null) {
+					for (final File file : files) {
+						if (file.isDirectory()) {
+							loopOverFiles(file, features, processed);
+						} else {
+							if (file.getName().endsWith(FEATURE_EXT)) {
+								features.add(file);
+							}
 						}
 					}
 				}

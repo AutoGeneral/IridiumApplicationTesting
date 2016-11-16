@@ -35,7 +35,9 @@ public class ZAPFalsePositive {
 			this.wascId = null;
 		} else {
 			try {
-				this.wascId = Integer.parseInt(cweId);
+				if (cweId != null) {
+					this.wascId = Integer.parseInt(cweId);
+				}
 			} catch (final NumberFormatException ignore) {
 				/*
 					Ignored
