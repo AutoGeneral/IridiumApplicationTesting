@@ -49,7 +49,7 @@ public class ProxyStepDefinitions {
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 
 		proxy
-			.map(ProxyDetails::getInterface)
+			.flatMap(ProxyDetails::getInterface)
 			.map(BrowserMobProxy.class::cast)
 			.ifPresent(x -> {
 				x.setHarCaptureTypes(CaptureType.getAllContentCaptureTypes());
@@ -68,7 +68,7 @@ public class ProxyStepDefinitions {
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 
 		proxy
-			.map(ProxyDetails::getInterface)
+			.flatMap(ProxyDetails::getInterface)
 			.map(BrowserMobProxy.class::cast)
 			.map(x -> Try.run(() -> {
 				final String fixedFilename = StringUtils.defaultString(filename, "browsermob.har");
@@ -95,7 +95,7 @@ public class ProxyStepDefinitions {
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 
 		proxy
-			.map(ProxyDetails::getInterface)
+			.flatMap(ProxyDetails::getInterface)
 			.map(BrowserMobProxy.class::cast)
 			.ifPresent(x -> {
 				x.blacklistRequests(url, response);
@@ -115,7 +115,7 @@ public class ProxyStepDefinitions {
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 
 		proxy
-			.map(ProxyDetails::getInterface)
+			.flatMap(ProxyDetails::getInterface)
 			.map(BrowserMobProxy.class::cast)
 			.ifPresent(x -> {
 				x.blacklistRequests(url, response, type);
@@ -133,7 +133,7 @@ public class ProxyStepDefinitions {
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 
 		proxy
-			.map(ProxyDetails::getInterface)
+			.flatMap(ProxyDetails::getInterface)
 			.map(BrowserMobProxy.class::cast)
 			.ifPresent(x -> {
 				x.enableEmptyWhitelist(response);
@@ -151,7 +151,7 @@ public class ProxyStepDefinitions {
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 
 		proxy
-			.map(ProxyDetails::getInterface)
+			.flatMap(ProxyDetails::getInterface)
 			.map(BrowserMobProxy.class::cast)
 			.ifPresent(x -> {
 				x.addWhitelistPattern(url);
@@ -178,7 +178,7 @@ public class ProxyStepDefinitions {
 
 
 		proxy
-			.map(ProxyDetails::getInterface)
+			.flatMap(ProxyDetails::getInterface)
 			.map(BrowserMobProxy.class::cast)
 			.ifPresent(x -> {
 				x.addRequestFilter(new RequestFilter() {
