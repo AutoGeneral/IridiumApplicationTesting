@@ -117,6 +117,7 @@ public class FeatureFileUtilsImpl implements FeatureFileUtils {
 		@NotNull final List<String> processed) {
 		checkNotNull(directory);
 		checkNotNull(features);
+		checkNotNull(processed);
 
 		if (!processed.contains(directory.toString())) {
 			processed.add(directory.toString());
