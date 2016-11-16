@@ -33,9 +33,9 @@ import cucumber.api.java.en.When;
 public class DataExtractionStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataExtractionStepDefinitions.class);
 	@Autowired
-	private GetBy GET_BY;
+	private GetBy getBy;
 	@Autowired
-	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
+	private SimpleWebElementInteraction simpleWebElementInteraction;
 
 	/**
 	 * Saves the text value of an element against an alias using simple selection. Retrieves the "value"
@@ -110,7 +110,7 @@ public class DataExtractionStepDefinitions {
 		final String destinationAlias,
 		final String exists) {
 		try {
-			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
+			final WebElement element = simpleWebElementInteraction.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
@@ -154,7 +154,7 @@ public class DataExtractionStepDefinitions {
 		final String exists) {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final By by = GET_BY.getBy(
+			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
@@ -196,7 +196,7 @@ public class DataExtractionStepDefinitions {
 		final String destinationAlias,
 		final String exists) {
 		try {
-			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
+			final WebElement element = simpleWebElementInteraction.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
@@ -236,7 +236,7 @@ public class DataExtractionStepDefinitions {
 		final String exists) {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final By by = GET_BY.getBy(
+			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
@@ -279,7 +279,7 @@ public class DataExtractionStepDefinitions {
 		final String destinationAlias,
 		final String exists) {
 		try {
-			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+			final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
@@ -326,7 +326,7 @@ public class DataExtractionStepDefinitions {
 		final String exists) {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final By by = GET_BY.getBy(
+			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
@@ -366,7 +366,7 @@ public class DataExtractionStepDefinitions {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
-			final By by = GET_BY.getBy(
+			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
@@ -419,7 +419,7 @@ public class DataExtractionStepDefinitions {
 		final String destinationAlias,
 		final String exists) {
 		try {
-			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
+			final WebElement element = simpleWebElementInteraction.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());

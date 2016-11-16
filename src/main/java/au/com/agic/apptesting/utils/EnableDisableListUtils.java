@@ -14,7 +14,7 @@ public interface EnableDisableListUtils {
 	 * @param option The option we are inspecting
 	 * @return true if the option is enabled
 	 */
-	boolean enabled(@NotNull final String list, @NotNull final String option);
+	boolean enabled(@NotNull String list, @NotNull String option);
 
 	/**
 	 *
@@ -23,5 +23,5 @@ public interface EnableDisableListUtils {
 	 * @param  defaultValue the default value if no option is specified
 	 * @return true if the option is enabled
 	 */
-	boolean enabled(@NotNull final String list, @NotNull final String option, final boolean defaultValue);
+	boolean enabled(@NotNull String list, @NotNull String option, boolean defaultValue);
 }

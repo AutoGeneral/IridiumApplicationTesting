@@ -17,9 +17,9 @@ public interface JavaScriptRunner {
 	 * @param js      The JavaScript executor
 	 */
 	void interactHiddenElementMouseEvent(
-		@NotNull final WebElement element,
-		@NotNull final String event,
-		@NotNull final JavascriptExecutor js);
+		@NotNull WebElement element,
+		@NotNull String event,
+		@NotNull JavascriptExecutor js);
 
 	/**
 	 * use JavaScript to simulate a key event on an element
@@ -29,7 +29,7 @@ public interface JavaScriptRunner {
 	 * @param js      The JavaScript executor
 	 */
 	void interactHiddenElementKeyEvent(
-		@NotNull final WebElement element,
-		@NotNull final String event,
-		@NotNull final JavascriptExecutor js);
+		@NotNull WebElement element,
+		@NotNull String event,
+		@NotNull JavascriptExecutor js);
 }

@@ -8,5 +8,5 @@ import java.util.List;
  */
 public interface TagAnalyser {
 
-	List<String> convertTagsToList(final String tags);
+	List<String> convertTagsToList(String tags);
 }

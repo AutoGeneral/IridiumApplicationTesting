@@ -18,7 +18,7 @@ public interface FeatureFileUtils {
 	 * @return A collection of feature files
 	 */
 	List<FileDetails> getFeatureScripts(
-		@NotNull final String path,
-		final String featureGroup,
-		final String baseUrl);
+		@NotNull String path,
+		String featureGroup,
+		String baseUrl);
 }

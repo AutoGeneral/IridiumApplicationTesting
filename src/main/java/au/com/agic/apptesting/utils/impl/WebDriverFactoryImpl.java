@@ -38,6 +38,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * An implementation of the web driver factory
  */
@@ -50,7 +52,10 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
 	@Override
-	public WebDriver createWebDriver(final List<ProxyDetails<?>> proxies, final List<File> tempFiles) {
+	public WebDriver createWebDriver(
+		@NotNull final List<ProxyDetails<?>> proxies,
+		@NotNull final List<File> tempFiles) {
+
 		final String browser = SYSTEM_PROPERTY_UTILS.getProperty(
 			Constants.TEST_DESTINATION_SYSTEM_PROPERTY);
 

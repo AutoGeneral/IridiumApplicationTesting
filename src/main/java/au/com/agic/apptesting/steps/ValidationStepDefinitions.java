@@ -50,13 +50,13 @@ public class ValidationStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ValidationStepDefinitions.class);
 	@Autowired
-	private SleepUtils SLEEP_UTILS;
+	private SleepUtils sleepUtils;
 	@Autowired
-	private AutoAliasUtils AUTO_ALIAS_UTILS;
+	private AutoAliasUtils autoAliasUtils;
 	@Autowired
-	private GetBy GET_BY;
+	private GetBy getBy;
 	@Autowired
-	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
+	private SimpleWebElementInteraction simpleWebElementInteraction;
 
 	/**
 	 * Verify the title in the browser
@@ -91,12 +91,12 @@ public class ValidationStepDefinitions {
 		final String classValue,
 		final String exists) {
 		try {
-			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
+			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
 				StringUtils.isNotBlank(selectorAlias),
 				selectorValue,
 				State.getFeatureStateForThread());
 
-			final String className = AUTO_ALIAS_UTILS.getValue(
+			final String className = autoAliasUtils.getValue(
 				classValue, StringUtils.isNotBlank(classAlias), State.getFeatureStateForThread());
 
 			final Iterable<String> split = Splitter.on(' ')
@@ -105,7 +105,7 @@ public class ValidationStepDefinitions {
 				.split(element.getAttribute("class"));
 
 			Assert.assertTrue(Iterables.contains(split, className));
-			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -137,7 +137,7 @@ public class ValidationStepDefinitions {
 		final String classValue,
 		final String exists) {
 		try {
-			final By by = GET_BY.getBy(
+			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(selectorAlias),
 				selectorValue,
@@ -149,7 +149,7 @@ public class ValidationStepDefinitions {
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
-			final String className = AUTO_ALIAS_UTILS.getValue(
+			final String className = autoAliasUtils.getValue(
 				classValue, StringUtils.isNotBlank(classAlias), State.getFeatureStateForThread());
 
 			final Iterable<String> split = Splitter.on(' ')
@@ -158,7 +158,7 @@ public class ValidationStepDefinitions {
 				.split(element.getAttribute("class"));
 
 			Assert.assertTrue(Iterables.contains(split, className));
-			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -244,7 +244,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is equal to((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyIsEqual(final String alias, final String valueAlias, final String expectedValue) {
-		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
+		final String fixedValue = autoAliasUtils.getValue(
 			expectedValue, StringUtils.isNotBlank(valueAlias), State.getFeatureStateForThread());
 
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
@@ -259,7 +259,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("(?:I verify(?: that)? )?(?:the )?alias \"([^\"]*)\" is not equal to((?: the)? alias)? \"([^\"]*)\"")
 	public void verifyIsNotEqual(final String alias, final String valueAlias, final String expectedValue) {
-		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
+		final String fixedValue = autoAliasUtils.getValue(
 			expectedValue, StringUtils.isNotBlank(valueAlias), State.getFeatureStateForThread());
 
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
@@ -338,7 +338,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^(?:I verify(?: that)? )?the page contains the text( alias)? \"(.*?)\"")
 	public void verifyPageContent(final String alias, final String text) {
-		final String fixedtext = AUTO_ALIAS_UTILS.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
+		final String fixedtext = autoAliasUtils.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final String pageText =
@@ -356,7 +356,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^(?:I verify(?: that)? )?the page contains the regex( alias)? \"(.*?)\"")
 	public void verifyPageRegexContent(final String alias, final String regex) {
-		final String fixedRegex = AUTO_ALIAS_UTILS.getValue(regex, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
+		final String fixedRegex = autoAliasUtils.getValue(regex, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
@@ -377,7 +377,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^(?:I verify(?: that)? )?the page does not contain the text( alias)? \"(.*?)\"")
 	public void verifyPageContentAbsent(final String alias, final String text) {
-		final String fixedtext = AUTO_ALIAS_UTILS.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
+		final String fixedtext = autoAliasUtils.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final String pageText =
@@ -395,7 +395,7 @@ public class ValidationStepDefinitions {
 	 */
 	@Then("^(?:I verify(?: that)? )?the page does not contain the regex( alias)? \"(.*?)\"")
 	public void verifyPageRegexNotContent(final String alias, final String regex) {
-		final String fixedRegex = AUTO_ALIAS_UTILS.getValue(regex, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
+		final String fixedRegex = autoAliasUtils.getValue(regex, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
@@ -419,7 +419,7 @@ public class ValidationStepDefinitions {
 	public void verifyAliasBigger(final String alias1, final String valueAlias, final String value) {
 		final String value1 = State.getFeatureStateForThread().getDataSet().get(alias1);
 
-		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
+		final String fixedValue = autoAliasUtils.getValue(
 			value, StringUtils.isNotBlank(valueAlias), State.getFeatureStateForThread());
 
 		Assert.assertTrue(
@@ -438,7 +438,7 @@ public class ValidationStepDefinitions {
 	public void verifyAliasBiggerOrEqual(final String alias1, final String valueAlias, final String value) {
 		final String value1 = State.getFeatureStateForThread().getDataSet().get(alias1);
 
-		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
+		final String fixedValue = autoAliasUtils.getValue(
 			value, StringUtils.isNotBlank(valueAlias), State.getFeatureStateForThread());
 
 		Assert.assertTrue(
@@ -458,7 +458,7 @@ public class ValidationStepDefinitions {
 	public void verifyAliasSmaller(final String alias1, final String valueAlias, final String value) {
 		final String value1 = State.getFeatureStateForThread().getDataSet().get(alias1);
 
-		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
+		final String fixedValue = autoAliasUtils.getValue(
 			value, StringUtils.isNotBlank(valueAlias), State.getFeatureStateForThread());
 
 		Assert.assertTrue(
@@ -477,7 +477,7 @@ public class ValidationStepDefinitions {
 	public void verifyAliasSmallerOrEqual(final String alias1, final String valueAlias, final String value) {
 		final String value1 = State.getFeatureStateForThread().getDataSet().get(alias1);
 
-		final String fixedValue = AUTO_ALIAS_UTILS.getValue(
+		final String fixedValue = autoAliasUtils.getValue(
 			value, StringUtils.isNotBlank(valueAlias), State.getFeatureStateForThread());
 
 		Assert.assertTrue(
@@ -521,7 +521,7 @@ public class ValidationStepDefinitions {
 		final String ignoringTimeout) {
 
 		try {
-			SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
+			simpleWebElementInteraction.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),
@@ -558,7 +558,7 @@ public class ValidationStepDefinitions {
 		final String waitDuration) {
 
 		try {
-			SIMPLE_WEB_ELEMENT_INTERACTION.getNotVisibleElementFoundBy(
+			simpleWebElementInteraction.getNotVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),
@@ -598,7 +598,7 @@ public class ValidationStepDefinitions {
 		final String ignoringTimeout) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			NumberUtils.toLong(waitDuration, State.getFeatureStateForThread().getDefaultWait()),
@@ -641,7 +641,7 @@ public class ValidationStepDefinitions {
 		final String ignoringTimeout) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			NumberUtils.toLong(waitDuration, State.getFeatureStateForThread().getDefaultWait()),
@@ -686,7 +686,7 @@ public class ValidationStepDefinitions {
 		final String waitDuration,
 		final String ignoringTimeout) {
 		try {
-			SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
+			simpleWebElementInteraction.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),
@@ -726,7 +726,7 @@ public class ValidationStepDefinitions {
 		final String ignoringTimeout) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			NumberUtils.toLong(waitDuration, State.getFeatureStateForThread().getDefaultWait()),
@@ -767,7 +767,7 @@ public class ValidationStepDefinitions {
 		final String ignoringTimeout) {
 
 		try {
-			SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+			simpleWebElementInteraction.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),
@@ -804,7 +804,7 @@ public class ValidationStepDefinitions {
 		final String ignoringTimeout) {
 
 		try {
-			SIMPLE_WEB_ELEMENT_INTERACTION.getNotPresenceElementFoundBy(
+			simpleWebElementInteraction.getNotPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),
@@ -845,7 +845,7 @@ public class ValidationStepDefinitions {
 		final String ignoringTimeout) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			NumberUtils.toLong(waitDuration, State.getFeatureStateForThread().getDefaultWait()),
@@ -887,7 +887,7 @@ public class ValidationStepDefinitions {
 		final String ignoringTimeout) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			NumberUtils.toLong(waitDuration, State.getFeatureStateForThread().getDefaultWait()),
@@ -930,7 +930,7 @@ public class ValidationStepDefinitions {
 
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final String content = AUTO_ALIAS_UTILS.getValue(
+			final String content = autoAliasUtils.getValue(
 				linkContent, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
@@ -966,7 +966,7 @@ public class ValidationStepDefinitions {
 
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final String content = AUTO_ALIAS_UTILS.getValue(
+			final String content = autoAliasUtils.getValue(
 				linkContent, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
@@ -1012,7 +1012,7 @@ public class ValidationStepDefinitions {
 		final String waitDuration,
 		final String ignoringTimeout) {
 
-		final String attributeValue = AUTO_ALIAS_UTILS.getValue(
+		final String attributeValue = autoAliasUtils.getValue(
 			selectorValue, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		try {
@@ -1054,7 +1054,7 @@ public class ValidationStepDefinitions {
 		final String waitDuration,
 		final String ignoringTimeout) {
 
-		final String attributeValue = AUTO_ALIAS_UTILS.getValue(
+		final String attributeValue = autoAliasUtils.getValue(
 			selectorValue, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		try {
@@ -1102,7 +1102,7 @@ public class ValidationStepDefinitions {
 		final String waitDuration,
 		final String ignoringTimeout) {
 
-		final String attributeValue = AUTO_ALIAS_UTILS.getValue(
+		final String attributeValue = autoAliasUtils.getValue(
 			selectorValue, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		try {
@@ -1144,7 +1144,7 @@ public class ValidationStepDefinitions {
 		final String waitDuration,
 		final String ignoringTimeout) {
 
-		final String attributeValue = AUTO_ALIAS_UTILS.getValue(
+		final String attributeValue = autoAliasUtils.getValue(
 			selectorValue, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		try {

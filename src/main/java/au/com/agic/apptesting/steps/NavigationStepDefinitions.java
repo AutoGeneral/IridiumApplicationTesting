@@ -22,9 +22,9 @@ import cucumber.api.java.en.When;
 public class NavigationStepDefinitions {
 
 	@Autowired
-	private SleepUtils SLEEP_UTILS;
+	private SleepUtils sleepUtils;
 	@Autowired
-	private AutoAliasUtils AUTO_ALIAS_UTILS;
+	private AutoAliasUtils autoAliasUtils;
 
 	/**
 	 * Go back
@@ -35,7 +35,7 @@ public class NavigationStepDefinitions {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			webDriver.navigate().back();
-			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			/*
 				Safari doesn't support navigation:
@@ -57,7 +57,7 @@ public class NavigationStepDefinitions {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			webDriver.navigate().forward();
-			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			/*
 				Safari doesn't support navigation:
@@ -79,7 +79,7 @@ public class NavigationStepDefinitions {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			webDriver.navigate().refresh();
-			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
 			/*
 				Safari doesn't support navigation:
@@ -100,10 +100,10 @@ public class NavigationStepDefinitions {
 	 */
 	@When("I go to the hash location( alias)? \"(.*?)\"")
 	public void openHash(final String alias, final String hash) {
-		final String hashValue = AUTO_ALIAS_UTILS.getValue(hash, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
+		final String hashValue = autoAliasUtils.getValue(hash, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		((JavascriptExecutor) webDriver).executeScript("window.location.hash='#" + hashValue + "'");
-		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 }

@@ -5,11 +5,11 @@ package au.com.agic.apptesting.utils;
  */
 public interface StringBuilderUtils {
 
-	void appendWithSpace(final StringBuilder stringBuilder, final String append);
+	void appendWithSpace(StringBuilder stringBuilder, String append);
 
-	void appendWithComma(final StringBuilder stringBuilder, final String append);
+	void appendWithComma(StringBuilder stringBuilder, String append);
 
-	void appendWithSemicolon(final StringBuilder stringBuilder, final String append);
+	void appendWithSemicolon(StringBuilder stringBuilder, String append);
 
-	void appendWithDelimiter(final StringBuilder stringBuilder, final String append, final String delimiter);
+	void appendWithDelimiter(StringBuilder stringBuilder, String append, String delimiter);
 }

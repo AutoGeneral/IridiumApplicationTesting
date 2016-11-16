@@ -14,5 +14,5 @@ public interface ChronoConverterUtils {
 	 * @param input The string representation of the chrono unit
 	 * @return The matching ChronoUnit
 	 */
-	ChronoUnit fromString(@NotNull final String input);
+	ChronoUnit fromString(@NotNull String input);
 }

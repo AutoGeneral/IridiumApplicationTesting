@@ -35,9 +35,9 @@ import cucumber.api.java.en.When;
 public class OpenStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OpenStepDefinitions.class);
 	@Autowired
-	private SleepUtils SLEEP_UTILS;
+	private SleepUtils sleepUtils;
 	@Autowired
-	private AutoAliasUtils AUTO_ALIAS_UTILS;
+	private AutoAliasUtils autoAliasUtils;
 	private static final int LINK_OPEN_POOL_COUNT = 5;
 	/**
 	 * This has to be long enough to allow a request to be made, but too long
@@ -55,9 +55,9 @@ public class OpenStepDefinitions {
 	@When("^I open the page( alias)? \"([^\"]*)\"$")
 	public void openPage(final String alias, final String url) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final String urlValue = AUTO_ALIAS_UTILS.getValue(url, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
+		final String urlValue = autoAliasUtils.getValue(url, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 		webDriver.get(urlValue);
-		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class OpenStepDefinitions {
 			webDriver.get(State.getFeatureStateForThread().getUrlDetails().getDefaultUrl());
 		}
 
-		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class OpenStepDefinitions {
 							+ "})()"
 						);
 
-						SLEEP_UTILS.sleep(TAB_OPEN_TIME);
+						sleepUtils.sleep(TAB_OPEN_TIME);
 					} catch (final Exception ignored) {
 						/*
 							ignored because the link didn't contain a valid url

@@ -8,6 +8,8 @@ import org.openqa.selenium.WebDriver;
 import java.io.File;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * A service for creating web driver instances
  */
@@ -19,7 +21,7 @@ public interface WebDriverFactory {
 	 * @param tempFiles maintains a list of temp files that are deleted once Iridium is closed
 	 * @return A new instance of a webdriver
      */
-	WebDriver createWebDriver(final List<ProxyDetails<?>> proxies, final List<File> tempFiles);
+	WebDriver createWebDriver(@NotNull List<ProxyDetails<?>> proxies, @NotNull List<File> tempFiles);
 
 	/**
 	 *

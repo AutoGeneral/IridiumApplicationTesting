@@ -19,12 +19,12 @@ public interface ProxyManager {
 	 * @return A list of proxies created
 	 */
 	List<ProxyDetails<?>> configureProxies(
-		@NotNull final List<File> globalTempFiles,
-		@NotNull final List<File> tempFiles);
+		@NotNull List<File> globalTempFiles,
+		@NotNull List<File> tempFiles);
 
 	/**
 	 * Gracefully shutdown proxies before we exit the app
 	 * @param proxies The list of proxies that were created for this test
 	 */
-	void stopProxies(@NotNull final List<ProxyDetails<?>> proxies);
+	void stopProxies(@NotNull List<ProxyDetails<?>> proxies);
 }

@@ -12,7 +12,7 @@ public interface ScreenCapture {
 	 *
 	 * @param saveDir The directory that the screen recording will be saved into
 	 */
-	void start(@NotNull final String saveDir);
+	void start(@NotNull String saveDir);
 
 	/**
 	 * Stop a screen capture

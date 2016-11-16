@@ -11,5 +11,5 @@ public interface CrossPlatformUtils {
 	 * @param input The string to normalise
 	 * @return The input string with consistent line breaks
 	 */
-	String normaliseLineBreaks(@NotNull final String input);
+	String normaliseLineBreaks(@NotNull String input);
 }

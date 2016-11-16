@@ -19,7 +19,7 @@ public interface SystemPropertyUtils {
 	 * @param name The name of the system property
 	 * @return The value of the system property
 	 */
-	String getProperty(final String name);
+	String getProperty(String name);
 
 	/**
 	 * Gets a system property as a boolean
@@ -27,7 +27,7 @@ public interface SystemPropertyUtils {
 	 * @param defaultValue The default value if the property is empty or null
 	 * @return the boolean value of the system property, or the default value if the system property is empty
 	 */
-	boolean getPropertyAsBoolean(final String name, final boolean defaultValue);
+	boolean getPropertyAsBoolean(String name, boolean defaultValue);
 
 	/**
 	 * Extracts system properties, either from their default name, or with the javaws prefix.
@@ -36,14 +36,14 @@ public interface SystemPropertyUtils {
 	 * @param name The name of the system property
 	 * @return The value of the system property
 	 */
-	String getPropertyEmptyAsNull(final String name);
+	String getPropertyEmptyAsNull(String name);
 
 	/**
 	 * Copies system properties from the javaws prefixed namespace into the default namespace
 	 *
 	 * @param name The name of the variable, excluding the javaws prefix
 	 */
-	void copyVariableToDefaultLocation(final String name);
+	void copyVariableToDefaultLocation(String name);
 
 	/**
 	 * Some system properties are defined by external dependencies that can't be passed in

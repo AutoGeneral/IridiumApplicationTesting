@@ -14,5 +14,5 @@ public interface JUnitReportMerge {
 	 * @param reports A collection if junit reports
 	 * @return A single, merged junit report
 	 */
-	Optional<String> mergeReports(@NotNull final List<String> reports);
+	Optional<String> mergeReports(@NotNull List<String> reports);
 }

@@ -35,19 +35,19 @@ public interface ThreadWebDriverMap {
 	 * @param myProxies	  		  A list of the proxies that have been configured
 	 */
 	void initialise(
-		@NotNull final List<DesiredCapabilities> desiredCapabilities,
-		@NotNull final List<UrlMapping> applicationUrls,
-		@NotNull final Map<Integer, Map<String, String>> datasets,
-		@NotNull final String myReportDirectory,
-		@NotNull final List<File> myTempFolders,
-		@NotNull final List<ProxyDetails<?>> myProxies);
+		@NotNull List<DesiredCapabilities> desiredCapabilities,
+		@NotNull List<UrlMapping> applicationUrls,
+		@NotNull Map<Integer, Map<String, String>> datasets,
+		@NotNull String myReportDirectory,
+		@NotNull List<File> myTempFolders,
+		@NotNull List<ProxyDetails<?>> myProxies);
 
 	/**
 	 * @param name The name of the currently executing thread
 	 * @return The state of the currently executing feature
 	 */
 	@NotNull
-	FeatureState getDesiredCapabilitiesForThread(@NotNull final String name);
+	FeatureState getDesiredCapabilitiesForThread(@NotNull String name);
 
 	/**
 	 * @return The web driver and url associated with the current thread
@@ -64,7 +64,7 @@ public interface ThreadWebDriverMap {
 	 * @return The web driver and url associated with the thread
      */
 	@NotNull
-	WebDriver getWebDriverForThread(@NotNull final String name, final boolean createIfMissing);
+	WebDriver getWebDriverForThread(@NotNull String name, boolean createIfMissing);
 
 	/**
 	 * @param  createIfMissing set to true to create a web driver if one doesn't exist
@@ -89,7 +89,7 @@ public interface ThreadWebDriverMap {
 	 * @param name The name of the thread
 	 * @param quitDriver true if the driver should quit before it is cleared
 	 */
-	void clearWebDriverForThread(@NotNull final String name, final boolean quitDriver);
+	void clearWebDriverForThread(@NotNull String name, boolean quitDriver);
 
 	/**
 	 *
@@ -122,7 +122,7 @@ public interface ThreadWebDriverMap {
 	 *
 	 * @param name The name of the thread that should have its associated resources cleaned up
 	 */
-	void shutdown(@NotNull final String name);
+	void shutdown(@NotNull String name);
 
 
 }

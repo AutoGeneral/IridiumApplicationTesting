@@ -36,13 +36,13 @@ public class WaitStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WaitStepDefinitions.class);
 	@Autowired
-	private SleepUtils SLEEP_UTILS;
+	private SleepUtils sleepUtils;
 	@Autowired
-	private GetBy GET_BY;
+	private GetBy getBy;
 	@Autowired
-	private AutoAliasUtils AUTO_ALIAS_UTILS;
+	private AutoAliasUtils autoAliasUtils;
 	@Autowired
-	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
+	private SimpleWebElementInteraction simpleWebElementInteraction;
 
 	private static final long MILLISECONDS_PER_SECOND = 1000;
 
@@ -53,7 +53,7 @@ public class WaitStepDefinitions {
 	 */
 	@When("^I (?:wait|sleep) for \"(\\d+)\" second(?:s?)$")
 	public void sleepStep(final String sleepDuration) {
-		SLEEP_UTILS.sleep(Integer.parseInt(sleepDuration) * MILLISECONDS_PER_SECOND);
+		sleepUtils.sleep(Integer.parseInt(sleepDuration) * MILLISECONDS_PER_SECOND);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) {
 
 		try {
-			SIMPLE_WEB_ELEMENT_INTERACTION.getVisibleElementFoundBy(
+			simpleWebElementInteraction.getVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),
@@ -119,7 +119,7 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) {
 
 		try {
-			SIMPLE_WEB_ELEMENT_INTERACTION.getNotVisibleElementFoundBy(
+			simpleWebElementInteraction.getNotVisibleElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),
@@ -161,7 +161,7 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			Integer.parseInt(waitDuration),
@@ -206,7 +206,7 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			Integer.parseInt(waitDuration),
@@ -251,7 +251,7 @@ public class WaitStepDefinitions {
 		final String selectorValue,
 		final String ignoringTimeout) {
 		try {
-			SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
+			simpleWebElementInteraction.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),
@@ -291,7 +291,7 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			Integer.parseInt(waitDuration),
@@ -333,7 +333,7 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) {
 
 		try {
-			SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+			simpleWebElementInteraction.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),
@@ -372,7 +372,7 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) {
 
 		try {
-			SIMPLE_WEB_ELEMENT_INTERACTION.getNotPresenceElementFoundBy(
+			simpleWebElementInteraction.getNotPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),
@@ -414,7 +414,7 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			Integer.parseInt(waitDuration),
@@ -458,7 +458,7 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			Integer.parseInt(waitDuration),
@@ -501,7 +501,7 @@ public class WaitStepDefinitions {
 
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final String content = AUTO_ALIAS_UTILS.getValue(
+			final String content = autoAliasUtils.getValue(
 				linkContent, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
@@ -538,7 +538,7 @@ public class WaitStepDefinitions {
 
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final String content = AUTO_ALIAS_UTILS.getValue(
+			final String content = autoAliasUtils.getValue(
 				linkContent, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
@@ -584,7 +584,7 @@ public class WaitStepDefinitions {
 		final String selectorValue,
 		final String ignoringTimeout) {
 
-		final String attributeValue = AUTO_ALIAS_UTILS.getValue(
+		final String attributeValue = autoAliasUtils.getValue(
 			selectorValue, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		try {
@@ -626,7 +626,7 @@ public class WaitStepDefinitions {
 		final String selectorValue,
 		final String ignoringTimeout) {
 
-		final String attributeValue = AUTO_ALIAS_UTILS.getValue(
+		final String attributeValue = autoAliasUtils.getValue(
 			selectorValue, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		try {
@@ -674,7 +674,7 @@ public class WaitStepDefinitions {
 		final String selectorValue,
 		final String ignoringTimeout) {
 
-		final String attributeValue = AUTO_ALIAS_UTILS.getValue(
+		final String attributeValue = autoAliasUtils.getValue(
 			selectorValue, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		try {
@@ -716,7 +716,7 @@ public class WaitStepDefinitions {
 		final String selectorValue,
 		final String ignoringTimeout) {
 
-		final String attributeValue = AUTO_ALIAS_UTILS.getValue(
+		final String attributeValue = autoAliasUtils.getValue(
 			selectorValue, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		try {
@@ -752,7 +752,7 @@ public class WaitStepDefinitions {
 	 */
 	@Then("^I wait \"(\\d+)\" seconds for the page to contain the text( alias)? \"(.*?)\"")
 	public void verifyPageContent(final Integer wait, final String alias, final String text) throws InterruptedException {
-		final String fixedtext = AUTO_ALIAS_UTILS.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
+		final String fixedtext = autoAliasUtils.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
@@ -781,7 +781,7 @@ public class WaitStepDefinitions {
 	 */
 	@Then("^I wait \"(\\d+)\" seconds for the page to contain the regex( alias)? \"(.*?)\"")
 	public void verifyPageRegexContent(final Integer wait, final String alias, final String text) throws InterruptedException {
-		final String fixedRegex = AUTO_ALIAS_UTILS.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
+		final String fixedRegex = autoAliasUtils.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 		final Pattern pattern = Pattern.compile(fixedRegex);
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();

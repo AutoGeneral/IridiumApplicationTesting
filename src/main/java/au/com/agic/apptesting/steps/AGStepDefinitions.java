@@ -28,11 +28,11 @@ import cucumber.api.java.en.When;
 @Component
 public class AGStepDefinitions {
 	@Autowired
-	private GetBy GET_BY;
+	private GetBy getBy;
 	@Autowired
-	private SleepUtils SLEEP_UTILS;
+	private SleepUtils sleepUtils;
 	@Autowired
-	private AutoAliasUtils AUTO_ALIAS_UTILS;
+	private AutoAliasUtils autoAliasUtils;
 
 	/**
 	 * The postcode suggestion box is a pain in the ass. It won't be triggered without a keyup event,
@@ -46,10 +46,10 @@ public class AGStepDefinitions {
 	@When("I autoselect the post code of( alias)? \"([^\"]*)\"")
 	public void autoselectPostcode(final String alias, final String postcode) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final String postcodeValue = AUTO_ALIAS_UTILS.getValue(
+		final String postcodeValue = autoAliasUtils.getValue(
 			postcode, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
-		final By by = GET_BY.getBy("class", false, Constants.POSTCODE_CLASS, State.getFeatureStateForThread());
+		final By by = getBy.getBy("class", false, Constants.POSTCODE_CLASS, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			State.getFeatureStateForThread().getDefaultWait(),
@@ -58,7 +58,7 @@ public class AGStepDefinitions {
 		final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("arguments[0].autoSelectSuburb('" + postcodeValue + "');", element);
-		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -85,10 +85,10 @@ public class AGStepDefinitions {
 		final String exists) {
 
 		try {
-			final String attr = AUTO_ALIAS_UTILS.getValue(
+			final String attr = autoAliasUtils.getValue(
 				attributeName, StringUtils.isNotBlank(attributeNameAlias), State.getFeatureStateForThread());
 
-			final String value = AUTO_ALIAS_UTILS.getValue(
+			final String value = autoAliasUtils.getValue(
 				attributeValue, StringUtils.isNotBlank(attributeValueAlias), State.getFeatureStateForThread());
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
@@ -107,7 +107,7 @@ public class AGStepDefinitions {
 				ExpectedConditions.elementToBeClickable(
 					By.cssSelector("[" + attr + "='" + dateValue + "']")));
 			element.click();
-			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;

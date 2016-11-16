@@ -98,7 +98,7 @@ public class ProxyDetailsImpl<T> implements ProxyDetails<T> {
 	}
 
 	@Override
-	public void setMainProxy(boolean mainProxy) {
+	public void setMainProxy(final boolean mainProxy) {
 		this.mainProxy = mainProxy;
 	}
 }

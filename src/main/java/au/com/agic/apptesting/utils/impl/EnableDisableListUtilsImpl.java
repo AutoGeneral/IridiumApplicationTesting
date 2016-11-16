@@ -28,7 +28,7 @@ public class EnableDisableListUtilsImpl implements EnableDisableListUtils {
 	}
 
 	@Override
-	public boolean enabled(@NotNull final String list, @NotNull final String option, boolean defaultValue) {
+	public boolean enabled(@NotNull final String list, @NotNull final String option, final boolean defaultValue) {
 		checkNotNull(list);
 		checkArgument(StringUtils.isNotBlank(option));
 
