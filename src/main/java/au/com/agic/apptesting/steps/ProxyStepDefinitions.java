@@ -27,6 +27,7 @@ import java.util.Optional;
 import cucumber.api.java.en.When;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponse;
+import javaslang.control.Try;
 
 /**
  * This class contains Gherkin step definitions relating to the use of the embedded
@@ -47,11 +48,14 @@ public class ProxyStepDefinitions {
 	public void enableHar() {
 		final Optional<ProxyDetails<?>> proxy =
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
-		if (proxy.isPresent()) {
-			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
-			browserMobProxy.setHarCaptureTypes(CaptureType.getAllContentCaptureTypes());
-			browserMobProxy.newHar();
-		}
+
+		proxy
+			.map(ProxyDetails::getInterface)
+			.map(BrowserMobProxy.class::cast)
+			.ifPresent(x -> {
+				x.setHarCaptureTypes(CaptureType.getAllContentCaptureTypes());
+				x.newHar();
+			});
 	}
 
 	/**
@@ -60,21 +64,24 @@ public class ProxyStepDefinitions {
 	 * @throws IOException Thrown when there is an issue saving the HAR file
 	 */
 	@When("^I dump the HAR file(?: to \"(.*?)\")?$")
-	public void saveHarFile(final String filename) throws IOException {
+	public void saveHarFile(final String filename) {
 		final Optional<ProxyDetails<?>> proxy =
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
-		if (proxy.isPresent()) {
-			final String fixedFilename = StringUtils.defaultString(filename, "browsermob.har");
-			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
-			final Har har = browserMobProxy.getHar();
 
-			checkState(
-				har != null,
-				"You need to add the step \"I enable HAR logging\" before saving the HAR file");
+		proxy
+			.map(ProxyDetails::getInterface)
+			.map(BrowserMobProxy.class::cast)
+			.map(x -> Try.run(() -> {
+				final String fixedFilename = StringUtils.defaultString(filename, "browsermob.har");
+				final Har har = x.getHar();
 
-			final File file = new File(State.getFeatureStateForThread().getReportDirectory() + "/" + fixedFilename);
-			har.writeTo(file);
-		}
+				checkState(
+					har != null,
+					"You need to add the step \"I enable HAR logging\" before saving the HAR file");
+
+				final File file = new File(State.getFeatureStateForThread().getReportDirectory() + "/" + fixedFilename);
+				har.writeTo(file);
+			}));
 	}
 
 	/**
@@ -87,10 +94,13 @@ public class ProxyStepDefinitions {
 	public void blockUrl(final String url, final Integer response) {
 		final Optional<ProxyDetails<?>> proxy =
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
-		if (proxy.isPresent()) {
-			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
-			browserMobProxy.blacklistRequests(url, response);
-		}
+
+		proxy
+			.map(ProxyDetails::getInterface)
+			.map(BrowserMobProxy.class::cast)
+			.ifPresent(x -> {
+				x.blacklistRequests(url, response);
+			});
 	}
 
 	/**
@@ -104,10 +114,13 @@ public class ProxyStepDefinitions {
 	public void blockUrl(final String url, final String type, final Integer response) {
 		final Optional<ProxyDetails<?>> proxy =
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
-		if (proxy.isPresent()) {
-			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
-			browserMobProxy.blacklistRequests(url, response, type);
-		}
+
+		proxy
+			.map(ProxyDetails::getInterface)
+			.map(BrowserMobProxy.class::cast)
+			.ifPresent(x -> {
+				x.blacklistRequests(url, response, type);
+			});
 	}
 
 	/**
@@ -119,10 +132,13 @@ public class ProxyStepDefinitions {
 	public void enableWhitelist(final Integer response) {
 		final Optional<ProxyDetails<?>> proxy =
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
-		if (proxy.isPresent()) {
-			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
-			browserMobProxy.enableEmptyWhitelist(response);
-		}
+
+		proxy
+			.map(ProxyDetails::getInterface)
+			.map(BrowserMobProxy.class::cast)
+			.ifPresent(x -> {
+				x.enableEmptyWhitelist(response);
+			});
 	}
 
 	/**
@@ -134,10 +150,13 @@ public class ProxyStepDefinitions {
 	public void allowUrl(final String url) {
 		final Optional<ProxyDetails<?>> proxy =
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
-		if (proxy.isPresent()) {
-			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
-			browserMobProxy.addWhitelistPattern(url);
-		}
+
+		proxy
+			.map(ProxyDetails::getInterface)
+			.map(BrowserMobProxy.class::cast)
+			.ifPresent(x -> {
+				x.addWhitelistPattern(url);
+			});
 	}
 
 	/**
@@ -158,78 +177,81 @@ public class ProxyStepDefinitions {
 		 */
 		final String threadName = Thread.currentThread().getName();
 
-		if (proxy.isPresent()) {
-			final BrowserMobProxy browserMobProxy = (BrowserMobProxy) proxy.get().getInterface().get();
-			browserMobProxy.addRequestFilter(new RequestFilter() {
-				@Override
-				public HttpResponse filterRequest(
-					final HttpRequest request,
-					final HttpMessageContents contents,
-					final HttpMessageInfo messageInfo) {
-					if (messageInfo.getOriginalRequest().getUri().matches(url)) {
-						final Optional<String> cookies =
-							Optional.ofNullable(request.headers().get("Cookie"));
+
+		proxy
+			.map(ProxyDetails::getInterface)
+			.map(BrowserMobProxy.class::cast)
+			.ifPresent(x -> {
+				x.addRequestFilter(new RequestFilter() {
+					@Override
+					public HttpResponse filterRequest(
+						final HttpRequest request,
+						final HttpMessageContents contents,
+						final HttpMessageInfo messageInfo) {
+						if (messageInfo.getOriginalRequest().getUri().matches(url)) {
+							final Optional<String> cookies =
+								Optional.ofNullable(request.headers().get("Cookie"));
 
 						/*
 							Only proceed if we have supplied some cookies
 						 */
-						if (cookies.isPresent()) {
+							if (cookies.isPresent()) {
 							/*
 								Find the root context cookie
 							 */
-							final WebDriver webDriver =
-								State
-									.THREAD_DESIRED_CAPABILITY_MAP
-									.getWebDriverForThread(threadName, true);
+								final WebDriver webDriver =
+									State
+										.THREAD_DESIRED_CAPABILITY_MAP
+										.getWebDriverForThread(threadName, true);
 
-							final Optional<Cookie> awselb =
-								webDriver.manage().getCookies()
-									.stream()
-									.filter(x -> "AWSELB".equals(x.getName()))
-									.filter(x -> "/".equals(x.getPath()))
-									.findFirst();
+								final Optional<Cookie> awselb =
+									webDriver.manage().getCookies()
+										.stream()
+										.filter(x -> "AWSELB".equals(x.getName()))
+										.filter(x -> "/".equals(x.getPath()))
+										.findFirst();
 
 							/*
 								If we have a root context cookie,
 								remove it from the request
 							 */
-							if (awselb.isPresent()) {
+								if (awselb.isPresent()) {
 
-								LOGGER.info(
-									"WEBAPPTESTER-INFO-0002: "
-									+ "Removing AWSELB cookie with value {}",
-									awselb.get().getValue());
+									LOGGER.info(
+										"WEBAPPTESTER-INFO-0002: "
+											+ "Removing AWSELB cookie with value {}",
+										awselb.get().getValue());
 
-								final String newCookie =
-									cookies.get().replaceAll(awselb.get().getName()
-										+ "="
-										+ awselb.get().getValue() + ";"
-										+ "( "
-										+ "GMT=; "
-										+ "\\d+-\\w+-\\d+=\\d+:\\d+:\\d+;"
-										+ ")?",
-										"");
+									final String newCookie =
+										cookies.get().replaceAll(awselb.get().getName()
+												+ "="
+												+ awselb.get().getValue() + ";"
+												+ "( "
+												+ "GMT=; "
+												+ "\\d+-\\w+-\\d+=\\d+:\\d+:\\d+;"
+												+ ")?",
+											"");
 
-								request.headers().set("Cookie", newCookie);
+									request.headers().set("Cookie", newCookie);
+								}
+
+								final int awsElbCookieCount = StringUtils.countMatches(
+									request.headers().get("Cookie"),
+									"AWSELB");
+
+								if (awsElbCookieCount != 1) {
+									LOGGER.info(
+										"WEBAPPTESTER-INFO-0003: "
+											+ "{} AWSELB cookies found",
+										awsElbCookieCount);
+								}
 							}
 
-							final int awsElbCookieCount = StringUtils.countMatches(
-								request.headers().get("Cookie"),
-								"AWSELB");
-
-							if (awsElbCookieCount != 1) {
-								LOGGER.info(
-									"WEBAPPTESTER-INFO-0003: "
-										+ "{} AWSELB cookies found",
-									awsElbCookieCount);
-							}
 						}
 
+						return null;
 					}
-
-					return null;
-				}
+				});
 			});
-		}
 	}
 }

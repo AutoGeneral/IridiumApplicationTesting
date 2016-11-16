@@ -90,6 +90,8 @@ public class ProxyManagerImpl implements ProxyManager {
 
 		proxies.stream()
 			.filter(BrowsermobProxyUtilsImpl.PROXY_NAME::equals)
-			.forEach(x -> BrowserMobProxy.class.cast(x.getInterface().get()).stop());
+			.forEach(x -> x.getInterface()
+				.map(BrowserMobProxy.class::cast)
+				.ifPresent(BrowserMobProxy::stop));
 	}
 }
