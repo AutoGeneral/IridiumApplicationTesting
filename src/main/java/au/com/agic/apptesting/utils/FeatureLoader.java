@@ -18,7 +18,7 @@ public interface FeatureLoader {
 	 * @return The path where the features were saved, so Cucumber can load them
 	 */
 	@NotNull
-	String loadFeatures(final String identifier, final String app);
+	String loadFeatures(String identifier, String app);
 
 	/**
 	 * Load the features from some external source and save them to the disk
@@ -28,5 +28,5 @@ public interface FeatureLoader {
 	 * @return The path where the features were saved, so Cucumber can load them
 	 */
 	@NotNull
-	String loadFeatures(@NotNull final List<String> identifiers, final String app);
+	String loadFeatures(@NotNull List<String> identifiers, String app);
 }

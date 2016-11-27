@@ -22,9 +22,9 @@ public interface SimpleWebElementInteraction {
 	 * @return The element, or throw an exception
 	 */
 	WebElement getClickableElementFoundBy(
-		final boolean valueAlias,
-		@NotNull final String value,
-		@NotNull final FeatureState featureState);
+		boolean valueAlias,
+		@NotNull String value,
+		@NotNull FeatureState featureState);
 
 	/**
 	 * This method queries the web page for elements that can be found by the supplied value.
@@ -41,10 +41,10 @@ public interface SimpleWebElementInteraction {
 	 * @return The element, or throw an exception
 	 */
 	WebElement getClickableElementFoundBy(
-		final boolean valueAlias,
-		@NotNull final String value,
-		@NotNull final FeatureState featureState,
-		final long wait);
+		boolean valueAlias,
+		@NotNull String value,
+		@NotNull FeatureState featureState,
+		long wait);
 
 	/**
 	 * This method queries the web page for elements that can be found by the supplied value.
@@ -60,9 +60,9 @@ public interface SimpleWebElementInteraction {
 	 * @return The element, or throw an exception
 	 */
 	WebElement getVisibleElementFoundBy(
-		final boolean valueAlias,
-		@NotNull final String value,
-		@NotNull final FeatureState featureState);
+		boolean valueAlias,
+		@NotNull String value,
+		@NotNull FeatureState featureState);
 
 	/**
 	 * This method queries the web page for elements that can be found by the supplied value.
@@ -79,10 +79,10 @@ public interface SimpleWebElementInteraction {
 	 * @return The element, or throw an exception
 	 */
 	WebElement getVisibleElementFoundBy(
-		final boolean valueAlias,
-		@NotNull final String value,
-		@NotNull final FeatureState featureState,
-		final long wait);
+		boolean valueAlias,
+		@NotNull String value,
+		@NotNull FeatureState featureState,
+		long wait);
 
 	/**
 	 * This method queries the web page for elements that can be found by the supplied value.
@@ -96,9 +96,9 @@ public interface SimpleWebElementInteraction {
 	 * @param featureState The current thread's state object
 	 */
 	void getNotVisibleElementFoundBy(
-		final boolean valueAlias,
-		@NotNull final String value,
-		@NotNull final FeatureState featureState);
+		boolean valueAlias,
+		@NotNull String value,
+		@NotNull FeatureState featureState);
 
 	/**
 	 * This method queries the web page for elements that can be found by the supplied value.
@@ -113,10 +113,10 @@ public interface SimpleWebElementInteraction {
 	 * @param wait How long to wait for
 	 */
 	void getNotVisibleElementFoundBy(
-		final boolean valueAlias,
-		@NotNull final String value,
-		@NotNull final FeatureState featureState,
-		final long wait);
+		boolean valueAlias,
+		@NotNull String value,
+		@NotNull FeatureState featureState,
+		long wait);
 
 	/**
 	 * This method queries the web page for elements that can be found by the supplied value.
@@ -132,9 +132,9 @@ public interface SimpleWebElementInteraction {
 	 * @return The element, or throw an exception
 	 */
 	WebElement getPresenceElementFoundBy(
-		final boolean valueAlias,
-		@NotNull final String value,
-		@NotNull final FeatureState featureState);
+		boolean valueAlias,
+		@NotNull String value,
+		@NotNull FeatureState featureState);
 
 	/**
 	 * This method queries the web page for elements that can be found by the supplied value.
@@ -151,10 +151,10 @@ public interface SimpleWebElementInteraction {
 	 * @return The element, or throw an exception
 	 */
 	WebElement getPresenceElementFoundBy(
-		final boolean valueAlias,
-		@NotNull final String value,
-		@NotNull final FeatureState featureState,
-		final long wait);
+		boolean valueAlias,
+		@NotNull String value,
+		@NotNull FeatureState featureState,
+		long wait);
 
 	/**
 	 * This method queries the web page for elements that can be found by the supplied value.
@@ -168,9 +168,9 @@ public interface SimpleWebElementInteraction {
 	 * @param featureState The current thread's state object
 	 */
 	void getNotPresenceElementFoundBy(
-		final boolean valueAlias,
-		@NotNull final String value,
-		@NotNull final FeatureState featureState);
+		boolean valueAlias,
+		@NotNull String value,
+		@NotNull FeatureState featureState);
 
 	/**
 	 * This method queries the web page for elements that can be found by the supplied value.
@@ -185,8 +185,8 @@ public interface SimpleWebElementInteraction {
 	 * @param wait How long to wait for
 	 */
 	void getNotPresenceElementFoundBy(
-		final boolean valueAlias,
-		@NotNull final String value,
-		@NotNull final FeatureState featureState,
-		final long wait);
+		boolean valueAlias,
+		@NotNull String value,
+		@NotNull FeatureState featureState,
+		long wait);
 }

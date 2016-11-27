@@ -24,11 +24,11 @@ public class StepEventHandling {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StepEventHandling.class);
 	@Autowired
-	private SystemPropertyUtils SYSTEM_PROPERTY_UTILS;
+	private SystemPropertyUtils systemPropertyUtils;
 	@Autowired
-	private ScreenshotUtils SCREENSHOT_UTILS;
+	private ScreenshotUtils screenshotUtils;
 	@Autowired
-	private WebDriverFactory WEB_DRIVER_FACTORY;
+	private WebDriverFactory webDriverFactory;
 
 	/**
 	 * If any scenario failed, and Iridium is not set to continue after a scenario failure,
@@ -39,7 +39,7 @@ public class StepEventHandling {
 	public void setup() {
 
 		final String endAfterFirstError =
-			SYSTEM_PROPERTY_UTILS.getProperty(Constants.FAIL_ALL_AFTER_FIRST_SCENARIO_ERROR);
+			systemPropertyUtils.getProperty(Constants.FAIL_ALL_AFTER_FIRST_SCENARIO_ERROR);
 
 		final boolean endAfterFirstErrorBool = StringUtils.isBlank(endAfterFirstError)
 			|| Boolean.parseBoolean(endAfterFirstError);
@@ -61,11 +61,11 @@ public class StepEventHandling {
 			web driver.
 		 */
 		final String newDriverPerScenario =
-			SYSTEM_PROPERTY_UTILS.getProperty(Constants.NEW_BROWSER_PER_SCENARIO);
+			systemPropertyUtils.getProperty(Constants.NEW_BROWSER_PER_SCENARIO);
 		final boolean clearDriver = Boolean.parseBoolean(newDriverPerScenario);
 
 		if (clearDriver) {
-			if (WEB_DRIVER_FACTORY.leaveWindowsOpen()) {
+			if (webDriverFactory.leaveWindowsOpen()) {
 				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(false);
 			} else {
 				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
@@ -76,7 +76,7 @@ public class StepEventHandling {
 			Take a screenshot
 		 */
 		if (!State.getFeatureStateForThread().getFailed()) {
-			SCREENSHOT_UTILS.takeScreenshot(" " + scenario.getName(), State.getFeatureStateForThread());
+			screenshotUtils.takeScreenshot(" " + scenario.getName(), State.getFeatureStateForThread());
 		}
 
 		State.getFeatureStateForThread().setFailed(scenario.isFailed());

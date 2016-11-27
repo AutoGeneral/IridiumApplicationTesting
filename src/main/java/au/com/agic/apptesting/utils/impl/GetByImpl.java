@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class GetByImpl implements GetBy {
 
 	@Autowired
-	private AutoAliasUtils AUTO_ALIAS_UTILS;
+	private AutoAliasUtils autoAliasUtils;
 
 	@Override
 	public By getBy(
@@ -25,7 +25,7 @@ public class GetByImpl implements GetBy {
 			final String value,
 			final FeatureState featureState) {
 
-		final String fixedValue = AUTO_ALIAS_UTILS.getValue(value, valueAlias, featureState);
+		final String fixedValue = autoAliasUtils.getValue(value, valueAlias, featureState);
 
 		if (ID.equals(selector)) {
 			return By.id(fixedValue);

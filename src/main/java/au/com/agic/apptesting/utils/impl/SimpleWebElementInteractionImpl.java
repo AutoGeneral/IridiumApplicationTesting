@@ -35,7 +35,7 @@ import javax.validation.constraints.NotNull;
 public class SimpleWebElementInteractionImpl implements SimpleWebElementInteraction {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SimpleWebElementInteractionImpl.class);
 	@Autowired
-	private GetBy GET_BY;
+	private GetBy getBy;
 
 	private static final List<String> LOCATION_METHODS = Arrays.asList(
 		GetBy.ID,
@@ -74,7 +74,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		while (time < waitTime * Constants.MILLISECONDS_PER_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
-					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
+					final By by = getBy.getBy(locationMethod, valueAlias, value, featureState);
 					final WebDriverWaitEx wait = new WebDriverWaitEx(
 						webDriver,
 						Constants.TIME_SLICE,
@@ -125,7 +125,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		do {
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
-					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
+					final By by = getBy.getBy(locationMethod, valueAlias, value, featureState);
 					final WebDriverWaitEx wait = new WebDriverWaitEx(
 						webDriver,
 						Constants.TIME_SLICE,
@@ -142,6 +142,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 
 				time += Constants.TIME_SLICE;
 			}
+
 		} while (time < waitTime * Constants.MILLISECONDS_PER_SECOND);
 
 		throw new WebElementException("All attempts to find element failed");
@@ -178,7 +179,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 				time += Constants.TIME_SLICE;
 
 				try {
-					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
+					final By by = getBy.getBy(locationMethod, valueAlias, value, featureState);
 					final WebDriverWaitEx wait = new WebDriverWaitEx(
 						webDriver,
 						Constants.TIME_SLICE,
@@ -238,7 +239,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		while (time < waitTime * Constants.MILLISECONDS_PER_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
-					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
+					final By by = getBy.getBy(locationMethod, valueAlias, value, featureState);
 					final WebDriverWaitEx wait = new WebDriverWaitEx(
 						webDriver,
 						Constants.TIME_SLICE,
@@ -291,7 +292,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 				time += Constants.TIME_SLICE;
 
 				try {
-					final By by = GET_BY.getBy(locationMethod, valueAlias, value, featureState);
+					final By by = getBy.getBy(locationMethod, valueAlias, value, featureState);
 					final WebDriverWaitEx wait = new WebDriverWaitEx(
 						webDriver,
 						Constants.TIME_SLICE,

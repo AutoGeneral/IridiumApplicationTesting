@@ -126,8 +126,8 @@ public class FeatureStateImpl implements FeatureState {
 	}
 
 	@Override
-	public void setSkipSteps(final boolean skip) {
-		this.skip = skip;
+	public void setSkipSteps(final boolean skipSteps) {
+		this.skip = skipSteps;
 	}
 
 	@Override

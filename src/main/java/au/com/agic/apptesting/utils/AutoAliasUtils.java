@@ -15,5 +15,5 @@ public interface AutoAliasUtils {
 	 * @param featureState The statue of the feature
 	 * @return The value to be used when finding an element
 	 */
-	String getValue(@NotNull final String value, boolean forceAlias, @NotNull final FeatureState featureState);
+	String getValue(@NotNull String value, boolean forceAlias, @NotNull FeatureState featureState);
 }

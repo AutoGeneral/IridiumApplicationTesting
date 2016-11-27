@@ -23,9 +23,9 @@ public interface BrowserInteropUtils {
 	 * @return true if we need to treat this element as hidden, and false otherwise
 	 */
 	boolean treatElementAsHidden(
-		@NotNull final WebDriver webDriver,
-		@NotNull final WebElement element,
-		@NotNull final JavascriptExecutor js);
+		@NotNull WebDriver webDriver,
+		@NotNull WebElement element,
+		@NotNull JavascriptExecutor js);
 
 	/**
 	 * Deals with inconsistenices between browsers in how they select items from a drop down list
@@ -34,7 +34,7 @@ public interface BrowserInteropUtils {
 	 * @param selectElement The item that we want to select
 	 */
 	void selectFromDropDownList(
-		@NotNull final WebDriver webDriver,
-		@NotNull final WebElement element,
-		@NotNull final String selectElement);
+		@NotNull WebDriver webDriver,
+		@NotNull WebElement element,
+		@NotNull String selectElement);
 }

@@ -8,5 +8,5 @@ public interface SleepUtils {
 	 *
 	 * @param sleep how long in milliseconds to pause the thread for
      */
-	void sleep(final long sleep);
+	void sleep(long sleep);
 }

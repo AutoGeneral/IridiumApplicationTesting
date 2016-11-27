@@ -12,5 +12,5 @@ import javax.validation.constraints.NotNull;
  */
 public interface FeatureFileImporter {
 
-	File processFeatureImportComments(@NotNull final FileDetails file, final String baseUrl);
+	File processFeatureImportComments(@NotNull FileDetails file, String baseUrl);
 }

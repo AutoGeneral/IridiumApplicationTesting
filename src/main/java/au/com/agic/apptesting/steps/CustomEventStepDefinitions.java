@@ -31,13 +31,13 @@ import cucumber.api.java.en.When;
 public class CustomEventStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomEventStepDefinitions.class);
 	@Autowired
-	private GetBy GET_BY;
+	private GetBy getBy;
 	@Autowired
-	private SleepUtils SLEEP_UTILS;
+	private SleepUtils sleepUtils;
 	@Autowired
-	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
+	private SimpleWebElementInteraction simpleWebElementInteraction;
 	@Autowired
-	private JavaScriptRunner JAVA_SCRIPT_RUNNER;
+	private JavaScriptRunner javaScriptRunner;
 
 	/**
 	 * Manually dispatch a change event to the element
@@ -52,7 +52,7 @@ public class CustomEventStepDefinitions {
 		final String alias,
 		final String selectorValue) {
 
-		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+		final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
 			State.getFeatureStateForThread());
@@ -66,7 +66,7 @@ public class CustomEventStepDefinitions {
 			+ "		   true"
 			+ "    );"
 			+ "    arguments[0].dispatchEvent(ev);", element);
-		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class CustomEventStepDefinitions {
 			final String selectorValue) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			State.getFeatureStateForThread().getDefaultWait(),
@@ -102,7 +102,7 @@ public class CustomEventStepDefinitions {
 			+ "    );"
 			+ "    arguments[0].dispatchEvent(ev);", element);
 
-		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class CustomEventStepDefinitions {
 		final String alias,
 		final String selectorValue) {
 
-		final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+		final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
 			State.getFeatureStateForThread());
@@ -132,7 +132,7 @@ public class CustomEventStepDefinitions {
 			+ "		   true"
 			+ "    );"
 			+ "    arguments[0].dispatchEvent(ev);", element);
-		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class CustomEventStepDefinitions {
 		final String selectorValue) {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = GET_BY.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
 			State.getFeatureStateForThread().getDefaultWait(),
@@ -168,6 +168,6 @@ public class CustomEventStepDefinitions {
 			+ "    );"
 			+ "    arguments[0].dispatchEvent(ev);", element);
 
-		SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 }

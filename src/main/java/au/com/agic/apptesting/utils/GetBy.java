@@ -24,8 +24,8 @@ public interface GetBy {
 	 * @return The Selenium selection object
 	 */
 	By getBy(
-		final String selector,
-		final boolean valueAlias,
-		final String value,
-		final FeatureState featureState);
+		String selector,
+		boolean valueAlias,
+		String value,
+		FeatureState featureState);
 }

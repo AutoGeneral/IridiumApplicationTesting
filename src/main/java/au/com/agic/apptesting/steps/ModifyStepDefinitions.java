@@ -31,11 +31,11 @@ public class ModifyStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ModifyStepDefinitions.class);
 	@Autowired
-	private SleepUtils SLEEP_UTILS;
+	private SleepUtils sleepUtils;
 	@Autowired
-	private ChronoConverterUtils CHRONO_CONVERTER_UTILS;
+	private ChronoConverterUtils chronoConverterUtils;
 	@Autowired
-	private AutoAliasUtils AUTO_ALIAS_UTILS;
+	private AutoAliasUtils autoAliasUtils;
 
 	/**
 	 * Modify an aliased value. This is useful if you want to turn a string like $1,2345.50
@@ -174,7 +174,7 @@ public class ModifyStepDefinitions {
 		LocalDateTime date = LocalDateTime.now();
 
 		if (StringUtils.isNotBlank(offsetAmount)) {
-			final String fixedOffsetAmount = AUTO_ALIAS_UTILS.getValue(
+			final String fixedOffsetAmount = autoAliasUtils.getValue(
 				offsetAmount,
 				StringUtils.isNotBlank(offsetAlias),
 				State.getFeatureStateForThread());
@@ -186,7 +186,7 @@ public class ModifyStepDefinitions {
 
 			final String[] offsetRaw = fixedOffsetAmount.split(" ");
 			final int offset = Integer.parseInt(offsetRaw[0]);
-			final ChronoUnit chronoUnit = CHRONO_CONVERTER_UTILS.fromString(offsetRaw[1]);
+			final ChronoUnit chronoUnit = chronoConverterUtils.fromString(offsetRaw[1]);
 			date = date.plus(offset, chronoUnit);
 		}
 

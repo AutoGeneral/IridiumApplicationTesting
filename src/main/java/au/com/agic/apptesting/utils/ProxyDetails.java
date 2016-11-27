@@ -34,7 +34,7 @@ public interface ProxyDetails<T> {
 	 *
 	 * @param properties A general map of name value pairs that define the properties of the proxy
 	 */
-	void setProperties(@NotNull final Map<String, Object> properties);
+	void setProperties(@NotNull Map<String, Object> properties);
 
 	/**
 	 *

@@ -27,7 +27,7 @@ import cucumber.api.java.en.When;
 public class DebuggingStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DebuggingStepDefinitions.class);
 	@Autowired
-	private ScreenshotUtils SCREENSHOT_UTILS;
+	private ScreenshotUtils screenshotUtils;
 
 	/**
 	 * Manually save a screenshot
@@ -36,7 +36,7 @@ public class DebuggingStepDefinitions {
 	 */
 	@When("^I take a screenshot(?:(?: called)? \"(.*?)\")?$")
 	public void takeScreenshotStep(final String filename) {
-		SCREENSHOT_UTILS.takeScreenshot(
+		screenshotUtils.takeScreenshot(
 			StringUtils.defaultIfBlank(filename, ""),
 			State.getFeatureStateForThread());
 	}

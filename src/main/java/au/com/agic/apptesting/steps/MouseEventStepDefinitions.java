@@ -33,13 +33,13 @@ import cucumber.api.java.en.When;
 public class MouseEventStepDefinitions {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MouseEventStepDefinitions.class);
 	@Autowired
-	private GetBy GET_BY;
+	private GetBy getBy;
 	@Autowired
-	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
+	private SimpleWebElementInteraction simpleWebElementInteraction;
 	@Autowired
-	private SleepUtils SLEEP_UTILS;
+	private SleepUtils sleepUtils;
 	@Autowired
-	private JavaScriptRunner JAVA_SCRIPT_RUNNER;
+	private JavaScriptRunner javaScriptRunner;
 
 	/**
 	 * Some applications use mouse events instead of clicks, and PhantomJS will often need us to supply these
@@ -63,7 +63,7 @@ public class MouseEventStepDefinitions {
 
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getClickableElementFoundBy(
+			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
@@ -72,8 +72,8 @@ public class MouseEventStepDefinitions {
 			/*
 				Just like the click, sometimes we need to trigger mousedown events manually
 			 */
-			JAVA_SCRIPT_RUNNER.interactHiddenElementMouseEvent(element, event, js);
-			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			javaScriptRunner.interactHiddenElementMouseEvent(element, event, js);
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -104,7 +104,7 @@ public class MouseEventStepDefinitions {
 		final String exists) {
 
 		try {
-			final By by = GET_BY.getBy(
+			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
@@ -120,8 +120,8 @@ public class MouseEventStepDefinitions {
 			/*
 				Just like the click, sometimes we need to trigger mousedown events manually
 			 */
-			JAVA_SCRIPT_RUNNER.interactHiddenElementMouseEvent(element, event, js);
-			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			javaScriptRunner.interactHiddenElementMouseEvent(element, event, js);
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;

@@ -169,7 +169,9 @@ public class TestRunner {
 			/*
 				Gracefully shutdown the proxies
 			 */
-			PROXY_MANAGER.stopProxies(proxies);
+			if (proxies != null) {
+				PROXY_MANAGER.stopProxies(proxies);
+			}
 		}
 
 		return failure;

@@ -27,8 +27,10 @@ public class BrowserDetectionImpl implements BrowserDetection {
 		checkNotNull(webDriver);
 
 		final boolean isEdgeBrowser = webDriver instanceof EdgeDriver;
-		final boolean isRemoteEdgeBrowser = webDriver instanceof RemoteWebDriver &&
-			((RemoteWebDriver)webDriver).getCapabilities().getBrowserName().equalsIgnoreCase(EDGE_BROWSER_NAME);
+		final boolean isRemoteEdgeBrowser = webDriver instanceof RemoteWebDriver
+			&& ((RemoteWebDriver) webDriver).getCapabilities()
+			.getBrowserName()
+			.equalsIgnoreCase(EDGE_BROWSER_NAME);
 
 		return isEdgeBrowser || isRemoteEdgeBrowser;
 	}
@@ -43,7 +45,7 @@ public class BrowserDetectionImpl implements BrowserDetection {
 	}
 
 	@Override
-	public boolean isMarionette(@NotNull WebDriver webDriver) {
+	public boolean isMarionette(@NotNull final WebDriver webDriver) {
 		checkNotNull(webDriver);
 		/*
 			TODO: find out the browser name from a remote driver
@@ -52,7 +54,7 @@ public class BrowserDetectionImpl implements BrowserDetection {
 	}
 
 	@Override
-	public boolean isFirefox(@NotNull WebDriver webDriver) {
+	public boolean isFirefox(@NotNull final WebDriver webDriver) {
 		checkNotNull(webDriver);
 		/*
 			TODO: find out the browser name from a remote driver

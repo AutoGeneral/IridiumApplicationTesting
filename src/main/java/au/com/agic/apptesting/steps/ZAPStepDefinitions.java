@@ -469,8 +469,6 @@ public class ZAPStepDefinitions {
 	public void removeFalsePositives(final List<ZAPFalsePositive> falsePositives) throws ClientApiException {
 		checkState(State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME).isPresent());
 
-		final ClientApi clientApi = getClientApi();
-
 		final Map<String, Object> properties = State.getFeatureStateForThread().getProxyInterface(ZapProxyUtilsImpl.PROXY_NAME)
 			.get().getProperties();
 		properties.put(FALSE_POSITIVES_KEY, falsePositives);

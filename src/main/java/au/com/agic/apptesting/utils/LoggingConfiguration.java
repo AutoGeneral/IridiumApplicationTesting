@@ -11,7 +11,7 @@ public interface LoggingConfiguration {
 	 * Configure the logging subsystem
 	 * @param logfile The path to the log file that should have logging sent to it
 	 */
-	void configureLogging(@NotNull final String logfile);
+	void configureLogging(@NotNull String logfile);
 
 	/**
 	 * Write out the current version of the application to the logs

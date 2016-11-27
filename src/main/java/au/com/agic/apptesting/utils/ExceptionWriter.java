@@ -12,5 +12,5 @@ public interface ExceptionWriter {
 	 * @param location The location of the exception file
 	 * @param exception The exception to save
 	 */
-	void saveException(@NotNull final String location, @NotNull final Throwable exception);
+	void saveException(@NotNull String location, @NotNull Throwable exception);
 }

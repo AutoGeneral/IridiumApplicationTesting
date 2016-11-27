@@ -14,7 +14,7 @@ public interface AttributeChecker {
 	 * @return true if the setting has an attribute called "enabled" set to "true", and false
 	 * otherwise
 	 */
-	boolean isSingleSettingEnabled(@NotNull final FeatureGroup featureGroup);
+	boolean isSingleSettingEnabled(@NotNull FeatureGroup featureGroup);
 
 	/**
 	 * @param featureGroup The feature Group record to test
@@ -22,7 +22,7 @@ public interface AttributeChecker {
 	 * @return true if the setting has an attribute called "group" that includes the supplied group,
 	 * and false otherwise
 	 */
-	boolean isSingleSettingInGroup(@NotNull final FeatureGroup featureGroup, final String group);
+	boolean isSingleSettingInGroup(@NotNull FeatureGroup featureGroup, String group);
 
 	/**
 	 * @param featureGroup The feature Group record to test
@@ -30,5 +30,5 @@ public interface AttributeChecker {
 	 * @return true if the setting has an attribute called "app" that includes the supplied app, and
 	 * false otherwise
 	 */
-	boolean isSingleSettingForApp(@NotNull final FeatureGroup featureGroup, @NotNull final String app);
+	boolean isSingleSettingForApp(@NotNull FeatureGroup featureGroup, @NotNull String app);
 }

@@ -29,7 +29,7 @@ public interface FeatureState {
 	 *
 	 * @param sleep How long to sleep between steps
      */
-	void setDefaultSleep(final long sleep);
+	void setDefaultSleep(long sleep);
 
 	/**
 	 *
@@ -42,7 +42,7 @@ public interface FeatureState {
 	 * @param wait the amount of time to wait for an element to be available before
 	 * completing a step.
 	 */
-	void setDefaultWait(final long wait);
+	void setDefaultWait(long wait);
 
 	/**
 	 * @return The url associated with this instance of the test
@@ -67,7 +67,7 @@ public interface FeatureState {
 	/**
 	 * @param failed true if there was a failed scenario, and false otherwise
 	 */
-	void setFailed(final boolean failed);
+	void setFailed(boolean failed);
 
 	/**
 	 * @return The directory where reports and other test output is saved
@@ -85,13 +85,13 @@ public interface FeatureState {
 	 * @param name The name of the proxy to find
 	 * @return The proxy that matches the name, or an empty result
 	 */
-	Optional<ProxyDetails<?>> getProxyInterface(@NotNull final String name);
+	Optional<ProxyDetails<?>> getProxyInterface(@NotNull String name);
 
 	/**
 	 *
 	 * @param proxies The optional details of the proxy being used
 	 */
-	void setProxyInterface(final List<ProxyDetails<?>> proxies);
+	void setProxyInterface(List<ProxyDetails<?>> proxies);
 
 	/**
 	 *
@@ -103,7 +103,7 @@ public interface FeatureState {
 	 *
 	 * @param autoAlias true if autoalias is enabled, and false otherwise
 	 */
-	void setAutoAlias(final boolean autoAlias);
+	void setAutoAlias(boolean autoAlias);
 
 	/**
 	 *
@@ -115,7 +115,7 @@ public interface FeatureState {
 	 *
 	 * @param skip true if all steps are to be skipped, false otherwise
 	 */
-	void setSkipSteps(final boolean skip);
+	void setSkipSteps(boolean skip);
 
 	/**
 	 *
@@ -129,6 +129,6 @@ public interface FeatureState {
 	 * @param defaultKeyStrokeDelay The default amount of time to wait between keypresses in textboxes
 	 *			and other text input fields
 	 */
-	void setDefaultKeyStrokeDelay(final int defaultKeyStrokeDelay);
+	void setDefaultKeyStrokeDelay(int defaultKeyStrokeDelay);
 
 }

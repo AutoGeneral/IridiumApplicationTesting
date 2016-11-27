@@ -27,11 +27,11 @@ import cucumber.api.java.en.When;
 public class FocusStepDefinitions {
 
 	@Autowired
-	private SleepUtils SLEEP_UTILS;
+	private SleepUtils sleepUtils;
 	@Autowired
-	private GetBy GET_BY;
+	private GetBy getBy;
 	@Autowired
-	private SimpleWebElementInteraction SIMPLE_WEB_ELEMENT_INTERACTION;
+	private SimpleWebElementInteraction simpleWebElementInteraction;
 
 	/**
 	 * Focuses on an element. <p> Often with text fields that have some kind of mask you need to first focus
@@ -51,7 +51,7 @@ public class FocusStepDefinitions {
 		final String selectorValue,
 		final String exists) {
 		try {
-			final WebElement element = SIMPLE_WEB_ELEMENT_INTERACTION.getPresenceElementFoundBy(
+			final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
@@ -59,7 +59,7 @@ public class FocusStepDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript("arguments[0].focus();", element);
-			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -87,7 +87,7 @@ public class FocusStepDefinitions {
 		final String selectorValue,
 		final String exists) {
 		try {
-			final By by = GET_BY.getBy(
+			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
 				selectorValue,
@@ -96,7 +96,7 @@ public class FocusStepDefinitions {
 			final WebElement element = webDriver.findElement(by);
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript("arguments[0].focus();", element);
-			SLEEP_UTILS.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;

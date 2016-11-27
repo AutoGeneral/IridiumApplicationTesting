@@ -30,5 +30,5 @@ public interface JarDownloader {
 	 * ZAP and Cucumber can inspect it.
 	 * @param tempFiles A list of temporary files to be cleaned up when the app finishes
 	 */
-	void downloadJar(@NotNull final List<File> tempFiles);
+	void downloadJar(@NotNull List<File> tempFiles);
 }

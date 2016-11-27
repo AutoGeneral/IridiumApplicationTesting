@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ConfigurationException;
+import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
@@ -109,6 +110,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		proxies = new ArrayList<>(myProxies);
 	}
 
+	@NotNull
 	@Override
 	public synchronized FeatureState getDesiredCapabilitiesForThread(@NotNull final String name) {
 		if (threadIdToCapMap.containsKey(name)) {
@@ -161,6 +163,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		return featureState;
 	}
 
+	@NotNull
 	@Override
 	public synchronized WebDriver getWebDriverForThread(@NotNull final String name, final boolean createIfMissing) {
 		checkArgument(StringUtils.isNotEmpty(name));
@@ -177,7 +180,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 			return webDriver;
 		}
 
-		return null;
+		throw new DriverException("Could not find or create web driver");
 	}
 
 	@Override
