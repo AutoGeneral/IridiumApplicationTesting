@@ -8,6 +8,15 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * Sets the access token used when accessing browserstack
+	 */
+	public static final String BROWSER_STACK_ACCESS_TOKEN = "browserStackAccessToken";
+	/**
+	 * Sets the username used when accessing browserstack
+	 */
+	public static final String BROWSER_STACK_USERNAME = "browserStackUsername";
+
+	/**
 	 * This system property can be set to true to disable all automatic workarounds implemented for different
 	 * browsers.
 	 */

@@ -94,14 +94,46 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	 * Load the browserstack details from configuration
 	 */
 	private void loadBrowserStackSettings() {
+		/*
+			System properties take precedence
+		 */
+		if (!loadDetailsFromSysProps()) {
+			/*
+				Fall back to using the info in the profile
+			 */
+			if (!loadDetailsFromProfile()) {
+				/*
+					Log an error because there were no details
+				 */
+				LOGGER.error("Could not load browserstack config");
+			}
+		}
+	}
+
+	private boolean loadDetailsFromProfile() {
 		final Optional<Configuration> profile = PROFILE_ACCESS.getProfile();
 		if (profile.isPresent()) {
 			browserStackUsername = profile.get().getBrowserstack().getUsername();
 			browserStackAccessToken = profile.get().getBrowserstack().getAccessToken();
-
-		} else {
-			LOGGER.error("Could not load browserstack config");
+			return true;
 		}
+
+		return false;
+	}
+
+	private boolean loadDetailsFromSysProps() {
+		final Optional<String> borwserStackUsername =
+			Optional.ofNullable(SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.BROWSER_STACK_USERNAME));
+		final Optional<String> borwserStackAccessToken =
+			Optional.ofNullable(SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.BROWSER_STACK_ACCESS_TOKEN));
+
+		if (borwserStackUsername.isPresent() && borwserStackAccessToken.isPresent()) {
+			browserStackUsername = borwserStackUsername.get();
+			browserStackAccessToken = borwserStackAccessToken.get();
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
