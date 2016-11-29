@@ -51,7 +51,7 @@ public class FileProfileAccess<T> {
 				to getting the contents of a remote file. If all fail,
 				the result will be empty
 			 */
-			Try
+			return Try
 				/*
 					Attempt to get the contents of a local file
 				 */
