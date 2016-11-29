@@ -14,9 +14,6 @@ before_install:
 - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 - sudo dpkg -i google-chrome*.deb
 - wget ${Keystore}
-# We don't use Firefox, because it throws the following error in Travis CI:
-# (process:4028): GLib-CRITICAL **: g_slice_set_config: assertion 'sys_page_size == 0' failed
-# Xlib:  extension "RANDR" missing on display ":99.0".
 script: "travis_wait 60 ./gradlew '-DtestBrowsers=Chrome,PhantomJS,Marionette' check"
 deploy:
   - provider: releases
