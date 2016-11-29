@@ -1,5 +1,8 @@
 package au.com.agic.apptesting.profiles;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import au.com.agic.apptesting.exception.ConfigurationException;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
 
@@ -16,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -31,7 +35,9 @@ public class FileProfileAccess<T> {
 	private final Unmarshaller jaxbUnmarshaller;
 	private final String filename;
 
-	public FileProfileAccess(final String filename, final Class<T> clazz) {
+	public FileProfileAccess(final String filename, @NotNull final Class<T> clazz) {
+		checkNotNull(clazz);
+
 		this.filename = filename;
 
 		try {
@@ -82,7 +88,9 @@ public class FileProfileAccess<T> {
 		return Optional.empty();
 	}
 
-	private String processLocalFile(final String localFilename)  {
+	private String processLocalFile(@NotNull final String localFilename)  {
+		checkArgument(StringUtils.isNoneBlank(localFilename));
+
 		try {
 			if (Files.exists(Paths.get(localFilename))) {
 				return FileUtils.readFileToString(new File(localFilename));
@@ -94,7 +102,9 @@ public class FileProfileAccess<T> {
 		}
 	}
 
-	private String processRemoteFile(final String remoteFileName)  {
+	private String processRemoteFile(@NotNull final String remoteFileName)  {
+		checkArgument(StringUtils.isNoneBlank(remoteFileName));
+
 		try {
 			final File copy = File.createTempFile("capabilities", ".xml");
 			FileUtils.copyURLToFile(new URL(remoteFileName), copy, TIMEOUT, TIMEOUT);
