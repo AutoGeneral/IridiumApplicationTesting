@@ -34,6 +34,11 @@ public final class Constants {
 	public static final int MILLISECONDS_PER_SECOND = 1000;
 
 	/**
+	 * This is the prefix we use for the thread name
+	 */
+	public static final String THREAD_NAME_PREFIX = "CucumberThread";
+
+	/**
 	 * A system property used to enable or disable the HTML report file
 	 */
 	public static final String HTML_REPORT_FILE = "htmlReportFile";

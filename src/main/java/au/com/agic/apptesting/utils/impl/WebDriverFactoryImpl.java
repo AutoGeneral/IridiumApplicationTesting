@@ -128,9 +128,14 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		if (StringUtils.isBlank(firefoxProfile)) {
 			final FirefoxProfile profile = new FirefoxProfile();
 
-				/*
-					Set the proxy
-				 */
+			/*
+				This is required for the CI unit tests to pass with firefox
+			 */
+			profile.setAcceptUntrustedCertificates(true);
+
+			/*
+				Set the proxy
+			 */
 			if (mainProxy.isPresent()) {
 
 				profile.setPreference("network.proxy.type", 1);

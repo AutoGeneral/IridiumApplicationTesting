@@ -126,5 +126,36 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		}
 	}
 
+	@Override
+	public void focusOnElement(@NotNull final WebDriver webDriver, @NotNull final WebElement element) {
+		checkNotNull(webDriver);
+		checkNotNull(element);
+
+		final boolean disableInterop = systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false);
+		final boolean isMarionette = browserDetection.isMarionette(webDriver);
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
+
+		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+		js.executeScript("arguments[0].focus();", element);
+
+		if (!disableInterop && (isMarionette || isFirefox)) {
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Firefox Marionette driver. "
+				+ "Applying element focus workaround.");
+
+			js.executeScript(
+				"arguments[0].focus();"
+					+ "if ('createEvent' in document) {"
+					+ "    var evt = document.createEvent('HTMLEvents');"
+					+ "    evt.initEvent('focus', false, true);"
+					+ "    arguments[0].dispatchEvent(evt);"
+					+ "}"
+					+ "else {"
+					+ "    arguments[0].fireEvent('onfocus');"
+					+ "}", element);
+		} else {
+			js.executeScript("arguments[0].focus();", element);
+		}
+	}
+
 }
 

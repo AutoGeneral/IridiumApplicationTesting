@@ -28,7 +28,7 @@ public interface BrowserInteropUtils {
 		@NotNull JavascriptExecutor js);
 
 	/**
-	 * Deals with inconsistenices between browsers in how they select items from a drop down list
+	 * Deals with inconsistencies between browsers in how they select items from a drop down list
 	 * @param webDriver The selenium webdriver
 	 * @param element The drop down list
 	 * @param selectElement The item that we want to select
@@ -37,4 +37,13 @@ public interface BrowserInteropUtils {
 		@NotNull WebDriver webDriver,
 		@NotNull WebElement element,
 		@NotNull String selectElement);
+
+	/**
+	 * Deals with inconsistencies between browsers in how they focus on items
+	 * @param webDriver The selenium webdriver
+	 * @param element The element to focus on
+	 */
+	void focusOnElement(
+		@NotNull WebDriver webDriver,
+		@NotNull WebElement element);
 }
