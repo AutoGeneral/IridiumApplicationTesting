@@ -95,13 +95,31 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
 		if (!disableInterop && (isMarionette || isEdge || isFirefox)) {
-			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Edge or Firefox Marionette driver. Applying drop down list selection workaround.");
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Edge or Firefox Marionette driver. "
+				+ "Applying drop down list selection workaround.");
 			/*
 				Edge doesn't trigger the change event using the selectByVisibleText() method.
-				Firefox Marionette does select anything at all.
-				So select the item by pressing the keys in sequence.
+				Firefox Marionette doesn't select anything at all.
+				So select the item in javascript and manually trigger the onchange event.
 			 */
-			element.sendKeys(selectElement);
+
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+			js.executeScript(
+			"for (var i = 0; i < arguments[0].options.length; i++) {"
+				+ "    if (arguments[0].options[i].text === '" + selectElement.replaceAll("'", "\\'") + "') {"
+				+ "        arguments[0].selectedIndex = i;"
+				+ "        break;"
+				+ "    }"
+				+ "}"
+				+ "if ('createEvent' in document) {"
+				+ "    var evt = document.createEvent('HTMLEvents');"
+				+ "    evt.initEvent('change', false, true);"
+				+ "    arguments[0].dispatchEvent(evt);"
+				+ "}"
+				+ "else {"
+				+ "    arguments[0].fireEvent('onchange');"
+				+ "}", element);
+
 		} else {
 			final Select select = new Select(element);
 			select.selectByVisibleText(selectElement);
