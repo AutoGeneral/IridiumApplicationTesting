@@ -198,8 +198,6 @@ Feature: Test of the steps provided by Iridium
 
     @test
 	Scenario: Focus on Elements
-		# We ignore some errors here because the Firefox Marionette driver has bugs
-		# that prevent us from working with active elements
 		And I focus on the element found by "textArea"
 		Then I verify that the page contains the text "Focused on textarea"
 		And I focus on the element with the ID of "textArea2"
