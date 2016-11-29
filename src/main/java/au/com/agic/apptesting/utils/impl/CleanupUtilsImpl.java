@@ -1,5 +1,6 @@
 package au.com.agic.apptesting.utils.impl;
 
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.CleanupUtils;
 
 import org.apache.commons.io.FileUtils;
@@ -12,7 +13,7 @@ import java.util.Iterator;
  */
 public class CleanupUtilsImpl implements CleanupUtils {
 
-	private static final String[] CLEANUP_EXTENSIONS = {"xml", "txt"};
+	private static final String[] CLEANUP_EXTENSIONS = {"xml", "txt", "json"};
 
 	@Override
 	public void cleanupOldReports() {
@@ -20,7 +21,12 @@ public class CleanupUtilsImpl implements CleanupUtils {
 			FileUtils.iterateFiles(new File("."), CLEANUP_EXTENSIONS, false);
 		while (iterator.hasNext()) {
 			final File file = iterator.next();
-			file.delete();
+			/*
+				Only clean up old report files
+			 */
+			if (file.getName().startsWith(Constants.THREAD_NAME_PREFIX)) {
+				file.delete();
+			}
 		}
 	}
 }

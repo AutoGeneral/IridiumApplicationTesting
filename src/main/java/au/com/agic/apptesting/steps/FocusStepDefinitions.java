@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.utils.BrowserInteropUtils;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
@@ -28,10 +29,15 @@ public class FocusStepDefinitions {
 
 	@Autowired
 	private SleepUtils sleepUtils;
+
 	@Autowired
 	private GetBy getBy;
+
 	@Autowired
 	private SimpleWebElementInteraction simpleWebElementInteraction;
+
+	@Autowired
+	private BrowserInteropUtils browserInteropUtils;
 
 	/**
 	 * Focuses on an element. <p> Often with text fields that have some kind of mask you need to first focus
@@ -57,8 +63,7 @@ public class FocusStepDefinitions {
 				State.getFeatureStateForThread());
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-			js.executeScript("arguments[0].focus();", element);
+			browserInteropUtils.focusOnElement(webDriver, element);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -94,8 +99,7 @@ public class FocusStepDefinitions {
 				State.getFeatureStateForThread());
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebElement element = webDriver.findElement(by);
-			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-			js.executeScript("arguments[0].focus();", element);
+			browserInteropUtils.focusOnElement(webDriver, element);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {

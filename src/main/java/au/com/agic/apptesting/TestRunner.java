@@ -351,7 +351,7 @@ public class TestRunner {
 					Threads might be reused, so the id is shared, but we can set the name to
 					something new each time.
 				*/
-				Thread.currentThread().setName("CucumberThread" + THREAD_COUNT.incrementAndGet());
+				Thread.currentThread().setName(Constants.THREAD_NAME_PREFIX + THREAD_COUNT.incrementAndGet());
 
 				/*
 					Get the details for this thread
