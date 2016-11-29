@@ -1,5 +1,6 @@
 package au.com.agic.apptesting.profiles;
 
+import au.com.agic.apptesting.exception.ConfigurationException;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
 
 import org.apache.commons.io.FileUtils;
@@ -44,46 +45,63 @@ public class FileProfileAccess<T> {
 	@SuppressWarnings("unchecked")
 	public Optional<T> getProfile() {
 
-		try {
-			if (StringUtils.isNotBlank(filename)) {
-
-				final String profileString = processLocalFile(filename)
-					.orElseGet(() ->
-						Try.of(() -> processRemoteFile(filename).orElseGet(() -> ""))
-							.getOrElse("")
-					);
-
-				return Optional.of((T) jaxbUnmarshaller.unmarshal(
-					IOUtils.toInputStream(profileString))
-				);
-			}
-		} catch (final Exception ex) {
-			LOGGER.error("There was an exception unmarshalling configuration from the file {}",
-				filename,
-				ex);
+		if (StringUtils.isNotBlank(filename)) {
+			/*
+				Attempt to get the contents of the local file, falling back
+				to getting the contents of a remote file. If all fail,
+				the result will be empty
+			 */
+			Try
+				/*
+					Attempt to get the contents of a local file
+				 */
+				.of(() -> processLocalFile(filename))
+				/*
+					Fall back to getting the contents of a remote file
+				 */
+				.recover(exception -> processRemoteFile(filename))
+				/*
+					Convert the file contents to a pojo
+				 */
+				.mapTry(profileString -> (T) jaxbUnmarshaller.unmarshal(IOUtils.toInputStream(profileString)))
+				/*
+					Convert the pojo to an optional
+				 */
+				.map(pojo -> Optional.of(pojo))
+				/*
+					If we couldn't get the file contents, log a message and return an empty optional
+				 */
+				.getOrElseGet(exception -> {
+					LOGGER.error("There was an exception unmarshalling configuration from the file {}",
+						filename,
+						exception);
+					return Optional.empty();
+				});
 		}
 
 		return Optional.empty();
 	}
 
-	private Optional<String> processLocalFile(final String localFilename) {
+	private String processLocalFile(final String localFilename)  {
 		try {
 			if (Files.exists(Paths.get(localFilename))) {
-				return Optional.of(FileUtils.readFileToString(new File(localFilename)));
+				return FileUtils.readFileToString(new File(localFilename));
 			}
-		} catch (final Exception ignored) {
-			/*
-				The path is probably a url that will cause an exception to be thrown
-			 */
-		}
 
-		return Optional.empty();
+			throw new ConfigurationException("File " + localFilename + " does not exist");
+		} catch (final IOException ex) {
+			throw new ConfigurationException(ex);
+		}
 	}
 
-	private Optional<String> processRemoteFile(final String remoteFileName) throws IOException {
-		final File copy = File.createTempFile("capabilities", ".xml");
-		FileUtils.copyURLToFile(new URL(remoteFileName), copy, TIMEOUT, TIMEOUT);
-		return processLocalFile(copy.getAbsolutePath());
+	private String processRemoteFile(final String remoteFileName)  {
+		try {
+			final File copy = File.createTempFile("capabilities", ".xml");
+			FileUtils.copyURLToFile(new URL(remoteFileName), copy, TIMEOUT, TIMEOUT);
+			return processLocalFile(copy.getAbsolutePath());
+		} catch (final IOException ex) {
+			throw new ConfigurationException(ex);
+		}
 	}
 
 }
