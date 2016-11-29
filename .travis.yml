@@ -12,7 +12,9 @@ before_install:
 - sudo apt-get update
 - sudo apt-get install -y libappindicator1 fonts-liberation
 - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+- wget https://ftp.opera.com/pub/opera/linux/1216/opera_12.16.1860_amd64.deb
 - sudo dpkg -i google-chrome*.deb
+- sudo dpkg -i opera*.deb
 - wget ${Keystore}
 script: "travis_wait 60 ./gradlew '-DtestBrowsers=Chrome,PhantomJS,Marionette' check"
 deploy:
