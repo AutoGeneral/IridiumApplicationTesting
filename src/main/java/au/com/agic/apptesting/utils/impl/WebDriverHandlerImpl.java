@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.DriverException;
+import au.com.agic.apptesting.utils.OSDetection;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverHandler;
 
@@ -36,17 +37,20 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverHandlerImpl.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
+	private static final OSDetection OS_DETECTION = new OSDetectionImpl();
 
 	@Override
 	public void configureWebDriver(@NotNull final List<File> tempFiles) {
 		checkNotNull(tempFiles);
 
+		final boolean is64BitOS = OS_DETECTION.is64BitOS();
+
 		if (SystemUtils.IS_OS_WINDOWS) {
-			configureWindows(tempFiles);
+			configureWindows(tempFiles, is64BitOS);
 		} else if (SystemUtils.IS_OS_MAC) {
-			configureMac(tempFiles);
+			configureMac(tempFiles, is64BitOS);
 		} else if (SystemUtils.IS_OS_LINUX) {
-			configureLinux(tempFiles);
+			configureLinux(tempFiles, is64BitOS);
 		}
 
 		/*
@@ -64,7 +68,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.getProperty(x)));
 	}
 
-	private void configureWindows(@NotNull final List<File> tempFiles) {
+	private void configureWindows(@NotNull final List<File> tempFiles, final boolean is64BitOS) {
 		try {
 			final boolean marionetteWebDriverSet =
 				StringUtils.isNotBlank(
@@ -75,7 +79,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY,
 					extractZipDriver(
-						"/drivers/win64/marionette/geckodriver.exe.tar.gz",
+						"/drivers/win" + (is64BitOS ? "64" : "32") + "/marionette/geckodriver.exe.tar.gz",
 						"geckodriver.exe",
 						tempFiles));
 			}
@@ -89,7 +93,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
-						"/drivers/win32/chrome/chromedriver.exe",
+						"/drivers/win" + (is64BitOS ? "64" : "32") + "/chrome/chromedriver.exe",
 						"chrome.exe",
 						tempFiles));
 			}
@@ -103,7 +107,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
-						"/drivers/win64/opera/operadriver.exe",
+						"/drivers/win" + (is64BitOS ? "64" : "32") + "/opera/operadriver.exe",
 						"opera.exe",
 						tempFiles));
 			}
@@ -117,7 +121,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					Constants.EDGE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
-						"/drivers/win32/edge/MicrosoftWebDriver.exe",
+						"/drivers/win" + (is64BitOS ? "64" : "32") + "/edge/MicrosoftWebDriver.exe",
 						"MicrosoftWebDriver.exe",
 						tempFiles));
 			}
@@ -131,7 +135,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
-						"/drivers/win64/ie/IEDriverServer.exe",
+						"/drivers/win" + (is64BitOS ? "64" : "32") + "/ie/IEDriverServer.exe",
 						"ie.exe",
 						tempFiles));
 			}
@@ -145,7 +149,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
 					extractZipDriver(
-						"/drivers/win32/phantomjs/phantomjs.exe.tar.gz",
+						"/drivers/win" + (is64BitOS ? "64" : "32") + "/phantomjs/phantomjs.exe.tar.gz",
 						"phantomjs.exe",
 						tempFiles));
 			}
@@ -155,7 +159,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		}
 	}
 
-	private void configureMac(@NotNull final List<File> tempFiles) {
+	private void configureMac(@NotNull final List<File> tempFiles, final boolean is64BitOS) {
 		try {
 			final boolean marionetteWebDriverSet =
 				StringUtils.isNotBlank(
@@ -218,7 +222,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		}
 	}
 
-	private void configureLinux(@NotNull final List<File> tempFiles) {
+	private void configureLinux(@NotNull final List<File> tempFiles, final boolean is64BitOS) {
 		try {
 			final boolean marionetteWebDriverSet =
 				StringUtils.isNotBlank(
