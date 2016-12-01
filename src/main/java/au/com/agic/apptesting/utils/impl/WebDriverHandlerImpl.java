@@ -79,7 +79,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY,
 					extractZipDriver(
-						"/drivers/win" + (is64BitOS ? "64" : "32") + "/marionette/geckodriver.exe.tar.gz",
+						"/drivers/win32/marionette/geckodriver.exe.tar.gz",
 						"geckodriver.exe",
 						tempFiles));
 			}
@@ -93,7 +93,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
-						"/drivers/win" + (is64BitOS ? "64" : "32") + "/chrome/chromedriver.exe",
+						"/drivers/win32/chrome/chromedriver.exe",
 						"chrome.exe",
 						tempFiles));
 			}
@@ -121,7 +121,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					Constants.EDGE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
-						"/drivers/win" + (is64BitOS ? "64" : "32") + "/edge/MicrosoftWebDriver.exe",
+						"/drivers/win32/edge/MicrosoftWebDriver.exe",
 						"MicrosoftWebDriver.exe",
 						tempFiles));
 			}
@@ -149,7 +149,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
 					extractZipDriver(
-						"/drivers/win" + (is64BitOS ? "64" : "32") + "/phantomjs/phantomjs.exe.tar.gz",
+						"/drivers/win32/phantomjs/phantomjs.exe.tar.gz",
 						"phantomjs.exe",
 						tempFiles));
 			}
