@@ -46,6 +46,6 @@ public class ScrollStepDefinitions {
 	public void scrollToTop() {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final JavascriptExecutor js = JavascriptExecutor.class.cast(webDriver);
-		js.executeScript("window.scrollTo(0, 0");
+		js.executeScript("window.scrollTo(0, 0)");
 	}
 }
