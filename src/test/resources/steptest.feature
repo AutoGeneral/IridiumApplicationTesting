@@ -415,3 +415,8 @@ Feature: Test of the steps provided by Iridium
       And I skip all remaining steps
       # This is skipped, so there is no failure
       And I fail the scenario
+
+  @test
+  Scenario: Scroll Test
+    And I scroll to the bottom of the page
+    And I scroll to the top of the page
