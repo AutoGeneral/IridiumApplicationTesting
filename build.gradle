@@ -47,7 +47,6 @@ def keypass = hasProperty("KeystorePass") ? getProperty("KeystorePass") : System
 jacocoTestReport {
 	reports {
 		xml.enabled = true
-		html.enabled = true
 	}
 }
 
