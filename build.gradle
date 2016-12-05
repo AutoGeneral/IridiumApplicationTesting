@@ -32,6 +32,7 @@ buildscript {
 def nexusProxy = 'http://prod-vm-fv-ag-snx-x1.budgetdirect.com.au:8081/nexus/content/groups/public'
 
 apply plugin: 'java'
+apply plugin: 'jacoco'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'com.matthewcasperson.build.iridium'
@@ -42,6 +43,15 @@ def alias = hasProperty("KeystoreAlias") ? getProperty("KeystoreAlias") : System
 def keystore = hasProperty("KeystoreName") ? getProperty("KeystoreName") : System.getenv("KeystoreName");
 def storepass = hasProperty("KeystoreStorePass") ? getProperty("KeystoreStorePass") : System.getenv("KeystoreStorePass");
 def keypass = hasProperty("KeystorePass") ? getProperty("KeystorePass") : System.getenv("KeystorePass");
+
+jacocoTestReport {
+	reports {
+		xml.enabled = true
+		html.enabled = true
+	}
+}
+
+check.dependsOn jacocoTestReport
 
 task signJar(dependsOn: shadowJar) << {
 	ant.delete(dir:'build/signed')

@@ -36,3 +36,5 @@ deploy:
     region: us-east-1
     on:
       tags: true
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
