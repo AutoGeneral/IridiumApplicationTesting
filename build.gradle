@@ -284,6 +284,10 @@ test {
 	for (p in passThroughProperties) {
         systemProperty p, System.properties[p]
     }
+
+	jacoco {
+		excludes = ["**/*.zap"]
+	}
 }
 
 run {
