@@ -286,7 +286,7 @@ test {
     }
 
 	jacoco {
-		excludes = ["**/*.zap"]
+		excludes = ["**/LogConfigurationException"]
 	}
 }
 
