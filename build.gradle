@@ -48,6 +48,12 @@ jacocoTestReport {
 	reports {
 		xml.enabled = true
 	}
+
+	afterEvaluate {
+		classDirectories = files(classDirectories.files.collect {
+			fileTree(dir: it, includes: 'au/com/agic/apptesting/**')
+		})
+	}
 }
 
 check.dependsOn jacocoTestReport
@@ -284,10 +290,6 @@ test {
 	for (p in passThroughProperties) {
         systemProperty p, System.properties[p]
     }
-
-	jacoco {
-		excludes = ["**/LogConfigurationException*"]
-	}
 }
 
 run {
