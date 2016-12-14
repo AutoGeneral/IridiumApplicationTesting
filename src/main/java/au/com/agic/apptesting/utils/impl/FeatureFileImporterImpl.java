@@ -16,8 +16,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.validation.constraints.NotNull;
 
@@ -31,6 +34,10 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FeatureFileImporterImpl.class);
 	private static final Pattern IMPORT_COMMENT_RE = Pattern.compile("^\\s*#\\s*IMPORT\\s*:\\s*(?<filename>.*?)$");
+	/**
+	 * This is a regex to match Scenario lines
+	 */
+	private static final Pattern SCENARIO_STANZA_RE = Pattern.compile("^\\s*Scenario\\s*:.*?$");
 	private static final StringBuilderUtils STRING_BUILDER_UTILS = new StringBuilderUtilsImpl();
 
 	@Override
@@ -72,12 +79,14 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 
 					Try.of(() -> new File(completeFileName))
 						.andThenTry(
-							e -> importFileContents.append(FileUtils.readFileToString(e))
+							e -> Optional.ofNullable(FileUtils.readFileToString(e))
+								.map(this::clearContentToFirstScenario)
+								.ifPresent(importFileContents::append)
 						)
-						.orElseRun(e -> Try.of(
-							() -> importFileContents.append(
-								processRemoteUrl(completeFileName)))
-						);
+						.orElseRun(e -> Try.run(
+							() -> Optional.ofNullable(processRemoteUrl(completeFileName))
+								.ifPresent(importFileContents::append)
+						));
 
 					STRING_BUILDER_UTILS.appendWithDelimiter(
 						output,
@@ -107,6 +116,28 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 			All else fails, return the file we were passed in
 		 */
 		return file.getFile();
+	}
+
+	/**
+	 * @param contents The raw contents
+	 * @return The contents of the supplied string from the first Scenario to the end of the file
+	 */
+	private String clearContentToFirstScenario(@NotNull final String contents) {
+		checkNotNull(contents);
+		/*
+			http://stackoverflow.com/questions/25569836/equivalent-of-scala-dropwhile
+			Make up for the last of a dropWhile
+		 */
+		class MutableBoolean {
+
+			boolean b;
+		}
+
+		final MutableBoolean inTail = new MutableBoolean();
+
+		return Stream.of(contents.split("\n"))
+			.filter(i -> inTail.b || SCENARIO_STANZA_RE.matcher(i).matches() && (inTail.b = true))
+			.collect(Collectors.joining("\n"));
 	}
 
 	private File getNewTempFile(final File file) throws IOException {

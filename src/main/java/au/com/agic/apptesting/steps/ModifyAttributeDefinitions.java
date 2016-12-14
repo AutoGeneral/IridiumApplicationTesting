@@ -80,7 +80,7 @@ public class ModifyAttributeDefinitions {
 
 			js.executeScript(
 				"arguments[0].setAttribute('" + aliasName + "', '" + fixedAliasValue + "');",
-				element).toString();
+				element);
 
 		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
