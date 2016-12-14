@@ -49,6 +49,7 @@ Feature: Test of the steps provided by Iridium
       And I "mousedown" on the hidden element found by "Event Button"
       Then I verify that the page contains the text "MouseDown Text"
 
+  @test
   Scenario: Modify element attributes
     And I modify the element found by "eventButton" by setting the attribute "data-test" to "New Value"
     And I save the attribute content of "data-test" from the element found by "eventButton" to the alias "Data Test Attr"
