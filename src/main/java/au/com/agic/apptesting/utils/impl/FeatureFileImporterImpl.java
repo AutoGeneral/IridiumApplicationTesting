@@ -36,11 +36,13 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 	/**
 	 * This is a regex to match Feature lines
 	 */
-	private static final Pattern FEATURE_STANZA_RE = Pattern.compile("^\\s*Feature\\s*:.*?$");
+	private static final Pattern FEATURE_STANZA_RE =
+		Pattern.compile("^\\s*Feature\\s*:.*?$", Pattern.CASE_INSENSITIVE);
 	/**
-	 * This is a regex to match Scenario lines
+	 * This is a regex to match Scenario, Background, Scenario Outline etc lines
 	 */
-	private static final Pattern SCENARIO_STANZA_RE = Pattern.compile("^\\s*Scenario\\s*:.*?$");
+	private static final Pattern START_STANZA_RE =
+		Pattern.compile("^\\s*(Scenario|Background|Scenario Outline)\\s*:.*?$", Pattern.CASE_INSENSITIVE);
 	/**
 	 * This is a regex to match a tag
 	 */
@@ -141,7 +143,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 				inTail.foundScenarioOrTag = inTail.foundFeature
 					&& (inTail.foundScenarioOrTag
 					|| TAG_ANNOTATION_RE.matcher(i).matches()
-					|| SCENARIO_STANZA_RE.matcher(i).matches());
+					|| START_STANZA_RE.matcher(i).matches());
 
 				return inTail.foundFeature && inTail.foundScenarioOrTag;
 			})
