@@ -111,6 +111,12 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			return buildPhantomJS(capabilities, tempFiles);
 		}
 
+		return buildChrome(mainProxy, capabilities);
+	}
+
+	private WebDriver buildChrome(final Optional<ProxyDetails<?>> mainProxy,
+		final DesiredCapabilities capabilities) {
+
 		return new ChromeDriver(capabilities);
 	}
 
