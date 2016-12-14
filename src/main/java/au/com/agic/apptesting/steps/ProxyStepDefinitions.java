@@ -60,7 +60,6 @@ public class ProxyStepDefinitions {
 	/**
 	 * Saves a HAR file with the details of the transactions that have passed through BorwserMob
 	 * @param filename The optional filename to use for the HAR file
-	 * @throws IOException Thrown when there is an issue saving the HAR file
 	 */
 	@When("^I dump the HAR file(?: to \"(.*?)\")?$")
 	public void saveHarFile(final String filename) {

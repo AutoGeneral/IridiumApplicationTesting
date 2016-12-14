@@ -2,7 +2,6 @@ package au.com.agic.apptesting;
 
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -47,6 +46,35 @@ public class LiveTests {
 	@After
 	public void cleanUpFiles() {
 		globalTempFiles.forEach(File::delete);
+	}
+
+	/**
+	 * https://github.com/AutoGeneral/IridiumApplicationTesting/issues/66
+	 * This is a test of loading feature files hosted by a web server, and
+	 * importing nested feature files by stripping out the feature lines.
+	 */
+	@Test
+	public void testFeatureImport() {
+		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
+			try {
+				setCommonProperties();
+				System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
+				System.setProperty("testSource", "parent.feature");
+				System.setProperty("testDestination", "PhantomJS");
+				System.setProperty("importBaseUrl", "https://mcasperson.github.io/iridium/features/");
+				final int failures = new TestRunner().run(globalTempFiles);
+				if (failures == 0) {
+					return;
+				}
+				Thread.sleep(SLEEP);
+			} catch (final Exception ignored) {
+				/*
+					Ignored
+				 */
+			}
+		}
+
+		Assert.fail("Failed the tests!");
 	}
 
 	/**
@@ -275,5 +303,6 @@ public class LiveTests {
 		System.setProperty("startInternalProxy", "");
 		System.setProperty("tagsOverride", "");
 		System.setProperty("dryRun", "");
+		System.setProperty("importBaseUrl", "");
 	}
 }
