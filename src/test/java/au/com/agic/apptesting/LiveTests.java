@@ -2,7 +2,6 @@ package au.com.agic.apptesting;
 
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -304,5 +303,6 @@ public class LiveTests {
 		System.setProperty("startInternalProxy", "");
 		System.setProperty("tagsOverride", "");
 		System.setProperty("dryRun", "");
+		System.setProperty("importBaseUrl", "");
 	}
 }
