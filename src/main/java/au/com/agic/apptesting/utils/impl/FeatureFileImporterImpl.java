@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -83,24 +82,14 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 					 */
 					final String filename = matcher.group("filename");
 					final String completeFileName = fixedBaseUrl + filename;
-					final StringBuilder importFileContents = new StringBuilder();
 
-					Try.of(() -> new File(completeFileName))
-						.andThenTry(
-							e -> Optional.ofNullable(FileUtils.readFileToString(e))
-								.map(this::clearContentToFirstScenario)
-								.ifPresent(importFileContents::append)
-						)
-						.orElseRun(e -> Try.run(
-							() -> Optional.ofNullable(processRemoteUrl(completeFileName))
-								.map(this::clearContentToFirstScenario)
-								.ifPresent(importFileContents::append)
-						));
+					final File thisFile = new File(completeFileName);
 
-					STRING_BUILDER_UTILS.appendWithDelimiter(
-						output,
-						importFileContents.toString(),
-						"\n");
+					Try.of(() -> FileUtils.readFileToString(new File(completeFileName)))
+						.orElse(Try.of(() -> processRemoteUrl(completeFileName)))
+						.map(this::clearContentToFirstScenario)
+						.peek(s -> STRING_BUILDER_UTILS.appendWithDelimiter(
+							output, s, "\n"));
 				} else {
 					/*
 						This is not an import comment, so copy the input line directly to the
