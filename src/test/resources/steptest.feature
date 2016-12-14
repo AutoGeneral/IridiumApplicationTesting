@@ -50,6 +50,13 @@ Feature: Test of the steps provided by Iridium
     Then I verify that the page contains the text "MouseDown Text"
 
   @test
+  Scenario: Click elements with random IDs
+    And I click the element with the attribute of "data-number" with a random number between "1" and "5"
+    Then I verify that the page contains the text "Button with random attribute clicked"
+    And I click the element with the attribute of "data-attrname" equal to "button"
+    Then I verify that the page contains the text "Button with named attr clicked"
+
+  @test
   Scenario: Modify element attributes
     And I modify the element found by "eventButton" by setting the attribute "data-test" to "New Value"
     And I save the attribute content of "data-test" from the element found by "eventButton" to the alias "Data Test Attr"
