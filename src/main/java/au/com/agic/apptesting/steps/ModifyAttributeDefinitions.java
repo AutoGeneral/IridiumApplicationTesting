@@ -44,6 +44,7 @@ public class ModifyAttributeDefinitions {
 	 * @param attribute      The name of the attribute
 	 * @param valueAlias     true if the attribute value is an alias
 	 * @param value          The value to assign to the attribute
+	 * @param exists         Set this string to silently fail if the element can not be found
 	 */
 	@When("^I modify the element found by ( alias)?\"(.*?)\" by setting the attribute"
 		+ "( alias)?\"(.*?)\" to ( alias)?\"(.*?)\"( if it exists)?$")

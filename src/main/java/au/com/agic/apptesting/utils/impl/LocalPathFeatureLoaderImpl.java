@@ -33,8 +33,6 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
 	/**
-	 * @param identifier
-	 * @param featureGroup
 	 * @return The path defined by the testSource system property
 	 */
 	@NotNull
@@ -46,8 +44,6 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 	}
 
 	/**
-	 * @param identifier
-	 * @param featureGroup
 	 * @return The path defined by the testSource system property
 	 */
 	@NotNull
