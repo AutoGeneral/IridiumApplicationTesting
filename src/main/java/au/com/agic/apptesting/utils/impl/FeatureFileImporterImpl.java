@@ -93,6 +93,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 						)
 						.orElseRun(e -> Try.run(
 							() -> Optional.ofNullable(processRemoteUrl(completeFileName))
+								.map(this::clearContentToFirstScenario)
 								.ifPresent(importFileContents::append)
 						));
 
