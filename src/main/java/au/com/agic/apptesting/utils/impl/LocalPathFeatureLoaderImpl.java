@@ -38,8 +38,8 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 	@NotNull
 	@Override
 	public String loadFeatures(
-		@NotNull final String identifier,
-		@NotNull final String featureGroup) {
+		final String identifier,
+		final String featureGroup) {
 		return loadFeatures(Arrays.asList(identifier), featureGroup);
 	}
 

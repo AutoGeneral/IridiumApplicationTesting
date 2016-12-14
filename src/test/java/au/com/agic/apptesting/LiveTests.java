@@ -50,6 +50,35 @@ public class LiveTests {
 	}
 
 	/**
+	 * https://github.com/AutoGeneral/IridiumApplicationTesting/issues/66
+	 * This is a test of loading feature files hosted by a web server, and
+	 * importing nested feature files by stripping out the feature lines.
+	 */
+	@Test
+	public void testFeatureImport() {
+		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
+			try {
+				setCommonProperties();
+				System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
+				System.setProperty("testSource", "parent.feature");
+				System.setProperty("testDestination", "PhantomJS");
+				System.setProperty("importBaseUrl", "https://mcasperson.github.io/iridium/features/");
+				final int failures = new TestRunner().run(globalTempFiles);
+				if (failures == 0) {
+					return;
+				}
+				Thread.sleep(SLEEP);
+			} catch (final Exception ignored) {
+				/*
+					Ignored
+				 */
+			}
+		}
+
+		Assert.fail("Failed the tests!");
+	}
+
+	/**
 	 * This test runs a feature that uses a wide selection of the steps provided
 	 * with Iridium, and serves as a good regression test.
 	 */

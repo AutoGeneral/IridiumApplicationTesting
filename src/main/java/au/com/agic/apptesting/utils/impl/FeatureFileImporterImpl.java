@@ -117,6 +117,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 	}
 
 	/**
+	 * https://github.com/AutoGeneral/IridiumApplicationTesting/issues/66
 	 * @param contents The raw contents
 	 * @return The contents of the supplied string from the first Scenario to the end of the file
 	 */
