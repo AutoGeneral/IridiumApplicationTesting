@@ -46,9 +46,9 @@ public class ModifyAttributeDefinitions {
 	 * @param value          The value to assign to the attribute
 	 * @param exists         Set this string to silently fail if the element can not be found
 	 */
-	@When("^I modify the element found by ( alias)?\"(.*?)\" by setting the attribute"
-		+ "( alias)?\"(.*?)\" to ( alias)?\"(.*?)\"( if it exists)?$")
-	public void openPage(
+	@When("^I modify the element found by( alias)?\"(.*?)\" by setting the attribute"
+		+ "( alias)?\"(.*?)\" to( alias)?\"(.*?)\"( if it exists)?$")
+	public void modifyAttribute(
 		final String alias,
 		final String selectorValue,
 		final String attributeAlias,
