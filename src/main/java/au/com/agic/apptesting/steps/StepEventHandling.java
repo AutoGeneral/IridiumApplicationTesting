@@ -76,7 +76,15 @@ public class StepEventHandling {
 			Take a screenshot
 		 */
 		if (!State.getFeatureStateForThread().getFailed()) {
-			screenshotUtils.takeScreenshot(" " + scenario.getName(), State.getFeatureStateForThread());
+			/*
+				Take a screenshot if we have enabled the setting
+			 */
+			final boolean enabledScreenshots = Boolean.parseBoolean(
+				systemPropertyUtils.getProperty(Constants.ENABLE_SCREENSHOTS));
+
+			if (enabledScreenshots) {
+				screenshotUtils.takeScreenshot(" " + scenario.getName(), State.getFeatureStateForThread());
+			}
 		}
 
 		State.getFeatureStateForThread().setFailed(scenario.isFailed());

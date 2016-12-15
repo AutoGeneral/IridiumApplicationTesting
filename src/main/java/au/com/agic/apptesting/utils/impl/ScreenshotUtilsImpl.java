@@ -3,7 +3,6 @@ package au.com.agic.apptesting.utils.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
@@ -39,33 +38,26 @@ public class ScreenshotUtilsImpl implements ScreenshotUtils {
 		checkNotNull(suffix);
 		checkNotNull(featureState);
 
-		/*
-			Take a screenshot if we have enabled the setting
-		 */
-		final boolean enabledScreenshots = Boolean.parseBoolean(
-			SYSTEM_PROPERTY_UTILS.getProperty(Constants.ENABLE_SCREENSHOTS));
-
 		try {
-			if (enabledScreenshots) {
-				final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-				if (webDriver instanceof TakesScreenshot) {
-					final File screenshot =
-						((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			if (webDriver instanceof TakesScreenshot) {
+				final File screenshot =
+					((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
 
-					/*
-						Screenshot filenames are the time that it was taken to allow for easy
-						sorting.
-					 */
-					final String filename = new SimpleDateFormat(SCREENSHOT_DATE_FORMAT)
-						.format(new Date()) + " " + Thread.currentThread().getName() + suffix + ".png";
+				/*
+					Screenshot filenames are the time that it was taken to allow for easy
+					sorting.
+				 */
+				final String filename = new SimpleDateFormat(SCREENSHOT_DATE_FORMAT)
+					.format(new Date()) + " " + Thread.currentThread().getName() + suffix + ".png";
 
-					final File reportFile =
-						new File(featureState.getReportDirectory() + "/" + filename);
+				final File reportFile =
+					new File(featureState.getReportDirectory() + "/" + filename);
 
-					FileUtils.copyFile(screenshot, reportFile);
-					LOGGER.info("Saved screenshot to {}", reportFile.getAbsolutePath());
-				}
+				FileUtils.copyFile(screenshot, reportFile);
+				LOGGER.info("Saved screenshot to {}", reportFile.getAbsolutePath());
 			}
+
 		} catch (final WebDriverException ex) {
 			/*
 				There is a known bug when attempting to get screenshots in Windows
