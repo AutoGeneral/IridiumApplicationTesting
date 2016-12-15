@@ -11,6 +11,7 @@ import com.google.common.collect.Iterables;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ZAPPolicyException;
+import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.utils.CastUtils;
 import au.com.agic.apptesting.utils.impl.ZapProxyUtilsImpl;
 import au.com.agic.apptesting.zap.ZAPFalsePositive;
@@ -163,7 +164,12 @@ public class ZAPStepDefinitions {
 	@When("I create an empty ZAP session")
 	public void startSession() throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
-		final String url = State.getFeatureStateForThread().getUrlDetails().getDefaultUrl();
+		final String url = Optional.ofNullable(State.getFeatureStateForThread().getUrlDetails())
+			.map(UrlMapping::getDefaultUrl)
+			.orElse(null);
+
+		checkState(url != null, "You have not supplied a URL");
+
 		clientApi.httpSessions.createEmptySession(Constants.ZAP_API_KEY, url, "session");
 	}
 
@@ -174,7 +180,12 @@ public class ZAPStepDefinitions {
 	@When("I set the active ZAP session")
 	public void activeSession() throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
-		final String url = State.getFeatureStateForThread().getUrlDetails().getDefaultUrl();
+		final String url = Optional.ofNullable(State.getFeatureStateForThread().getUrlDetails())
+			.map(UrlMapping::getDefaultUrl)
+			.orElse(null);
+
+		checkState(StringUtils.isNotBlank(url), "You have not defined a default url");
+
 		clientApi.httpSessions.addSessionToken(Constants.ZAP_API_KEY, url, "session");
 	}
 
@@ -375,86 +386,93 @@ public class ZAPStepDefinitions {
 	@When("the active scanner is run(?: from \"([^\"]*)\")?")
 	public void runScanner(final String appName) throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
-		final String url = StringUtils.isNotBlank(appName)
-			? State.getFeatureStateForThread().getUrlDetails().getUrl(appName)
-			: State.getFeatureStateForThread().getUrlDetails().getDefaultUrl();
 
-		LOGGER.info("Scanning: {}", url);
-		clientApi.ascan.scan(Constants.ZAP_API_KEY, url, "true", "false", null, null, null);
+		final UrlMapping urlMapping = State.getFeatureStateForThread().getUrlDetails();
+		if (urlMapping != null) {
+			final String url = Optional.ofNullable(appName)
+				.filter(StringUtils::isNotBlank)
+				.map(name -> urlMapping.getUrl(name))
+				.orElse(urlMapping.getDefaultUrl());
 
-		final String scanId = Optional.of(clientApi.ascan.scans())
-			.map(e -> CastUtils.as(ApiResponseList.class, e))
-			.map(ApiResponseList::getItems)
-			.map(Iterables::getLast)
-			.map(e -> CastUtils.as(ApiResponseSet.class, e))
-			.map(e -> e.getAttribute("id"))
-			.orElse(null);
+			checkState(StringUtils.isNotBlank(url), "You have not defined a URL");
 
-		double lastPercentageDone = -1;
+			LOGGER.info("Scanning: {}", url);
+			clientApi.ascan.scan(Constants.ZAP_API_KEY, url, "true", "false", null, null, null);
 
-		while (true) {
-			/*
-				The ZAP API returns a lot of nested key value pairs, and a lot of the objects that are
-				returned need to be cast in order to work with them. This is pretty nasty, is not
-				documented, and basically requires you keep traversing and casting key/value pairs until
-				you find the data you are interested in at the depth that you expect to find it.
-			 */
-			final double incomplete = Optional.of(clientApi.ascan.scanProgress(scanId))
-				.map(v -> CastUtils.as(ApiResponseList.class, v))
-				.filter(Objects::nonNull)
-				.filter(v -> "scanProgress".equals(v.getName()))
+			final String scanId = Optional.of(clientApi.ascan.scans())
+				.map(e -> CastUtils.as(ApiResponseList.class, e))
 				.map(ApiResponseList::getItems)
-				.map(v -> v.stream()
-					.map(w -> CastUtils.as(ApiResponseList.class, w))
+				.map(Iterables::getLast)
+				.map(e -> CastUtils.as(ApiResponseSet.class, e))
+				.map(e -> e.getAttribute("id"))
+				.orElse(null);
+
+			double lastPercentageDone = -1;
+
+			while (true) {
+				/*
+					The ZAP API returns a lot of nested key value pairs, and a lot of the objects that are
+					returned need to be cast in order to work with them. This is pretty nasty, is not
+					documented, and basically requires you keep traversing and casting key/value pairs until
+					you find the data you are interested in at the depth that you expect to find it.
+				 */
+				final double incomplete = Optional.of(clientApi.ascan.scanProgress(scanId))
+					.map(v -> CastUtils.as(ApiResponseList.class, v))
 					.filter(Objects::nonNull)
+					.filter(v -> "scanProgress".equals(v.getName()))
 					.map(ApiResponseList::getItems)
-					.map(w -> w.stream()
-						.map(x -> CastUtils.as(ApiResponseList.class, x))
+					.map(v -> v.stream()
+						.map(w -> CastUtils.as(ApiResponseList.class, w))
 						.filter(Objects::nonNull)
 						.map(ApiResponseList::getItems)
-						.map(y -> y.stream()
-							.map(z -> CastUtils.as(ApiResponseElement.class, z))
+						.map(w -> w.stream()
+							.map(x -> CastUtils.as(ApiResponseList.class, x))
 							.filter(Objects::nonNull)
-							.filter(z -> "status".equalsIgnoreCase(z.getName()))
-							.mapToInt(z ->
-								"Complete".equalsIgnoreCase(z.getValue()) ? 0 : 1)
+							.map(ApiResponseList::getItems)
+							.map(y -> y.stream()
+								.map(z -> CastUtils.as(ApiResponseElement.class, z))
+								.filter(Objects::nonNull)
+								.filter(z -> "status".equalsIgnoreCase(z.getName()))
+								.mapToInt(z ->
+									"Complete".equalsIgnoreCase(z.getValue()) ? 0 : 1)
+								.average()
+							)
+							.mapToDouble(g -> g.orElse(0))
 							.average()
 						)
-						.mapToDouble(g -> g.orElse(0))
+						.mapToDouble(w -> w.orElse(0))
 						.average()
 					)
-					.mapToDouble(w -> w.orElse(0))
-					.average()
-				)
-				.orElse(OptionalDouble.of(0)).orElse(0);
+					.orElse(OptionalDouble.of(0)).orElse(0);
 
-			/*
-				In the absence of incomplete scans, we are done
-			 */
-			if (incomplete == 0) {
-				break;
-			}
-
-			/*
-				Subtract from 1 to find the complete scans
-			 */
-			final double percentDone = 1.0d - incomplete;
-
-			/*
-				Dump so info so the users know where things are at
-			 */
-			if (percentDone > lastPercentageDone) {
-				LOGGER.info("ZAP Active Scan is {}% complete", new DecimalFormat(DECIMAL_FORMAT)
-					.format((1.0d - incomplete) * ZAP_DONE));
-				lastPercentageDone = percentDone;
-			}
-
-			try {
-				Thread.sleep(ZAP_SLEEP);
-			} catch (final InterruptedException ignored) {
 				/*
-					nothing to do here
+					In the absence of incomplete scans, we are done
 				 */
+				if (incomplete == 0) {
+					break;
+				}
+
+				/*
+					Subtract from 1 to find the complete scans
+				 */
+				final double percentDone = 1.0d - incomplete;
+
+				/*
+					Dump so info so the users know where things are at
+				 */
+				if (percentDone > lastPercentageDone) {
+					LOGGER.info("ZAP Active Scan is {}% complete", new DecimalFormat(DECIMAL_FORMAT)
+						.format((1.0d - incomplete) * ZAP_DONE));
+					lastPercentageDone = percentDone;
+				}
+
+				try {
+					Thread.sleep(ZAP_SLEEP);
+				} catch (final InterruptedException ignored) {
+					/*
+						nothing to do here
+					 */
+				}
 			}
 		}
 	}
@@ -581,9 +599,15 @@ public class ZAPStepDefinitions {
 			clientApi.spider.setOptionMaxDepth(Constants.ZAP_API_KEY, fixedDepth);
 			clientApi.spider.setOptionThreadCount(Constants.ZAP_API_KEY, DEFAULT_SPIDER_THREAD_COUNT);
 
+			final String url = Optional.ofNullable(State.getFeatureStateForThread().getUrlDetails())
+				.map(UrlMapping::getDefaultUrl)
+				.orElse(null);
+
+			checkState(url != null, "You have not supplied a URL");
+
 			clientApi.spider.scan(
 				Constants.ZAP_API_KEY,
-				State.getFeatureStateForThread().getUrlDetails().getDefaultUrl(),
+				url,
 				null,
 				null,
 				null,

@@ -118,25 +118,17 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		}
 
 		/*
-		  Some validation checking
-		*/
-		if (originalApplicationUrls.isEmpty()) {
-			throw new ConfigurationException(
-				"There are no configurations available. "
-				+ "Check configuration profiles have the required information in them");
-		}
-
-		/*
 		  We have allocated our available configurations
 		*/
-		if (currentUrl >= originalApplicationUrls.size()) {
+		if (currentUrl >= Math.max(originalApplicationUrls.size(), 1)) {
 			throw new ConfigurationException("Configuration pool has been exhausted!");
 		}
 
 		/*
 		  Get the details that the requesting thread will need
 		*/
-		final UrlMapping url = originalApplicationUrls.get(currentUrl);
+		final UrlMapping url = originalApplicationUrls.isEmpty()
+			? null : originalApplicationUrls.get(currentUrl);
 
 		final Map<String, String> dataSet = originalDataSets.containsKey(currentDataset)
 			? new HashMap<>(originalDataSets.get(currentDataset))

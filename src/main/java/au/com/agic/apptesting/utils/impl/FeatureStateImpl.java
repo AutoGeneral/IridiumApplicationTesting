@@ -1,7 +1,6 @@
 package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
@@ -35,11 +34,10 @@ public class FeatureStateImpl implements FeatureState {
 	private boolean skip = false;
 
 	public FeatureStateImpl(
-		@NotNull final UrlMapping url,
+		final UrlMapping url,
 		@NotNull final Map<String, String> dataset,
 		@NotNull final String reportDirectory,
 		@NotNull final List<ProxyDetails<?>> proxies) {
-		checkNotNull(url);
 
 		this.url = url;
 		this.dataset.clear();
