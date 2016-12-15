@@ -198,10 +198,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
 	@Override
 	public synchronized int getNumberCapabilities() {
-		if (originalApplicationUrls.isEmpty()) {
-			throw new ConfigurationException("No application URL specified");
-		}
-		return originalApplicationUrls.size() * Math.max(getMaxDataSets(), 1);
+		return Math.max(originalApplicationUrls.size(), 1) * Math.max(getMaxDataSets(), 1);
 	}
 
 	@Override
