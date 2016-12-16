@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -48,8 +47,7 @@ public interface FeatureState {
 	/**
 	 * @return The url associated with this instance of the test
 	 */
-	@Nullable
-	UrlMapping getUrlDetails();
+	Optional<UrlMapping> getUrlDetails();
 
 	/**
 	 * @return The data set associated with this instance of the test

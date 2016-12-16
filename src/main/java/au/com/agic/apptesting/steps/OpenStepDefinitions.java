@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -78,7 +77,7 @@ public class OpenStepDefinitions {
 
 		if (StringUtils.isNotBlank(urlName)) {
 
-			final String url = Optional.ofNullable(State.getFeatureStateForThread().getUrlDetails())
+			final String url = State.getFeatureStateForThread().getUrlDetails()
 				.map(urlMapping -> urlMapping.getUrl(urlName))
 				.orElse(null);
 
@@ -94,7 +93,7 @@ public class OpenStepDefinitions {
 
 			webDriver.get(url);
 		} else {
-			final String url = Optional.ofNullable(State.getFeatureStateForThread().getUrlDetails())
+			final String url = State.getFeatureStateForThread().getUrlDetails()
 				.map(UrlMapping::getDefaultUrl)
 				.orElse(null);
 

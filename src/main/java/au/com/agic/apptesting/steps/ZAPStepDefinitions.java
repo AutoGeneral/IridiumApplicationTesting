@@ -164,7 +164,7 @@ public class ZAPStepDefinitions {
 	@When("I create an empty ZAP session")
 	public void startSession() throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
-		final String url = Optional.ofNullable(State.getFeatureStateForThread().getUrlDetails())
+		final String url = State.getFeatureStateForThread().getUrlDetails()
 			.map(UrlMapping::getDefaultUrl)
 			.orElse(null);
 
@@ -180,7 +180,7 @@ public class ZAPStepDefinitions {
 	@When("I set the active ZAP session")
 	public void activeSession() throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
-		final String url = Optional.ofNullable(State.getFeatureStateForThread().getUrlDetails())
+		final String url = State.getFeatureStateForThread().getUrlDetails()
 			.map(UrlMapping::getDefaultUrl)
 			.orElse(null);
 
@@ -387,12 +387,12 @@ public class ZAPStepDefinitions {
 	public void runScanner(final String appName) throws ClientApiException {
 		final ClientApi clientApi = getClientApi();
 
-		final UrlMapping urlMapping = State.getFeatureStateForThread().getUrlDetails();
-		if (urlMapping != null) {
+		final Optional<UrlMapping> urlMapping = State.getFeatureStateForThread().getUrlDetails();
+		if (urlMapping.isPresent()) {
 			final String url = Optional.ofNullable(appName)
 				.filter(StringUtils::isNotBlank)
-				.map(name -> urlMapping.getUrl(name))
-				.orElse(urlMapping.getDefaultUrl());
+				.map(name -> urlMapping.get().getUrl(name))
+				.orElse(urlMapping.get().getDefaultUrl());
 
 			checkState(StringUtils.isNotBlank(url), "You have not defined a URL");
 
@@ -599,7 +599,7 @@ public class ZAPStepDefinitions {
 			clientApi.spider.setOptionMaxDepth(Constants.ZAP_API_KEY, fixedDepth);
 			clientApi.spider.setOptionThreadCount(Constants.ZAP_API_KEY, DEFAULT_SPIDER_THREAD_COUNT);
 
-			final String url = Optional.ofNullable(State.getFeatureStateForThread().getUrlDetails())
+			final String url = State.getFeatureStateForThread().getUrlDetails()
 				.map(UrlMapping::getDefaultUrl)
 				.orElse(null);
 
