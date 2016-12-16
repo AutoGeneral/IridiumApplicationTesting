@@ -38,9 +38,9 @@ Feature: Open an application
 		And I click the element found by alias "HomeLink"
 	    # WebDriver considers this link to be obscured by another element, so
 	    # we use a special step to click these "hidden" links
-		And I click the hidden link with the text content of "Learn Microservices in Java"
+		And I click the hidden link with the text content of "REST Practices"
 		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
 		And I go back
-		And I click the hidden link with the text content of "Learn Swift"
+		And I click the hidden link with the text content of "Understanding CDI"
 		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
 		And I go back
