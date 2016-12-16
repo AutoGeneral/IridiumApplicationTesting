@@ -47,7 +47,7 @@ public interface FeatureState {
 	/**
 	 * @return The url associated with this instance of the test
 	 */
-	UrlMapping getUrlDetails();
+	Optional<UrlMapping> getUrlDetails();
 
 	/**
 	 * @return The data set associated with this instance of the test

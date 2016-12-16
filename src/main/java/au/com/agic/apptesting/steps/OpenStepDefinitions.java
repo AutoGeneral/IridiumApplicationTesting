@@ -3,6 +3,7 @@ package au.com.agic.apptesting.steps;
 import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.SleepUtils;
 
@@ -75,10 +76,10 @@ public class OpenStepDefinitions {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
 		if (StringUtils.isNotBlank(urlName)) {
-			LOGGER.info("WEBAPPTESTER-INFO-0001: Opened the url {}",
-				State.getFeatureStateForThread().getUrlDetails().getUrl(urlName));
 
-			final String url = State.getFeatureStateForThread().getUrlDetails().getUrl(urlName);
+			final String url = State.getFeatureStateForThread().getUrlDetails()
+				.map(urlMapping -> urlMapping.getUrl(urlName))
+				.orElse(null);
 
 			checkState(StringUtils.isNotBlank(url), "The url associated with the app name "
 				+ urlName + " was not found. "
@@ -88,12 +89,18 @@ public class OpenStepDefinitions {
 				+ "named applications. "
 				+ "Alternatively, make sure the configuration file defines the named application.");
 
+			LOGGER.info("WEBAPPTESTER-INFO-0001: Opened the url {}", url);
 
 			webDriver.get(url);
 		} else {
-			LOGGER.info("WEBAPPTESTER-INFO-0001: Opened the url {}",
-				State.getFeatureStateForThread().getUrlDetails().getDefaultUrl());
-			webDriver.get(State.getFeatureStateForThread().getUrlDetails().getDefaultUrl());
+			final String url = State.getFeatureStateForThread().getUrlDetails()
+				.map(UrlMapping::getDefaultUrl)
+				.orElse(null);
+
+			checkState(StringUtils.isNotBlank(url), "You have not defined a default URL");
+
+			LOGGER.info("WEBAPPTESTER-INFO-0001: Opened the url {}", url);
+			webDriver.get(url);
 		}
 
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());

@@ -1,7 +1,6 @@
 package au.com.agic.apptesting;
 
 import au.com.agic.apptesting.utils.impl.FeatureFileImporterImpl;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -77,6 +76,16 @@ public class FeatureFileImporterTest {
 			+ "    # Load the page from the appUrlOverride value\n"
 			+ "    Given I open the application";
 
+	private static final String FEATURE_FILE_6 =
+		"  Background: Open App\n"
+			+ "    # Load the page from the appUrlOverride value\n"
+			+ "    Given I open the application";
+
+	private static final String FEATURE_FILE_7 =
+		"  Scenario: Open App\n"
+			+ "    # Load the page from the appUrlOverride value\n"
+			+ "    Given I open the application";
+
 	@Test
 	public void testClearToScenario() {
 		final FeatureFileImporterImpl featureFileImporter = new FeatureFileImporterImpl();
@@ -115,5 +124,21 @@ public class FeatureFileImporterTest {
 		final String clearedFile = featureFileImporter.clearContentToFirstScenario(FEATURE_FILE_5);
 
 		Assert.assertEquals(FEATURE_FILE_STRIPPED_5, clearedFile);
+	}
+
+	@Test
+	public void testClearToScenario6() {
+		final FeatureFileImporterImpl featureFileImporter = new FeatureFileImporterImpl();
+		final String clearedFile = featureFileImporter.clearContentToFirstScenario(FEATURE_FILE_6);
+
+		Assert.assertEquals(FEATURE_FILE_6, clearedFile);
+	}
+
+	@Test
+	public void testClearToScenario7() {
+		final FeatureFileImporterImpl featureFileImporter = new FeatureFileImporterImpl();
+		final String clearedFile = featureFileImporter.clearContentToFirstScenario(FEATURE_FILE_7);
+
+		Assert.assertEquals(FEATURE_FILE_7, clearedFile);
 	}
 }

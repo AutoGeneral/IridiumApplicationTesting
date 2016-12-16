@@ -7,6 +7,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
 import au.com.agic.apptesting.exception.RunScriptsException;
+import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.utils.ApplicationUrlLoader;
 import au.com.agic.apptesting.utils.CleanupUtils;
 import au.com.agic.apptesting.utils.DesktopInteraction;
@@ -488,7 +489,9 @@ public class TestRunner {
 
 			final String tagSetToUse = StringUtils.isNotBlank(tagOverride)
 				? tagOverride
-				: featureState.getUrlDetails().getTags();
+				: featureState.getUrlDetails()
+					.map(UrlMapping::getTags)
+					.orElse("");
 
 			final List<String> tags = TAG_ANALYSER.convertTagsToList(tagSetToUse);
 

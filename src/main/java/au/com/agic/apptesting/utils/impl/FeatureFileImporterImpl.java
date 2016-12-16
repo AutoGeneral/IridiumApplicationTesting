@@ -1,16 +1,14 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.utils.FeatureFileImporter;
 import au.com.agic.apptesting.utils.StringBuilderUtils;
-
+import javaslang.control.Try;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -21,9 +19,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.validation.constraints.NotNull;
-
-import javaslang.control.Try;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * An implementation of the FeatureFileImporter interface
@@ -91,7 +88,8 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 						.orElse(Try.of(() -> processRemoteUrl(completeFileName)))
 						.map(this::clearContentToFirstScenario)
 						.peek(s -> STRING_BUILDER_UTILS.appendWithDelimiter(
-							output, s, "\n"));
+							output, s, "\n")
+						);
 				} else {
 					/*
 						This is not an import comment, so copy the input line directly to the
@@ -137,7 +135,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 
 		final MutableBoolean inTail = new MutableBoolean();
 
-		return Stream.of(contents.split("\n"))
+		final String processedFeature = Stream.of(contents.split("\n"))
 			.filter(i -> {
 				inTail.foundFeature = inTail.foundFeature || FEATURE_STANZA_RE.matcher(i).matches();
 				inTail.foundScenarioOrTag = inTail.foundFeature
@@ -148,6 +146,15 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 				return inTail.foundFeature && inTail.foundScenarioOrTag;
 			})
 			.collect(Collectors.joining("\n"));
+
+		/*
+			If the result is empty, then the file being processed is not a complete
+			feature file, and we simply return the original input, which we assume
+			is a fragment.
+		 */
+		return StringUtils.isBlank(processedFeature)
+			? contents
+			: processedFeature;
 	}
 
 	private File getNewTempFile(final File file) throws IOException {
