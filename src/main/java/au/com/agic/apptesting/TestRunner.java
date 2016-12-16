@@ -489,7 +489,7 @@ public class TestRunner {
 
 			final String tagSetToUse = StringUtils.isNotBlank(tagOverride)
 				? tagOverride
-				: Optional.ofNullable(featureState.getUrlDetails())
+				: featureState.getUrlDetails()
 					.map(UrlMapping::getTags)
 					.orElse("");
 
