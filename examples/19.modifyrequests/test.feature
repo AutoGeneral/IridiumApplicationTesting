@@ -35,7 +35,7 @@ Feature: Open an application
 		And I click the link with the text content of "WEB DEV"
 
 	Scenario: Open some refcardz
-		And I click the element found by alias "HomeLink"
+		And I click the link with the text content of "REFCARDZ"
 	    # WebDriver considers this link to be obscured by another element, so
 	    # we use a special step to click these "hidden" links
 		And I click the hidden link with the text content of "REST Practices"
