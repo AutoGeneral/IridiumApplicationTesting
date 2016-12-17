@@ -51,10 +51,10 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Test alert handling
-	And I click the element found by "Alert Button"
+	And I click the element found by "alertButton"
     And I wait "30" seconds for an alert to be displayed
 	And I click "OK" on the alert
-	And I click the element found by "Confirm Button"
+	And I click the element found by "confirmButton"
 	And I wait "30" seconds for an alert to be displayed
 	And I click "Cancel" on the alert
 	# Timeouts should be ignored if there is no alert
