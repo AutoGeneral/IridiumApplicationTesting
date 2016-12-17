@@ -84,26 +84,13 @@ public class LiveTests {
 	 */
 	@Test
 	public void testFeatureImport2() {
-		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
-			try {
-				setCommonProperties();
-				System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
-				System.setProperty("testSource", "parent-fragment.feature");
-				System.setProperty("testDestination", "PhantomJS");
-				System.setProperty("importBaseUrl", "https://mcasperson.github.io/iridium/features/");
-				final int failures = new TestRunner().run(globalTempFiles);
-				if (failures == 0) {
-					return;
-				}
-				Thread.sleep(SLEEP);
-			} catch (final Exception ignored) {
-				/*
-					Ignored
-				 */
-			}
-		}
-
-		Assert.fail("Failed the tests!");
+		setCommonProperties();
+		System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
+		System.setProperty("testSource", "parent-fragment.feature");
+		System.setProperty("testDestination", "PhantomJS");
+		System.setProperty("importBaseUrl", "https://mcasperson.github.io/iridium/features/");
+		final int failures = new TestRunner().run(globalTempFiles);
+		Assert.assertEquals(failures, 0);
 	}
 
 	/**
