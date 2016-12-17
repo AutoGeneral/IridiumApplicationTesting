@@ -4,10 +4,7 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.utils.*;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +30,7 @@ import java.util.regex.Pattern;
 public class WaitStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WaitStepDefinitions.class);
+	private static final long MILLISECONDS_PER_SECOND = 1000;
 	@Autowired
 	private SleepUtils sleepUtils;
 	@Autowired
@@ -41,8 +39,8 @@ public class WaitStepDefinitions {
 	private AutoAliasUtils autoAliasUtils;
 	@Autowired
 	private SimpleWebElementInteraction simpleWebElementInteraction;
-
-	private static final long MILLISECONDS_PER_SECOND = 1000;
+	@Autowired
+	private BrowserInteropUtils browserInteropUtils;
 
 	/**
 	 * Pauses the execution of the test script for the given number of seconds
@@ -810,11 +808,7 @@ public class WaitStepDefinitions {
 	public void waitForAlert(final Integer waitDuration, final String ignoringTimeout) {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(
-				webDriver,
-				waitDuration,
-				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-			wait.until(ExpectedConditions.alertIsPresent());
+			browserInteropUtils.waitForAlert(webDriver, waitDuration);
 		} catch (final TimeoutException ex) {
 			/*
 				Rethrow if we have not ignored errors

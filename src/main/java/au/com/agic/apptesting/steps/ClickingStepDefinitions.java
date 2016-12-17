@@ -424,15 +424,7 @@ public class ClickingStepDefinitions {
 
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(
-				webDriver,
-				State.getFeatureStateForThread().getDefaultWait(),
-				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-
-			wait.until(ExpectedConditions.alertIsPresent());
-
-			final Alert alert = webDriver.switchTo().alert();
-			alert.accept();
+			browserInteropUtils.acceptAlert(webDriver);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoAlertPresentException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -453,16 +445,7 @@ public class ClickingStepDefinitions {
 
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-
-			final WebDriverWait wait = new WebDriverWait(
-				webDriver,
-				State.getFeatureStateForThread().getDefaultWait(),
-				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-
-			wait.until(ExpectedConditions.alertIsPresent());
-
-			final Alert alert = webDriver.switchTo().alert();
-			alert.dismiss();
+			browserInteropUtils.cancelAlert(webDriver);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoAlertPresentException ex) {
 			if (StringUtils.isBlank(exists)) {
