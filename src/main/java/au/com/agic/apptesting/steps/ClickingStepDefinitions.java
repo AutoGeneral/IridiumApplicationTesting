@@ -464,7 +464,7 @@ public class ClickingStepDefinitions {
 			final Alert alert = webDriver.switchTo().alert();
 			alert.dismiss();
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-		} catch (final NoAlertPresentException ex) {
+		} catch (final TimeoutException | NoAlertPresentException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
