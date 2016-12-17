@@ -46,4 +46,26 @@ public interface BrowserInteropUtils {
 	void focusOnElement(
 		@NotNull WebDriver webDriver,
 		@NotNull WebElement element);
+
+	/**
+	 * Waits for an alert
+	 *
+	 * @param webDriver    The selenium webdriver
+	 * @param waitDuration How long to wait for
+	 */
+	void waitForAlert(@NotNull WebDriver webDriver, int waitDuration);
+
+	/**
+	 * Accepts a browser alert
+	 *
+	 * @param webDriver The selenium webdriver
+	 */
+	void acceptAlert(@NotNull WebDriver webDriver);
+
+	/**
+	 * Cancels a browser alert
+	 *
+	 * @param webDriver The selenium webdriver
+	 */
+	void cancelAlert(@NotNull WebDriver webDriver);
 }

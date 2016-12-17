@@ -1,24 +1,12 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.BrowserInteropUtils;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.JavaScriptRunner;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
-
+import au.com.agic.apptesting.utils.*;
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -29,7 +17,7 @@ import org.springframework.stereotype.Component;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import cucumber.api.java.en.When;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Gherkin steps used to click elements.
@@ -419,6 +407,48 @@ public class ClickingStepDefinitions {
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (!" if it exists".equals(exists)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Clicks ok on the alert
+	 *
+	 * @param exists      If this text is set, an error that would be thrown because the element was not found
+	 *                    is ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I click \"OK\" on the alert( if it exists)?$")
+	public void clickOKOnAlert(
+		final String exists) {
+
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			browserInteropUtils.acceptAlert(webDriver);
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final TimeoutException | NoAlertPresentException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Clicks cancel on the alert
+	 *
+	 * @param exists      If this text is set, an error that would be thrown because the element was not found
+	 *                    is ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I click \"Cancel\" on the alert( if it exists)?$")
+	public void clickCancelOnAlert(
+		final String exists) {
+
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			browserInteropUtils.cancelAlert(webDriver);
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final TimeoutException | NoAlertPresentException ex) {
+			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
 		}

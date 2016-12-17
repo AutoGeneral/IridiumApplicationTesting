@@ -4,11 +4,9 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
-
+import au.com.agic.apptesting.utils.*;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -22,9 +20,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
 
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-
 /**
  * This class contains Gherkin steps that define wait conditions.
  *
@@ -35,6 +30,7 @@ import cucumber.api.java.en.When;
 public class WaitStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WaitStepDefinitions.class);
+	private static final long MILLISECONDS_PER_SECOND = 1000;
 	@Autowired
 	private SleepUtils sleepUtils;
 	@Autowired
@@ -43,8 +39,8 @@ public class WaitStepDefinitions {
 	private AutoAliasUtils autoAliasUtils;
 	@Autowired
 	private SimpleWebElementInteraction simpleWebElementInteraction;
-
-	private static final long MILLISECONDS_PER_SECOND = 1000;
+	@Autowired
+	private BrowserInteropUtils browserInteropUtils;
 
 	/**
 	 * Pauses the execution of the test script for the given number of seconds
@@ -798,9 +794,28 @@ public class WaitStepDefinitions {
 			}
 
 			Thread.sleep(Constants.TIME_SLICE);
-			
+
 		} while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
 
 		throw new ValidationException("Could not find the regular expression \"" + fixedRegex + "\" on the page");
+	}
+
+	/**
+	 * Waits a period of time for the presence of a alert.
+	 * @param waitDuration  The maximum amount of time to wait for
+	 */
+	@Then("^I wait \"(\\d+)\" seconds for an alert to be displayed(,? ignoring timeouts?)?$")
+	public void waitForAlert(final Integer waitDuration, final String ignoringTimeout) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			browserInteropUtils.waitForAlert(webDriver, waitDuration);
+		} catch (final TimeoutException ex) {
+			/*
+				Rethrow if we have not ignored errors
+			 */
+			if (StringUtils.isBlank(ignoringTimeout)) {
+				throw ex;
+			}
+		}
 	}
 }

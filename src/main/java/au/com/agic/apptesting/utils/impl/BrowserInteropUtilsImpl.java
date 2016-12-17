@@ -1,25 +1,28 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.BrowserDetection;
 import au.com.agic.apptesting.utils.BrowserInteropUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
-
+import cucumber.api.java.Before;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Implementation of checks required to maintain compatibility between browsers
@@ -35,6 +38,10 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 	@Autowired
 	private SystemPropertyUtils systemPropertyUtils;
+
+	private boolean disableInterop() {
+		return systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false);
+	}
 
 	@Override
 	public boolean treatElementAsHidden(
@@ -89,12 +96,11 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		checkNotNull(element);
 		checkNotNull(selectElement);
 
-		final boolean disableInterop = systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false);
 		final boolean isEdge = browserDetection.isEdge(webDriver);
 		final boolean isMarionette = browserDetection.isMarionette(webDriver);
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
-		if (!disableInterop && (isMarionette || isEdge || isFirefox)) {
+		if (!disableInterop() && (isMarionette || isEdge || isFirefox)) {
 			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Edge or Firefox Marionette driver. "
 				+ "Applying drop down list selection workaround.");
 			/*
@@ -131,14 +137,13 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		checkNotNull(webDriver);
 		checkNotNull(element);
 
-		final boolean disableInterop = systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false);
 		final boolean isMarionette = browserDetection.isMarionette(webDriver);
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("arguments[0].focus();", element);
 
-		if (!disableInterop && (isMarionette || isFirefox)) {
+		if (!disableInterop() && (isMarionette || isFirefox)) {
 			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Firefox Marionette driver. "
 				+ "Applying element focus workaround.");
 
@@ -154,6 +159,92 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 					+ "}", element);
 		} else {
 			js.executeScript("arguments[0].focus();", element);
+		}
+	}
+
+	/**
+	 * https://github.com/detro/ghostdriver/issues/20
+	 * Replace window.alert and window.confirm for PhantomJS
+	 */
+	@Before
+	public void setup() {
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+
+		if (!disableInterop() && isPhantomJS) {
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+			js.executeScript("window.confirm = function(){return true;}");
+			js.executeScript("window.alert = function(){}");
+		}
+	}
+
+	@Override
+	public void waitForAlert(@NotNull WebDriver webDriver, int waitDuration) {
+		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+
+		if (!disableInterop() && isPhantomJS) {
+			/*
+				This kind of wait is not supported by Phantom JS
+			 */
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS driver."
+				+ " Disabling alert wait. This step will always pass, regardless of"
+				+ " whether there is an alert or not.");
+		} else {
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				waitDuration,
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+			wait.until(ExpectedConditions.alertIsPresent());
+		}
+	}
+
+	@Override
+	public void acceptAlert(@NotNull WebDriver webDriver) {
+		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+
+		if (!disableInterop() && isPhantomJS) {
+			/*
+				Do nothing because we have already redefined the alert
+				method.
+			 */
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS driver."
+				+ " Disabling alert accept. This step will always pass, regardless of"
+				+ " whether there is an alert or not.");
+		} else {
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				State.getFeatureStateForThread().getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+
+			wait.until(ExpectedConditions.alertIsPresent());
+
+			final Alert alert = webDriver.switchTo().alert();
+			alert.accept();
+		}
+	}
+
+	@Override
+	public void cancelAlert(@NotNull WebDriver webDriver) {
+		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+
+		if (!disableInterop() && isPhantomJS) {
+			/*
+				Do nothing because we have already redefined the alert
+				method.
+			 */
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS driver."
+				+ " Disabling alert dismiss. This step will always pass, regardless of"
+				+ " whether there is an alert or not.");
+		} else {
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				State.getFeatureStateForThread().getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+
+			wait.until(ExpectedConditions.alertIsPresent());
+
+			final Alert alert = webDriver.switchTo().alert();
+			alert.dismiss();
 		}
 	}
 

@@ -50,6 +50,19 @@ Feature: Test of the steps provided by Iridium
     Then I verify that the page contains the text "MouseDown Text"
 
   @test
+  Scenario: Test alert handling
+	And I click the element found by "alertButton"
+    And I wait "30" seconds for an alert to be displayed
+	And I click "OK" on the alert
+	And I click the element found by "confirmButton"
+	And I wait "30" seconds for an alert to be displayed
+	And I click "Cancel" on the alert
+	# Timeouts should be ignored if there is no alert
+	And I wait "2" seconds for an alert to be displayed, ignoring timeouts
+	And I click "OK" on the alert if it exists
+	And I click "Cancel" on the alert if it exists
+
+  @test
   Scenario: Click elements with random IDs
     And I click the element with the attribute of "data-number" with a random number between "1" and "5"
     Then I verify that the page contains the text "Button with random attribute clicked"
