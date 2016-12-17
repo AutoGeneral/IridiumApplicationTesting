@@ -144,16 +144,13 @@ public class LiveTests {
 	@Test
 	public void dryRun() throws InterruptedException {
 
-			setCommonProperties();
-			System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
-			System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
+		setCommonProperties();
+		System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
+		System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
 		System.setProperty("testDestination", "PhantomJS");
-			System.setProperty("dryRun", "true");
-			final int failures = new TestRunner().run(globalTempFiles);
-			if (failures == 0) {
-				return;
-			}
-			Thread.sleep(SLEEP);
+		System.setProperty("dryRun", "true");
+		final int failures = new TestRunner().run(globalTempFiles);
+		Assert.assertEquals(failures, 0);
 	}
 
 	/**
