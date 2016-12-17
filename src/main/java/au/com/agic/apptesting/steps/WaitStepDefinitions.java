@@ -8,7 +8,8 @@ import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
-
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -21,9 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
-
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 /**
  * This class contains Gherkin steps that define wait conditions.
@@ -798,9 +796,32 @@ public class WaitStepDefinitions {
 			}
 
 			Thread.sleep(Constants.TIME_SLICE);
-			
+
 		} while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
 
 		throw new ValidationException("Could not find the regular expression \"" + fixedRegex + "\" on the page");
+	}
+
+	/**
+	 * Waits a period of time for the presence of a alert.
+	 * @param waitDuration  The maximum amount of time to wait for
+	 */
+	@Then("^I wait \"(\\d+)\" seconds for an alert to be displayed(,? ignoring timeouts?)?$")
+	public void waitForAlert(final Integer waitDuration, final String ignoringTimeout) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				waitDuration,
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+			wait.until(ExpectedConditions.alertIsPresent());
+		} catch (final TimeoutException ex) {
+			/*
+				Rethrow if we have not ignored errors
+			 */
+			if (StringUtils.isBlank(ignoringTimeout)) {
+				throw ex;
+			}
+		}
 	}
 }
