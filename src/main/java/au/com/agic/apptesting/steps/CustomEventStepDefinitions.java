@@ -170,4 +170,43 @@ public class CustomEventStepDefinitions {
 
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
+
+	/**
+	 * Manually dispatch a custom event to the element
+	 *
+	 * @param event         The type of event
+	 * @param selector      Either ID, class, xpath, name or css selector
+	 * @param alias         If this word is found in the step, it means the selectorValue is found
+	 *                      from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If
+	 *                      alias was set, this value is found from the data set. Otherwise it is a
+	 *                      literal value.
+	 */
+	@When("I(?: dispatch a)? \"(.*?)\"(?: event)? on (?:a|an|the) hidden element with (?:a|an|the) "
+		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
+	public void triggetCustom(
+		final String event,
+		final String selector,
+		final String alias,
+		final String selectorValue) {
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+		final WebDriverWait wait = new WebDriverWait(
+			webDriver,
+			State.getFeatureStateForThread().getDefaultWait(),
+			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
+		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+
+		js.executeScript("var ev = document.createEvent('HTMLEvents');"
+			+ "    ev.initEvent("
+			+ "        '" + event.replace("'", "\\'") + "',"
+			+ "        false,"
+			+ "		   true"
+			+ "    );"
+			+ "    arguments[0].dispatchEvent(ev);", element);
+
+		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+	}
 }
