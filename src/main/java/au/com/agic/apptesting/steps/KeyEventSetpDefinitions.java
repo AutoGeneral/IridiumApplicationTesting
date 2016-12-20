@@ -1,7 +1,6 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
-import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.JavaScriptRunner;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
@@ -10,13 +9,9 @@ import au.com.agic.apptesting.utils.SleepUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -265,65 +260,5 @@ public class KeyEventSetpDefinitions {
 				throw ex;
 			}
 		}
-	}
-
-	/**
-	 * sendKeys will often not trigger the key up event, which some elements of the page need in order to
-	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
-	 * workaround.
-	 *
-	 * @param event 		The type of key event to simulate
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I(?: dispatch a)? \"(key.*?)\"(?: event)? on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"")
-	public void triggetKeyUp(
-		final String event,
-		final String alias,
-		final String selectorValue) {
-
-		final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
-			StringUtils.isNotBlank(alias),
-			selectorValue,
-			State.getFeatureStateForThread());
-
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-		javaScriptRunner.interactHiddenElementKeyEvent(element, event, js);
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-	}
-
-	/**
-	 * sendKeys will often not trigger the key up event, which some elements of the page need in order to
-	 * complete their processing. <p> Calling this step after you have populated the field can be used as a
-	 * workaround.
-	 *
-	 * @param event 		The type of key event to simulate
-	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I(?: dispatch a)? \"(key.*?)\"(?: event)? on (?:a|an|the) hidden element with (?:a|an|the) "
-		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
-	public void triggetKeyUp(
-			final String event,
-			final String selector,
-			final String alias,
-			final String selectorValue) {
-
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
-		final WebDriverWait wait = new WebDriverWait(
-			webDriver,
-			State.getFeatureStateForThread().getDefaultWait(),
-			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-		javaScriptRunner.interactHiddenElementKeyEvent(element, event, js);
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 }
