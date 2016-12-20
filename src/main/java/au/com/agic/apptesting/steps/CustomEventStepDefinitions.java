@@ -10,6 +10,8 @@ import au.com.agic.apptesting.utils.SleepUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -29,6 +31,7 @@ import cucumber.api.java.en.When;
  */
 @Component
 public class CustomEventStepDefinitions {
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomEventStepDefinitions.class);
 	@Autowired
 	private GetBy getBy;
@@ -49,27 +52,34 @@ public class CustomEventStepDefinitions {
 	 *                      alias was set, this value is found from the data set. Otherwise it is a
 	 *                      literal value.
 	 */
-	@When("I(?: dispatch a)? \"(.*?)\"(?: event)? on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"")
+	@When("I(?: dispatch a)? \"(.*?)\"(?: event)? on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"( if it exists)?")
 	public void triggetCustom(
 		final String event,
 		final String alias,
-		final String selectorValue) {
+		final String selectorValue,
+		final String exists) {
 
-		final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
-			StringUtils.isNotBlank(alias),
-			selectorValue,
-			State.getFeatureStateForThread());
+		try {
+			final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				State.getFeatureStateForThread());
 
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-		js.executeScript("var ev = document.createEvent('HTMLEvents');"
-			+ "    ev.initEvent("
-			+ "        '" + event.replaceAll("'", "\\'") + "',"
-			+ "        false,"
-			+ "		   true"
-			+ "    );"
-			+ "    arguments[0].dispatchEvent(ev);", element);
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+			js.executeScript("var ev = document.createEvent('HTMLEvents');"
+				+ "    ev.initEvent("
+				+ "        '" + event.replaceAll("'", "\\'") + "',"
+				+ "        false,"
+				+ "		   true"
+				+ "    );"
+				+ "    arguments[0].dispatchEvent(ev);", element);
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final TimeoutException | NoSuchElementException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
 	}
 
 	/**
@@ -84,30 +94,36 @@ public class CustomEventStepDefinitions {
 	 *                      literal value.
 	 */
 	@When("I(?: dispatch a)? \"(.*?)\"(?: event)? on (?:a|an|the) hidden element with (?:a|an|the) "
-		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
+		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"( if it exists)?")
 	public void triggetCustom(
 		final String event,
 		final String selector,
 		final String alias,
-		final String selectorValue) {
+		final String selectorValue,
+		final String exists) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				State.getFeatureStateForThread().getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
-		final WebDriverWait wait = new WebDriverWait(
-			webDriver,
-			State.getFeatureStateForThread().getDefaultWait(),
-			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+			js.executeScript("var ev = document.createEvent('HTMLEvents');"
+				+ "    ev.initEvent("
+				+ "        '" + event.replaceAll("'", "\\'") + "',"
+				+ "        false,"
+				+ "		   true"
+				+ "    );"
+				+ "    arguments[0].dispatchEvent(ev);", element);
 
-		js.executeScript("var ev = document.createEvent('HTMLEvents');"
-			+ "    ev.initEvent("
-			+ "        '" + event.replaceAll("'", "\\'") + "',"
-			+ "        false,"
-			+ "		   true"
-			+ "    );"
-			+ "    arguments[0].dispatchEvent(ev);", element);
-
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final TimeoutException | NoSuchElementException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
 	}
 }
