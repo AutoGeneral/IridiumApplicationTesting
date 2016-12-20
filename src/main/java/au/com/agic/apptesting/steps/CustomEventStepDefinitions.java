@@ -64,7 +64,7 @@ public class CustomEventStepDefinitions {
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("var ev = document.createEvent('HTMLEvents');"
 			+ "    ev.initEvent("
-			+ "        '" + event.replace("'", "\\'") + "',"
+			+ "        '" + event.replaceAll("'", "\\'") + "',"
 			+ "        false,"
 			+ "		   true"
 			+ "    );"
@@ -102,7 +102,7 @@ public class CustomEventStepDefinitions {
 
 		js.executeScript("var ev = document.createEvent('HTMLEvents');"
 			+ "    ev.initEvent("
-			+ "        '" + event.replace("'", "\\'") + "',"
+			+ "        '" + event.replaceAll("'", "\\'") + "',"
 			+ "        false,"
 			+ "		   true"
 			+ "    );"
