@@ -53,7 +53,6 @@ Feature: Test of the steps provided by Iridium
   Scenario: test advanced UI interaction
 	  And I run the following JavaScript and save the result to alias "Slider Value"
 	  	"""
-      $( "#slider" ).slider( "value", 30 );
 	  	return $( "#slider" ).slider( "value" );
 	  	"""
 	  Then I verify that the alias "Slider Value" is larger than "0"
