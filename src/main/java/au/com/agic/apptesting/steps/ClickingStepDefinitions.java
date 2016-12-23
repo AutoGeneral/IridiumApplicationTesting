@@ -453,4 +453,57 @@ public class ClickingStepDefinitions {
 			}
 		}
 	}
+
+	/**
+	 * Clicks within the area of an element. This is useful for UI widgets like sliders.
+	 * @param xAxis The horizontal percentage within the element area to click
+	 * @param yAxis The vertical percentage within the element area to click
+	 * @param alias Include this to force the selector to reference an alias
+	 * @param selectorValue The selector
+	 * @param exists Include this to ignore errors caused by missing elements
+	 */
+	@When("^I click \"(\\d+(?:\\.\\d+)?)%\" horizontally and \"(\\d+(?:\\.\\d+)?)%\" vertically within"
+		+ " the area of (?:a|an|the) element found by( alias)? \"([^\"]*)\"( if it exists)?$")
+	public void clickInElement(final Float xAxis, final Float yAxis, final String alias, final String selectorValue, final String exists) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				State.getFeatureStateForThread());
+
+			final Double width = Double.parseDouble(js.executeScript("return arguments[0].offsetWidth;", element).toString());
+			final Double height = Double.parseDouble(js.executeScript("return arguments[0].offsetHeight;", element).toString());
+			final Double left = Double.parseDouble(js.executeScript("return arguments[0].getBoundingClientRect().left", element).toString());
+			final Double top = Double.parseDouble(js.executeScript("return arguments[0].getBoundingClientRect().top", element).toString());
+
+			final int xOffset = left.intValue() + (int) (xAxis / 100.0F * width);
+			final int yOffset = top.intValue() + (int) (yAxis / 100.0F * height);
+
+			final String script = "var ev = document.createEvent('MouseEvent');\n" +
+				"    ev.initMouseEvent(\n" +
+				"        'click',\n" +
+				"        true /* bubble */, true /* cancelable */,\n" +
+				"        window, null,\n" +
+				"        " + xOffset + ", " + yOffset + ", 0, 0, /* coordinates */\n" +
+				"        false, false, false, false, /* modifier keys */\n" +
+				"        0 /*left*/, null\n" +
+				"    );\n" +
+				"    arguments[0].dispatchEvent(ev);";
+
+			js.executeScript(script, element);
+
+			/*
+				This is the standard way, but is not supported in a lot of webdrivers (marionette
+				is known not to support moveto)
+			 */
+			//final Actions builder = new Actions(webDriver);
+			//builder.moveToElement(element, xOffset, yOffset).click().build().perform();
+		} catch (final TimeoutException | NoSuchElementException ex) {
+			if (StringUtils.isEmpty(exists)) {
+				throw ex;
+			}
+		}
+	}
 }
