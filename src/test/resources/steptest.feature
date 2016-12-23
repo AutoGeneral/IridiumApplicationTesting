@@ -50,6 +50,15 @@ Feature: Test of the steps provided by Iridium
     Then I verify that the page contains the text "MouseDown Text"
 
   @test
+  Scenario: test advanced UI interaction
+	  And I run the following JavaScript and save the result to alias "Slider Value"
+	  	"""
+	  	$( "#slider" ).slider( "value", 30 );
+	  	return $( "#slider" ).slider( "value" );
+	  	"""
+	  Then I verify that the alias "Slider Value" is larger than "0"
+
+  @test
   Scenario: Test alert handling
 	And I click the element found by "alertButton"
     And I wait "30" seconds for an alert to be displayed

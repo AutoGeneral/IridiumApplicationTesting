@@ -10,6 +10,8 @@ import au.com.agic.apptesting.utils.SleepUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -29,6 +31,7 @@ import cucumber.api.java.en.When;
  */
 @Component
 public class CustomEventStepDefinitions {
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomEventStepDefinitions.class);
 	@Autowired
 	private GetBy getBy;
@@ -40,134 +43,87 @@ public class CustomEventStepDefinitions {
 	private JavaScriptRunner javaScriptRunner;
 
 	/**
-	 * Manually dispatch a change event to the element
+	 * Manually dispatch a custom event to the element
 	 *
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
+	 * @param event         The type of event
+	 * @param alias         If this word is found in the step, it means the selectorValue is found
+	 *                      from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If
+	 *                      alias was set, this value is found from the data set. Otherwise it is a
+	 *                      literal value.
 	 */
-	@When("I(?: dispatch a)? \"change\"(?: event)? on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"")
-	public void triggerChange(
+	@When("I(?: dispatch a)? \"(.*?)\"(?: event)? on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"( if it exists)?")
+	public void triggetCustom(
+		final String event,
 		final String alias,
-		final String selectorValue) {
+		final String selectorValue,
+		final String exists) {
 
-		final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
-			StringUtils.isNotBlank(alias),
-			selectorValue,
-			State.getFeatureStateForThread());
+		try {
+			final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				State.getFeatureStateForThread());
 
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-		js.executeScript("var ev = document.createEvent('HTMLEvents');"
-			+ "    ev.initEvent("
-			+ "        'change',"
-			+ "        false,"
-			+ "		   true"
-			+ "    );"
-			+ "    arguments[0].dispatchEvent(ev);", element);
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+			js.executeScript("var ev = document.createEvent('HTMLEvents');"
+				+ "    ev.initEvent("
+				+ "        '" + event.replaceAll("'", "\\'") + "',"
+				+ "        false,"
+				+ "		   true"
+				+ "    );"
+				+ "    arguments[0].dispatchEvent(ev);", element);
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final TimeoutException | NoSuchElementException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
 	}
 
 	/**
-	 * Manually dispatch a change event to the element
+	 * Manually dispatch a custom event to the element
 	 *
+	 * @param event         The type of event
 	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
+	 * @param alias         If this word is found in the step, it means the selectorValue is found
+	 *                      from the data set.
+	 * @param selectorValue The value used in conjunction with the selector to match the element. If
+	 *                      alias was set, this value is found from the data set. Otherwise it is a
+	 *                      literal value.
 	 */
-	@When("I(?: dispatch a)? \"change\"(?: event)? on (?:a|an|the) hidden element with (?:a|an|the) "
-		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
-	public void triggerChange(
-			final String selector,
-			final String alias,
-			final String selectorValue) {
-
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
-		final WebDriverWait wait = new WebDriverWait(
-			webDriver,
-			State.getFeatureStateForThread().getDefaultWait(),
-			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-
-		js.executeScript("var ev = document.createEvent('HTMLEvents');"
-			+ "    ev.initEvent("
-			+ "        'change',"
-			+ "        false,"
-			+ "		   true"
-			+ "    );"
-			+ "    arguments[0].dispatchEvent(ev);", element);
-
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-	}
-
-	/**
-	 * Manually dispatch a focus event to the element
-	 *
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I(?: dispatch a)? \"focus\"(?: event)? on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"")
-	public void triggetFocus(
-		final String alias,
-		final String selectorValue) {
-
-		final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
-			StringUtils.isNotBlank(alias),
-			selectorValue,
-			State.getFeatureStateForThread());
-
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-		js.executeScript("var ev = document.createEvent('HTMLEvents');"
-			+ "    ev.initEvent("
-			+ "        'focus',"
-			+ "        false,"
-			+ "		   true"
-			+ "    );"
-			+ "    arguments[0].dispatchEvent(ev);", element);
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-	}
-
-	/**
-	 * Manually dispatch a focus event to the element
-	 *
-	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
-	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
-	 *                      set, this value is found from the data set. Otherwise it is a literal value.
-	 */
-	@When("I(?: dispatch a)? \"focus\"(?: event)? on (?:a|an|the) hidden element with (?:a|an|the) "
-		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
-	public void triggetFocus(
+	@When("I(?: dispatch a)? \"(.*?)\"(?: event)? on (?:a|an|the) hidden element with (?:a|an|the) "
+		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"( if it exists)?")
+	public void triggetCustom(
+		final String event,
 		final String selector,
 		final String alias,
-		final String selectorValue) {
+		final String selectorValue,
+		final String exists) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				State.getFeatureStateForThread().getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
-		final WebDriverWait wait = new WebDriverWait(
-			webDriver,
-			State.getFeatureStateForThread().getDefaultWait(),
-			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+			js.executeScript("var ev = document.createEvent('HTMLEvents');"
+				+ "    ev.initEvent("
+				+ "        '" + event.replaceAll("'", "\\'") + "',"
+				+ "        false,"
+				+ "		   true"
+				+ "    );"
+				+ "    arguments[0].dispatchEvent(ev);", element);
 
-		js.executeScript("var ev = document.createEvent('HTMLEvents');"
-			+ "    ev.initEvent("
-			+ "        'focus',"
-			+ "        false,"
-			+ "		   true"
-			+ "    );"
-			+ "    arguments[0].dispatchEvent(ev);", element);
-
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final TimeoutException | NoSuchElementException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
 	}
 }
