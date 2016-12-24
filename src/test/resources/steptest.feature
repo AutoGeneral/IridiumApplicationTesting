@@ -38,6 +38,7 @@ Feature: Test of the steps provided by Iridium
       | MouseDown Text       | Button mousedown                                          |
       | Date Offset          | 2 weeks                                                   |
       | Non Existant Element | thisdoesnotexist                                          |
+      | NoUISlider           | #nouislider > div                                         |
     And I dump the value of the alias "Non Existant Element" to the console
 
   @test
@@ -51,12 +52,20 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: test advanced UI interaction
+	  And I "mousedown" "50%" horizontally and "50%" vertically within the area of the element found by "slider"
+	  And I "mouseup" "50%" horizontally and "50%" vertically within the area of the element found by "slider"
 	  And I run the following JavaScript and save the result to alias "Slider Value"
 	  	"""
-	  	$( "#slider" ).slider( "value", 30 );
 	  	return $( "#slider" ).slider( "value" );
 	  	"""
 	  Then I verify that the alias "Slider Value" is larger than "0"
+
+    And I "mousedown" "5%" horizontally and "50%" vertically within the area of the element found by "NoUISlider"
+    And I run the following JavaScript and save the result to alias "NoUISlider Value"
+      """
+      return document.getElementById('nouislider').noUiSlider.get()[0];
+      """
+    Then I verify that the alias "NoUISlider Value" is larger than "0"
 
   @test
   Scenario: Test alert handling
