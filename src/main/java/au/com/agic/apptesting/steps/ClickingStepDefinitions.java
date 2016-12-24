@@ -456,6 +456,7 @@ public class ClickingStepDefinitions {
 
 	/**
 	 * Clicks within the area of an element. This is useful for UI widgets like sliders.
+	 * @param event The kind of mouse event to trigger
 	 * @param xAxis The horizontal percentage within the element area to click
 	 * @param yAxis The vertical percentage within the element area to click
 	 * @param alias Include this to force the selector to reference an alias
