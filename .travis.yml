@@ -47,14 +47,14 @@ deploy:
     skip_cleanup: true
   - provider: script
     script: |
-    	cd ..;
-    	git clone https://github.com/mcasperson/mcasperson.github.io.git;
-    	cd mcasperson.github.io.git;
-    	rm -rf IridiumApplicationTesting/javadoc;
-        cp -r ../IridiumApplicationTesting/build/docs/javadoc IridiumApplicationTesting;
-        git add .;
-        git commit -m "Updated docs";
-        git push origin master;
+      cd ..;
+      git clone https://github.com/mcasperson/mcasperson.github.io.git;
+      cd mcasperson.github.io.git;
+      rm -rf IridiumApplicationTesting/javadoc;
+      cp -r ../IridiumApplicationTesting/build/docs/javadoc IridiumApplicationTesting;
+      git add .;
+      git commit -m "Updated docs";
+      git push origin master;
 	skip_cleanup: true
 	on:
 	  tags: true
