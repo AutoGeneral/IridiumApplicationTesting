@@ -14,6 +14,7 @@ before_install:
 - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 - sudo dpkg -i google-chrome*.deb
 - wget ${Keystore}
+- wget ${GPG_Keyring}
 script: "travis_wait 60 ./gradlew '-DtestBrowsers=Chrome,PhantomJS,Marionette' check --stacktrace"
 deploy:
   - provider: releases
@@ -37,7 +38,7 @@ deploy:
     on:
       tags: true
   - provider: script
-    script: ./gradlew -PVersion=${TRAVIS_TAG} uploadArchives
+    script: ./gradlew -Psigning.keyId=${KeyID} -Psigning.password=${KeyPassword} -Psigning.secretKeyRingFile=${KeyFilename} -PVersion=${TRAVIS_TAG} uploadArchives
     on:
       tags: true
 after_success:
