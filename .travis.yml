@@ -48,7 +48,7 @@ deploy:
     on:
       tags: true
   - provider: script
-    script: >
+    script: >-
       cd ..;
       git clone git@github.com:mcasperson/mcasperson.github.io.git;
       cd mcasperson.github.io;
