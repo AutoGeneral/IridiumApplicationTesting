@@ -56,7 +56,5 @@ deploy:
       git commit -m "Updated docs";
       git push origin master;
     skip_cleanup: true
-    on:
-      tags: true
 after_success:
   - bash <(curl -s https://codecov.io/bash)
