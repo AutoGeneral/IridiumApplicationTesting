@@ -45,8 +45,10 @@ deploy:
   - provider: script
     script: "DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PVersion=${TRAVIS_TAG}' uploadArchives"
     skip_cleanup: true
+    on:
+      tags: true
   - provider: script
-    script: |
+    script: >
       cd ..;
       git clone https://github.com/mcasperson/mcasperson.github.io.git;
       cd mcasperson.github.io.git;
