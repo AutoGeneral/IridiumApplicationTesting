@@ -39,6 +39,7 @@ deploy:
       tags: true
   - provider: script
     script: "DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PVersion=${TRAVIS_TAG}' uploadArchives"
+    skip_cleanup: true
     on:
       tags: true
 after_success:
