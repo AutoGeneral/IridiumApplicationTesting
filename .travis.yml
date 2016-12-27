@@ -15,7 +15,7 @@ before_install:
 - sudo dpkg -i google-chrome*.deb
 - wget ${Keystore}
 - wget ${GPG_Keyring}
-script: "travis_wait 60 ./gradlew -Psigning.keyId=${KeyID} -Psigning.password=${KeyPassword} -Psigning.secretKeyRingFile=${KeyFilename} '-DtestBrowsers=Chrome,PhantomJS,Marionette' check --stacktrace"
+script: "travis_wait 60 ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-DtestBrowsers=Chrome,PhantomJS,Marionette' check --stacktrace"
 deploy:
   - provider: releases
     api_key:
