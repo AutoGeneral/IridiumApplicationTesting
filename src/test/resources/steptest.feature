@@ -456,3 +456,8 @@ Feature: Test of the steps provided by Iridium
   Scenario: Scroll Test
     And I scroll to the bottom of the page
     And I scroll to the top of the page
+
+  @test
+  Scenario: Modify HTTP request headers
+    And I set header "X-Forwarded-For" with value "127.0.0.1"
+    And I remove header "User-Agent"
