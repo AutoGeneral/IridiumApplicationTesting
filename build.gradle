@@ -123,7 +123,7 @@ repositories {
 
 def slimBuild = hasProperty('slimBuild') && 'true'.equalsIgnoreCase(getProperty('slimBuild').toString());
 if (slimBuild) {
-	System.out.println("Slim Build Enabled");
+	System.out.println("Slim Build Enabled")
 }
 
 /*
@@ -148,7 +148,7 @@ sourceSets {
 
 def mysqlDriverVersion = '5.1.34'
 def guavaVersion = '19.0'
-def seleniumVersion = '3.0.0'
+def seleniumVersion = '3.0.1'
 def validationVersion = '1.1.0.Final'
 def cucumberVersion = '1.2.5'
 def logbackVersion = '1.1.7'
@@ -160,14 +160,14 @@ def operaDriverVersion = '1.5'
 def phontomJsDriverVersion = '1.3.0'        // https://github.com/detro/ghostdriver/issues/397
 def cucumberHtmlFormatterVersion = '0.2.3'
 def monteRepackVersion = '1.0.1'
-def javaSlangVersion = '2.0.0-RC4'
+def javaSlangVersion = '2.0.5'
 def zapAPIVersion = '1.0.0'
 def browsermobVersion = '2.1.4'
 def compressCommonsVersion = '1.12'
 def xmlApisVersion =  '1.4.01'
-def sysoutOverSLF4JVersion = '1.0.2';
-def cucumberSpringVersion = '1.2.5';
-def springFrameworkVersion = '4.3.2.RELEASE';
+def sysoutOverSLF4JVersion = '1.0.2'
+def cucumberSpringVersion = '1.2.5'
+def springFrameworkVersion = '4.3.2.RELEASE'
 def aspectJVersion='1.8.9'
 
 dependencies {
