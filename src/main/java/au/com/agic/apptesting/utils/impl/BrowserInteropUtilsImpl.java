@@ -119,7 +119,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 				+ "}"
 				+ "if ('createEvent' in document) {"
 				+ "    var evt = document.createEvent('HTMLEvents');"
-				+ "    evt.initEvent('change', false, true);"
+				+ "    evt.initEvent('change', true, true);"
 				+ "    arguments[0].dispatchEvent(evt);"
 				+ "}"
 				+ "else {"
