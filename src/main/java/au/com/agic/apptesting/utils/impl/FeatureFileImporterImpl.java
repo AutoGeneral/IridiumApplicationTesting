@@ -1,5 +1,6 @@
 package au.com.agic.apptesting.utils.impl;
 
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FeatureFileImporter;
 import au.com.agic.apptesting.utils.StringBuilderUtils;
 import javaslang.control.Try;
@@ -39,7 +40,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 	 * This is a regex to match Scenario, Background, Scenario Outline etc lines
 	 */
 	private static final Pattern START_STANZA_RE =
-		Pattern.compile("^\\s*(Scenario|Background|Scenario Outline)\\s*:.*?$", Pattern.CASE_INSENSITIVE);
+		Pattern.compile("^\\s*(Scenario|Background|Scenario Outline|Scenario Template)\\s*:.*?$", Pattern.CASE_INSENSITIVE);
 	/**
 	 * This is a regex to match a tag
 	 */
@@ -64,7 +65,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 			/*
 				Read the original file
 			 */
-			final String[] fileContents = FileUtils.readFileToString(file.getFile()).split("\n");
+			final String[] fileContents = FileUtils.readFileToString(file.getFile()).split(Constants.LINE_END_REGEX);
 			/*
 				Loop over each line looking for an import comment
 			 */
@@ -88,14 +89,14 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 						.orElse(Try.of(() -> processRemoteUrl(completeFileName)))
 						.map(this::clearContentToFirstScenario)
 						.peek(s -> STRING_BUILDER_UTILS.appendWithDelimiter(
-							output, s, "\n")
+							output, s, Constants.LINE_END_OUTPUT)
 						);
 				} else {
 					/*
 						This is not an import comment, so copy the input line directly to the
 						output
 					 */
-					STRING_BUILDER_UTILS.appendWithDelimiter(output, line, "\n");
+					STRING_BUILDER_UTILS.appendWithDelimiter(output, line, Constants.LINE_END_OUTPUT);
 				}
 			}
 

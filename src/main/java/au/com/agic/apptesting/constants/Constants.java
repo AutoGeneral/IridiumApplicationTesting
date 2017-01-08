@@ -345,6 +345,16 @@ public final class Constants {
 	 */
 	public static final int ELEMENT_WAIT_SLEEP_TIMEOUT = 100;
 
+	/**
+	 * A regex that catches line endings across multiple platforms
+	 */
+	public static final String LINE_END_REGEX = "\\r\\n?|\\n";
+
+	/**
+	 * Line endings used by any generated files
+	 */
+	public static final String LINE_END_OUTPUT = "\n";
+
 	private Constants() {
 	}
 
