@@ -151,7 +151,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 				"arguments[0].focus();"
 					+ "if ('createEvent' in document) {"
 					+ "    var evt = document.createEvent('HTMLEvents');"
-					+ "    evt.initEvent('focus', false, true);"
+					+ "    evt.initEvent('focus', true, true);"
 					+ "    arguments[0].dispatchEvent(evt);"
 					+ "}"
 					+ "else {"
