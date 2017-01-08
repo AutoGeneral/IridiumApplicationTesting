@@ -252,4 +252,43 @@ public class ProxyStepDefinitions {
 				});
 			});
 	}
+
+	/**
+	 * Set new or modify an existing HTTP header
+	 *
+	 * @param headerName HTTP header name
+	 * @param headerValue HTTP header value
+	 */
+	@When("^I set header \"([^\"]*)\" with value \"([^\"]*)\"$")
+	public void changeHeader(final String headerName, final String headerValue) {
+		final Optional<ProxyDetails<?>> proxy =
+			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+
+		proxy
+			.flatMap(ProxyDetails::getInterface)
+			.map(BrowserMobProxy.class::cast)
+			.ifPresent(x -> x.addRequestFilter((request, contents, messageInfo) -> {
+				request.headers().set(headerName, headerValue);
+				return null;
+			}));
+	}
+
+	/**
+	 * Remove HTTP header
+	 *
+	 * @param headerName HTTP header name
+	 */
+	@When("^I remove header \"([^\"]*)\"$")
+	public void removeHeader(final String headerName) {
+		final Optional<ProxyDetails<?>> proxy =
+			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
+
+		proxy
+			.flatMap(ProxyDetails::getInterface)
+			.map(BrowserMobProxy.class::cast)
+			.ifPresent(x -> x.addRequestFilter((request, contents, messageInfo) -> {
+				request.headers().remove(headerName);
+				return null;
+			}));
+	}
 }
