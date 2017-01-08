@@ -136,7 +136,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 
 		final MutableBoolean inTail = new MutableBoolean();
 
-		final String processedFeature = Stream.of(contents.split("\n"))
+		final String processedFeature = Stream.of(contents.split(Constants.LINE_END_REGEX))
 			.filter(i -> {
 				inTail.foundFeature = inTail.foundFeature || FEATURE_STANZA_RE.matcher(i).matches();
 				inTail.foundScenarioOrTag = inTail.foundFeature
@@ -146,7 +146,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 
 				return inTail.foundFeature && inTail.foundScenarioOrTag;
 			})
-			.collect(Collectors.joining("\n"));
+			.collect(Collectors.joining(Constants.LINE_END_OUTPUT));
 
 		/*
 			If the result is empty, then the file being processed is not a complete
