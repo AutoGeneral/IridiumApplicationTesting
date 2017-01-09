@@ -1,13 +1,5 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import com.google.common.collect.Iterables;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ZAPPolicyException;
@@ -15,42 +7,31 @@ import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.utils.CastUtils;
 import au.com.agic.apptesting.utils.impl.ZapProxyUtilsImpl;
 import au.com.agic.apptesting.zap.ZAPFalsePositive;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.zaproxy.clientapi.core.Alert;
-import org.zaproxy.clientapi.core.ApiResponseElement;
-import org.zaproxy.clientapi.core.ApiResponseList;
-import org.zaproxy.clientapi.core.ApiResponseSet;
-import org.zaproxy.clientapi.core.ClientApi;
-import org.zaproxy.clientapi.core.ClientApiException;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.function.Function;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import javax.validation.constraints.NotNull;
-
+import com.google.common.collect.Iterables;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import javaslang.control.Try;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.zaproxy.clientapi.core.*;
+
+import javax.validation.constraints.NotNull;
+import java.io.File;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.function.Function;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * These are Cucubmber steps that are used by ZAP
@@ -137,7 +118,7 @@ public class ZAPStepDefinitions {
 	private static final String ZAP_REPORT_DIR_SUFFIX = "zap";
 
 	private static final String ERROR_MESSAGE = "You can not use ZAP steps without enabling the proxy with the "
-		+ Constants.START_INTERNAL_PROXY + " system property set to " + Constants.ZED_ATTACK_PROXY;
+		+ Constants.START_INTERNAL_PROXY + " system property set to " + ZapProxyUtilsImpl.PROXY_NAME;
 
 	/**
 	 * Does a bunch of checks to ensure that the test has specified the correct settings to use ZAP, and returns the

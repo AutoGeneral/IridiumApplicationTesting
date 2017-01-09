@@ -83,15 +83,6 @@ public final class Constants {
 	 */
 	public static final String START_INTERNAL_PROXY = "startInternalProxy";
 	/**
-	 * The value assigned to the START_INTERNAL_PROXY setting to start the ZAP proxy
-	 */
-	public static final String ZED_ATTACK_PROXY = "zap";
-	/**
-	 * The value assigned to the START_INTERNAL_PROXY setting to start the BrowserMob proxy
-	 */
-	public static final String BROWSERMOB_PROXY = "browserMob";
-
-	/**
 	 * This system property defines the name of the featureGroup that we'll be testing
 	 */
 	public static final String IMPORT_BASE_URL = "importBaseUrl";
