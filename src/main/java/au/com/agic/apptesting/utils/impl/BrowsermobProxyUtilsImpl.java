@@ -1,29 +1,21 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ProxyException;
-import au.com.agic.apptesting.utils.EnableDisableListUtils;
-import au.com.agic.apptesting.utils.FileSystemUtils;
-import au.com.agic.apptesting.utils.LocalProxyUtils;
-import au.com.agic.apptesting.utils.ProxyDetails;
-import au.com.agic.apptesting.utils.ProxySettings;
-import au.com.agic.apptesting.utils.ServerPortUtils;
-import au.com.agic.apptesting.utils.SystemPropertyUtils;
-
+import au.com.agic.apptesting.utils.*;
+import io.netty.handler.codec.http.HttpResponse;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.filters.ResponseFilter;
 import net.lightbody.bmp.proxy.auth.AuthType;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
-
 import org.apache.commons.lang3.StringUtils;
 import org.littleshoot.proxy.HttpFiltersSourceAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -31,9 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
-
-import io.netty.handler.codec.http.HttpResponse;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * An implementation of the browsermob proxy. This proxy allows us to block access to urls
@@ -50,11 +40,8 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 	public static final String INVALID_REQUESTS = "Invalid Requests";
 	private static final Logger LOGGER = LoggerFactory.getLogger(BrowsermobProxyUtilsImpl.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
-	private static final ServerPortUtils SERVER_PORT_UTILS = new ServerPortUtilsImpl();
-	private static final FileSystemUtils FILE_SYSTEM_UTILS = new FileSystemUtilsImpl();
 	private static final EnableDisableListUtils ENABLE_DISABLE_LIST_UTILS = new EnableDisableListUtilsImpl();
 
-	private static final int WAIT_FOR_START = 30000;
 	private static final int START_HTTP_ERROR = 400;
 	private static final int END_HTTP_ERROR = 599;
 
@@ -73,13 +60,14 @@ public class BrowsermobProxyUtilsImpl implements LocalProxyUtils<BrowserMobProxy
 				SYSTEM_PROPERTY_UTILS.getProperty(Constants.START_INTERNAL_PROXY);
 
 			/*
-				BrowserMod is enabled by default unless it is specifically
+				BrowserMob is enabled by default unless it is specifically
 				disabled
 			 */
 			final boolean enabled = StringUtils.isBlank(proxyName)
 				|| ENABLE_DISABLE_LIST_UTILS.enabled(
 					proxyName,
-					Constants.BROWSERMOB_PROXY,
+					PROXY_NAME,
+					true,
 					true);
 
 			if (enabled) {

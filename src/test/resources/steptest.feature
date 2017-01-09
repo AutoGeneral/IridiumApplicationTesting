@@ -38,6 +38,7 @@ Feature: Test of the steps provided by Iridium
       | MouseDown Text       | Button mousedown                                          |
       | Date Offset          | 2 weeks                                                   |
       | Non Existant Element | thisdoesnotexist                                          |
+      | NoUISlider           | #nouislider > div                                         |
     And I dump the value of the alias "Non Existant Element" to the console
 
   @test
@@ -51,12 +52,34 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: test advanced UI interaction
+    # This is what it takes to "click" on a jQuery UI slider. We need to send
+    # Both the mousedown and mouseup events.
+    And I "mousedown" "50%" horizontally and "50%" vertically within the area of the element found by "slider"
+	  And I "mouseup" "50%" horizontally and "50%" vertically within the area of the element found by "slider"
 	  And I run the following JavaScript and save the result to alias "Slider Value"
 	  	"""
-	  	$( "#slider" ).slider( "value", 30 );
 	  	return $( "#slider" ).slider( "value" );
 	  	"""
 	  Then I verify that the alias "Slider Value" is larger than "0"
+
+    # This is how we would interact with a jQuery UI slider using JavaScript
+    And I run the following JavaScript and save the result to alias "Slider Value"
+      """
+      $("#slider").slider('value', 10);
+      return $( "#slider" ).slider( "value" );
+      """
+    Then I verify that the alias "Slider Value" is larger than "0"
+
+    # This is how we interact with a noUiSlider (https://refreshless.com/nouislider/)
+    # Note that the element we are interacting with here (found by the NoUISlider alias)
+    # is an element that was created by the noUiSlider library. It is not imediately
+    # obvious which elements should be recieving the events in this case.
+    And I "mousedown" "5%" horizontally and "50%" vertically within the area of the element found by "NoUISlider"
+    And I run the following JavaScript and save the result to alias "NoUISlider Value"
+      """
+      return document.getElementById('nouislider').noUiSlider.get()[0];
+      """
+    Then I verify that the alias "NoUISlider Value" is larger than "0"
 
   @test
   Scenario: Test alert handling

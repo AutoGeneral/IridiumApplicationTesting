@@ -24,4 +24,14 @@ public interface EnableDisableListUtils {
 	 * @return true if the option is enabled
 	 */
 	boolean enabled(@NotNull String list, @NotNull String option, boolean defaultValue);
+
+	/**
+	 *
+	 * @param list The list of options (e.g. option1,-option2,+option3)
+	 * @param option The option we are inspecting
+	 * @param ignoreCase set to true to ignore case
+	 * @param  defaultValue the default value if no option is specified
+	 * @return true if the option is enabled
+	 */
+	boolean enabled(@NotNull String list, @NotNull String option, boolean ignoreCase, boolean defaultValue);
 }
