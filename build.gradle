@@ -123,7 +123,7 @@ repositories {
 
 def slimBuild = hasProperty('slimBuild') && 'true'.equalsIgnoreCase(getProperty('slimBuild').toString());
 if (slimBuild) {
-	System.out.println("Slim Build Enabled")
+	System.out.println("Slim Build Enabled");
 }
 
 /*
@@ -200,7 +200,7 @@ dependencies {
     compile 'com.opera:operadriver:' + operaDriverVersion
     compile 'org.seleniumhq.selenium:selenium-ie-driver:' + seleniumVersion
     compile 'com.pojosontheweb:monte-repack:' + monteRepackVersion
-    compile 'com.javaslang:javaslang:' + javaSlangVersion
+    compile 'io.javaslang:javaslang:' + javaSlangVersion
     compile 'org.zaproxy:zap-clientapi:' + zapAPIVersion
     compile files ("lib/zap-2.5.0.jar", "lib/cucumber-core-1.2.5-AG-SNAPSHOT.jar")
     compile 'net.lightbody.bmp:browsermob-core:' + browsermobVersion
