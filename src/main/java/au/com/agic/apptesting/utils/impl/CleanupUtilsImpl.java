@@ -18,7 +18,7 @@ public class CleanupUtilsImpl implements CleanupUtils {
 	 * Match any report files created by cucumber, and the merged report file
 	 */
 	private static final Pattern REPORT_RE = Pattern.compile(
-		"(" + Constants.THREAD_NAME_PREFIX + "\\d+\\.(html|xml|txt|json)|" + Constants.MERGED_REPORT + ")");
+		"(" + Constants.THREAD_NAME_PREFIX + "\\d+\\.(html|xml|txt|json)|" + Pattern.quote(Constants.MERGED_REPORT) + ")");
 
 	@Override
 	public void cleanupOldReports() {
