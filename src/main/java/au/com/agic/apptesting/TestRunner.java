@@ -70,7 +70,7 @@ public class TestRunner {
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final ApplicationUrlLoader APPLICATION_URL_LOADER = new ApplicationUrlLoaderImpl();
 	private static final JUnitReportMerge J_UNIT_REPORT_MERGE = new JUnitReportMergeImpl();
-	private static final String MERGED_REPORT = "MergedReport.xml";
+
 	private static final ScreenCapture SCREEN_CAPTURE = new ScreenCaptureImpl();
 	private static final DesktopInteraction DESKTOP_INTERACTION = new DesktopInteractionImpl();
 	private static final FileSystemUtils FILE_SYSTEM_UTILS = new FileSystemUtilsImpl();
@@ -307,7 +307,7 @@ public class TestRunner {
 			}
 			final Optional<String> mergedReport = J_UNIT_REPORT_MERGE.mergeReports(reports);
 			if (mergedReport.isPresent()) {
-				FileUtils.write(new File(reportDirectory + MERGED_REPORT), mergedReport.get());
+				FileUtils.write(new File(reportDirectory + Constants.MERGED_REPORT), mergedReport.get());
 			}
 		} catch (final Exception ex) {
 			LOGGER.error("WEBAPPTESTER-BUG-0002: Could not save merged report", ex);
