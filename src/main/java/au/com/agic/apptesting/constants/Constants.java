@@ -8,6 +8,11 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * The name of the merged junit xml file
+	 */
+	public static final String MERGED_REPORT = "MergedReport.xml";
+
+	/**
 	 * Sets the access token used when accessing browserstack
 	 */
 	public static final String BROWSER_STACK_ACCESS_TOKEN = "browserStackAccessToken";
