@@ -1,5 +1,5 @@
-PhantomJS 2.1.1
-Chrome 2.2.6
-Opera 0.2.2
-IE 3.0.0
-GeckoDriver 0.13.0
+PhantomJS (http://phantomjs.org/download.html) 2.1.1
+Chrome (https://sites.google.com/a/chromium.org/chromedriver/downloads) 2.2.6
+Opera (https://github.com/operasoftware/operachromiumdriver/releases) 0.2.2
+IE (http://selenium-release.storage.googleapis.com/index.html) 3.0.0
+GeckoDriver (https://github.com/mozilla/geckodriver/releases) 0.13.0
