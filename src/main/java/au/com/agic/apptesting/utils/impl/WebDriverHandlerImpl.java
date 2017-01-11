@@ -1,14 +1,10 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.OSDetection;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverHandler;
-
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorInputStream;
@@ -20,6 +16,7 @@ import org.openqa.selenium.firefox.GeckoDriverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +25,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A servoce that detects the OS, extracts the drivers and configures then as system properies
@@ -326,7 +324,12 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			.createCompressorInputStream(CompressorStreamFactory.GZIP, driverURL);
 
 		final TarArchiveInputStream tarInput = new TarArchiveInputStream(input);
-		tarInput.getNextTarEntry();
+
+		/*
+			Sometimes tar files contain a "." directory, which we want to ignore.
+			So loop until we get a file.
+		 */
+		while (!tarInput.getNextTarEntry().isFile()) {}
 
 		return copyDriver(tarInput, name, tempFiles);
 	}
