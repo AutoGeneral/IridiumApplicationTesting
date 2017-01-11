@@ -5,6 +5,7 @@ import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.OSDetection;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverHandler;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorInputStream;
@@ -327,9 +328,12 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 
 		/*
 			Sometimes tar files contain a "." directory, which we want to ignore.
-			So loop until we get a file.
+			So loop until we get a file that isn't in a directory.
 		 */
-		while (!tarInput.getNextTarEntry().isFile()) {}
+		TarArchiveEntry tarArchiveEntry = tarInput.getNextTarEntry();
+		while (tarArchiveEntry.getName().contains("/")) {
+			tarArchiveEntry = tarInput.getNextTarEntry();
+		}
 
 		return copyDriver(tarInput, name, tempFiles);
 	}
