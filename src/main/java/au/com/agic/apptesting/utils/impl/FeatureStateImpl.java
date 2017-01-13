@@ -28,6 +28,7 @@ public class FeatureStateImpl implements FeatureState {
 	private final Map<String, String> dataset = new HashMap<>();
 	private final String reportDirectory;
 	private boolean failed;
+	private boolean failedScreenshot;
 	private List<ProxyDetails<?>> proxies;
 	private long sleep = Constants.DEFAULT_WAIT_TIME;
 	private long wait = Constants.WAIT;
@@ -77,6 +78,16 @@ public class FeatureStateImpl implements FeatureState {
 	@Override
 	public boolean getFailed() {
 		return failed;
+	}
+
+	@Override
+	public boolean getFailedScreenshotTaken() {
+		return failedScreenshot;
+	}
+
+	@Override
+	public void setFailedScreenshotTaken(final boolean taken) {
+		this.failedScreenshot = taken;
 	}
 
 	@Override

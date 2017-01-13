@@ -112,6 +112,14 @@ public final class Constants {
 	 */
 	public static final String ENABLE_SCREENSHOTS = "enableScenarioScreenshots";
 	/**
+	 * If true, the test script will save a screenshot if there was an error
+	 */
+	public static final String ENABLE_SCREENSHOT_ON_ERROR = "enableScreenshotOnError";
+	/**
+	 * This prefix is used in the filename for screenshots taken when the script has failed
+	 */
+	public static final String FAILURE_SCREENSHOT_SUFFIX = "Failure";
+	/**
 	 * The value assigned to the TEST_DESTINATION_SYSTEM_PROPERTY to indicate that the tests should
 	 * be loaded locally
 	 */

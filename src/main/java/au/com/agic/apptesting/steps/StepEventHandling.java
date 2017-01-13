@@ -56,34 +56,39 @@ public class StepEventHandling {
 	 */
 	@After
 	public void teardown(final Scenario scenario) {
-		/*
-			At the end of the scenario, the user may have chosen to destroy the
-			web driver.
-		 */
-		final String newDriverPerScenario =
-			systemPropertyUtils.getProperty(Constants.NEW_BROWSER_PER_SCENARIO);
-		final boolean clearDriver = Boolean.parseBoolean(newDriverPerScenario);
-
-		if (clearDriver) {
-			if (webDriverFactory.leaveWindowsOpen()) {
-				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(false);
-			} else {
-				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
-			}
-		}
+		final boolean screenshotOnError = systemPropertyUtils.getPropertyAsBoolean(
+			Constants.ENABLE_SCREENSHOT_ON_ERROR,
+			false);
+		final boolean newDriverPerScenario =
+			systemPropertyUtils.getPropertyAsBoolean(
+				Constants.NEW_BROWSER_PER_SCENARIO,
+				false);
+		final boolean enabledScreenshots = Boolean.parseBoolean(
+			systemPropertyUtils.getProperty(Constants.ENABLE_SCREENSHOTS));
 
 		/*
 			Take a screenshot
 		 */
 		if (!State.getFeatureStateForThread().getFailed()) {
-			/*
-				Take a screenshot if we have enabled the setting
-			 */
-			final boolean enabledScreenshots = Boolean.parseBoolean(
-				systemPropertyUtils.getProperty(Constants.ENABLE_SCREENSHOTS));
-
 			if (enabledScreenshots) {
 				screenshotUtils.takeScreenshot(" " + scenario.getName(), State.getFeatureStateForThread());
+			}
+		} else if (!State.getFeatureStateForThread().getFailedScreenshotTaken() && screenshotOnError) {
+			screenshotUtils.takeScreenshot(
+				" " + Constants.FAILURE_SCREENSHOT_SUFFIX + scenario.getName(),
+				State.getFeatureStateForThread());
+			State.getFeatureStateForThread().setFailedScreenshotTaken(true);
+		}
+
+		/*
+			At the end of the scenario, the user may have chosen to destroy the
+			web driver.
+		 */
+		if (newDriverPerScenario) {
+			if (webDriverFactory.leaveWindowsOpen()) {
+				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(false);
+			} else {
+				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
 			}
 		}
 
