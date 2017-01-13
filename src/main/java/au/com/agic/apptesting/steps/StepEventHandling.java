@@ -69,13 +69,22 @@ public class StepEventHandling {
 		/*
 			Take a screenshot
 		 */
-		if (!State.getFeatureStateForThread().getFailed()) {
-			if (enabledScreenshots) {
-				screenshotUtils.takeScreenshot(" " + scenario.getName(), State.getFeatureStateForThread());
-			}
-		} else if (!State.getFeatureStateForThread().getFailedScreenshotTaken() && screenshotOnError) {
+		if (!State.getFeatureStateForThread().getFailed() && enabledScreenshots) {
+			screenshotUtils.takeScreenshot(" " + scenario.getName(), State.getFeatureStateForThread());
+		}
+
+		State.getFeatureStateForThread().setFailed(scenario.isFailed());
+
+		/*
+			Take a screenshot on error if requested
+		 */
+		final boolean shouldTakeFailureScreenshot = State.getFeatureStateForThread().getFailed()
+			&& !State.getFeatureStateForThread().getFailedScreenshotTaken()
+			&& screenshotOnError;
+
+		if (shouldTakeFailureScreenshot) {
 			screenshotUtils.takeScreenshot(
-				" " + Constants.FAILURE_SCREENSHOT_SUFFIX + scenario.getName(),
+				" " + Constants.FAILURE_SCREENSHOT_SUFFIX + " " + scenario.getName(),
 				State.getFeatureStateForThread());
 			State.getFeatureStateForThread().setFailedScreenshotTaken(true);
 		}
@@ -92,6 +101,6 @@ public class StepEventHandling {
 			}
 		}
 
-		State.getFeatureStateForThread().setFailed(scenario.isFailed());
+
 	}
 }
