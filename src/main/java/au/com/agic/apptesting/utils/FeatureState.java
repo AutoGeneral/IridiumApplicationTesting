@@ -65,6 +65,16 @@ public interface FeatureState {
 	boolean getFailed();
 
 	/**
+	 * @return true if the failure screenshot has been taken
+	 */
+	boolean getFailedScreenshotTaken();
+
+	/**
+	 * @param taken true if the failure screenshot has been taken
+	 */
+	void setFailedScreenshotTaken(boolean taken);
+
+	/**
 	 * @param failed true if there was a failed scenario, and false otherwise
 	 */
 	void setFailed(boolean failed);

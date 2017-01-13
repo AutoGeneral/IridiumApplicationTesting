@@ -1,7 +1,10 @@
 package au.com.agic.apptesting;
 
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -11,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +30,15 @@ public class LiveTests {
 	private static final int SLEEP = 60000;
 	private final List<File> globalTempFiles = new ArrayList<File>();
 	private final List<String> browsers = new ArrayList<String>();
+
+	private File[] getFailureScreenshots() {
+		return new File(".").listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(final File dir, final String name) {
+				return name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png");
+			}
+		});
+	}
 
 	/**
 	 * Not all environments support all browsers, so we can define the browsers that are tested
@@ -46,6 +59,35 @@ public class LiveTests {
 	@After
 	public void cleanUpFiles() {
 		globalTempFiles.forEach(File::delete);
+	}
+
+	/**
+	 * Test that a screenshot is taken on failure with enableScreenshotOnError set
+	 * to true
+	 */
+	@Test
+	public void testScreenshotOnFailure() {
+
+		/*
+			Clean up any existing files
+		 */
+		Arrays.stream(getFailureScreenshots()).forEach(FileUtils::deleteQuietly);
+
+		setCommonProperties();
+		System.setProperty("testSource", this.getClass().getResource("/screenshotonfailure.feature").toString());
+		System.setProperty("enableScreenshotOnError", "true");
+		System.setProperty("testDestination", "PhantomJS");
+		final int failures = new TestRunner().run(globalTempFiles);
+
+		/*
+			We expect the feature to fail
+		 */
+		Assert.assertTrue(failures > 0);
+
+		/*
+			Try and find a failure screenshot
+		 */
+		Assert.assertTrue(getFailureScreenshots().length == 1);
 	}
 
 	/**
@@ -314,5 +356,6 @@ public class LiveTests {
 		System.setProperty("tagsOverride", "");
 		System.setProperty("dryRun", "");
 		System.setProperty("importBaseUrl", "");
+		System.setProperty("enableScreenshotOnError", "false");
 	}
 }
