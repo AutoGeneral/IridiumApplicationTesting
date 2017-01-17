@@ -70,6 +70,8 @@ public class ProxyManagerImpl implements ProxyManager {
 					proxies.add(zapProxy.get());
 				}
 			} else if (zapProxy.isPresent()) {
+				proxies.add(zapProxy.get());
+
 				/*
 					In the event that zap is enabled and browsermob isn't, ZAP is the main proxy
 				 */
@@ -89,9 +91,9 @@ public class ProxyManagerImpl implements ProxyManager {
 		checkNotNull(proxies);
 
 		proxies.stream()
-			.filter(BrowsermobProxyUtilsImpl.PROXY_NAME::equals)
+			.filter(proxyDetails -> BrowsermobProxyUtilsImpl.PROXY_NAME.equals(proxyDetails.getProxyName()))
 			.forEach(x -> x.getInterface()
 				.map(BrowserMobProxy.class::cast)
-				.ifPresent(BrowserMobProxy::stop));
+				.ifPresent(BrowserMobProxy::abort));
 	}
 }
