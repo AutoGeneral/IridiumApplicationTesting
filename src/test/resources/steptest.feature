@@ -40,16 +40,27 @@ Feature: Test of the steps provided by Iridium
       | Non Existant Element | thisdoesnotexist                                          |
       | NoUISlider           | #nouislider > div                                         |
       | CaseChange           | abcdefg                                                   |
+      | DropDownListIndex    | 2                                                         |
     And I dump the value of the alias "Non Existant Element" to the console
 
   @test
   Scenario: Test Autoaliasing
-  # This is actually the default, but test the step anyway
+  This is actually the default, but test the step anyway
     Given I enable autoaliasing
       And I enable HAR logging
       And I set the default keystroke delay to "200" milliseconds
       And I "mousedown" on the hidden element found by "Event Button"
     Then I verify that the page contains the text "MouseDown Text"
+
+  @test
+  Scenario: Issue 88 Test: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/88
+    And I select option number alias "DropDownListIndex" from the drop down list found by alias "selectList" if it exists
+    And I save the content of the first selected option from the drop down list found by "selectList" to the alias "Drop Down List Text"
+    Then I verify that the alias "Drop Down List Text" is equal to "Option 2"
+
+  @test
+  Scenario: Issue 87: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/87
+    And I focus on the element found by "doesnotexist" if it exists
 
   @test
   Scenario: Test changing alias case
