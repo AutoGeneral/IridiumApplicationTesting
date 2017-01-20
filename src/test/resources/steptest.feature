@@ -54,7 +54,7 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Issue 88 Test: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/88
-    And I select option number alias "DropDownListIndex" from the drop down list found by alias "selectList" if it exists
+    And I select option number alias "DropDownListIndex" from the drop down list found by alias "selectList"
     And I save the content of the first selected option from the drop down list found by "selectList" to the alias "Drop Down List Text"
     Then I verify that the alias "Drop Down List Text" is equal to "Option 2"
 
