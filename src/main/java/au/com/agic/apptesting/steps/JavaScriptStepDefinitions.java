@@ -8,7 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Gherkin steps used to run javascript.
@@ -29,8 +32,11 @@ public class JavaScriptStepDefinitions {
 	public void runJavaScript(final String javaScript) {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+		final List<String> aliases = State.getFeatureStateForThread().getDataSet().entrySet().stream()
+			.flatMap(it -> Stream.of(it.getKey(), it.getValue()))
+			.collect(Collectors.toList());
 
-		js.executeScript(javaScript);
+		js.executeScript(javaScript, aliases);
 	}
 
 	/**
@@ -44,7 +50,11 @@ public class JavaScriptStepDefinitions {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
-		final Object result = js.executeScript(javaScript);
+		final List<String> aliases = State.getFeatureStateForThread().getDataSet().entrySet().stream()
+			.flatMap(it -> Stream.of(it.getKey(), it.getValue()))
+			.collect(Collectors.toList());
+
+		final Object result = js.executeScript(javaScript, aliases);
 
 		final Map<String, String> dataSet = State.getFeatureStateForThread().getDataSet();
 		dataSet.put(alias, result != null ? result.toString() : "");
