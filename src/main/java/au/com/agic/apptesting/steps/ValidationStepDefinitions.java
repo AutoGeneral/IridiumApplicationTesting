@@ -106,7 +106,7 @@ public class ValidationStepDefinitions {
 
 			Assert.assertTrue(Iterables.contains(split, className));
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-		} catch (final TimeoutException | NoSuchElementException ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
@@ -526,7 +526,7 @@ public class ValidationStepDefinitions {
 				selectorValue,
 				State.getFeatureStateForThread(),
 				NumberUtils.toLong(waitDuration, State.getFeatureStateForThread().getDefaultWait()));
-		} catch (final Exception ex) {
+		} catch (final WebElementException ex) {
 			/*
 				Rethrow if we have not ignored errors
 			 */
@@ -563,7 +563,7 @@ public class ValidationStepDefinitions {
 				selectorValue,
 				State.getFeatureStateForThread(),
 				NumberUtils.toLong(waitDuration, State.getFeatureStateForThread().getDefaultWait()));
-		} catch (final Exception ex) {
+		} catch (final WebElementException ex) {
 			/*
 				Rethrow if we have not ignored errors
 			 */

@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
@@ -183,7 +184,7 @@ public class TextEntryStepDefinitions {
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 			element.submit();
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-		} catch (final TimeoutException ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
@@ -308,7 +309,7 @@ public class TextEntryStepDefinitions {
 				}
 				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
-		} catch (final Exception ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
@@ -448,7 +449,7 @@ public class TextEntryStepDefinitions {
 				element.sendKeys(character.toString());
 			}
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-		} catch (final TimeoutException ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
@@ -574,7 +575,7 @@ public class TextEntryStepDefinitions {
 					+ "';", element);
 
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-		} catch (final TimeoutException ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}

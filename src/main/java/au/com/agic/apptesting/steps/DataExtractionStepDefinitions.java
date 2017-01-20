@@ -2,6 +2,7 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 
@@ -120,7 +121,7 @@ public class DataExtractionStepDefinitions {
 			dataSet.put(destinationAlias, value);
 
 			State.getFeatureStateForThread().setDataSet(dataSet);
-		} catch (final TimeoutException ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
@@ -204,7 +205,7 @@ public class DataExtractionStepDefinitions {
 			final Map<String, String> dataSet = State.getFeatureStateForThread().getDataSet();
 			dataSet.put(destinationAlias, element.getText().trim());
 			State.getFeatureStateForThread().setDataSet(dataSet);
-		} catch (final TimeoutException ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
@@ -293,7 +294,7 @@ public class DataExtractionStepDefinitions {
 			final Map<String, String> dataSet = State.getFeatureStateForThread().getDataSet();
 			dataSet.put(destinationAlias, text.trim());
 			State.getFeatureStateForThread().setDataSet(dataSet);
-		} catch (final TimeoutException ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
@@ -433,7 +434,7 @@ public class DataExtractionStepDefinitions {
 			final Map<String, String> dataSet = State.getFeatureStateForThread().getDataSet();
 			dataSet.put(destinationAlias, extractedValue);
 			State.getFeatureStateForThread().setDataSet(dataSet);
-		} catch (final TimeoutException ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}

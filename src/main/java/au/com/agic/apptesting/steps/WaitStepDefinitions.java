@@ -4,9 +4,12 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.*;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import au.com.agic.apptesting.utils.AutoAliasUtils;
+import au.com.agic.apptesting.utils.BrowserInteropUtils;
+import au.com.agic.apptesting.utils.GetBy;
+import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
+import au.com.agic.apptesting.utils.SleepUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -19,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
+
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 /**
  * This class contains Gherkin steps that define wait conditions.
@@ -81,7 +87,7 @@ public class WaitStepDefinitions {
 				selectorValue,
 				State.getFeatureStateForThread(),
 				Long.parseLong(waitDuration));
-		} catch (final Exception ex) {
+		} catch (final WebElementException ex) {
 			/*
 				Rethrow if we have not ignored errors
 			 */
@@ -120,7 +126,7 @@ public class WaitStepDefinitions {
 				selectorValue,
 				State.getFeatureStateForThread(),
 				Long.parseLong(waitDuration));
-		} catch (final Exception ex) {
+		} catch (final WebElementException ex) {
 			/*
 				Rethrow if we have not ignored errors
 			 */
@@ -764,7 +770,8 @@ public class WaitStepDefinitions {
 
 			Thread.sleep(Constants.TIME_SLICE);
 
-		} while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
+		}
+		while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
 
 		throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");
 	}
@@ -795,7 +802,8 @@ public class WaitStepDefinitions {
 
 			Thread.sleep(Constants.TIME_SLICE);
 
-		} while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
+		}
+		while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
 
 		throw new ValidationException("Could not find the regular expression \"" + fixedRegex + "\" on the page");
 	}
