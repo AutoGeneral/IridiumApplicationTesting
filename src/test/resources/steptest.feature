@@ -60,12 +60,12 @@ Feature: Test of the steps provided by Iridium
   matches the original alias.
 	  And I run the following JavaScript and save the result to alias "JavaScript Return Value"
 	  	"""
-	  	if (arguments.length % 2 !== 0) {
-	  		return "Arguments should always be an even number";
+	  	if (arguments[0].length % 2 !== 0) {
+	  		return "arguments[0] should always be an even number";
 	  	}
-	  	for (var i = 0; i < arguments.length; i += 2) {
-			if (arguments[i] === 'CaseChange') {
-				return arguments[i + 1];
+	  	for (var i = 0; i < arguments[0].length; i += 2) {
+			if (arguments[0][i] === 'CaseChange') {
+				return arguments[0][i + 1];
 			}
 	  	}
 	  	return "Failed to find alias mapping";
