@@ -140,6 +140,36 @@ public class ModifyStepDefinitions {
 	}
 
 	/**
+	 * Transforms the alias to an upper case value
+	 *
+	 * @param alias The text to append the aliased value with
+	 */
+	@Then("^I modify(?: the)? alias \"(.*?)\" by converting it to upper case$")
+	public void uppercase(final String alias) {
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
+		final String uppercase = value.toUpperCase();
+
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
+		dataset.put(alias, uppercase);
+		State.getFeatureStateForThread().setDataSet(dataset);
+	}
+
+	/**
+	 * Transforms the alias to an lower case value
+	 *
+	 * @param alias The text to append the aliased value with
+	 */
+	@Then("^I modify(?: the)? alias \"(.*?)\" by converting it to lower case")
+	public void lowercase(final String alias) {
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
+		final String uppercase = value.toLowerCase();
+
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
+		dataset.put(alias, uppercase);
+		State.getFeatureStateForThread().setDataSet(dataset);
+	}
+
+	/**
 	 * Copy an alias
 	 *
 	 * @param source The source alias

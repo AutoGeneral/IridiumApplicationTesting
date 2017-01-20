@@ -39,6 +39,7 @@ Feature: Test of the steps provided by Iridium
       | Date Offset          | 2 weeks                                                   |
       | Non Existant Element | thisdoesnotexist                                          |
       | NoUISlider           | #nouislider > div                                         |
+      | CaseChange           | abcdefg                                                   |
     And I dump the value of the alias "Non Existant Element" to the console
 
   @test
@@ -49,6 +50,13 @@ Feature: Test of the steps provided by Iridium
       And I set the default keystroke delay to "200" milliseconds
       And I "mousedown" on the hidden element found by "Event Button"
     Then I verify that the page contains the text "MouseDown Text"
+
+  @test
+  Scenario: Test changing alias case
+    And I modify the alias "CaseChange" by converting it to upper case
+    Then I verify that the alias "CaseChange" is equal to "ABCDEFG"
+    And I modify the alias "CaseChange" by converting it to lower case
+    Then I verify that the alias "CaseChange" is equal to "abcdefg"
 
   @test
   Scenario: test advanced UI interaction
