@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.exception.BrowserWindowException;
 import au.com.agic.apptesting.utils.SleepUtils;
 
 import org.openqa.selenium.Dimension;
@@ -65,7 +66,12 @@ public class TabAndWindowStepDefinition {
 		/*
 			Switch to another window (otherwise all other commands fail)
 		 */
-		webDriver.switchTo().window(webDriver.getWindowHandles().iterator().next());
+		final String otherWindowHandle = webDriver.getWindowHandles().iterator().next();
+		if (otherWindowHandle != null) {
+			webDriver.switchTo().window(otherWindowHandle);
+		} else {
+			throw new BrowserWindowException("You can only use this step when there is more than one tab or window.");
+		}
 
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
