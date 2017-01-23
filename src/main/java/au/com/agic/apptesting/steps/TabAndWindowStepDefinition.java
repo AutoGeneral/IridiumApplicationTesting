@@ -52,6 +52,18 @@ public class TabAndWindowStepDefinition {
 	}
 
 	/**
+	 * Switchs to the specified window. This is useful when you open a link that opens in a new
+	 * window.
+	 */
+	@When("I close the current window")
+	public void closeWindow() {
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		webDriver.close();
+
+		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+	}
+
+	/**
 	 * Maximise the browser window
 	 */
 	@When("I maximi(?:s|z)e the window")

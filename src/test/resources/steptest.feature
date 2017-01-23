@@ -53,6 +53,12 @@ Feature: Test of the steps provided by Iridium
     Then I verify that the page contains the text "MouseDown Text"
 
   @test
+  Scenario: Open link in new window and close it
+    And I open the link with the text content of "Test Link" in a new window
+    And I switch to the new window
+    And I close the current window
+
+  @test
   Scenario: Test Javascript alias parameters
   The current alias map is made available to JavaScript as a list of arguments, with the
   alias name being followed by the alias value. Here we scan the list of arguments looking
