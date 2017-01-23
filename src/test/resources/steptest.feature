@@ -58,6 +58,10 @@ Feature: Test of the steps provided by Iridium
     And I switch to the new window
     And I close the current window
 
+  @fail-with-one-window
+  Scenario: Fail when closing the only window
+    And I close the current window
+
   @test
   Scenario: Test Javascript alias parameters
   The current alias map is made available to JavaScript as a list of arguments, with the

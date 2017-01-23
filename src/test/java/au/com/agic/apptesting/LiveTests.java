@@ -166,6 +166,22 @@ public class LiveTests {
 	}
 
 	/**
+	 * This tests a scenario that we know must fail
+	 */
+	@Test
+	public void failWhenClosingOnlyWindow() {
+		for (final String browser : browsers) {
+			setCommonProperties();
+			System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
+			System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
+			System.setProperty("testDestination", browser);
+			System.setProperty("tagsOverride", "@fail-with-one-window");
+			final int failures = new TestRunner().run(globalTempFiles);
+			Assert.assertEquals(1, failures);
+		}
+	}
+
+	/**
 	 * This test does a dry run, which run each step and immediately returns.
 	 * We don't set any tag overrides, which would normally cause the test to
 	 * fail, but the dry run will never fail any steps.
