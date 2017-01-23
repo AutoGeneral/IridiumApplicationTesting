@@ -555,7 +555,7 @@ public class ClickingStepDefinitions {
 				ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
 			final JavascriptExecutor js = JavascriptExecutor.class.cast(webDriver);
 
-			js.executeScript("window.open(argument[0].getAttribute('href'),'_blank');");
+			js.executeScript("window.open(argument[0].getAttribute('href'),'_blank');", element);
 
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
