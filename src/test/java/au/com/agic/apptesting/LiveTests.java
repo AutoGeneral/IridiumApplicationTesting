@@ -48,8 +48,8 @@ public class LiveTests {
 	public void getBrowserList() {
 		final String browsersSysProp = SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(TEST_BROWSERS_SYSTEM_PROPERTY);
 		if (StringUtils.isBlank(browsersSysProp)) {
-			browsers.add("PhantomJS");
-			browsers.add("Marionette");
+			//browsers.add("PhantomJS");
+			//browsers.add("Marionette");
 			browsers.add("Chrome");
 		} else {
 			browsers.addAll(Arrays.asList(browsersSysProp.split(",")));

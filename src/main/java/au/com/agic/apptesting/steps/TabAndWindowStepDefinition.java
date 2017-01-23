@@ -58,7 +58,14 @@ public class TabAndWindowStepDefinition {
 	@When("I close the current window")
 	public void closeWindow() {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		/*
+			Close the current window
+		 */
 		webDriver.close();
+		/*
+			Switch to another window (otherwise all other commands fail)
+		 */
+		webDriver.switchTo().window(webDriver.getWindowHandles().iterator().next());
 
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
