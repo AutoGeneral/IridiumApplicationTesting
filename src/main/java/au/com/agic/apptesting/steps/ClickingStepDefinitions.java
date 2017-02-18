@@ -1,12 +1,25 @@
 package au.com.agic.apptesting.steps;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.*;
-import cucumber.api.java.en.When;
+import au.com.agic.apptesting.utils.AutoAliasUtils;
+import au.com.agic.apptesting.utils.BrowserInteropUtils;
+import au.com.agic.apptesting.utils.GetBy;
+import au.com.agic.apptesting.utils.JavaScriptRunner;
+import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
+import au.com.agic.apptesting.utils.SleepUtils;
+
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -17,7 +30,7 @@ import org.springframework.stereotype.Component;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import static com.google.common.base.Preconditions.checkState;
+import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps used to click elements.
@@ -485,16 +498,16 @@ public class ClickingStepDefinitions {
 			 */
 			final String fixedEvent = event.replaceAll("'", "\\'");
 
-			final String script = "var ev = document.createEvent('MouseEvent');\n" +
-				"    ev.initMouseEvent(\n" +
-				"        '" + fixedEvent + "',\n" +
-				"        true /* bubble */, true /* cancelable */,\n" +
-				"        window, null,\n" +
-				"        0, 0, " + xOffset + ", " + yOffset + ", /* coordinates */\n" +
-				"        false, false, false, false, /* modifier keys */\n" +
-				"        0 /*left*/, null\n" +
-				"    );\n" +
-				"    arguments[0].dispatchEvent(ev);";
+			final String script = "var ev = document.createEvent('MouseEvent');\n"
+				+ "    ev.initMouseEvent(\n"
+				+ "        '" + fixedEvent + "',\n"
+				+ "        true /* bubble */, true /* cancelable */,\n"
+				+ "        window, null,\n"
+				+ "        0, 0, " + xOffset + ", " + yOffset + ", /* coordinates */\n"
+				+ "        false, false, false, false, /* modifier keys */\n"
+				+ "        0 /*left*/, null\n"
+				+ "    );\n"
+				+ "    arguments[0].dispatchEvent(ev);";
 
 			js.executeScript(script, element);
 
@@ -504,12 +517,52 @@ public class ClickingStepDefinitions {
 			 */
 			//final Actions builder = new Actions(webDriver);
 			//builder.moveToElement(element, xOffset, yOffset).click().build().perform();
-		} catch (final TimeoutException | NoSuchElementException ex) {
+		} catch (final TimeoutException | NoSuchElementException | WebElementException ex) {
 			if (StringUtils.isEmpty(exists)) {
 				throw ex;
 			}
 		}
 	}
 
+	/**
+	 * Opens a link in a new tab
+	 *
+	 * @param alias       If this word is found in the step, it means the linkContent is found from
+	 *                    the data set.
+	 * @param linkContent The text content of the link we are clicking
+	 * @param exists      If this text is set, an error that would be thrown because the element was
+	 *                    not found is ignored. Essentially setting this text makes this an optional
+	 *                    statement.
+	 */
+	@When("^I open (?:a|an|the) link with the text content of( alias)? \"([^\"]*)\" in a new window( if it exists)?$")
+	public void openInNewWindow(
+		final String alias,
+		final String linkContent,
+		final String exists) {
+
+		try {
+			final String text = autoAliasUtils.getValue(
+				linkContent, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
+
+			checkState(text != null, "the aliased link content does not exist");
+
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				State.getFeatureStateForThread().getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+			final WebElement element = wait.until(
+				ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
+			final JavascriptExecutor js = JavascriptExecutor.class.cast(webDriver);
+
+			js.executeScript("window.open(arguments[0].getAttribute('href'),'_blank');", element);
+
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final TimeoutException | NoSuchElementException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
 
 }

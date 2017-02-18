@@ -2,6 +2,7 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.JavaScriptRunner;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
@@ -75,7 +76,7 @@ public class CustomEventStepDefinitions {
 				+ "    );"
 				+ "    arguments[0].dispatchEvent(ev);", element);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-		} catch (final TimeoutException | NoSuchElementException ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}

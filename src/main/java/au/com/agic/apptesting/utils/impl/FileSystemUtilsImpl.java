@@ -174,8 +174,9 @@ public class FileSystemUtilsImpl implements FileSystemUtils {
 					.build();
 
 				final Map<String, ?> env = Collections.emptyMap();
-				final FileSystem fs = FileSystems.newFileSystem(newResPath, env);
-				return new PathReference(fs.provider().getPath(newResPath), fs);
+				try (final FileSystem fs = FileSystems.newFileSystem(newResPath, env)) {
+					return new PathReference(fs.provider().getPath(newResPath), fs);
+				}
 			}))
 			.getOrElseThrow(x -> new IOException("Could not process the URI " + resPath, x));
 	}

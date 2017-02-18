@@ -1,5 +1,6 @@
 PhantomJS (http://phantomjs.org/download.html) 2.1.1
-Chrome (https://sites.google.com/a/chromium.org/chromedriver/downloads) 2.2.6
+Chrome (https://sites.google.com/a/chromium.org/chromedriver/downloads) 2.2.7
 Opera (https://github.com/operasoftware/operachromiumdriver/releases) 0.2.2
-IE (http://selenium-release.storage.googleapis.com/index.html) 3.0.0
-GeckoDriver (https://github.com/mozilla/geckodriver/releases) 0.13.0
+IE (http://selenium-release.storage.googleapis.com/index.html) 3.1.0
+GeckoDriver (https://github.com/mozilla/geckodriver/releases) 0.14.0
+Edge (https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/) Release 14393

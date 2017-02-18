@@ -18,6 +18,7 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Runs examples as unit tests
@@ -162,6 +163,30 @@ public class LiveTests {
 			}
 
 			Assert.fail("Browser " + browser + " failed the tests!");
+		}
+	}
+
+	/**
+	 * This tests a scenario that we know must fail
+	 */
+	@Test
+	public void failWhenClosingOnlyWindow() {
+		/*
+			Firefox actually allows you to close the final window, so we don't test
+			it here.
+		 */
+		final List<String> closeFailBrowsers = browsers.stream()
+				.filter(browser -> !"Marionette".equalsIgnoreCase(browser))
+				.collect(Collectors.toList());
+
+		for (final String browser : closeFailBrowsers) {
+			setCommonProperties();
+			System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
+			System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
+			System.setProperty("testDestination", browser);
+			System.setProperty("tagsOverride", "@fail-with-one-window");
+			final int failures = new TestRunner().run(globalTempFiles);
+			Assert.assertEquals(1, failures);
 		}
 	}
 

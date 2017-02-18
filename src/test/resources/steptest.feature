@@ -39,16 +39,65 @@ Feature: Test of the steps provided by Iridium
       | Date Offset          | 2 weeks                                                   |
       | Non Existant Element | thisdoesnotexist                                          |
       | NoUISlider           | #nouislider > div                                         |
+      | CaseChange           | abcdefg                                                   |
+      | DropDownListIndex    | 2                                                         |
     And I dump the value of the alias "Non Existant Element" to the console
 
   @test
   Scenario: Test Autoaliasing
-  # This is actually the default, but test the step anyway
+  This is actually the default, but test the step anyway
     Given I enable autoaliasing
       And I enable HAR logging
       And I set the default keystroke delay to "200" milliseconds
       And I "mousedown" on the hidden element found by "Event Button"
     Then I verify that the page contains the text "MouseDown Text"
+
+  @test
+  Scenario: Issue 90 Test: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/90
+    And I open the link with the text content of "Test Link" in a new window
+    And I switch to the new window
+    And I close the current window
+
+  @fail-with-one-window
+  Scenario: Fail when closing the only window
+    And I close the current window
+
+  @test
+  Scenario: Test Javascript alias parameters
+  The current alias map is made available to JavaScript as a list of arguments, with the
+  alias name being followed by the alias value. Here we scan the list of arguments looking
+  for a known alias key, and return the value. We then verify that the returned value
+  matches the original alias.
+	  And I run the following JavaScript and save the result to alias "JavaScript Return Value"
+	  	"""
+	  	if (arguments[0].length % 2 !== 0) {
+	  		return "arguments[0] should always be an even number";
+	  	}
+	  	for (var i = 0; i < arguments[0].length; i += 2) {
+			if (arguments[0][i] === 'CaseChange') {
+				return arguments[0][i + 1];
+			}
+	  	}
+	  	return "Failed to find alias mapping";
+	  	"""
+	  Then I verify that the alias "JavaScript Return Value" is equal to alias "CaseChange"
+
+  @test
+  Scenario: Issue 88 Test: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/88
+    And I select option number alias "DropDownListIndex" from the drop down list found by "selectList"
+    And I save the content of the first selected option from the drop down list found by "selectList" to the alias "Drop Down List Text"
+    Then I verify that the alias "Drop Down List Text" is equal to "Option 2"
+
+  @test
+  Scenario: Issue 87: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/87
+    And I focus on the element found by "doesnotexist" if it exists
+
+  @test
+  Scenario: Test changing alias case
+    And I modify the alias "CaseChange" by converting it to upper case
+    Then I verify that the alias "CaseChange" is equal to "ABCDEFG"
+    And I modify the alias "CaseChange" by converting it to lower case
+    Then I verify that the alias "CaseChange" is equal to "abcdefg"
 
   @test
   Scenario: test advanced UI interaction

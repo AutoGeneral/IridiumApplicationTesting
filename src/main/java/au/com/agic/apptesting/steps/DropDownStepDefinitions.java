@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.BrowserInteropUtils;
 import au.com.agic.apptesting.utils.GetBy;
@@ -87,7 +88,7 @@ public class DropDownStepDefinitions {
 			browserInteropUtils.selectFromDropDownList(webDriver, element, selection);
 
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-		} catch (final TimeoutException | NoSuchElementException ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}
@@ -159,7 +160,7 @@ public class DropDownStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I select option(?: number)?( alias)? \"(\\d+)\" from (?:a|the) drop down list found by"
+	@When("^I select option(?: number)?( alias)? \"([^\"]*)\" from (?:a|the) drop down list found by"
 		+ "( alias)? \"([^\"]*)\"( if it exists)?$")
 	public void selectSimpleDropDownListIndexStep(
 		final String itemAlias,
@@ -181,7 +182,7 @@ public class DropDownStepDefinitions {
 			final Select select = new Select(element);
 			select.selectByIndex(Integer.parseInt(selection));
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-		} catch (final TimeoutException | NoSuchElementException ex) {
+		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
 			}

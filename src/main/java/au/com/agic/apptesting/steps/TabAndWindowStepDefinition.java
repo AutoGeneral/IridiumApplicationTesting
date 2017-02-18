@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.exception.BrowserWindowException;
 import au.com.agic.apptesting.utils.SleepUtils;
 
 import org.openqa.selenium.Dimension;
@@ -47,6 +48,30 @@ public class TabAndWindowStepDefinition {
 		webDriver.getWindowHandles().stream()
 			.filter(e -> !e.equals(webDriver.getWindowHandle()))
 			.forEach(e -> webDriver.switchTo().window(e));
+
+		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+	}
+
+	/**
+	 * Switchs to the specified window. This is useful when you open a link that opens in a new
+	 * window.
+	 */
+	@When("I close the current window")
+	public void closeWindow() {
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		/*
+			Close the current window
+		 */
+		webDriver.close();
+		/*
+			Switch to another window (otherwise all other commands fail)
+		 */
+		final String otherWindowHandle = webDriver.getWindowHandles().iterator().next();
+		if (otherWindowHandle != null) {
+			webDriver.switchTo().window(otherWindowHandle);
+		} else {
+			throw new BrowserWindowException("You can only use this step when there is more than one tab or window.");
+		}
 
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
