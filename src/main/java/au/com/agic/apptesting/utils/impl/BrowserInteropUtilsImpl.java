@@ -97,10 +97,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		checkNotNull(selectElement);
 
 		final boolean isEdge = browserDetection.isEdge(webDriver);
-		final boolean isMarionette = browserDetection.isMarionette(webDriver);
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
-		if (!disableInterop() && (isMarionette || isEdge || isFirefox)) {
+		if (!disableInterop() && (isEdge || isFirefox)) {
 			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Edge or Firefox Marionette driver. "
 				+ "Applying drop down list selection workaround.");
 			/*
@@ -137,13 +136,12 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		checkNotNull(webDriver);
 		checkNotNull(element);
 
-		final boolean isMarionette = browserDetection.isMarionette(webDriver);
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("arguments[0].focus();", element);
 
-		if (!disableInterop() && (isMarionette || isFirefox)) {
+		if (!disableInterop() && isFirefox) {
 			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Firefox Marionette driver. "
 				+ "Applying element focus workaround.");
 

@@ -25,13 +25,6 @@ public interface BrowserDetection {
 	/**
 	 *
 	 * @param webDriver The current web driver
-	 * @return true if the webdriver is controlling the Firefox Marionette browser
-	 */
-	boolean isMarionette(@NotNull WebDriver webDriver);
-
-	/**
-	 *
-	 * @param webDriver The current web driver
 	 * @return true if the webdriver is controlling the Firefox browser
 	 */
 	boolean isFirefox(@NotNull WebDriver webDriver);
