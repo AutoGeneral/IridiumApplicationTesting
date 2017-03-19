@@ -66,20 +66,33 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			Don't worry about ssl issues
 		 */
 		capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+		capabilities.setCapability("acceptInsecureCerts", true);
 
+		/*
+			Find the proxy that the browser should point to
+		 */
 		final Optional<ProxyDetails<?>> mainProxy = proxies.stream()
 			.filter(ProxyDetails::isMainProxy)
 			.findFirst();
 
-		if (mainProxy.isPresent()) {
-			Proxy proxy = new Proxy();
-			proxy.setProxyType(Proxy.ProxyType.MANUAL);
-			proxy.setHttpProxy("localhost:" + mainProxy.get().getPort());
-			proxy.setSslProxy("localhost:" + mainProxy.get().getPort());
-			capabilities.setCapability("proxy", proxy);
+		/*
+			Add that proxy as a capability
+		 */
+		mainProxy
+			.map(myMainProxy -> {
+				final Proxy proxy = new Proxy();
+				proxy.setProxyType(Proxy.ProxyType.MANUAL);
+				proxy.setHttpProxy("localhost:" + myMainProxy.getPort());
+				proxy.setSslProxy("localhost:" + myMainProxy.getPort());
+				return proxy;
+			})
+			.ifPresent(proxy -> capabilities.setCapability("proxy", proxy));
+
+		if (Constants.MARIONETTE.equalsIgnoreCase(browser)) {
+			return new FirefoxDriver(capabilities);
 		}
 
-		if (Constants.FIREFOX.equalsIgnoreCase(browser) || Constants.MARIONETTE.equalsIgnoreCase(browser)) {
+		if (Constants.FIREFOX.equalsIgnoreCase(browser)) {
 			return buildFirefox(mainProxy, capabilities);
 		}
 
