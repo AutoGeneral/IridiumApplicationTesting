@@ -21,7 +21,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.EnumSet;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import cucumber.api.java.en.When;
 import io.netty.handler.codec.http.HttpRequest;
@@ -48,11 +52,14 @@ public class ProxyStepDefinitions {
 		final Optional<ProxyDetails<?>> proxy =
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 
+		final EnumSet<CaptureType> captureTypes = CaptureType.getAllContentCaptureTypes();
+		captureTypes.addAll(CaptureType.getCookieCaptureTypes());
+
 		proxy
 			.flatMap(ProxyDetails::getInterface)
 			.map(BrowserMobProxy.class::cast)
 			.ifPresent(x -> {
-				x.setHarCaptureTypes(CaptureType.getAllContentCaptureTypes());
+				x.setHarCaptureTypes(captureTypes);
 				x.newHar();
 			});
 	}
