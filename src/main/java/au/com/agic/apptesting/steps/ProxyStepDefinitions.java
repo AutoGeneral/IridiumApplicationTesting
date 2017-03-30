@@ -54,6 +54,7 @@ public class ProxyStepDefinitions {
 
 		final EnumSet<CaptureType> captureTypes = CaptureType.getAllContentCaptureTypes();
 		captureTypes.addAll(CaptureType.getCookieCaptureTypes());
+		captureTypes.addAll(CaptureType.getHeaderCaptureTypes());
 
 		proxy
 			.flatMap(ProxyDetails::getInterface)
