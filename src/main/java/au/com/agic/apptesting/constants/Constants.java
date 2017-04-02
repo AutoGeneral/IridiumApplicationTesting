@@ -8,6 +8,11 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * The system property that defines how long the app will run for before shuting down
+	 */
+	public static final String MAX_EXECUTION_TIME = "maxExecutionTime";
+
+	/**
 	 * The name of the merged junit xml file
 	 */
 	public static final String MERGED_REPORT = "MergedReport.xml";

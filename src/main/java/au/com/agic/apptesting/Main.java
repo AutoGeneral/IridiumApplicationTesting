@@ -29,6 +29,8 @@ public final class Main {
 			 */
 			System.setSecurityManager(null);
 
+			createShutdownTimer();
+
 			/*
 			 	Get the retry count
 			 */
@@ -70,6 +72,30 @@ public final class Main {
 				LOGGER.error(
 					"WEBAPPTESTER-BUG-0008: Failed to remove global temp file", ex);
 			}
+		}
+	}
+
+	/**
+	 * Creates a thread that will shutdown the application after a certain amount of time has passed.
+	 */
+	private static void createShutdownTimer() {
+		final int maxExecutionTime = NumberUtils.toInt(
+			SYSTEM_PROPERTY_UTILS.getProperty(Constants.MAX_EXECUTION_TIME)
+		);
+
+		if (maxExecutionTime > 0) {
+			new Thread(() -> {
+				try {
+					Thread.sleep(maxExecutionTime);
+					LOGGER.error(
+						"WEBAPPTESTER-INFO-0011: "
+							+ "Iridium was shut down because it ran longer than the maximum execution time of " + maxExecutionTime + " milliseconds");
+					System.exit(-2);
+				} catch (final Exception ex) {
+					LOGGER.error(
+						"WEBAPPTESTER-BUG-0009: The shutdown timer threw an exception", ex);
+				}
+			}).start();
 		}
 	}
 }

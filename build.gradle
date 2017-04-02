@@ -148,7 +148,7 @@ sourceSets {
 
 def mysqlDriverVersion = '5.1.34'
 def guavaVersion = '19.0'
-def seleniumVersion = '3.0.1'
+def seleniumVersion = '3.3.1'
 def validationVersion = '1.1.0.Final'
 def cucumberVersion = '1.2.5'
 def logbackVersion = '1.1.7'
@@ -157,7 +157,7 @@ def threadPoolVersion = '20030513.073905'
 def commonsIoVersion = '2.5'
 def commonsLangVersion = '3.4'
 def operaDriverVersion = '1.5'
-def phontomJsDriverVersion = '1.3.0'        // https://github.com/detro/ghostdriver/issues/397
+def phantomJsDriverVersion = '1.3.0'        // https://github.com/detro/ghostdriver/issues/397
 def cucumberHtmlFormatterVersion = '0.2.3'
 def monteRepackVersion = '1.0.1'
 def javaSlangVersion = '2.0.5'
@@ -196,7 +196,7 @@ dependencies {
     compile 'org.seleniumhq.selenium:selenium-chrome-driver:' + seleniumVersion
     compile 'org.seleniumhq.selenium:selenium-firefox-driver:' + seleniumVersion
     compile 'org.seleniumhq.selenium:selenium-safari-driver:' + seleniumVersion
-    compile 'com.codeborne:phantomjsdriver:' + phontomJsDriverVersion
+    compile 'com.codeborne:phantomjsdriver:' + phantomJsDriverVersion
     compile 'com.opera:operadriver:' + operaDriverVersion
     compile 'org.seleniumhq.selenium:selenium-ie-driver:' + seleniumVersion
     compile 'com.pojosontheweb:monte-repack:' + monteRepackVersion
