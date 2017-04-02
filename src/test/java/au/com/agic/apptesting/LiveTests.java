@@ -46,7 +46,7 @@ public class LiveTests {
 		return new File(".").listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(final File dir, final String name) {
-				return name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".har");
+				return name.endsWith(".har");
 			}
 		});
 	}
@@ -178,7 +178,7 @@ public class LiveTests {
 		/*
 			We always expect to find the borwsermob.har file.
 		 */
-		Assert.assertTrue(Stream.of(getHarFiles()).anyMatch(file -> file.getName().endsWith("browsermob.har")));
+		Assert.assertTrue(Stream.of(getHarFiles()).anyMatch(file -> file.getName().endsWith(Constants.HAR_FILE_NAME)));
 	}
 
 	/**
