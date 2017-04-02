@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Runs examples as unit tests
@@ -37,6 +38,15 @@ public class LiveTests {
 			@Override
 			public boolean accept(final File dir, final String name) {
 				return name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png");
+			}
+		});
+	}
+
+	private File[] getHarFiles() {
+		return new File(".").listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(final File dir, final String name) {
+				return name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".har");
 			}
 		});
 	}
@@ -164,6 +174,11 @@ public class LiveTests {
 
 			Assert.fail("Browser " + browser + " failed the tests!");
 		}
+
+		/*
+			We always expect to find the borwsermob.har file.
+		 */
+		Assert.assertTrue(Stream.of(getHarFiles()).anyMatch(file -> file.getName().endsWith("browsermob.har")));
 	}
 
 	/**

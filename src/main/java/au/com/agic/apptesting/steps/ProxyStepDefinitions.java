@@ -3,6 +3,7 @@ package au.com.agic.apptesting.steps;
 import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
 
@@ -66,7 +67,10 @@ public class ProxyStepDefinitions {
 	}
 
 	/**
-	 * Saves a HAR file with the details of the transactions that have passed through BorwserMob
+	 * Saves a HAR file with the details of the transactions that have passed through BrowserMob.
+	 * This step is only required if you wish to save har files at particular points during the test.
+	 * The HAR file is always saved when browsermob is shut down, meaning that once you begin the
+	 * capture of the HAR file it will be saved regardless of the success or failure of the test.
 	 * @param filename The optional filename to use for the HAR file
 	 */
 	@When("^I dump the HAR file(?: to \"(.*?)\")?$")
@@ -78,14 +82,17 @@ public class ProxyStepDefinitions {
 			.flatMap(ProxyDetails::getInterface)
 			.map(BrowserMobProxy.class::cast)
 			.map(x -> Try.run(() -> {
-				final String fixedFilename = StringUtils.defaultString(filename, "browsermob.har");
+				final String fixedFilename = StringUtils.defaultString(filename, Constants.HAR_FILE_NAME);
 				final Har har = x.getHar();
 
 				checkState(
 					har != null,
 					"You need to add the step \"I enable HAR logging\" before saving the HAR file");
 
-				final File file = new File(State.getFeatureStateForThread().getReportDirectory() + "/" + fixedFilename);
+				final File file = new File(
+					State.getFeatureStateForThread().getReportDirectory()
+						+ "/"
+						+ fixedFilename);
 				har.writeTo(file);
 			}));
 	}

@@ -2,6 +2,8 @@ package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.LocalProxyUtils;
 import au.com.agic.apptesting.utils.ProxyDetails;
@@ -19,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
+
+import javaslang.control.Try;
 
 /**
  * An implementation of the proxy manager service
@@ -94,6 +98,22 @@ public class ProxyManagerImpl implements ProxyManager {
 			.filter(proxyDetails -> BrowsermobProxyUtilsImpl.PROXY_NAME.equals(proxyDetails.getProxyName()))
 			.forEach(x -> x.getInterface()
 				.map(BrowserMobProxy.class::cast)
-				.ifPresent(BrowserMobProxy::abort));
+				.ifPresent(proxy -> {
+					/*
+						Save the HAR file before the proxy is shut down. Doing this work
+						here means that the HAR file is always available, even if the
+						test failed and a step like "I dump the HAR file" was not executed.
+					 */
+					if (proxy.getHar() != null) {
+						Try.run(() -> {
+							final File file = new File(
+								State.getFeatureStateForThread().getReportDirectory()
+									+ "/"
+									+ Constants.HAR_FILE_NAME);
+							proxy.getHar().writeTo(file);
+						});
+					}
+					proxy.abort();
+				}));
 	}
 }

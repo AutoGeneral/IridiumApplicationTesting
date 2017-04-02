@@ -8,6 +8,11 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * The default name of the HAR file saved by browsermob
+	 */
+	public static final String HAR_FILE_NAME = "browsermob.har";
+
+	/**
 	 * The system property that defines how long the app will run for before shuting down
 	 */
 	public static final String MAX_EXECUTION_TIME = "maxExecutionTime";
