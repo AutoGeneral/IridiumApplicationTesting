@@ -516,7 +516,11 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Save HAR file
-      And I dump the HAR file to "test.har"
+    And I dump the HAR file to "test.har"
+    And I save the current date with the format "ddMMyyyyHHmmssSSS" to the alias "Har File Name"
+    And I modify the alias "Har File Name" by prepending it with "test"
+    And I modify the alias "Har File Name" by appending it with ".har"
+    Then I dump the HAR file to "Har File Name"
 
   @test
   Scenario: Test step skipping

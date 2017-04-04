@@ -156,12 +156,24 @@ public class LiveTests {
 			for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 				try {
 					setCommonProperties();
+
+					/*
+						Clean up the HAR files
+					 */
+					Arrays.stream(getHarFiles()).forEach(FileUtils::deleteQuietly);
+
 					System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
 					System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
 					System.setProperty("testDestination", browser);
 					System.setProperty("tagsOverride", "@tag1,@tag2,@tag3,@tag5,@test;~@tag4,@test");
 					final int failures = new TestRunner().run(globalTempFiles);
 					if (failures == 0) {
+
+						/*
+							We expect to have a manually dumped har file
+						 */
+						Assert.assertTrue(Stream.of(getHarFiles()).anyMatch(file -> file.getName().matches("test\\d{19}\\.har")));
+
 						continue browserLoop;
 					}
 					Thread.sleep(SLEEP);
@@ -176,7 +188,7 @@ public class LiveTests {
 		}
 
 		/*
-			We always expect to find the borwsermob.har file.
+			We always expect to find the browsermob.har file.
 		 */
 		Assert.assertTrue(Stream.of(getHarFiles()).anyMatch(file -> file.getName().endsWith(Constants.HAR_FILE_NAME)));
 	}
