@@ -37,7 +37,12 @@ public class LiveTests {
 		return new File(".").listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(final File dir, final String name) {
-				return name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png");
+				if(name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png")) {
+					LOGGER.info("Found screenshot file file: " + name);
+					return true;
+				}
+
+				return false;
 			}
 		});
 	}
@@ -46,7 +51,12 @@ public class LiveTests {
 		return new File(".").listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(final File dir, final String name) {
-				return name.endsWith(".har");
+				if(name.endsWith(".har")) {
+					LOGGER.info("Found HAR file: " + name);
+					return true;
+				}
+
+				return false;
 			}
 		});
 	}
@@ -172,7 +182,7 @@ public class LiveTests {
 						/*
 							We expect to have a manually dumped har file
 						 */
-						Assert.assertTrue(Stream.of(getHarFiles()).anyMatch(file -> file.getName().matches("test\\d{19}\\.har")));
+						Assert.assertTrue(Stream.of(getHarFiles()).anyMatch(file -> file.getName().matches("test\\d{17}\\.har")));
 
 						continue browserLoop;
 					}
