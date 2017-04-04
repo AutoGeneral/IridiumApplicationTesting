@@ -16,7 +16,9 @@ import net.lightbody.bmp.BrowserMobProxy;
 import org.zaproxy.clientapi.core.ClientApi;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,10 +108,14 @@ public class ProxyManagerImpl implements ProxyManager {
 					 */
 					if (proxy.getHar() != null) {
 						Try.run(() -> {
+							final String filename = Constants.HAR_FILE_NAME_PREFIX
+								+ new SimpleDateFormat(Constants.FILE_DATE_FORMAT).format(new Date())
+								+ Constants.HAR_FILE_NAME_EXTENSION;
+
 							final File file = new File(
 								State.getFeatureStateForThread().getReportDirectory()
 									+ "/"
-									+ Constants.HAR_FILE_NAME);
+									+ filename);
 							proxy.getHar().writeTo(file);
 						});
 					}

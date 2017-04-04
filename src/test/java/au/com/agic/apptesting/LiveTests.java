@@ -177,8 +177,17 @@ public class LiveTests {
 					System.setProperty("testDestination", browser);
 					System.setProperty("tagsOverride", "@tag1,@tag2,@tag3,@tag5,@test;~@tag4,@test");
 					final int failures = new TestRunner().run(globalTempFiles);
-					if (failures == 0) {
 
+					/*
+						We always expect to find the browsermob<date>.har file, regardless of the
+						success or failure of the test.
+		 			*/
+					Assert.assertTrue(Stream.of(getHarFiles()).anyMatch(file -> file.getName().matches(
+						Constants.HAR_FILE_NAME_PREFIX
+							+ "\\d{17}\\."
+							+ Constants.HAR_FILE_NAME_EXTENSION)));
+
+					if (failures == 0) {
 						/*
 							We expect to have a manually dumped har file
 						 */
@@ -197,10 +206,7 @@ public class LiveTests {
 			Assert.fail("Browser " + browser + " failed the tests!");
 		}
 
-		/*
-			We always expect to find the browsermob.har file.
-		 */
-		Assert.assertTrue(Stream.of(getHarFiles()).anyMatch(file -> file.getName().endsWith(Constants.HAR_FILE_NAME)));
+
 	}
 
 	/**

@@ -8,9 +8,23 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * The format of dates that are saved in filenames like screenshots and har files
+	 */
+	public static final String FILE_DATE_FORMAT = "YYYYMMddHHmmssSSS";
+
+	/**
+	 * The base file name for the default har file
+	 */
+	public static final String HAR_FILE_NAME_PREFIX = "browsermob";
+	/**
+	 * The extension for the default har file
+	 */
+	public static final String HAR_FILE_NAME_EXTENSION = "har";
+
+	/**
 	 * The default name of the HAR file saved by browsermob
 	 */
-	public static final String HAR_FILE_NAME = "browsermob.har";
+	public static final String HAR_FILE_NAME = HAR_FILE_NAME_PREFIX + "." + HAR_FILE_NAME_EXTENSION;
 
 	/**
 	 * The system property that defines how long the app will run for before shuting down
