@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
 
@@ -19,6 +20,7 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -44,6 +46,9 @@ import javaslang.control.Try;
 public class ProxyStepDefinitions {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProxyStepDefinitions.class);
+
+	@Autowired
+	private AutoAliasUtils autoAliasUtils;
 
 	/**
 	 * EWnable HAR logging
@@ -71,10 +76,18 @@ public class ProxyStepDefinitions {
 	 * This step is only required if you wish to save har files at particular points during the test.
 	 * The HAR file is always saved when browsermob is shut down, meaning that once you begin the
 	 * capture of the HAR file it will be saved regardless of the success or failure of the test.
+	 * @param alias If this word is found in the step, it means the filename is found from the
+	 *              data set.
 	 * @param filename The optional filename to use for the HAR file
 	 */
-	@When("^I dump the HAR file(?: to \"(.*?)\")?$")
-	public void saveHarFile(final String filename) {
+	@When("^I dump the HAR file(?: to( alias)? \"(.*?)\")?$")
+	public void saveHarFile(final String alias, final String filename) {
+
+		final String fixedFilename = autoAliasUtils.getValue(
+			StringUtils.defaultString(filename, Constants.HAR_FILE_NAME),
+			StringUtils.isNotBlank(alias),
+			State.getFeatureStateForThread());
+
 		final Optional<ProxyDetails<?>> proxy =
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 
@@ -82,7 +95,6 @@ public class ProxyStepDefinitions {
 			.flatMap(ProxyDetails::getInterface)
 			.map(BrowserMobProxy.class::cast)
 			.map(x -> Try.run(() -> {
-				final String fixedFilename = StringUtils.defaultString(filename, Constants.HAR_FILE_NAME);
 				final Har har = x.getHar();
 
 				checkState(
