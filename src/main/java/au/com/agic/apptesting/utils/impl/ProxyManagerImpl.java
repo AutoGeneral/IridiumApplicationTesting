@@ -110,6 +110,7 @@ public class ProxyManagerImpl implements ProxyManager {
 						Try.run(() -> {
 							final String filename = Constants.HAR_FILE_NAME_PREFIX
 								+ new SimpleDateFormat(Constants.FILE_DATE_FORMAT).format(new Date())
+								+ "."
 								+ Constants.HAR_FILE_NAME_EXTENSION;
 
 							final File file = new File(
