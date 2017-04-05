@@ -205,8 +205,6 @@ public class LiveTests {
 
 			Assert.fail("Browser " + browser + " failed the tests!");
 		}
-
-
 	}
 
 	/**
