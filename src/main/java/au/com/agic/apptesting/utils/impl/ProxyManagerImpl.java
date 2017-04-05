@@ -1,7 +1,10 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ProxyException;
 import au.com.agic.apptesting.utils.LocalProxyUtils;
 import au.com.agic.apptesting.utils.ProxyDetails;
@@ -11,14 +14,19 @@ import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import net.lightbody.bmp.BrowserMobProxy;
 
+import org.apache.commons.lang3.StringUtils;
 import org.zaproxy.clientapi.core.ClientApi;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
+
+import javaslang.control.Try;
 
 /**
  * An implementation of the proxy manager service
@@ -87,13 +95,35 @@ public class ProxyManagerImpl implements ProxyManager {
 	}
 
 	@Override
-	public void stopProxies(@NotNull final List<ProxyDetails<?>> proxies) {
+	public void stopProxies(@NotNull final List<ProxyDetails<?>> proxies, final String reportOutput) {
 		checkNotNull(proxies);
+		checkArgument(StringUtils.isNotBlank(reportOutput));
 
 		proxies.stream()
 			.filter(proxyDetails -> BrowsermobProxyUtilsImpl.PROXY_NAME.equals(proxyDetails.getProxyName()))
 			.forEach(x -> x.getInterface()
 				.map(BrowserMobProxy.class::cast)
-				.ifPresent(BrowserMobProxy::abort));
+				.ifPresent(proxy -> {
+					/*
+						Save the HAR file before the proxy is shut down. Doing this work
+						here means that the HAR file is always available, even if the
+						test failed and a step like "I dump the HAR file" was not executed.
+					 */
+					if (proxy.getHar() != null) {
+						Try.run(() -> {
+							final String filename = Constants.HAR_FILE_NAME_PREFIX
+								+ new SimpleDateFormat(Constants.FILE_DATE_FORMAT).format(new Date())
+								+ "."
+								+ Constants.HAR_FILE_NAME_EXTENSION;
+
+							final File file = new File(
+								reportOutput
+									+ "/"
+									+ filename);
+							proxy.getHar().writeTo(file);
+						});
+					}
+					proxy.abort();
+				}));
 	}
 }

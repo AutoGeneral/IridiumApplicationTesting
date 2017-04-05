@@ -113,6 +113,9 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	@NotNull
 	@Override
 	public synchronized FeatureState getDesiredCapabilitiesForThread(@NotNull final String name) {
+		checkArgument(StringUtils.isNotBlank(name));
+		checkArgument(name.startsWith(Constants.THREAD_NAME_PREFIX));
+
 		if (threadIdToCapMap.containsKey(name)) {
 			return threadIdToCapMap.get(name);
 		}
@@ -120,8 +123,10 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		/*
 		  We have allocated our available configurations
 		*/
-		if (currentUrl >= Math.max(originalApplicationUrls.size(), 1)) {
-			throw new ConfigurationException("Configuration pool has been exhausted!");
+		final int urlCount = Math.max(originalApplicationUrls.size(), 1);
+		if (currentUrl >= urlCount) {
+			throw new ConfigurationException("Configuration pool has been exhausted! "
+				+ currentUrl + " is greater than or equal to " + urlCount);
 		}
 
 		/*
@@ -237,7 +242,7 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		threadIdToCapMap.clear();
 
 		/*
-			Attemp to delete all the temp folders
+			Attempt to delete all the temp folders
 		 */
 		getTempFolders().forEach(e -> Try.run(() -> FileUtils.deleteDirectory(e)));
 

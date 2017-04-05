@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Runs examples as unit tests
@@ -36,7 +37,26 @@ public class LiveTests {
 		return new File(".").listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(final File dir, final String name) {
-				return name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png");
+				if(name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png")) {
+					LOGGER.info("Found screenshot file file: " + name);
+					return true;
+				}
+
+				return false;
+			}
+		});
+	}
+
+	private File[] getHarFiles() {
+		return new File(".").listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(final File dir, final String name) {
+				if(name.endsWith(".har")) {
+					LOGGER.info("Found HAR file: " + name);
+					return true;
+				}
+
+				return false;
 			}
 		});
 	}
@@ -146,12 +166,37 @@ public class LiveTests {
 			for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 				try {
 					setCommonProperties();
+
+					/*
+						Clean up the HAR files
+					 */
+					Arrays.stream(getHarFiles()).forEach(FileUtils::deleteQuietly);
+
 					System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
 					System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
 					System.setProperty("testDestination", browser);
 					System.setProperty("tagsOverride", "@tag1,@tag2,@tag3,@tag5,@test;~@tag4,@test");
 					final int failures = new TestRunner().run(globalTempFiles);
+
+					/*
+						We always expect to find the browsermob<date>.har file, regardless of the
+						success or failure of the test.
+		 			*/
+					LOGGER.info("Testing for har file presence");
+					Assert.assertTrue(getHarFiles().length != 0);
+					Assert.assertTrue(Stream.of(getHarFiles())
+						.anyMatch(file -> file.getName().matches(
+						Constants.HAR_FILE_NAME_PREFIX
+							+ "\\d{17}\\."
+							+ Constants.HAR_FILE_NAME_EXTENSION)));
+
 					if (failures == 0) {
+						/*
+							We expect to have a manually dumped har file
+						 */
+						Assert.assertTrue(Stream.of(getHarFiles())
+							.anyMatch(file -> file.getName().matches("test\\d{17}\\.har")));
+
 						continue browserLoop;
 					}
 					Thread.sleep(SLEEP);

@@ -3,6 +3,7 @@ package au.com.agic.apptesting.utils.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
@@ -31,7 +32,6 @@ public class ScreenshotUtilsImpl implements ScreenshotUtils {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ScreenshotUtilsImpl.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
-	private static final String SCREENSHOT_DATE_FORMAT = "YYYYMMddHHmmssSSS";
 
 	@Override
 	public void takeScreenshot(@NotNull final String suffix, @NotNull final FeatureState featureState) {
@@ -48,7 +48,7 @@ public class ScreenshotUtilsImpl implements ScreenshotUtils {
 					Screenshot filenames are the time that it was taken to allow for easy
 					sorting.
 				 */
-				final String filename = new SimpleDateFormat(SCREENSHOT_DATE_FORMAT)
+				final String filename = new SimpleDateFormat(Constants.FILE_DATE_FORMAT)
 					.format(new Date()) + " " + Thread.currentThread().getName() + suffix + ".png";
 
 				final File reportFile =

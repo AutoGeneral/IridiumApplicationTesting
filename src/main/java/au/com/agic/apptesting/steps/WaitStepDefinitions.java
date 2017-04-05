@@ -811,6 +811,7 @@ public class WaitStepDefinitions {
 	/**
 	 * Waits a period of time for the presence of a alert.
 	 * @param waitDuration  The maximum amount of time to wait for
+	 * @param ignoringTimeout Include this string to ignore a timeout waiting for the alert
 	 */
 	@Then("^I wait \"(\\d+)\" seconds for an alert to be displayed(,? ignoring timeouts?)?$")
 	public void waitForAlert(final Integer waitDuration, final String ignoringTimeout) {
