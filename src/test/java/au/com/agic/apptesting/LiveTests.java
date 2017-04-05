@@ -182,6 +182,7 @@ public class LiveTests {
 						We always expect to find the browsermob<date>.har file, regardless of the
 						success or failure of the test.
 		 			*/
+					Stream.of(getHarFiles()).map(File::getName).forEach(LOGGER::info);
 					Assert.assertTrue(Stream.of(getHarFiles()).anyMatch(file -> file.getName().matches(
 						Constants.HAR_FILE_NAME_PREFIX
 							+ "\\d{17}\\."
