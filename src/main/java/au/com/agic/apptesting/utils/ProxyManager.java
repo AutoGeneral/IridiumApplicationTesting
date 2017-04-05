@@ -26,5 +26,5 @@ public interface ProxyManager {
 	 * Gracefully shutdown proxies before we exit the app
 	 * @param proxies The list of proxies that were created for this test
 	 */
-	void stopProxies(@NotNull List<ProxyDetails<?>> proxies);
+	void stopProxies(@NotNull List<ProxyDetails<?>> proxies, final String reportOutput);
 }

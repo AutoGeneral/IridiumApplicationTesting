@@ -182,8 +182,10 @@ public class LiveTests {
 						We always expect to find the browsermob<date>.har file, regardless of the
 						success or failure of the test.
 		 			*/
-					Stream.of(getHarFiles()).map(File::getName).forEach(LOGGER::info);
-					Assert.assertTrue(Stream.of(getHarFiles()).anyMatch(file -> file.getName().matches(
+					LOGGER.info("Testing for har file presence");
+					Assert.assertTrue(getHarFiles().length != 0);
+					Assert.assertTrue(Stream.of(getHarFiles())
+						.anyMatch(file -> file.getName().matches(
 						Constants.HAR_FILE_NAME_PREFIX
 							+ "\\d{17}\\."
 							+ Constants.HAR_FILE_NAME_EXTENSION)));
@@ -192,7 +194,8 @@ public class LiveTests {
 						/*
 							We expect to have a manually dumped har file
 						 */
-						Assert.assertTrue(Stream.of(getHarFiles()).anyMatch(file -> file.getName().matches("test\\d{17}\\.har")));
+						Assert.assertTrue(Stream.of(getHarFiles())
+							.anyMatch(file -> file.getName().matches("test\\d{17}\\.har")));
 
 						continue browserLoop;
 					}

@@ -1,5 +1,6 @@
 package au.com.agic.apptesting.utils.impl;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import au.com.agic.apptesting.State;
@@ -13,6 +14,7 @@ import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import net.lightbody.bmp.BrowserMobProxy;
 
+import org.apache.commons.lang3.StringUtils;
 import org.zaproxy.clientapi.core.ClientApi;
 
 import java.io.File;
@@ -93,8 +95,9 @@ public class ProxyManagerImpl implements ProxyManager {
 	}
 
 	@Override
-	public void stopProxies(@NotNull final List<ProxyDetails<?>> proxies) {
+	public void stopProxies(@NotNull final List<ProxyDetails<?>> proxies, final String reportOutput) {
 		checkNotNull(proxies);
+		checkArgument(StringUtils.isNotBlank(reportOutput));
 
 		proxies.stream()
 			.filter(proxyDetails -> BrowsermobProxyUtilsImpl.PROXY_NAME.equals(proxyDetails.getProxyName()))
@@ -114,7 +117,7 @@ public class ProxyManagerImpl implements ProxyManager {
 								+ Constants.HAR_FILE_NAME_EXTENSION;
 
 							final File file = new File(
-								State.getFeatureStateForThread().getReportDirectory()
+								reportOutput
 									+ "/"
 									+ filename);
 							proxy.getHar().writeTo(file);
