@@ -113,6 +113,9 @@ public class LocalThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	@NotNull
 	@Override
 	public synchronized FeatureState getDesiredCapabilitiesForThread(@NotNull final String name) {
+		checkArgument(StringUtils.isNotBlank(name));
+		checkArgument(name.startsWith(Constants.THREAD_NAME_PREFIX));
+
 		if (threadIdToCapMap.containsKey(name)) {
 			return threadIdToCapMap.get(name);
 		}
