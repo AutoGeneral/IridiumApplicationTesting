@@ -52,6 +52,7 @@ public class CustomEventStepDefinitions {
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If
 	 *                      alias was set, this value is found from the data set. Otherwise it is a
 	 *                      literal value.
+	 * @param exists		Set this string to ignore errors id there element doesn't exist
 	 */
 	@When("I(?: dispatch a)? \"(.*?)\"(?: event)? on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"( if it exists)?")
 	public void triggetCustom(
@@ -93,6 +94,7 @@ public class CustomEventStepDefinitions {
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If
 	 *                      alias was set, this value is found from the data set. Otherwise it is a
 	 *                      literal value.
+	 * @param exists		Set this string to ignore errors id there element doesn't exist
 	 */
 	@When("I(?: dispatch a)? \"(.*?)\"(?: event)? on (?:a|an|the) hidden element with (?:a|an|the) "
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"( if it exists)?")
