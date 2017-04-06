@@ -276,6 +276,10 @@ public final class Constants {
 	 */
 	public static final String OPEN_REPORT_FILE_SYSTEM_PROPERTY = "openReportFile";
 	/**
+	 * The directory that will hold the final reports
+	 */
+	public static final String REPORTS_DIRECTORY = "reportsDirectory";
+	/**
 	 * The name of the system property that defines whether the cucumber reports are saved in the
 	 * users home directory, or in the current working directory
 	 */

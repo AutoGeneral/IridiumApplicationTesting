@@ -3,7 +3,6 @@ package au.com.agic.apptesting;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
@@ -15,6 +14,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -109,6 +111,27 @@ public class LiveTests {
 			Try and find a failure screenshot
 		 */
 		Assert.assertTrue(getFailureScreenshots().length == 1);
+	}
+
+	/**
+	 * Test that report files are saved in a custom dir when specified
+	 */
+	@Test
+	public void testCustomReportDir() throws IOException {
+		final Path tempDir = Files.createTempDirectory("test");
+
+		try {
+			setCommonProperties();
+			System.setProperty(Constants.REPORTS_DIRECTORY, tempDir.toString());
+			System.setProperty("testSource", this.getClass().getResource("/screenshotonfailure.feature").toString());
+			System.setProperty("enableScreenshotOnError", "true");
+			System.setProperty("testDestination", "PhantomJS");
+			new TestRunner().run(globalTempFiles);
+
+			Assert.assertTrue(tempDir.toFile().listFiles().length != 0);
+		} finally {
+			FileUtils.deleteQuietly(tempDir.toFile());
+		}
 	}
 
 	/**
@@ -413,6 +436,7 @@ public class LiveTests {
 	}
 
 	private void setCommonProperties() {
+		System.setProperty(Constants.REPORTS_DIRECTORY, "");
 		System.setProperty("webdriver.chrome.driver", "");
 		System.setProperty("webdriver.opera.driver", "");
 		System.setProperty("webdriver.ie.driver", "");
