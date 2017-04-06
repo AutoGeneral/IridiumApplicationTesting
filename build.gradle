@@ -156,6 +156,7 @@ def slf4jVersion = '1.7.21'
 def threadPoolVersion = '20030513.073905'
 def commonsIoVersion = '2.5'
 def commonsLangVersion = '3.4'
+def commonsExecVersion = '1.3'
 def operaDriverVersion = '1.5'
 def phantomJsDriverVersion = '1.4.1'        // https://github.com/detro/ghostdriver/issues/397
 def cucumberHtmlFormatterVersion = '0.2.3'
@@ -193,7 +194,8 @@ dependencies {
     compile 'org.slf4j:jul-to-slf4j:' + slf4jVersion
     compile 'commons-threadpool:commons-threadpool:' + threadPoolVersion
     compile 'commons-io:commons-io:' + commonsIoVersion
-    compile 'org.apache.commons:commons-lang3:' + commonsLangVersion
+	compile 'org.apache.commons:commons-exec:' + commonsExecVersion
+	compile 'org.apache.commons:commons-lang3:' + commonsLangVersion
     compile 'org.seleniumhq.selenium:selenium-chrome-driver:' + seleniumVersion
     compile 'org.seleniumhq.selenium:selenium-firefox-driver:' + seleniumVersion
     compile 'org.seleniumhq.selenium:selenium-safari-driver:' + seleniumVersion
