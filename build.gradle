@@ -196,7 +196,8 @@ dependencies {
     compile 'commons-io:commons-io:' + commonsIoVersion
 	compile 'org.apache.commons:commons-exec:' + commonsExecVersion
 	compile 'org.apache.commons:commons-lang3:' + commonsLangVersion
-    compile 'org.seleniumhq.selenium:selenium-chrome-driver:' + seleniumVersion
+	compile 'org.seleniumhq.selenium:selenium-remote-driver:' + seleniumVersion
+	compile 'org.seleniumhq.selenium:selenium-chrome-driver:' + seleniumVersion
     compile 'org.seleniumhq.selenium:selenium-firefox-driver:' + seleniumVersion
     compile 'org.seleniumhq.selenium:selenium-safari-driver:' + seleniumVersion
     compile 'com.codeborne:phantomjsdriver:' + phantomJsDriverVersion
