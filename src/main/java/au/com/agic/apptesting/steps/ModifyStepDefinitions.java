@@ -297,4 +297,50 @@ public class ModifyStepDefinitions {
 		State.getFeatureStateForThread().setDataSet(dataset);
 	}
 
+	/**
+	 * Set an alias to the maximum value
+	 *
+	 * @param alias The alias that holds the first value
+	 * @param maxValueAlias include the word alias to get the value of the max value from an aliased value
+	 * @param maxValue The value
+	 */
+	@Then("^I modify(?: the)? alias \"(.*?)\" by setting it to( alias)? \"(.*?)\" if the value it holds is smaller")
+	public void max(final String alias, final String maxValueAlias, final String maxValue) {
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
+
+		final String fixedMaxValue = autoAliasUtils.getValue(
+			maxValue,
+			StringUtils.isNotBlank(maxValueAlias),
+			State.getFeatureStateForThread());
+
+		if (Double.parseDouble(value) < Double.parseDouble(fixedMaxValue)) {
+			final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
+			dataset.put(alias, fixedMaxValue);
+			State.getFeatureStateForThread().setDataSet(dataset);
+		}
+	}
+
+	/**
+	 * Set an alias to the minimum value
+	 *
+	 * @param alias The alias that holds the first value
+	 * @param minValueAlias include the word alias to get the value of the max value from an aliased value
+	 * @param minValue The value
+	 */
+	@Then("^I modify(?: the)? alias \"(.*?)\" by setting it to( alias)? \"(.*?)\" if the value it holds is larger")
+	public void min(final String alias, final String minValueAlias, final String minValue) {
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
+
+		final String fixedMinValue = autoAliasUtils.getValue(
+			minValue,
+			StringUtils.isNotBlank(minValueAlias),
+			State.getFeatureStateForThread());
+
+		if (Double.parseDouble(fixedMinValue) < Double.parseDouble(value)) {
+			final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
+			dataset.put(alias, fixedMinValue);
+			State.getFeatureStateForThread().setDataSet(dataset);
+		}
+	}
+
 }

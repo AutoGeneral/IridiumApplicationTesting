@@ -340,11 +340,12 @@ Feature: Test of the steps provided by Iridium
     Then I verify that the page contains the text "Button By Name Clicked"
 
   @test
-  Scenario: Test Clicking Elements xxxxx
+  Scenario: Test Clicking Elements multiple times
     And I save the current date with the format "MM" to the alias "This Month"
-    And I save the current date offset by "1 month" with the format "MM" to the alias "Next Month"
+    And I save the current date offset by "2 month" with the format "MM" to the alias "Next Month"
     And I modify the alias "Next Month" by subtracting the alias "This Month" from it
     And I copy the alias "Next Month" to the alias "Click Repeat"
+    And I modify the alias "Click Repeat" by setting it to "2" if the value it holds is smaller
 
     And I click the element found by "buttonId" "Click Repeat" times
     Then I verify that the page contains the text "Button By ID Clicked"
