@@ -230,7 +230,7 @@ public class ModifyStepDefinitions {
 	 *
 	 * @param alias The alias that holds the first value
 	 * @param subtractAlias include the word alias to get the value of the subtraction from an aliased value
-	 * @param subtractAlias The alias that holds the value to subtract from the first value
+	 * @param subtract The alias or value that is to be subtracted from the first value
 	 */
 	@Then("^I modify(?: the)? alias \"(.*?)\" by subtracting( alias)? \"(.*?)\" from it")
 	public void subtract(final String alias, final String subtractAlias, final String subtract) {
