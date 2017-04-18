@@ -12,6 +12,7 @@ import au.com.agic.apptesting.utils.JavaScriptRunner;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -64,15 +65,24 @@ public class ClickingStepDefinitions {
 	 *                      data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
 	 *                      set, this value is found from the data set. Otherwise it is a literal value.
+	 * @param timesAlias    If this word is found in the step, it means the times is found from the
+	 *                      data set.
+	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click (?:a|an|the) element found by( alias)? \"([^\"]*)\"( if it exists)?$")
+	@When("^I click (?:a|an|the) element found by( alias)? \"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
 	public void clickElementSimpleStep(
 		final String alias,
 		final String selectorValue,
+		final String timesAlias,
+		final String times,
 		final String exists) {
 		try {
+			final Integer fixedTimes = NumberUtils.toInt(
+				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+			1);
+
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
@@ -87,13 +97,15 @@ public class ClickingStepDefinitions {
 			final boolean treatAsHiddenElement = browserInteropUtils.treatElementAsHidden(
 				webDriver, element, js);
 
-			if (treatAsHiddenElement) {
-				javaScriptRunner.interactHiddenElementMouseEvent(element, "click", js);
-			} else {
-				element.click();
-			}
+			for (int i = 0; i < fixedTimes; ++i) {
+				if (treatAsHiddenElement) {
+					javaScriptRunner.interactHiddenElementMouseEvent(element, "click", js);
+				} else {
+					element.click();
+				}
 
-			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			}
 
 		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -110,17 +122,26 @@ public class ClickingStepDefinitions {
 	 *                      data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
 	 *                      set, this value is found from the data set. Otherwise it is a literal value.
+	 * @param timesAlias    If this word is found in the step, it means the times is found from the
+	 *                      data set.
+	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@When("^I click (?:a|an|the) element with (?:a|an|the) (ID|class|xpath|name|css selector)( alias)? "
-		+ "of \"([^\"]*)\"( if it exists)?$")
+		+ "of \"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
 	public void clickElementStep(
 		final String selector,
 		final String alias,
 		final String selectorValue,
+		final String timesAlias,
+		final String times,
 		final String exists) {
 		try {
+			final Integer fixedTimes = NumberUtils.toInt(
+				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+				1);
+
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final By by = getBy.getBy(
 				selector,
@@ -140,13 +161,15 @@ public class ClickingStepDefinitions {
 			final boolean treatAsHiddenElement = browserInteropUtils.treatElementAsHidden(
 				webDriver, element, js);
 
-			if (treatAsHiddenElement) {
-				javaScriptRunner.interactHiddenElementMouseEvent(element, "click", js);
-			} else {
-				element.click();
-			}
+			for (int i = 0; i < fixedTimes; ++i) {
+				if (treatAsHiddenElement) {
+					javaScriptRunner.interactHiddenElementMouseEvent(element, "click", js);
+				} else {
+					element.click();
+				}
 
-			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			}
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -162,17 +185,26 @@ public class ClickingStepDefinitions {
 	 *                      data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
 	 *                      set, this value is found from the data set. Otherwise it is a literal value.
+	 * @param timesAlias    If this word is found in the step, it means the times is found from the
+	 *                      data set.
+	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@When("^I click (?:a|an|the) hidden element found by( alias)? "
-		+ "\"([^\"]*)\"( if it exists)?$")
+		+ "\"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
 	public void clickSimpleHiddenElementStep(
 		final String alias,
 		final String selectorValue,
+		final String timesAlias,
+		final String times,
 		final String exists) {
 
 		try {
+			final Integer fixedTimes = NumberUtils.toInt(
+				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+				1);
+
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -185,8 +217,10 @@ public class ClickingStepDefinitions {
 				PhantomJS doesn't support the click method, so "element.click()" won't work
 				here. We need to dispatch the event instead.
 			 */
-			javaScriptRunner.interactHiddenElementMouseEvent(element, "click", js);
-			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			for (int i = 0; i < fixedTimes; ++i) {
+				javaScriptRunner.interactHiddenElementMouseEvent(element, "click", js);
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			}
 		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -202,18 +236,27 @@ public class ClickingStepDefinitions {
 	 *                      data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
 	 *                      set, this value is found from the data set. Otherwise it is a literal value.
+	 * @param timesAlias    If this word is found in the step, it means the times is found from the
+	 *                      data set.
+	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@When("^I click (?:a|an|the) hidden element with (?:a|an|the) (ID|class|xpath|name|css selector)( alias)? "
-		+ "of \"([^\"]*)\"( if it exists)?$")
+		+ "of \"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
 	public void clickHiddenElementStep(
 		final String selector,
 		final String alias,
 		final String selectorValue,
+		final String timesAlias,
+		final String times,
 		final String exists) {
 
 		try {
+			final Integer fixedTimes = NumberUtils.toInt(
+				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+				1);
+
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final By by = getBy.getBy(
 				selector,
@@ -231,8 +274,10 @@ public class ClickingStepDefinitions {
 				PhantomJS doesn't support the click method, so "element.click()" won't work
 				here. We need to dispatch the event instead.
 			 */
-			javaScriptRunner.interactHiddenElementMouseEvent(element, "click", js);
-			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			for (int i = 0; i < fixedTimes; ++i) {
+				javaScriptRunner.interactHiddenElementMouseEvent(element, "click", js);
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			}
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -246,30 +291,43 @@ public class ClickingStepDefinitions {
 	 * @param alias       If this word is found in the step, it means the linkContent is found from the data
 	 *                    set.
 	 * @param linkContent The text content of the link we are clicking
+	 * @param timesAlias    If this word is found in the step, it means the times is found from the
+	 *                      data set.
+	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists      If this text is set, an error that would be thrown because the element was not found
 	 *                    is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click (?:a|an|the) link with the text content of( alias)? \"([^\"]*)\"( if it exists)?$")
+	@When("^I click (?:a|an|the) link with the text content of( alias)? \"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
 	public void clickLinkStep(
 		final String alias,
 		final String linkContent,
+		final String timesAlias,
+		final String times,
 		final String exists) {
 
 		try {
+			final Integer fixedTimes = NumberUtils.toInt(
+				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+				1);
+
+
 			final String text = autoAliasUtils.getValue(
 				linkContent, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 			checkState(text != null, "the aliased link content does not exist");
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(
-				webDriver,
-				State.getFeatureStateForThread().getDefaultWait(),
-				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-			final WebElement element = wait.until(
-				ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
-			element.click();
-			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+
+			for (int i = 0; i < fixedTimes; ++i) {
+				final WebDriverWait wait = new WebDriverWait(
+					webDriver,
+					State.getFeatureStateForThread().getDefaultWait(),
+					Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+				final WebElement element = wait.until(
+					ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
+				element.click();
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			}
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -283,31 +341,43 @@ public class ClickingStepDefinitions {
 	 * @param alias       If this word is found in the step, it means the linkContent is found from the data
 	 *                    set.
 	 * @param linkContent The text content of the link we are clicking
+	 * @param timesAlias    If this word is found in the step, it means the times is found from the
+	 *                      data set.
+	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists      If this text is set, an error that would be thrown because the element was not found
 	 *                    is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click (?:a|an|the) hidden link with the text content( alias)? of \"([^\"]*)\"( if it exists)?$")
+	@When("^I click (?:a|an|the) hidden link with the text content( alias)? of \"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
 	public void clickHiddenLinkStep(
 		final String alias,
 		final String linkContent,
+		final String timesAlias,
+		final String times,
 		final String exists) {
 
 		try {
+			final Integer fixedTimes = NumberUtils.toInt(
+				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+				1);
+
 			final String text = autoAliasUtils.getValue(
 				linkContent, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 			checkState(text != null, "the aliased link content does not exist");
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(
-				webDriver,
-				State.getFeatureStateForThread().getDefaultWait(),
-				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-			final WebElement element = wait.until(
-				ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
-			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-			js.executeScript("arguments[0].click();", element);
-			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+
+			for (int i = 0; i < fixedTimes; ++i) {
+				final WebDriverWait wait = new WebDriverWait(
+					webDriver,
+					State.getFeatureStateForThread().getDefaultWait(),
+					Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+				final WebElement element = wait.until(
+					ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
+				final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+				js.executeScript("arguments[0].click();", element);
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			}
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -327,13 +397,16 @@ public class ClickingStepDefinitions {
 	 * @param randomEndAlias     If this word is found in the step, it means the randomEnd is found from
 	 *                              the data set.
 	 * @param randomEnd          The end of the range of random numbers to select from
+	 * @param timesAlias    If this word is found in the step, it means the times is found from the
+	 *                      data set.
+	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists             If this text is set, an error that would be thrown because the element
 	 *                              was not found is ignored. Essentially setting this text makes this
 	 *                              an optional statement.
 	 */
 	@When("^I click (?:a|an|the) element with (?:a|an|the) attribute( alias)? of \"([^\"]*)\" "
 		+ "with a random number between( alias)? \"([^\"]*)\" and( alias)? \"([^\"]*)\""
-		+ "( if it exists)?$")
+		+ "(?:( alias)? \".*?\" times)?( if it exists)?$")
 	public void clickElementWithRandomNumberStep(
 		final String attributeNameAlias,
 		final String attributeName,
@@ -341,9 +414,15 @@ public class ClickingStepDefinitions {
 		final String randomStart,
 		final String randomEndAlias,
 		final String randomEnd,
+		final String timesAlias,
+		final String times,
 		final String exists) {
 
 		try {
+			final Integer fixedTimes = NumberUtils.toInt(
+				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+				1);
+
 			final String attr = autoAliasUtils.getValue(
 				attributeName, StringUtils.isNotBlank(attributeNameAlias), State.getFeatureStateForThread());
 
@@ -354,20 +433,23 @@ public class ClickingStepDefinitions {
 
 			final Integer int1 = Integer.parseInt(startValue);
 			final Integer int2 = Integer.parseInt(endValue);
-			final Integer random = SecureRandom.getInstance("SHA1PRNG").nextInt(
-				Math.abs(int2 - int1)) + Math.min(int1, int2);
 
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(
-				webDriver,
-				State.getFeatureStateForThread().getDefaultWait(),
-				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-			final WebElement element = wait.until(
-				ExpectedConditions.elementToBeClickable(
-					By.cssSelector("[" + attr + "='" + random + "']")));
+			for (int i = 0; i < fixedTimes; ++i) {
+				final Integer random = SecureRandom.getInstance("SHA1PRNG").nextInt(
+					Math.abs(int2 - int1)) + Math.min(int1, int2);
 
-			element.click();
-			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+				final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+				final WebDriverWait wait = new WebDriverWait(
+					webDriver,
+					State.getFeatureStateForThread().getDefaultWait(),
+					Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+				final WebElement element = wait.until(
+					ExpectedConditions.elementToBeClickable(
+						By.cssSelector("[" + attr + "='" + random + "']")));
+
+				element.click();
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			}
 		} catch (final TimeoutException ex) {
 			if (!" if it exists".equals(exists)) {
 				throw ex;
@@ -388,20 +470,29 @@ public class ClickingStepDefinitions {
 	 * @param attributeValueAlias If this word is found in the step, it means the attributeValue is found
 	 *                               from the data set.
 	 * @param attributeValue      The value of the attribute to match
+	 * @param timesAlias    If this word is found in the step, it means the times is found from the
+	 *                      data set.
+	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists              If this text is set, an error that would be thrown because the element
 	 *                               was not found is ignored. Essentially setting this text makes this an
 	 *                               optional statement.
 	 */
 	@When("^I click (?:a|an|the) element with (?:a|an|the) attribute( alias)? of \"([^\"]*)\" equal to( alias)? "
-		+ "\"([^\"]*)\"( if it exists)?$")
+		+ "\"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
 	public void clickElementWithAttrStep(
 		final String attributeNameAlias,
 		final String attributeName,
 		final String attributeValueAlias,
 		final String attributeValue,
+		final String timesAlias,
+		final String times,
 		final String exists) {
 
 		try {
+			final Integer fixedTimes = NumberUtils.toInt(
+				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+				1);
+
 			final String attr = autoAliasUtils.getValue(
 				attributeName, StringUtils.isNotBlank(attributeNameAlias), State.getFeatureStateForThread());
 
@@ -409,15 +500,18 @@ public class ClickingStepDefinitions {
 				attributeValue, StringUtils.isNotBlank(attributeValueAlias), State.getFeatureStateForThread());
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(
-				webDriver,
-				State.getFeatureStateForThread().getDefaultWait(),
-				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-			final WebElement element = wait.until(
-				ExpectedConditions.elementToBeClickable(
-					By.cssSelector("[" + attr + "='" + value + "']")));
-			element.click();
-			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+
+			for (int i = 0; i < fixedTimes; ++i) {
+				final WebDriverWait wait = new WebDriverWait(
+					webDriver,
+					State.getFeatureStateForThread().getDefaultWait(),
+					Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+				final WebElement element = wait.until(
+					ExpectedConditions.elementToBeClickable(
+						By.cssSelector("[" + attr + "='" + value + "']")));
+				element.click();
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			}
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (!" if it exists".equals(exists)) {
 				throw ex;
@@ -428,17 +522,30 @@ public class ClickingStepDefinitions {
 	/**
 	 * Clicks ok on the alert
 	 *
+	 * @param timesAlias    If this word is found in the step, it means the times is found from the
+	 *                      data set.
+	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
+
 	 * @param exists      If this text is set, an error that would be thrown because the element was not found
 	 *                    is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click \"OK\" on the alert( if it exists)?$")
+	@When("^I click \"OK\" on the alert(?:( alias)? \".*?\" times)?( if it exists)?$")
 	public void clickOKOnAlert(
+		final String timesAlias,
+		final String times,
 		final String exists) {
 
 		try {
+			final Integer fixedTimes = NumberUtils.toInt(
+				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+				1);
+
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			browserInteropUtils.acceptAlert(webDriver);
-			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+
+			for (int i = 0; i < fixedTimes; ++i) {
+				browserInteropUtils.acceptAlert(webDriver);
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			}
 		} catch (final TimeoutException | NoAlertPresentException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -449,17 +556,29 @@ public class ClickingStepDefinitions {
 	/**
 	 * Clicks cancel on the alert
 	 *
+	 * @param timesAlias    If this word is found in the step, it means the times is found from the
+	 *                      data set.
+	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists      If this text is set, an error that would be thrown because the element was not found
 	 *                    is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click \"Cancel\" on the alert( if it exists)?$")
+	@When("^I click \"Cancel\" on the alert(?:( alias)? \".*?\" times)?( if it exists)?$")
 	public void clickCancelOnAlert(
+		final String timesAlias,
+		final String times,
 		final String exists) {
 
 		try {
+			final Integer fixedTimes = NumberUtils.toInt(
+				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+				1);
+
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			browserInteropUtils.cancelAlert(webDriver);
-			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+
+			for (int i = 0; i < fixedTimes; ++i) {
+				browserInteropUtils.cancelAlert(webDriver);
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			}
 		} catch (final TimeoutException | NoAlertPresentException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -474,49 +593,68 @@ public class ClickingStepDefinitions {
 	 * @param yAxis The vertical percentage within the element area to click
 	 * @param alias Include this to force the selector to reference an alias
 	 * @param selectorValue The selector
+	 * @param timesAlias    If this word is found in the step, it means the times is found from the
+	 *                      data set.
+	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists Include this to ignore errors caused by missing elements
 	 */
 	@When("^I \"(click|mousedown|mouseup|mouseover|mouseout|mousemove|dblclick)\" \"(\\d+(?:\\.\\d+)?)%\" horizontally and \"(\\d+(?:\\.\\d+)?)%\" vertically within"
-		+ " the area of (?:a|an|the) element found by( alias)? \"([^\"]*)\"( if it exists)?$")
-	public void clickInElement(final String event, final Float xAxis, final Float yAxis, final String alias, final String selectorValue, final String exists) {
+		+ " the area of (?:a|an|the) element found by( alias)? \"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
+	public void clickInElement(
+			final String event,
+			final Float xAxis,
+			final Float yAxis,
+			final String alias,
+			final String selectorValue,
+			final String timesAlias,
+			final String times,
+			final String exists) {
+
 		try {
+			final Integer fixedTimes = NumberUtils.toInt(
+				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+				1);
+
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
-				StringUtils.isNotBlank(alias),
-				selectorValue,
-				State.getFeatureStateForThread());
 
-			final Double width = Double.parseDouble(js.executeScript("return arguments[0].offsetWidth;", element).toString());
-			final Double height = Double.parseDouble(js.executeScript("return arguments[0].offsetHeight;", element).toString());
+			for (int i = 0; i < fixedTimes; ++i) {
+				final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
+					StringUtils.isNotBlank(alias),
+					selectorValue,
+					State.getFeatureStateForThread());
 
-			final int xOffset = (int) (xAxis / 100.0F * width);
-			final int yOffset = (int) (yAxis / 100.0F * height);
+				final Double width = Double.parseDouble(js.executeScript("return arguments[0].offsetWidth;", element).toString());
+				final Double height = Double.parseDouble(js.executeScript("return arguments[0].offsetHeight;", element).toString());
+
+				final int xOffset = (int) (xAxis / 100.0F * width);
+				final int yOffset = (int) (yAxis / 100.0F * height);
 
 			/*
 				Not really required, but practice safe programming anyway
 			 */
-			final String fixedEvent = event.replaceAll("'", "\\'");
+				final String fixedEvent = event.replaceAll("'", "\\'");
 
-			final String script = "var ev = document.createEvent('MouseEvent');\n"
-				+ "    ev.initMouseEvent(\n"
-				+ "        '" + fixedEvent + "',\n"
-				+ "        true /* bubble */, true /* cancelable */,\n"
-				+ "        window, null,\n"
-				+ "        0, 0, " + xOffset + ", " + yOffset + ", /* coordinates */\n"
-				+ "        false, false, false, false, /* modifier keys */\n"
-				+ "        0 /*left*/, null\n"
-				+ "    );\n"
-				+ "    arguments[0].dispatchEvent(ev);";
+				final String script = "var ev = document.createEvent('MouseEvent');\n"
+					+ "    ev.initMouseEvent(\n"
+					+ "        '" + fixedEvent + "',\n"
+					+ "        true /* bubble */, true /* cancelable */,\n"
+					+ "        window, null,\n"
+					+ "        0, 0, " + xOffset + ", " + yOffset + ", /* coordinates */\n"
+					+ "        false, false, false, false, /* modifier keys */\n"
+					+ "        0 /*left*/, null\n"
+					+ "    );\n"
+					+ "    arguments[0].dispatchEvent(ev);";
 
-			js.executeScript(script, element);
+				js.executeScript(script, element);
 
-			/*
-				This is the standard way, but is not supported in a lot of webdrivers (marionette
-				is known not to support moveto)
-			 */
-			//final Actions builder = new Actions(webDriver);
-			//builder.moveToElement(element, xOffset, yOffset).click().build().perform();
+				/*
+					This is the standard way, but is not supported in a lot of webdrivers (marionette
+					is known not to support moveto)
+				 */
+				//final Actions builder = new Actions(webDriver);
+				//builder.moveToElement(element, xOffset, yOffset).click().build().perform();
+			}
 		} catch (final TimeoutException | NoSuchElementException | WebElementException ex) {
 			if (StringUtils.isEmpty(exists)) {
 				throw ex;
@@ -530,34 +668,46 @@ public class ClickingStepDefinitions {
 	 * @param alias       If this word is found in the step, it means the linkContent is found from
 	 *                    the data set.
 	 * @param linkContent The text content of the link we are clicking
+	 * @param timesAlias    If this word is found in the step, it means the times is found from the
+	 *                      data set.
+	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists      If this text is set, an error that would be thrown because the element was
 	 *                    not found is ignored. Essentially setting this text makes this an optional
 	 *                    statement.
 	 */
-	@When("^I open (?:a|an|the) link with the text content of( alias)? \"([^\"]*)\" in a new window( if it exists)?$")
+	@When("^I open (?:a|an|the) link with the text content of( alias)? \"([^\"]*)\" in a new window(?:( alias)? \".*?\" times)?( if it exists)?$")
 	public void openInNewWindow(
 		final String alias,
 		final String linkContent,
+		final String timesAlias,
+		final String times,
 		final String exists) {
 
 		try {
+			final Integer fixedTimes = NumberUtils.toInt(
+				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+				1);
+
 			final String text = autoAliasUtils.getValue(
 				linkContent, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 			checkState(text != null, "the aliased link content does not exist");
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-			final WebDriverWait wait = new WebDriverWait(
-				webDriver,
-				State.getFeatureStateForThread().getDefaultWait(),
-				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-			final WebElement element = wait.until(
-				ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
-			final JavascriptExecutor js = JavascriptExecutor.class.cast(webDriver);
 
-			js.executeScript("window.open(arguments[0].getAttribute('href'),'_blank');", element);
+			for (int i = 0; i < fixedTimes; ++i) {
+				final WebDriverWait wait = new WebDriverWait(
+					webDriver,
+					State.getFeatureStateForThread().getDefaultWait(),
+					Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+				final WebElement element = wait.until(
+					ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
+				final JavascriptExecutor js = JavascriptExecutor.class.cast(webDriver);
 
-			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+				js.executeScript("window.open(arguments[0].getAttribute('href'),'_blank');", element);
+
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			}
 		} catch (final TimeoutException | NoSuchElementException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
