@@ -231,7 +231,7 @@ public class ModifyStepDefinitions {
 	 * @param alias The alias that holds the first value
 	 * @param subtractAlias The alias that holds the value to subtract from the first value
 	 */
-	@Then("^I modify(?: the)? alias \"(.*?)\" by subtracting the alias \"(.*?)\" from it")
+	@Then("^I modify(?: the)? alias \"(.*?)\" by subtracting(?: the)? alias \"(.*?)\" from it")
 	public void lowercase(final String alias, final String subtractAlias) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final String subtractValue = State.getFeatureStateForThread().getDataSet().get(subtractAlias);
@@ -249,7 +249,7 @@ public class ModifyStepDefinitions {
 	 * @param alias The alias that holds the first value
 	 * @param subtractAlias The alias that holds the value to add to the first value
 	 */
-	@Then("^I modify(?: the)? alias \"(.*?)\" by adding the alias \"(.*?)\" to it")
+	@Then("^I modify(?: the)? alias \"(.*?)\" by adding(?: the)? alias \"(.*?)\" to it")
 	public void add(final String alias, final String subtractAlias) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final String addValue = State.getFeatureStateForThread().getDataSet().get(subtractAlias);
@@ -267,7 +267,7 @@ public class ModifyStepDefinitions {
 	 * @param alias The alias that holds the first value
 	 * @param subtractAlias The alias that holds the value to multiply with the first value
 	 */
-	@Then("^I modify(?: the)? alias \"(.*?)\" by multiplying the alias \"(.*?)\" with it")
+	@Then("^I modify(?: the)? alias \"(.*?)\" by multiplying(?: the)? alias \"(.*?)\" with it")
 	public void multiply(final String alias, final String subtractAlias) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final String multiplyValue = State.getFeatureStateForThread().getDataSet().get(subtractAlias);
@@ -285,7 +285,7 @@ public class ModifyStepDefinitions {
 	 * @param alias The alias that holds the first value
 	 * @param subtractAlias The alias that holds the value to divide with the first value
 	 */
-	@Then("^I modify(?: the)? alias \"(.*?)\" by dividing the alias \"(.*?)\" into it")
+	@Then("^I modify(?: the)? alias \"(.*?)\" by dividing(?: the)? alias \"(.*?)\" into it")
 	public void divide(final String alias, final String subtractAlias) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final String divideValue = State.getFeatureStateForThread().getDataSet().get(subtractAlias);
