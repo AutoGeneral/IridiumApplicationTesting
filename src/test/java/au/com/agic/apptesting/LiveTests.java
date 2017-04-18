@@ -49,6 +49,20 @@ public class LiveTests {
 		});
 	}
 
+	private File[] getScreenshots() {
+		return new File(".").listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(final File dir, final String name) {
+				if(name.endsWith(".png")) {
+					LOGGER.info("Found screenshot file file: " + name);
+					return true;
+				}
+
+				return false;
+			}
+		});
+	}
+
 	private File[] getHarFiles() {
 		return new File(".").listFiles(new FilenameFilter() {
 			@Override
@@ -82,6 +96,33 @@ public class LiveTests {
 	@After
 	public void cleanUpFiles() {
 		globalTempFiles.forEach(File::delete);
+	}
+
+	/**
+	 * Test that a screenshot is taken
+	 */
+	@Test
+	public void testScreenshot() {
+
+		/*
+			Clean up any existing files
+		 */
+		Arrays.stream(getFailureScreenshots()).forEach(FileUtils::deleteQuietly);
+
+		setCommonProperties();
+		System.setProperty("testSource", this.getClass().getResource("/screenshot.feature").toString());
+		System.setProperty("testDestination", "PhantomJS");
+		final int failures = new TestRunner().run(globalTempFiles);
+
+		/*
+			We expect the feature to fail
+		 */
+		Assert.assertTrue(failures == 0);
+
+		/*
+			Try and find a failure screenshot
+		 */
+		Assert.assertTrue(Arrays.stream(getScreenshots()).anyMatch(f -> f.getName().contains("testscreenshot")));
 	}
 
 	/**

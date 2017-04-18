@@ -2,8 +2,9 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Open App
+    Given I display a starting marker
     # Load the page from the appUrlOverride value
-    Given I open the application
+    And I open the application
     # Load the page from the URL
     And I open the page "https://mcasperson.github.io/iridium/examples/test.html"
     And I set the default wait time between steps to "0.2" seconds
@@ -42,7 +43,15 @@ Feature: Test of the steps provided by Iridium
       | CaseChange           | abcdefg                                                   |
       | DropDownListIndex    | 2                                                         |
       | ArithmeticTest       | 1                                                         |
+    And I dump the alias map to the console
     And I dump the value of the alias "Non Existant Element" to the console
+
+  @test
+  Scenario: Test cookie steps
+    And I dump the value of the cookie called "whatever"
+    And I delete cookies called "whatever"
+    And I delete cookies called "whatever" with the path "/somecontext"
+    And I delete all cookies
 
   @test
   Scenario: Test Autoaliasing
