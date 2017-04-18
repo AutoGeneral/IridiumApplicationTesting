@@ -7,6 +7,7 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.BrowserInteropUtils;
+import au.com.agic.apptesting.utils.CountConverter;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.JavaScriptRunner;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
@@ -54,6 +55,8 @@ public class ClickingStepDefinitions {
 	private BrowserInteropUtils browserInteropUtils;
 	@Autowired
 	private JavaScriptRunner javaScriptRunner;
+	@Autowired
+	private CountConverter countConverter;
 
 	/**
 	 * A simplified step that will click on an element found by ID attribute, name attribue,
@@ -79,12 +82,7 @@ public class ClickingStepDefinitions {
 		final String times,
 		final String exists) {
 		try {
-			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(
-					StringUtils.defaultString(times, "1"),
-					StringUtils.isNotBlank(timesAlias),
-					State.getFeatureStateForThread()),
-			1);
+			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -141,12 +139,7 @@ public class ClickingStepDefinitions {
 		final String times,
 		final String exists) {
 		try {
-			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(
-					StringUtils.defaultString(times, "1"),
-					StringUtils.isNotBlank(timesAlias),
-					State.getFeatureStateForThread()),
-				1);
+			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final By by = getBy.getBy(
@@ -207,12 +200,7 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(
-					StringUtils.defaultString(times, "1"),
-					StringUtils.isNotBlank(timesAlias),
-					State.getFeatureStateForThread()),
-				1);
+			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
@@ -262,12 +250,7 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(
-					StringUtils.defaultString(times, "1"),
-					StringUtils.isNotBlank(timesAlias),
-					State.getFeatureStateForThread()),
-				1);
+			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final By by = getBy.getBy(
@@ -318,12 +301,7 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(
-					StringUtils.defaultString(times, "1"),
-					StringUtils.isNotBlank(timesAlias),
-					State.getFeatureStateForThread()),
-				1);
+			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final String text = autoAliasUtils.getValue(
 				linkContent, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
@@ -370,12 +348,7 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(
-					StringUtils.defaultString(times, "1"),
-					StringUtils.isNotBlank(timesAlias),
-					State.getFeatureStateForThread()),
-				1);
+			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final String text = autoAliasUtils.getValue(
 				linkContent, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
@@ -436,12 +409,7 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(
-					StringUtils.defaultString(times, "1"),
-					StringUtils.isNotBlank(timesAlias),
-					State.getFeatureStateForThread()),
-				1);
+			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final String attr = autoAliasUtils.getValue(
 				attributeName, StringUtils.isNotBlank(attributeNameAlias), State.getFeatureStateForThread());
@@ -509,12 +477,7 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(
-					StringUtils.defaultString(times, "1"),
-					StringUtils.isNotBlank(timesAlias),
-					State.getFeatureStateForThread()),
-				1);
+			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final String attr = autoAliasUtils.getValue(
 				attributeName, StringUtils.isNotBlank(attributeNameAlias), State.getFeatureStateForThread());
@@ -559,12 +522,7 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(
-					StringUtils.defaultString(times, "1"),
-					StringUtils.isNotBlank(timesAlias),
-					State.getFeatureStateForThread()),
-				1);
+			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
@@ -595,12 +553,7 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(
-					StringUtils.defaultString(times, "1"),
-					StringUtils.isNotBlank(timesAlias),
-					State.getFeatureStateForThread()),
-				1);
+			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
@@ -640,12 +593,7 @@ public class ClickingStepDefinitions {
 			final String exists) {
 
 		try {
-			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(
-					StringUtils.defaultString(times, "1"),
-					StringUtils.isNotBlank(timesAlias),
-					State.getFeatureStateForThread()),
-				1);
+			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -716,12 +664,7 @@ public class ClickingStepDefinitions {
 		final String exists) {
 
 		try {
-			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(
-					StringUtils.defaultString(times, "1"),
-					StringUtils.isNotBlank(timesAlias),
-					State.getFeatureStateForThread()),
-				1);
+			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final String text = autoAliasUtils.getValue(
 				linkContent, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
