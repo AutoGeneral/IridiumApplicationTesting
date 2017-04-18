@@ -492,5 +492,6 @@ public class LiveTests {
 		System.setProperty("dryRun", "");
 		System.setProperty("importBaseUrl", "");
 		System.setProperty("enableScreenshotOnError", "false");
+		System.setProperty("monochromeOutput", "false");
 	}
 }
