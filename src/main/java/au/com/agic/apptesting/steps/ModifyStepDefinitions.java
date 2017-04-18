@@ -231,7 +231,7 @@ public class ModifyStepDefinitions {
 	 * @param alias The alias that holds the first value
 	 * @param subtractAlias The alias that holds the value to subtract from the first value
 	 */
-	@Then("^I modify(?: the)? alias \"(.*?)\" by subtracting(?: the)? alias \"(.*?)\" from it")
+	@Then("^I modify(?: the)? alias \"(.*?)\" by subtracting( alias)? \"(.*?)\" from it")
 	public void lowercase(final String alias, final String subtractAlias) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
 		final String subtractValue = State.getFeatureStateForThread().getDataSet().get(subtractAlias);
@@ -247,12 +247,17 @@ public class ModifyStepDefinitions {
 	 * Add two aliases
 	 *
 	 * @param alias The alias that holds the first value
-	 * @param subtractAlias The alias that holds the value to add to the first value
+	 * @param addAlias include the word alias to get the value of the addition from an aliased value
+	 * @param add The alias that holds the value to add to the first value
 	 */
-	@Then("^I modify(?: the)? alias \"(.*?)\" by adding(?: the)? alias \"(.*?)\" to it")
-	public void add(final String alias, final String subtractAlias) {
+	@Then("^I modify(?: the)? alias \"(.*?)\" by adding( alias)? \"(.*?)\" to it")
+	public void add(final String alias, final String addAlias, final String add) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
-		final String addValue = State.getFeatureStateForThread().getDataSet().get(subtractAlias);
+
+		final String addValue = autoAliasUtils.getValue(
+			add,
+			StringUtils.isNotBlank(addAlias),
+			State.getFeatureStateForThread());
 
 		final BigDecimal result = new BigDecimal(value).add(new BigDecimal(addValue));
 
@@ -265,12 +270,17 @@ public class ModifyStepDefinitions {
 	 * Multiply two aliases
 	 *
 	 * @param alias The alias that holds the first value
-	 * @param subtractAlias The alias that holds the value to multiply with the first value
+	 * @param multiplyAlias include the word alias to get the value of the multiplier from an aliased value
+	 * @param multiply The alias that holds the value to multiply with the first value
 	 */
-	@Then("^I modify(?: the)? alias \"(.*?)\" by multiplying(?: the)? alias \"(.*?)\" with it")
-	public void multiply(final String alias, final String subtractAlias) {
+	@Then("^I modify(?: the)? alias \"(.*?)\" by multiplying( alias)? \"(.*?)\" with it")
+	public void multiply(final String alias, final String multiplyAlias, final String multiply) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
-		final String multiplyValue = State.getFeatureStateForThread().getDataSet().get(subtractAlias);
+
+		final String multiplyValue = autoAliasUtils.getValue(
+			multiply,
+			StringUtils.isNotBlank(multiplyAlias),
+			State.getFeatureStateForThread());
 
 		final BigDecimal result = new BigDecimal(value).multiply(new BigDecimal(multiplyValue));
 
@@ -283,12 +293,17 @@ public class ModifyStepDefinitions {
 	 * Divide two aliases
 	 *
 	 * @param alias The alias that holds the first value
-	 * @param subtractAlias The alias that holds the value to divide with the first value
+	 * @param divideAlias include the word alias to get the value of the divisor from an aliased value
+	 * @param divide The alias that holds the value to divide with the first value
 	 */
-	@Then("^I modify(?: the)? alias \"(.*?)\" by dividing(?: the)? alias \"(.*?)\" into it")
-	public void divide(final String alias, final String subtractAlias) {
+	@Then("^I modify(?: the)? alias \"(.*?)\" by dividing( alias)? \"(.*?)\" into it")
+	public void divide(final String alias, final String divideAlias, final String divide) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
-		final String divideValue = State.getFeatureStateForThread().getDataSet().get(subtractAlias);
+
+		final String divideValue = autoAliasUtils.getValue(
+			divide,
+			StringUtils.isNotBlank(divideAlias),
+			State.getFeatureStateForThread());
 
 		final BigDecimal result = new BigDecimal(value).divide(new BigDecimal(divideValue));
 

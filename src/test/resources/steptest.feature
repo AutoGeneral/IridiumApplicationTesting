@@ -41,6 +41,7 @@ Feature: Test of the steps provided by Iridium
       | NoUISlider           | #nouislider > div                                         |
       | CaseChange           | abcdefg                                                   |
       | DropDownListIndex    | 2                                                         |
+      | ArithmeticTest       | 1                                                         |
     And I dump the value of the alias "Non Existant Element" to the console
 
   @test
@@ -51,6 +52,29 @@ Feature: Test of the steps provided by Iridium
       And I set the default keystroke delay to "200" milliseconds
       And I "mousedown" on the hidden element found by "Event Button"
     Then I verify that the page contains the text "MouseDown Text"
+
+  @test
+  Scenario: Arithmetic
+    And I modify the alias "ArithmeticTest" by setting it to "2" if the value it holds is smaller
+    Then I verify that the alias "ArithmeticTest" is equal to "2"
+    And I modify the alias "ArithmeticTest" by setting it to "1" if the value it holds is larger
+    Then I verify that the alias "ArithmeticTest" is equal to "1"
+    And I modify the alias "ArithmeticTest" by multiplying "10" with it
+    Then I verify that the alias "ArithmeticTest" is equal to "10"
+    And I modify the alias "ArithmeticTest" by dividing "2" into it
+    Then I verify that the alias "ArithmeticTest" is equal to "5"
+    And I modify the alias "ArithmeticTest" by adding "2000" to it
+    Then I verify that the alias "ArithmeticTest" is equal to "2005"
+    And I modify the alias "ArithmeticTest" by subtracting "1005" from it
+    Then I verify that the alias "ArithmeticTest" is equal to "1000"
+    And I modify the alias "ArithmeticTest" by multiplying "ArithmeticTest" with it
+    Then I verify that the alias "ArithmeticTest" is equal to "1000000"
+    And I modify the alias "ArithmeticTest" by dividing "ArithmeticTest" into it
+    Then I verify that the alias "ArithmeticTest" is equal to "1"
+    And I modify the alias "ArithmeticTest" by adding "ArithmeticTest" to it
+    Then I verify that the alias "ArithmeticTest" is equal to "2"
+    And I modify the alias "ArithmeticTest" by subtracting "ArithmeticTest" from it
+    Then I verify that the alias "ArithmeticTest" is equal to "0"
 
   @test
   Scenario: Issue 90 Test: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/90
@@ -343,7 +367,7 @@ Feature: Test of the steps provided by Iridium
   Scenario: Test Clicking Elements multiple times
     And I save the current date with the format "MM" to the alias "This Month"
     And I save the current date offset by "2 month" with the format "MM" to the alias "Next Month"
-    And I modify the alias "Next Month" by subtracting the alias "This Month" from it
+    And I modify the alias "Next Month" by subtracting alias "This Month" from it
     And I copy the alias "Next Month" to the alias "Click Repeat"
     And I modify the alias "Click Repeat" by setting it to "2" if the value it holds is smaller
 
