@@ -340,6 +340,30 @@ Feature: Test of the steps provided by Iridium
     Then I verify that the page contains the text "Button By Name Clicked"
 
   @test
+  Scenario: Test Clicking Elements xxxxx
+    And I save the current date with the format "MM" to the alias "This Month"
+    And I save the current date offset by "1 month" with the format "MM" to the alias "Next Month"
+    And I modify the alias "Next Month" by subtracting the alias "This Month" from it
+    And I copy the alias "Next Month" to the alias "Click Repeat"
+
+    And I click the element found by "buttonId" "Click Repeat" times
+    Then I verify that the page contains the text "Button By ID Clicked"
+    And I click the element found by "buttonClass" "Click Repeat" times
+    Then I verify that the page contains the text "Button By Class Clicked"
+    And I click the element found by "buttonName" "Click Repeat" times
+    Then I verify that the page contains the text "Button By Name Clicked"
+    And I click the element found by "buttonValue" "Click Repeat" times
+    Then I verify that the page contains the text "Button By Value Clicked"
+    And I click the element found by "Button By Text" "Click Repeat" times
+    Then I verify that the page contains the text "Button By Text Clicked"
+    And I click the element with the ID of "buttonId" "Click Repeat" times
+    Then I verify that the page contains the text "Button By ID Clicked"
+    And I click the element with the class of "buttonClass" "Click Repeat" times
+    Then I verify that the page contains the text "Button By Class Clicked"
+    And I click the element with the name of "buttonName" "Click Repeat" times
+    Then I verify that the page contains the text "Button By Name Clicked"
+
+  @test
   Scenario: Test Clicking Elements With Aliases
     And I click the element found by alias "Button ID"
     Then I verify that the page contains the text alias "Button ID Output"

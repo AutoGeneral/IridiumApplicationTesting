@@ -71,7 +71,7 @@ public class ClickingStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click (?:a|an|the) element found by( alias)? \"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
+	@When("^I click (?:a|an|the) element found by( alias)? \"([^\"]*)\"(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickElementSimpleStep(
 		final String alias,
 		final String selectorValue,
@@ -129,7 +129,7 @@ public class ClickingStepDefinitions {
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@When("^I click (?:a|an|the) element with (?:a|an|the) (ID|class|xpath|name|css selector)( alias)? "
-		+ "of \"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
+		+ "of \"([^\"]*)\"(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickElementStep(
 		final String selector,
 		final String alias,
@@ -192,7 +192,7 @@ public class ClickingStepDefinitions {
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@When("^I click (?:a|an|the) hidden element found by( alias)? "
-		+ "\"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
+		+ "\"([^\"]*)\"(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickSimpleHiddenElementStep(
 		final String alias,
 		final String selectorValue,
@@ -243,7 +243,7 @@ public class ClickingStepDefinitions {
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@When("^I click (?:a|an|the) hidden element with (?:a|an|the) (ID|class|xpath|name|css selector)( alias)? "
-		+ "of \"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
+		+ "of \"([^\"]*)\"(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickHiddenElementStep(
 		final String selector,
 		final String alias,
@@ -297,7 +297,7 @@ public class ClickingStepDefinitions {
 	 * @param exists      If this text is set, an error that would be thrown because the element was not found
 	 *                    is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click (?:a|an|the) link with the text content of( alias)? \"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
+	@When("^I click (?:a|an|the) link with the text content of( alias)? \"([^\"]*)\"(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickLinkStep(
 		final String alias,
 		final String linkContent,
@@ -347,7 +347,7 @@ public class ClickingStepDefinitions {
 	 * @param exists      If this text is set, an error that would be thrown because the element was not found
 	 *                    is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click (?:a|an|the) hidden link with the text content( alias)? of \"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
+	@When("^I click (?:a|an|the) hidden link with the text content( alias)? of \"([^\"]*)\"(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickHiddenLinkStep(
 		final String alias,
 		final String linkContent,
@@ -406,7 +406,7 @@ public class ClickingStepDefinitions {
 	 */
 	@When("^I click (?:a|an|the) element with (?:a|an|the) attribute( alias)? of \"([^\"]*)\" "
 		+ "with a random number between( alias)? \"([^\"]*)\" and( alias)? \"([^\"]*)\""
-		+ "(?:( alias)? \".*?\" times)?( if it exists)?$")
+		+ "(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickElementWithRandomNumberStep(
 		final String attributeNameAlias,
 		final String attributeName,
@@ -478,7 +478,7 @@ public class ClickingStepDefinitions {
 	 *                               optional statement.
 	 */
 	@When("^I click (?:a|an|the) element with (?:a|an|the) attribute( alias)? of \"([^\"]*)\" equal to( alias)? "
-		+ "\"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
+		+ "\"([^\"]*)\"(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickElementWithAttrStep(
 		final String attributeNameAlias,
 		final String attributeName,
@@ -529,7 +529,7 @@ public class ClickingStepDefinitions {
 	 * @param exists      If this text is set, an error that would be thrown because the element was not found
 	 *                    is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click \"OK\" on the alert(?:( alias)? \".*?\" times)?( if it exists)?$")
+	@When("^I click \"OK\" on the alert(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickOKOnAlert(
 		final String timesAlias,
 		final String times,
@@ -562,7 +562,7 @@ public class ClickingStepDefinitions {
 	 * @param exists      If this text is set, an error that would be thrown because the element was not found
 	 *                    is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click \"Cancel\" on the alert(?:( alias)? \".*?\" times)?( if it exists)?$")
+	@When("^I click \"Cancel\" on the alert(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickCancelOnAlert(
 		final String timesAlias,
 		final String times,
@@ -599,7 +599,7 @@ public class ClickingStepDefinitions {
 	 * @param exists Include this to ignore errors caused by missing elements
 	 */
 	@When("^I \"(click|mousedown|mouseup|mouseover|mouseout|mousemove|dblclick)\" \"(\\d+(?:\\.\\d+)?)%\" horizontally and \"(\\d+(?:\\.\\d+)?)%\" vertically within"
-		+ " the area of (?:a|an|the) element found by( alias)? \"([^\"]*)\"(?:( alias)? \".*?\" times)?( if it exists)?$")
+		+ " the area of (?:a|an|the) element found by( alias)? \"([^\"]*)\"(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickInElement(
 			final String event,
 			final Float xAxis,
@@ -675,7 +675,7 @@ public class ClickingStepDefinitions {
 	 *                    not found is ignored. Essentially setting this text makes this an optional
 	 *                    statement.
 	 */
-	@When("^I open (?:a|an|the) link with the text content of( alias)? \"([^\"]*)\" in a new window(?:( alias)? \".*?\" times)?( if it exists)?$")
+	@When("^I open (?:a|an|the) link with the text content of( alias)? \"([^\"]*)\" in a new window(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void openInNewWindow(
 		final String alias,
 		final String linkContent,
