@@ -41,6 +41,6 @@ Feature: Open an application
 		And I click the hidden link with the text content of "REST Practices"
 		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
 		And I go back
-		And I click the hidden link with the text content of "Understanding CDI"
+		And I click the hidden link with the text content of "Building Your DevOps Pipeline"
 		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
 		And I go back
