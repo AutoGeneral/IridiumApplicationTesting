@@ -229,12 +229,17 @@ public class ModifyStepDefinitions {
 	 * Subtract two aliases
 	 *
 	 * @param alias The alias that holds the first value
+	 * @param subtractAlias include the word alias to get the value of the subtraction from an aliased value
 	 * @param subtractAlias The alias that holds the value to subtract from the first value
 	 */
 	@Then("^I modify(?: the)? alias \"(.*?)\" by subtracting( alias)? \"(.*?)\" from it")
-	public void lowercase(final String alias, final String subtractAlias) {
+	public void subtract(final String alias, final String subtractAlias, final String subtract) {
 		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
-		final String subtractValue = State.getFeatureStateForThread().getDataSet().get(subtractAlias);
+
+		final String subtractValue = autoAliasUtils.getValue(
+			subtract,
+			StringUtils.isNotBlank(subtractAlias),
+			State.getFeatureStateForThread());
 
 		final BigDecimal result = new BigDecimal(value).subtract(new BigDecimal(subtractValue));
 

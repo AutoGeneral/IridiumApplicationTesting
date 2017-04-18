@@ -685,7 +685,10 @@ public class ClickingStepDefinitions {
 
 		try {
 			final Integer fixedTimes = NumberUtils.toInt(
-				autoAliasUtils.getValue(times, StringUtils.isNotBlank(timesAlias), State.getFeatureStateForThread()),
+				autoAliasUtils.getValue(
+					StringUtils.defaultString(times, "1"),
+					StringUtils.isNotBlank(timesAlias),
+					State.getFeatureStateForThread()),
 				1);
 
 			final String text = autoAliasUtils.getValue(
