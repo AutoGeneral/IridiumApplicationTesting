@@ -921,7 +921,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout The presence of this text indicates that timeouts are ignored
 	 */
 	@Then("^(?:I verify(?: that)? )?a link with the text content of"
-		+ "( alias) \"([^\"]*)\" is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "( alias)? \"([^\"]*)\" is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void presentLinkStep(
 		final String alias,
 		final String linkContent,
@@ -957,7 +957,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout The presence of this text indicates that timeouts are ignored
 	 */
 	@Then("^(?:I verify(?: that)? )?a link with the text content of"
-		+ "( alias) \"([^\"]*)\" is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "( alias)? \"([^\"]*)\" is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notPresentLinkStep(
 		final String alias,
 		final String linkContent,

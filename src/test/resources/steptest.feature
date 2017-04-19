@@ -7,6 +7,7 @@ Feature: Test of the steps provided by Iridium
     And I open the application
     # Load the page from the URL
     And I open the page "https://mcasperson.github.io/iridium/examples/test.html"
+    Then I verify that there were no HTTP errors
     And I set the default wait time between steps to "0.2" seconds
     And I set the default wait for elements to be available to "3" seconds
     And I set the alias mappings
@@ -312,6 +313,15 @@ Feature: Test of the steps provided by Iridium
     Then I verify the element with the class of "buttonClass" is present
     Then I verify the element with the class alias of "Non Existant Element" is not present within "1" second
 
+    Then I verify that a link with the text content of "this does not exist" is not present
+    Then I verify the element with the attribute of "id" equal to "output" is displayed
+    Then I verify the element with the attribute of "id" equal to "this does not exist" is not displayed
+    Then I verify the element with the attribute of "id" equal to "this does not exist" is not displayed within "1" second
+
+    Then I verify the element with the attribute of "id" equal to "output" is present
+    Then I verify the element with the attribute of "id" equal to "this does not exist" is not present
+    Then I verify the element with the attribute of "id" equal to "this does not exist" is not present within "1" second
+
   @test
   Scenario: Manual Mouse Events
     And I "mousedown" on the hidden element found by "eventButton"
@@ -606,7 +616,7 @@ Feature: Test of the steps provided by Iridium
   @test
   Scenario: Click Links
     And I wait "30" seconds for a link with the text content of alias "Test Link" to be present
-    And I wait "10" seconds for a link with the text content of "This link does not exist" to not be present
+    And I wait "2" seconds for a link with the text content of "This link does not exist" to not be present
     And I click the link with the text content of "Test Link"
     And I click the hidden link with the text content alias of "Link Contents"
 
