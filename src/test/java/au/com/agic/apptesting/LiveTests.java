@@ -476,6 +476,19 @@ public class LiveTests {
 		Assert.fail();
 	}
 
+	@Test
+	public void negativeTests() {
+
+		for (int i = 1; i <= 10; ++i) {
+			setCommonProperties();
+			System.setProperty("testSource", this.getClass().getResource("/negativeclicktests.feature").toString());
+			System.setProperty("testDestination", "PhantomJS");
+			System.setProperty("tagsOverride", "@neg-click-" + i);
+			final int failures = new TestRunner().run(globalTempFiles);
+			Assert.assertEquals(1, failures);
+		}
+	}
+
 	private void setCommonProperties() {
 		System.setProperty(Constants.REPORTS_DIRECTORY, "");
 		System.setProperty("webdriver.chrome.driver", "");
