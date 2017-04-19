@@ -616,7 +616,7 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Click Links
-    And I wait "30" seconds for a link with the text content of alias "Test Link" to be present
+    And I wait "30" seconds for a link with the text content of alias "Link Contents" to be present
     And I wait "2" seconds for a link with the text content of "This link does not exist" to not be present
     And I click the link with the text content of "Test Link"
     And I click the hidden link with the text content alias of "Link Contents"
