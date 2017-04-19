@@ -173,6 +173,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
+		mainloop:
 		while (time < waitTime * Constants.MILLISECONDS_PER_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
 
@@ -193,7 +194,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 						If we found an element, drop back to the while loop
 					 */
 					if (element != null) {
-						break;
+						break mainloop;
 					}
 				} catch (final Exception ignored) {
 					/*
@@ -286,6 +287,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		long time = 0;
 
+		mainloop:
 		while (time < waitTime * Constants.MILLISECONDS_PER_SECOND) {
 			for (final String locationMethod : LOCATION_METHODS) {
 
@@ -306,7 +308,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 						If we found an element, drop back to the while loop
 					 */
 					if (element != null) {
-						break;
+						break mainloop;
 					}
 				} catch (final Exception ignored) {
 					/*
