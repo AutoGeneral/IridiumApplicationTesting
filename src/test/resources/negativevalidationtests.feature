@@ -101,22 +101,22 @@ Feature: Negative step tests
     Given I open the page "http://google.com"
     Then I verify that the element with the attribute of "nope" equal to "nope" is displayed
 
-  @neg-verify-20
-  Scenario: Negative verify test 20
-    Given I open the page "http://google.com"
-    Then I verify that the element with the attribute of "aria-label" equal to "Google Search" is not displayed
-
   @neg-verify-21
   Scenario: Negative verify test 21
     Given I open the page "http://google.com"
-    Then I verify that the element with the attribute of "nope" equal to "nope" is present
+    Then I verify that the element with the attribute of "aria-label" equal to "Google Search" is not displayed
 
   @neg-verify-22
   Scenario: Negative verify test 22
     Given I open the page "http://google.com"
-    Then I verify that the element with the attribute of "id" equal to "hplogo" is not present
+    Then I verify that the element with the attribute of "nope" equal to "nope" is present
 
   @neg-verify-23
   Scenario: Negative verify test 23
+    Given I open the page "http://google.com"
+    Then I verify that the element with the attribute of "id" equal to "hplogo" is not present
+
+  @neg-verify-24
+  Scenario: Negative verify test 24
     Given I open the page "http://google.com/nope"
     Then I verify that there were no HTTP errors
