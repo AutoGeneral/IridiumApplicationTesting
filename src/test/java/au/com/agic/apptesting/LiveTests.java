@@ -477,13 +477,26 @@ public class LiveTests {
 	}
 
 	@Test
-	public void negativeTests() {
+	public void negativeClickTests() {
 
 		for (int i = 1; i <= 10; ++i) {
 			setCommonProperties();
 			System.setProperty("testSource", this.getClass().getResource("/negativeclicktests.feature").toString());
 			System.setProperty("testDestination", "PhantomJS");
 			System.setProperty("tagsOverride", "@neg-click-" + i);
+			final int failures = new TestRunner().run(globalTempFiles);
+			Assert.assertEquals(1, failures);
+		}
+	}
+
+	@Test
+	public void negativeEventTests() {
+
+		for (int i = 1; i <= 2; ++i) {
+			setCommonProperties();
+			System.setProperty("testSource", this.getClass().getResource("/negativeeventtests.feature").toString());
+			System.setProperty("testDestination", "PhantomJS");
+			System.setProperty("tagsOverride", "@neg-event-" + i);
 			final int failures = new TestRunner().run(globalTempFiles);
 			Assert.assertEquals(1, failures);
 		}

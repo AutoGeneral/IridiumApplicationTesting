@@ -208,6 +208,8 @@ Feature: Test of the steps provided by Iridium
     And I modify the element found by "this does not exist" by setting the attribute "data-test" to "New Value" if it exists
     And I save the attribute content of "data-test" from the element found by "eventButton" to the alias "Data Test Attr"
     And I verify that the alias "Data Test Attr" is equal to "New Value"
+    And I save the attribute content of "data-test" from the element with the ID of "eventButton" to the alias "Data Test Attr"
+    And I verify that the alias "Data Test Attr" is equal to "New Value"
 
   # https://github.com/AutoGeneral/IridiumApplicationTesting/issues/32
   @test
@@ -596,6 +598,8 @@ Feature: Test of the steps provided by Iridium
     And I save the attribute content of "data-verify" from the element found by "verifyNumber" to the alias "Example Number Attr"
     And I save the attribute content of "data-verify" from the element found by "verifyString" to the alias "Example String Attr"
     And I save the value of the element found by "optionValue" to the alias "Option Value"
+    Then I verify that the alias "Example Number" is a number
+    And I save the value of the element with the ID of "optionValue" to the alias "Option Value"
     Then I verify that the alias "Example Number" is a number
     And I verify that the alias "Example String" is not a number
     And I verify that the alias "Example Number" is not empty
