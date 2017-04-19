@@ -115,3 +115,8 @@ Feature: Negative step tests
   Scenario: Negative verify test 22
     Given I open the page "http://google.com"
     Then I verify that the element with the attribute of "id" equal to "hplogo" is not present
+
+  @neg-verify-23
+  Scenario: Negative verify test 23
+    Given I open the page "http://google.com/nope"
+    Then I verify that there were no HTTP errors
