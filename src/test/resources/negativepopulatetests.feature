@@ -23,7 +23,7 @@ Feature: Negative step tests
   @neg-populate-5
   Scenario: Negative populate test 5
     Given I open the page "http://google.com"
-    Then I populate he element with the css selector of "nope" with a random number between "10" and "20"
+    Then I populate the element with the css selector of "nope" with a random number between "10" and "20"
 
   @neg-populate-6
   Scenario: Negative populate test 6

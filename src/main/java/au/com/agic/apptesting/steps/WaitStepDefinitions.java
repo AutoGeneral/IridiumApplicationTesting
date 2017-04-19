@@ -374,7 +374,7 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) {
 
 		try {
-			simpleWebElementInteraction.getNotPresenceElementFoundBy(
+ 			simpleWebElementInteraction.getNotPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),

@@ -540,6 +540,13 @@ public class LiveTests {
 		runNegativeTest(feature, tagPrefix);
 	}
 
+	@Test
+	public void negativeWaitTests() {
+		final String feature = "/negativewaittests.feature";
+		final String tagPrefix = "@neg-wait-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
 	private void runNegativeTest(final String feature, final String tagPrefix) {
 		final int maxTags = findHighestTag(feature, tagPrefix);
 		for (int i = 1; i <= maxTags; ++i) {
