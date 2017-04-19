@@ -350,6 +350,12 @@ Feature: Test of the steps provided by Iridium
     Then I verify that the page contains the text "Button keyup"
     And I "keypress" on the hidden element found by "eventButton"
     Then I verify that the page contains the text "Button keypress"
+    And I dispatch a "keydown" event on the hidden element with the ID of "eventButton"
+    Then I verify that the page contains the text "Button keydown"
+    And I dispatch a "keyup" event on the hidden element with the ID of "eventButton"
+    Then I verify that the page contains the text "Button keyup"
+    And I dispatch a "keypress" event on the hidden element with the ID of "eventButton"
+    Then I verify that the page contains the text "Button keypress"
 
   @test
   Scenario: Work with DropDown Lists
@@ -534,6 +540,8 @@ Feature: Test of the steps provided by Iridium
     And I populate the element with the attribute of "name" equal to "textName" with "Text Box Found By Name"
     And I clear the element with the ID of "textId"
     And I populate the element with the ID of "formText" with "Text Box Found By ID" and submit
+    Then I verify that the page contains the text "Form submitted"
+    And I populate the element found by "formText" with "Text Box Found By ID" and submit
     Then I verify that the page contains the text "Form submitted"
     And I clear the element with the ID of "textId"
     And I clear the element with the class of "textClass"
