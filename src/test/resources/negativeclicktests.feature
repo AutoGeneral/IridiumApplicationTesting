@@ -42,11 +42,16 @@ Feature: Negative step tests
 
 
   @neg-click-9
-  Scenario: Negative click test 11
+  Scenario: Negative click test 9
     Given I open the page "http://google.com"
     Then I "mousedown" "50%" horizontally and "50%" vertically within the area of the element found by "does not exist"
 
   @neg-click-10
-  Scenario: Negative click test 12
+  Scenario: Negative click test 10
     Given I open the page "http://google.com"
     Then I "mousedown" "50%" horizontally and "50%" vertically within the area of the element found by "does not exist"
+
+  @neg-click-11
+  Scenario: Negative click test 11
+    Given I open the page "http://google.com"
+    Then I open the link with the text content of "nope" in a new window

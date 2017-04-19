@@ -481,72 +481,65 @@ public class LiveTests {
 	public void negativeClickTests() {
 		final String feature = "/negativeclicktests.feature";
 		final String tagPrefix = "@neg-click-";
-		final int maxTags = findHighestTag(feature, tagPrefix);
-		for (int i = 1; i <= maxTags; ++i) {
-			setCommonProperties();
-			System.setProperty("testSource", this.getClass().getResource(feature).toString());
-			System.setProperty("testDestination", "PhantomJS");
-			System.setProperty("tagsOverride", tagPrefix + i);
-			final int failures = new TestRunner().run(globalTempFiles);
-			Assert.assertEquals(1, failures);
-		}
+		runNegativeTest(feature, tagPrefix);
 	}
 
 	@Test
 	public void negativeEventTests() {
 		final String feature = "/negativeeventtests.feature";
 		final String tagPrefix = "@neg-event-";
-		final int maxTags = findHighestTag(feature, tagPrefix);
-		for (int i = 1; i <= maxTags; ++i) {
-			setCommonProperties();
-			System.setProperty("testSource", this.getClass().getResource("/negativeeventtests.feature").toString());
-			System.setProperty("testDestination", "PhantomJS");
-			System.setProperty("tagsOverride", tagPrefix + i);
-			final int failures = new TestRunner().run(globalTempFiles);
-			Assert.assertEquals(1, failures);
-		}
+		runNegativeTest(feature, tagPrefix);
 	}
 
 	@Test
 	public void negativeExtractTests() {
 		final String feature = "/negativeextracttests.feature";
 		final String tagPrefix = "@neg-extract-";
-		final int maxTags = findHighestTag(feature, tagPrefix);
-		for (int i = 1; i <= maxTags; ++i) {
-			setCommonProperties();
-			System.setProperty("testSource", this.getClass().getResource("/negativeextracttests.feature").toString());
-			System.setProperty("testDestination", "PhantomJS");
-			System.setProperty("tagsOverride", tagPrefix + i);
-			final int failures = new TestRunner().run(globalTempFiles);
-			Assert.assertEquals(1, failures);
-		}
+		runNegativeTest(feature, tagPrefix);
 	}
 
 	@Test
 	public void negativeDropDownTests() {
 		final String feature = "/negativedropdowntests.feature";
 		final String tagPrefix = "@neg-dropdown-";
-		final int maxTags = findHighestTag(feature, tagPrefix);
-		for (int i = 1; i <= maxTags; ++i) {
-			setCommonProperties();
-			System.setProperty("testSource", this.getClass().getResource("/negativedropdowntests.feature").toString());
-			System.setProperty("testDestination", "PhantomJS");
-			System.setProperty("tagsOverride", tagPrefix + i);
-			final int failures = new TestRunner().run(globalTempFiles);
-			Assert.assertEquals(1, failures);
-		}
+		runNegativeTest(feature, tagPrefix);
 	}
 
 	@Test
 	public void negativeFocusTests() {
 		final String feature = "/negativefocustests.feature";
 		final String tagPrefix = "@neg-focus-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void negativeOpenTests() {
+		final String feature = "/negativeopentests.feature";
+		final String tagPrefix = "@neg-open-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void negativeTabTests() {
+		final String feature = "/negativetabtests.feature";
+		final String tagPrefix = "@neg-tab-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void negativePopulateTests() {
+		final String feature = "/negativepopulatetests.feature";
+		final String tagPrefix = "@neg-populate-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	private void runNegativeTest(final String feature, final String tagPrefix) {
 		final int maxTags = findHighestTag(feature, tagPrefix);
 		for (int i = 1; i <= maxTags; ++i) {
 			setCommonProperties();
-			System.setProperty("testSource", this.getClass().getResource("/negativefocustests.feature").toString());
+			System.setProperty("testSource", this.getClass().getResource(feature).toString());
 			System.setProperty("testDestination", "PhantomJS");
-			System.setProperty("tagsOverride", "@neg-focus-" + i);
+			System.setProperty("tagsOverride", tagPrefix + i);
 			final int failures = new TestRunner().run(globalTempFiles);
 			Assert.assertEquals(1, failures);
 		}
