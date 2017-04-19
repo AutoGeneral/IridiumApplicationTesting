@@ -4,6 +4,7 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -478,12 +479,14 @@ public class LiveTests {
 
 	@Test
 	public void negativeClickTests() {
-
-		for (int i = 1; i <= 10; ++i) {
+		final String feature = "/negativeclicktests.feature";
+		final String tagPrefix = "@neg-click-";
+		final int maxTags = findHighestTag(feature, tagPrefix);
+		for (int i = 1; i <= maxTags; ++i) {
 			setCommonProperties();
-			System.setProperty("testSource", this.getClass().getResource("/negativeclicktests.feature").toString());
+			System.setProperty("testSource", this.getClass().getResource(feature).toString());
 			System.setProperty("testDestination", "PhantomJS");
-			System.setProperty("tagsOverride", "@neg-click-" + i);
+			System.setProperty("tagsOverride", tagPrefix + i);
 			final int failures = new TestRunner().run(globalTempFiles);
 			Assert.assertEquals(1, failures);
 		}
@@ -491,12 +494,14 @@ public class LiveTests {
 
 	@Test
 	public void negativeEventTests() {
-
-		for (int i = 1; i <= 2; ++i) {
+		final String feature = "/negativeeventtests.feature";
+		final String tagPrefix = "@neg-event-";
+		final int maxTags = findHighestTag(feature, tagPrefix);
+		for (int i = 1; i <= maxTags; ++i) {
 			setCommonProperties();
 			System.setProperty("testSource", this.getClass().getResource("/negativeeventtests.feature").toString());
 			System.setProperty("testDestination", "PhantomJS");
-			System.setProperty("tagsOverride", "@neg-event-" + i);
+			System.setProperty("tagsOverride", tagPrefix + i);
 			final int failures = new TestRunner().run(globalTempFiles);
 			Assert.assertEquals(1, failures);
 		}
@@ -504,12 +509,44 @@ public class LiveTests {
 
 	@Test
 	public void negativeExtractTests() {
-
-		for (int i = 1; i <= 8; ++i) {
+		final String feature = "/negativeextracttests.feature";
+		final String tagPrefix = "@neg-extract-";
+		final int maxTags = findHighestTag(feature, tagPrefix);
+		for (int i = 1; i <= maxTags; ++i) {
 			setCommonProperties();
 			System.setProperty("testSource", this.getClass().getResource("/negativeextracttests.feature").toString());
 			System.setProperty("testDestination", "PhantomJS");
-			System.setProperty("tagsOverride", "@neg-extract-" + i);
+			System.setProperty("tagsOverride", tagPrefix + i);
+			final int failures = new TestRunner().run(globalTempFiles);
+			Assert.assertEquals(1, failures);
+		}
+	}
+
+	@Test
+	public void negativeDropDownTests() {
+		final String feature = "/negativedropdowntests.feature";
+		final String tagPrefix = "@neg-dropdown-";
+		final int maxTags = findHighestTag(feature, tagPrefix);
+		for (int i = 1; i <= maxTags; ++i) {
+			setCommonProperties();
+			System.setProperty("testSource", this.getClass().getResource("/negativedropdowntests.feature").toString());
+			System.setProperty("testDestination", "PhantomJS");
+			System.setProperty("tagsOverride", tagPrefix + i);
+			final int failures = new TestRunner().run(globalTempFiles);
+			Assert.assertEquals(1, failures);
+		}
+	}
+
+	@Test
+	public void negativeFocusTests() {
+		final String feature = "/negativefocustests.feature";
+		final String tagPrefix = "@neg-focus-";
+		final int maxTags = findHighestTag(feature, tagPrefix);
+		for (int i = 1; i <= maxTags; ++i) {
+			setCommonProperties();
+			System.setProperty("testSource", this.getClass().getResource("/negativefocustests.feature").toString());
+			System.setProperty("testDestination", "PhantomJS");
+			System.setProperty("tagsOverride", "@neg-focus-" + i);
 			final int failures = new TestRunner().run(globalTempFiles);
 			Assert.assertEquals(1, failures);
 		}
@@ -532,5 +569,27 @@ public class LiveTests {
 		System.setProperty("importBaseUrl", "");
 		System.setProperty("enableScreenshotOnError", "false");
 		System.setProperty("monochromeOutput", "false");
+	}
+
+	/**
+	 *
+	 * @param file The feature file
+	 * @param tagPrefix The prefix for the tags to count
+	 * @return The highest tag number
+	 */
+	private int findHighestTag(final String file, final String tagPrefix) {
+		try {
+			final int maxTags = 1000;
+			final String contents = IOUtils.toString(this.getClass().getResource(file));
+			for (int count = 1; count < maxTags; ++count) {
+				if (!contents.contains(tagPrefix + count)) {
+					return count - 1;
+				}
+			}
+
+			return maxTags;
+		} catch (final IOException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 }
