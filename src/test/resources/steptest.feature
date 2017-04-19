@@ -534,6 +534,7 @@ Feature: Test of the steps provided by Iridium
     And I populate the element with the attribute of "name" equal to "textName" with "Text Box Found By Name"
     And I clear the element with the ID of "textId"
     And I populate the element with the ID of "formText" with "Text Box Found By ID" and submit
+    Then I verify that the page contains the text "Form submitted"
     And I clear the element with the ID of "textId"
     And I clear the element with the class of "textClass"
     And I clear the element with the name of "textName"
