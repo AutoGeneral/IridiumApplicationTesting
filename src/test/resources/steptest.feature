@@ -605,6 +605,8 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Click Links
+    And I wait "30" seconds for a link with the text content of alias "Test Link" to be present
+    And I wait "10" seconds for a link with the text content of "This link does not exist" to not be present
     And I click the link with the text content of "Test Link"
     And I click the hidden link with the text content alias of "Link Contents"
 
@@ -619,11 +621,17 @@ Feature: Test of the steps provided by Iridium
   Scenario: Wait steps
     And I wait "30" seconds for the element found by "verifyDivClass" to be displayed
     And I wait "1" seconds for the element found by "thisDoesntExist" to be displayed ignoring timeouts
+    And I wait "2" seconds for the element with the attribute of "id" equal to "verifyDivClass" to be displayed
+    And I wait "2" seconds for the element with the attribute of "id" equal to "verifyDivClass" to be present
+    And I wait "30" seconds for the element with the attribute of "id" equal to "this does not exist" to not be displayed
+    And I wait "30" seconds for the element with the attribute of "id" equal to "this does not exist" to not be present
     And I wait "30" seconds for the element with the ID of "verifyDivClass" to be displayed
     And I wait "1" seconds for the element with the ID alias of "Non-Existant Field" to be displayed ignoring timeouts
     And I sleep for "1" second
     And I wait "30" seconds for the element found by alias "Button ID" to be present
+    And I wait "30" seconds for the element with the ID alias of "Button ID" to be present
     And I wait "30" seconds for the element found by alias "Button ID" to be clickable
+    And I wait "30" seconds for the element with the ID of "Button ID" to be clickable
     And I wait "1" seconds for the element found by alias "Non-Existant Field" to be present ignoring timeouts
     And I wait "1" seconds for the element found by alias "Non-Existant Field" to be clickable ignoring timeouts
 
