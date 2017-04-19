@@ -502,6 +502,19 @@ public class LiveTests {
 		}
 	}
 
+	@Test
+	public void negativeExtractTests() {
+
+		for (int i = 1; i <= 8; ++i) {
+			setCommonProperties();
+			System.setProperty("testSource", this.getClass().getResource("/negativeextracttests.feature").toString());
+			System.setProperty("testDestination", "PhantomJS");
+			System.setProperty("tagsOverride", "@neg-extract-" + i);
+			final int failures = new TestRunner().run(globalTempFiles);
+			Assert.assertEquals(1, failures);
+		}
+	}
+
 	private void setCommonProperties() {
 		System.setProperty(Constants.REPORTS_DIRECTORY, "");
 		System.setProperty("webdriver.chrome.driver", "");
