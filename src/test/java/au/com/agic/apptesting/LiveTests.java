@@ -99,6 +99,13 @@ public class LiveTests {
 		globalTempFiles.forEach(File::delete);
 	}
 
+	@Test(expected=Exception.class)
+	public void testInvalidURL() {
+		setCommonProperties();
+		System.setProperty("testSource", this.getClass().getResource("http://example.org/thisdoesnotexist.feature").toString());
+		new TestRunner().run(globalTempFiles);
+	}
+
 	/**
 	 * Test that a screenshot is taken
 	 */
