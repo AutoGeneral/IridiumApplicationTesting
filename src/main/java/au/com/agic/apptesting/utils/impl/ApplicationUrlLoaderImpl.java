@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.utils.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.profiles.FileProfileAccess;
@@ -71,6 +72,9 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 	@Override
 	public List<UrlMapping> getAppUrls(final String featureGroup) {
 
+		checkState(profileAccess != null, "initialise() must be called");
+		checkState(datasetAccess != null, "initialise() must be called");
+
         /*
 			Deal with the override. This system property takes precedence over
 			all other options.
@@ -140,6 +144,10 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 
 	@Override
 	public Map<Integer, Map<String, String>> getDatasets() {
+
+		checkState(profileAccess != null, "initialise() must be called");
+		checkState(datasetAccess != null, "initialise() must be called");
+
 		final Optional<DatasetsRootElement> dataset = datasetAccess.getProfile();
 
 		/*
