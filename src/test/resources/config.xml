@@ -1,0 +1,9 @@
+<profile>
+    <urlMappings>
+        <featureGroup name="Google">
+            <urlMapping>
+                <url name="default">https://google.com</url>
+            </urlMapping>
+        </featureGroup>
+    </urlMappings>
+</profile>

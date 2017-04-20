@@ -547,6 +547,18 @@ public class LiveTests {
 		runNegativeTest(feature, tagPrefix);
 	}
 
+	@Test
+	public void runDatasetTest() {
+			setCommonProperties();
+			System.setProperty("testSource", this.getClass().getResource("/datasettest.feature").toString());
+			System.setProperty("dataset", this.getClass().getResource("/dataset.xml").toString());
+			System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
+			System.setProperty("featureGroupName", "Google");
+			System.setProperty("testDestination", "PhantomJS");
+			final int failures = new TestRunner().run(globalTempFiles);
+			Assert.assertEquals(0, failures);
+	}
+
 	private void runNegativeTest(final String feature, final String tagPrefix) {
 		final int maxTags = findHighestTag(feature, tagPrefix);
 		for (int i = 1; i <= maxTags; ++i) {
