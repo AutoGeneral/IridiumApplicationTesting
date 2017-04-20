@@ -555,7 +555,6 @@ public class LiveTests {
 			System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
 			System.setProperty("featureGroupName", "Google");
 			System.setProperty("testDestination", "PhantomJS");
-			System.setProperty("testRetryCount", "2");
 			final int failures = new TestRunner().run(globalTempFiles);
 			Assert.assertEquals(0, failures);
 	}
@@ -592,6 +591,8 @@ public class LiveTests {
 		System.setProperty("importBaseUrl", "");
 		System.setProperty("enableScreenshotOnError", "false");
 		System.setProperty("monochromeOutput", "false");
+		System.setProperty("dataset", "");
+		System.setProperty("configuration", "");
 	}
 
 	/**
