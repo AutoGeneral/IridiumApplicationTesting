@@ -104,7 +104,7 @@ Feature: Negative step tests
   @neg-verify-21
   Scenario: Negative verify test 21
     Given I open the page "http://google.com"
-    Then I verify that the element with the attribute of "aria-label" equal to "Google Search" is not displayed
+    Then I verify that the element with the attribute of "id" equal to "hplogo" is not displayed
 
   @neg-verify-22
   Scenario: Negative verify test 22

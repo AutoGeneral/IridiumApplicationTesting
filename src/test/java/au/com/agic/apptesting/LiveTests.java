@@ -555,6 +555,7 @@ public class LiveTests {
 			System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
 			System.setProperty("featureGroupName", "Google");
 			System.setProperty("testDestination", "PhantomJS");
+			System.setProperty("testRetryCount", "2");
 			final int failures = new TestRunner().run(globalTempFiles);
 			Assert.assertEquals(0, failures);
 	}
@@ -579,6 +580,7 @@ public class LiveTests {
 		System.setProperty("webdriver.gecko.driver", "");
 		System.setProperty("webdriver.edge.driver", "");
 		System.setProperty("phantomjs.binary.path", "");
+		System.setProperty("appURLOverride", "");
 		System.setProperty("enableScenarioScreenshots", "false");
 		System.setProperty("saveReportsInHomeDir", "false");
 		System.setProperty("phantomJSLoggingLevel", "NONE");
