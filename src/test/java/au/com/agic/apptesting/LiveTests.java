@@ -102,7 +102,7 @@ public class LiveTests {
 	@Test(expected=Exception.class)
 	public void testInvalidURL() {
 		setCommonProperties();
-		System.setProperty("testSource", this.getClass().getResource("http://example.org/thisdoesnotexist.feature").toString());
+		System.setProperty("testSource", "http://example.org/thisdoesnotexist.feature");
 		new TestRunner().run(globalTempFiles);
 	}
 
