@@ -581,6 +581,7 @@ public class LiveTests {
 		System.setProperty("webdriver.edge.driver", "");
 		System.setProperty("phantomjs.binary.path", "");
 		System.setProperty("appURLOverride", "");
+		System.setProperty("featureGroupName", "");
 		System.setProperty("testRetryCount", "1");
 		System.setProperty("enableScenarioScreenshots", "false");
 		System.setProperty("saveReportsInHomeDir", "false");

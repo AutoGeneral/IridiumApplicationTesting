@@ -110,6 +110,11 @@ public class TestRunner {
 		final String reportOutput = FILE_SYSTEM_UTILS.buildReportDirectoryName() + File.separator;
 
 		/*
+			(re)initialise the pojos loaded from config files
+		 */
+		APPLICATION_URL_LOADER.initialise();
+
+		/*
 			Configure the logging
 		*/
 		LOGGING_CONFIGURATION.configureLogging(reportOutput + "/log.txt");

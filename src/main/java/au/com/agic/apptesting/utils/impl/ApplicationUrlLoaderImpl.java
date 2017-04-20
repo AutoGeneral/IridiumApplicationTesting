@@ -15,6 +15,8 @@ import au.com.agic.apptesting.utils.ApplicationUrlLoader;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -35,15 +37,27 @@ import javax.validation.constraints.NotNull;
  */
 public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationUrlLoaderImpl.class);
+
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
-	private static final FileProfileAccess<Configuration> PROFILE_ACCESS = new FileProfileAccess<>(
+	private FileProfileAccess<Configuration> profileAccess = new FileProfileAccess<>(
 		SYSTEM_PROPERTY_UTILS.getProperty(Constants.CONFIGURATION),
 		Configuration.class);
 
-	private static final FileProfileAccess<DatasetsRootElement> DATASET_ACCESS = new FileProfileAccess<>(
+	private  FileProfileAccess<DatasetsRootElement> datasetAccess = new FileProfileAccess<>(
 		SYSTEM_PROPERTY_UTILS.getProperty(Constants.DATA_SETS_PROFILE_SYSTEM_PROPERTY),
 		DatasetsRootElement.class);
+
+	public void initialise() {
+		profileAccess = new FileProfileAccess<>(
+			SYSTEM_PROPERTY_UTILS.getProperty(Constants.CONFIGURATION),
+			Configuration.class);
+
+		datasetAccess = new FileProfileAccess<>(
+			SYSTEM_PROPERTY_UTILS.getProperty(Constants.DATA_SETS_PROFILE_SYSTEM_PROPERTY),
+			DatasetsRootElement.class);
+	}
 
 	private String getAppUrl() {
 		final String appUrl = SYSTEM_PROPERTY_UTILS.getProperty(Constants.APP_URL_OVERRIDE_SYSTEM_PROPERTY);
@@ -58,11 +72,12 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 	public List<UrlMapping> getAppUrls(final String featureGroup) {
 
         /*
-			Deal with the override. This system property takes precidence over
+			Deal with the override. This system property takes precedence over
 			all other options.
          */
 		final String appUrlOverride = getAppUrl();
 		if (StringUtils.isNotBlank(appUrlOverride)) {
+			LOGGER.info("Getting URL from global system property");
 			return Arrays.asList(new UrlMapping(appUrlOverride));
 		}
 
@@ -76,15 +91,17 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 			.map(x -> new Url(SYSTEM_PROPERTY_UTILS.getProperty(x.group(0)), x.group(1)))
 			.collect(Collectors.toList());
 		if (!systemPropValues.isEmpty()) {
+			LOGGER.info("Getting URL from specific system property");
 			return Arrays.asList(new UrlMapping(systemPropValues));
 		}
 
 		/*
 			The final option is to get the mappins from the xml file
 		 */
-		final Optional<Configuration> configuration = PROFILE_ACCESS.getProfile();
+		final Optional<Configuration> configuration = profileAccess.getProfile();
 
 		if (configuration.isPresent()) {
+			LOGGER.info("Getting URL config file");
 			final List<UrlMapping> retValue = getUrlMappings(configuration.get(), featureGroup);
 			return getLimitedAppUrls(retValue);
 		}
@@ -123,7 +140,7 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 
 	@Override
 	public Map<Integer, Map<String, String>> getDatasets() {
-		final Optional<DatasetsRootElement> dataset = DATASET_ACCESS.getProfile();
+		final Optional<DatasetsRootElement> dataset = datasetAccess.getProfile();
 
 		/*
 			It is possible that a profile does not exist with data sets for this featureGroup
