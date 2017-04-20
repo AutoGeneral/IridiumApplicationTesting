@@ -1,6 +1,9 @@
 <profile>
     <dataSets>
         <commonDataSet>
+            <commonDataSet>
+                <setting name="Common Setting">whatever</setting>
+            </commonDataSet>
         </commonDataSet>
         <dataSet>
             <setting name="Search Term">iridium webdriver</setting>
