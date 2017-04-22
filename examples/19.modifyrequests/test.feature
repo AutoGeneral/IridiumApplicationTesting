@@ -33,14 +33,3 @@ Feature: Open an application
 		And I click the link with the text content of "MOBILE"
 		And I click the link with the text content of "PERFORMANCE"
 		And I click the link with the text content of "WEB DEV"
-
-	Scenario: Open some refcardz
-		And I click the link with the text content of "REFCARDZ"
-	    # WebDriver considers this link to be obscured by another element, so
-	    # we use a special step to click these "hidden" links
-		And I click the hidden link with the text content of "Mobile App Automation Made Awesome"
-		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
-		And I go back
-		And I click the hidden link with the text content of "Building Your DevOps Pipeline"
-		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
-		And I go back
