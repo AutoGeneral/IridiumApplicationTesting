@@ -17,8 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -91,11 +89,7 @@ public class FileProfileAccess<T> {
 		checkArgument(StringUtils.isNoneBlank(localFilename));
 
 		try {
-			if (Files.exists(Paths.get(localFilename))) {
-				return FileUtils.readFileToString(new File(localFilename), Charset.defaultCharset());
-			}
-
-			throw new ConfigurationException("File " + localFilename + " does not exist");
+			return FileUtils.readFileToString(new File(localFilename), Charset.defaultCharset());
 		} catch (final IOException ex) {
 			throw new ConfigurationException(ex);
 		}
