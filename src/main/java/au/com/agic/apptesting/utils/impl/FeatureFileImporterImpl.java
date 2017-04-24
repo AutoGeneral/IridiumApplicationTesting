@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Matcher;
@@ -85,7 +86,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 
 					final File thisFile = new File(completeFileName);
 
-					Try.of(() -> FileUtils.readFileToString(new File(completeFileName)))
+					Try.of(() -> FileUtils.readFileToString(new File(completeFileName), Charset.defaultCharset()))
 						.orElse(Try.of(() -> processRemoteUrl(completeFileName)))
 						.map(this::clearContentToFirstScenario)
 						.peek(s -> STRING_BUILDER_UTILS.appendWithDelimiter(
@@ -158,15 +159,20 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 			: processedFeature;
 	}
 
-	private File getNewTempFile(final File file) throws IOException {
+	private File getNewTempFile(@NotNull final File file) throws IOException {
 		final Path temp2 = Files.createTempDirectory(null);
 		return new File(temp2 + "/" + file.getName());
 	}
 
 	private String processRemoteUrl(@NotNull final String path) throws IOException {
 		final File copy = File.createTempFile("webapptester", ".feature");
-		FileUtils.copyURLToFile(new URL(path), copy);
-		return FileUtils.readFileToString(copy);
+
+		try {
+			FileUtils.copyURLToFile(new URL(path), copy);
+			return FileUtils.readFileToString(copy, Charset.defaultCharset());
+		} finally {
+			FileUtils.deleteQuietly(copy);
+		}
 	}
 
 	private String getFixedBaseUrl(@NotNull final FileDetails file, final String baseUrl) {
