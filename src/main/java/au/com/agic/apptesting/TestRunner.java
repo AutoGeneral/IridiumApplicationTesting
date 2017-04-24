@@ -224,6 +224,7 @@ public class TestRunner {
 			/*
 				For each combination of browser and url run a test
 			*/
+			LOGGER.info("Running " + State.THREAD_DESIRED_CAPABILITY_MAP.getNumberCapabilities() + " test combinations");
 			for (int i = 0; i < State.THREAD_DESIRED_CAPABILITY_MAP.getNumberCapabilities(); ++i) {
 				/*
 					For those first few threads that are execute immediately, add a small offset.
