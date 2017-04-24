@@ -1,37 +1,26 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.profiles.FileProfileAccess;
-import au.com.agic.apptesting.profiles.configuration.Configuration;
-import au.com.agic.apptesting.profiles.configuration.FeatureGroup;
-import au.com.agic.apptesting.profiles.configuration.Url;
-import au.com.agic.apptesting.profiles.configuration.UrlMapping;
+import au.com.agic.apptesting.profiles.configuration.*;
 import au.com.agic.apptesting.profiles.dataset.DataSet;
 import au.com.agic.apptesting.profiles.dataset.DatasetsRootElement;
 import au.com.agic.apptesting.profiles.dataset.Setting;
 import au.com.agic.apptesting.utils.ApplicationUrlLoader;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Loads the application urls from configuration
@@ -189,11 +178,16 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 	private List<UrlMapping> getUrlMappings(@NotNull final Configuration configuration, final String app) {
 		checkNotNull(configuration);
 
-		return configuration.getUrlMappings().getFeatureGroups().stream()
-			.filter(e -> StringUtils.endsWithIgnoreCase(app, e.getName()))
-			.findFirst()
-			.map(FeatureGroup::getUrlMappings)
-			.orElse(new ArrayList<>());
+		 return Optional.ofNullable(configuration)
+			.map(Configuration::getUrlMappings)
+			.map(URLMappings::getFeatureGroups)
+			.map(featureGroups ->
+				featureGroups.stream().filter(e -> StringUtils.endsWithIgnoreCase(app, e.getName()))
+					.findFirst()
+					.map(FeatureGroup::getUrlMappings)
+					.orElse(new ArrayList<>())
+			)
+			.get();
 	}
 
 	/**
