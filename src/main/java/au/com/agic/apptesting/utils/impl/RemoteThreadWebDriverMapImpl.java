@@ -1,7 +1,5 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ConfigurationException;
 import au.com.agic.apptesting.exception.DriverException;
@@ -12,7 +10,6 @@ import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.ThreadWebDriverMap;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -20,16 +17,13 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkArgument;
 
 public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
@@ -255,7 +249,7 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 			Each application is run against each capability
 		 */
 		return originalDesiredCapabilities.size()
-			* originalApplicationUrls.size()
+			* Math.max(1, originalApplicationUrls.size())
 			* Math.max(1, getMaxDataSets());
 	}
 
