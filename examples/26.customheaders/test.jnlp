@@ -12,9 +12,9 @@ href="http://java.sun.com/products/autodl/j2se"/>
     <property name="jnlp.packEnabled" value="false"/>
     <property name="javaws.configuration" value=""/>
     <property name="javaws.dataset" value=""/>
-    <property name="javaws.appURLOverride" value="https://secure.budgetdirect.com.au/car/new_quote.jsp?hSty=BUDD"/>
+    <property name="javaws.appURLOverride" value="https://google.com"/>
     <property name="javaws.featureGroupName" value=""/>
-    <property name="javaws.testSource" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/1.openapp/test.feature"/>
+    <property name="javaws.testSource" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/26.customheaders/test.feature"/>
     <property name="javaws.importBaseUrl" value=""/>
     <property name="javaws.testDestination" value="Chrome"/>
     <property name="javaws.webdriver.chrome.driver" value=""/>
