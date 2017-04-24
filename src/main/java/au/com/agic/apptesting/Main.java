@@ -21,6 +21,21 @@ public final class Main {
 	}
 
 	public static void main(final String... args) {
+		try {
+			System.exit(run());
+		} catch (final Exception ex) {
+			LOGGER.error(
+				"WEBAPPTESTER-BUG-0007: "
+				+ "An exception was raised while attempting to run the Cucumber test scripts", ex);
+			System.exit(-1);
+		}
+	}
+
+	/**
+	 * Run the test script
+	 * @return The number of failures returned by the test script
+	 */
+	public static int run() {
 		final List<File> globalTempFiles = new ArrayList<>();
 
 		try {
@@ -59,12 +74,7 @@ public final class Main {
 				}
 			}
 
-			System.exit(lastFailures);
-		} catch (final Exception ex) {
-			LOGGER.error(
-				"WEBAPPTESTER-BUG-0007: "
-				+ "An exception was raised while attempting to run the Cucumber test scripts", ex);
-			System.exit(-1);
+			return lastFailures;
 		} finally {
 			try {
 				globalTempFiles.forEach(File::delete);
