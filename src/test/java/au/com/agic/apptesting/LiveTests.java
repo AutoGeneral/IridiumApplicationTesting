@@ -96,7 +96,7 @@ public class LiveTests {
 
 	@After
 	public void cleanUpFiles() {
-		globalTempFiles.forEach(File::delete);
+		globalTempFiles.forEach(FileUtils::deleteQuietly);
 	}
 
 	@Test(expected=Exception.class)
