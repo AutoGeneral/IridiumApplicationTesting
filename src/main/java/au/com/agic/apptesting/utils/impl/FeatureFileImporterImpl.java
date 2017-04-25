@@ -65,7 +65,8 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 			/*
 				Read the original file
 			 */
-			final String[] fileContents = FileUtils.readFileToString(file.getFile()).split(Constants.LINE_END_REGEX);
+			final String[] fileContents = FileUtils.readFileToString(file.getFile(), Charset.defaultCharset())
+				.split(Constants.LINE_END_REGEX);
 			/*
 				Loop over each line looking for an import comment
 			 */
