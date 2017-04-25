@@ -33,7 +33,8 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	private static final String URL = "@hub.browserstack.com/wd/hub";
 	private static final Logger LOGGER = LoggerFactory.getLogger(RemoteThreadWebDriverMapImpl.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
-	private static final FileProfileAccess<Configuration> PROFILE_ACCESS = new FileProfileAccess<>(
+
+	private final FileProfileAccess<Configuration> profileAccess = new FileProfileAccess<>(
 		SYSTEM_PROPERTY_UTILS.getProperty(Constants.CONFIGURATION),
 		Configuration.class);
 
@@ -105,7 +106,7 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	}
 
 	private boolean loadDetailsFromProfile() {
-		final Optional<Configuration> profile = PROFILE_ACCESS.getProfile();
+		final Optional<Configuration> profile = profileAccess.getProfile();
 		if (profile.isPresent()) {
 			browserStackUsername = profile.get().getBrowserstack().getUsername();
 			browserStackAccessToken = profile.get().getBrowserstack().getAccessToken();
