@@ -11,6 +11,7 @@ import javaslang.control.Try;
 import org.apache.commons.io.FileUtils;
 
 import javax.validation.constraints.NotNull;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,7 +35,7 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 	 */
 	@NotNull
 	@Override
-	public String loadFeatures(
+	public File loadFeatures(
 		final String identifier,
 		final String featureGroup) {
 		return loadFeatures(Arrays.asList(identifier), featureGroup);
@@ -45,7 +46,7 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 	 */
 	@NotNull
 	@Override
-	public String loadFeatures(
+	public File loadFeatures(
 			@NotNull final List<String> identifier,
 			final String featureGroup) {
 		checkNotNull(identifier);
@@ -82,7 +83,7 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 				.map(e -> e.getFile())
 				.forEach(FileUtils::deleteQuietly);
 
-			return temp2.toString();
+			return temp2.toFile();
 		} catch (final IOException ex) {
 			throw new FeatureFilesException(ex);
 		}

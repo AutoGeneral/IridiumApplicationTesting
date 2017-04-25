@@ -202,7 +202,7 @@ public class TestRunner {
 			&& !Constants.PHANTOMJS.equalsIgnoreCase(SYSTEM_PROPERTY_UTILS.getProperty(
 			Constants.TEST_DESTINATION_SYSTEM_PROPERTY));
 
-		String testPath = null;
+		File testPath = null;
 
 		try {
 			/*
@@ -223,7 +223,7 @@ public class TestRunner {
 				is done.
 			*/
 			testPath = featureLoader.loadFeatures("", appName);
-			globalTempFiles.add(new File(testPath));
+			globalTempFiles.add(testPath);
 
 			/*
 				For each combination of browser and url run a test
@@ -244,7 +244,7 @@ public class TestRunner {
 						Ignore this
 					 */
 				}
-				threadPool.invokeLater(new CucumberThread(reportDirectory, testPath));
+				threadPool.invokeLater(new CucumberThread(reportDirectory, testPath.toString()));
 			}
 
 			/*
