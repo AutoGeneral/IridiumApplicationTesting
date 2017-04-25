@@ -100,7 +100,7 @@ Feature: Test of the steps provided by Iridium
     And I modify the alias "ArithmeticTest" by subtracting "ArithmeticTest" from it
     Then I verify that the alias "ArithmeticTest" is equal to "0"
 
-  @test
+  @test @linktest
   Scenario: Issue 90 Test: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/90
     And I open the link with the text content of "Test Link" in a new window
 	And I sleep for "5" seconds
