@@ -105,7 +105,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 				Save the new file
 			 */
 			final File newFile = getNewTempFile(file.getFile());
-			FileUtils.write(newFile, output.toString(), false);
+			FileUtils.write(newFile, output.toString(), Charset.defaultCharset(), false);
 			return newFile;
 
 		} catch (final IOException ex) {

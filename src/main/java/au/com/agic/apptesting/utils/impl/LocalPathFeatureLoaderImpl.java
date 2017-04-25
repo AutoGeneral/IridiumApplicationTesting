@@ -69,7 +69,10 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 				.map(e -> FEATURE_FILE_IMPORTER.processFeatureImportComments(
 					e,
 					SYSTEM_PROPERTY_UTILS.getProperty(Constants.IMPORT_BASE_URL)))
-				.forEach(e -> Try.run(() -> FileUtils.copyFileToDirectory(e, temp2.toFile())));
+				.forEach(e -> {
+					Try.run(() -> FileUtils.copyFileToDirectory(e, temp2.toFile()));
+					FileUtils.deleteQuietly(e.getParentFile());
+				});
 
 			return temp2.toString();
 		} catch (final IOException ex) {
