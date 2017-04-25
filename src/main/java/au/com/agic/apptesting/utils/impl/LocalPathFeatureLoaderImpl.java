@@ -71,7 +71,7 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 					SYSTEM_PROPERTY_UTILS.getProperty(Constants.IMPORT_BASE_URL)))
 				.forEach(e -> {
 					Try.run(() -> FileUtils.copyFileToDirectory(e, temp2.toFile()));
-					FileUtils.deleteQuietly(e.getParentFile());
+					FileUtils.deleteQuietly(e);
 				});
 
 			return temp2.toString();

@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -84,8 +83,6 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 					final String filename = matcher.group("filename");
 					final String completeFileName = fixedBaseUrl + filename;
 
-					final File thisFile = new File(completeFileName);
-
 					Try.of(() -> FileUtils.readFileToString(new File(completeFileName), Charset.defaultCharset()))
 						.orElse(Try.of(() -> processRemoteUrl(completeFileName)))
 						.map(this::clearContentToFirstScenario)
@@ -104,7 +101,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 			/*
 				Save the new file
 			 */
-			final File newFile = getNewTempFile(file.getFile());
+			final File newFile = Files.createTempFile("", file.getFile().getName()).toFile();
 			FileUtils.write(newFile, output.toString(), Charset.defaultCharset(), false);
 			return newFile;
 
@@ -157,11 +154,6 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 		return StringUtils.isBlank(processedFeature)
 			? contents
 			: processedFeature;
-	}
-
-	private File getNewTempFile(@NotNull final File file) throws IOException {
-		final Path temp2 = Files.createTempDirectory(null);
-		return new File(temp2 + "/" + file.getName());
 	}
 
 	private String processRemoteUrl(@NotNull final String path) throws IOException {
