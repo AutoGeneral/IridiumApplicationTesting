@@ -160,8 +160,8 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 			/*
 				Some validation checking
 			 */
-			if (originalDesiredCapabilities.isEmpty() || originalApplicationUrls.isEmpty()) {
-				throw new ConfigurationException("There are no configurations available. "
+			if (originalDesiredCapabilities.isEmpty()) {
+				throw new ConfigurationException("There are no desired capabilities defined. "
 					+ "Check the configuration profiles have the required information in them");
 			}
 
