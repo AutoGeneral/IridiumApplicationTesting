@@ -145,7 +145,7 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		reportDirectory = myReportDirectory;
 
 		/*
-			myProxyPort is ignored, because we can setup proxys when running in browserstack
+			myProxyPort is ignored, because we can't setup proxies when running in browserstack
 		 */
 	}
 
@@ -153,6 +153,9 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	@Override
 	public synchronized FeatureState getDesiredCapabilitiesForThread(@NotNull final String name) {
 		try {
+			/*
+				Return the previous generated details if they exist
+			 */
 			if (threadIdToCapMap.containsKey(name)) {
 				return threadIdToCapMap.get(name);
 			}
