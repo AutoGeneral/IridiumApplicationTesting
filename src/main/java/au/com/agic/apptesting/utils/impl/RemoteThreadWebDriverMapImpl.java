@@ -168,7 +168,8 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 			/*
 				We have allocated our available configurations
 			 */
-			if (currentUrl >= originalApplicationUrls.size()) {
+			final int urlCount = Math.max(originalApplicationUrls.size(), 1);
+			if (currentUrl >= urlCount) {
 				throw new ConfigurationException("Configuration pool has been exhausted!");
 			}
 
