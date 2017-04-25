@@ -14,14 +14,21 @@ import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
  */
 public final class State {
 
+	public static final ThreadWebDriverMap THREAD_DESIRED_CAPABILITY_MAP;
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
-	public static ThreadWebDriverMap THREAD_DESIRED_CAPABILITY_MAP;
 
-	public static void initialise() {
+	static {
+		/*
+			Select the location of the tests based on the system property
+		 */
 		THREAD_DESIRED_CAPABILITY_MAP = Constants.REMOTE_TESTS.equalsIgnoreCase(
 			SYSTEM_PROPERTY_UTILS.getProperty(Constants.TEST_DESTINATION_SYSTEM_PROPERTY))
 			? new RemoteThreadWebDriverMapImpl()
 			: new LocalThreadWebDriverMapImpl();
+	}
+
+	public static void initialise() {
+
 	}
 
 	private State() {
