@@ -169,6 +169,8 @@ public class TestRunner {
 		final String appName =
 			SYSTEM_PROPERTY_UTILS.getProperty(Constants.FEATURE_GROUP_SYSTEM_PROPERTY);
 
+		State.initialise();
+
 		State.THREAD_DESIRED_CAPABILITY_MAP.initialise(
 			DESIRED_CAPABILITIES_LOADER.getCapabilities(),
 			APPLICATION_URL_LOADER.getAppUrls(appName),

@@ -75,10 +75,10 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 			/*
 				Delete any files we downloaded
 			 */
-			filteredFiles.stream()
+			/*filteredFiles.stream()
 				.filter(e -> !e.isLocalSource())
 				.map(e -> e.getFile())
-				.forEach(FileUtils::deleteQuietly);
+				.forEach(FileUtils::deleteQuietly);*/
 
 			return temp2.toString();
 		} catch (final IOException ex) {
