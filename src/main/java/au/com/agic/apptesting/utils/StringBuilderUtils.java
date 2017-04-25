@@ -11,5 +11,11 @@ public interface StringBuilderUtils {
 
 	void appendWithSemicolon(StringBuilder stringBuilder, String append);
 
+	/**
+	 *
+	 * @param stringBuilder The builder holding the contents
+	 * @param append The text to append
+	 * @param delimiter The delimiter between the appended text any any existing text
+	 */
 	void appendWithDelimiter(StringBuilder stringBuilder, String append, String delimiter);
 }

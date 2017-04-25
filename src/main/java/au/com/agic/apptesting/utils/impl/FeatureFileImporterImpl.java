@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -65,7 +65,8 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 			/*
 				Read the original file
 			 */
-			final String[] fileContents = FileUtils.readFileToString(file.getFile()).split(Constants.LINE_END_REGEX);
+			final String[] fileContents = FileUtils.readFileToString(file.getFile(), Charset.defaultCharset())
+				.split(Constants.LINE_END_REGEX);
 			/*
 				Loop over each line looking for an import comment
 			 */
@@ -83,9 +84,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 					final String filename = matcher.group("filename");
 					final String completeFileName = fixedBaseUrl + filename;
 
-					final File thisFile = new File(completeFileName);
-
-					Try.of(() -> FileUtils.readFileToString(new File(completeFileName)))
+					Try.of(() -> FileUtils.readFileToString(new File(completeFileName), Charset.defaultCharset()))
 						.orElse(Try.of(() -> processRemoteUrl(completeFileName)))
 						.map(this::clearContentToFirstScenario)
 						.peek(s -> STRING_BUILDER_UTILS.appendWithDelimiter(
@@ -103,8 +102,8 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 			/*
 				Save the new file
 			 */
-			final File newFile = getNewTempFile(file.getFile());
-			FileUtils.write(newFile, output.toString(), false);
+			final File newFile = Files.createTempFile("", file.getFile().getName()).toFile();
+			FileUtils.write(newFile, output.toString(), Charset.defaultCharset(), false);
 			return newFile;
 
 		} catch (final IOException ex) {
@@ -158,15 +157,15 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 			: processedFeature;
 	}
 
-	private File getNewTempFile(final File file) throws IOException {
-		final Path temp2 = Files.createTempDirectory(null);
-		return new File(temp2 + "/" + file.getName());
-	}
-
 	private String processRemoteUrl(@NotNull final String path) throws IOException {
 		final File copy = File.createTempFile("webapptester", ".feature");
-		FileUtils.copyURLToFile(new URL(path), copy);
-		return FileUtils.readFileToString(copy);
+
+		try {
+			FileUtils.copyURLToFile(new URL(path), copy);
+			return FileUtils.readFileToString(copy, Charset.defaultCharset());
+		} finally {
+			FileUtils.deleteQuietly(copy);
+		}
 	}
 
 	private String getFixedBaseUrl(@NotNull final FileDetails file, final String baseUrl) {

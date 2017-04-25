@@ -374,7 +374,7 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) {
 
 		try {
-			simpleWebElementInteraction.getNotPresenceElementFoundBy(
+ 			simpleWebElementInteraction.getNotPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),
@@ -494,7 +494,7 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout The presence of this text indicates that timeouts are ignored
 	 */
 	@When("^I wait \"(\\d+)\" seconds for a link with the text content of"
-			+ "( alias) \"([^\"]*)\" to be present(,? ignoring timeouts?)?")
+			+ "( alias)? \"([^\"]*)\" to be present(,? ignoring timeouts?)?")
 	public void presentLinkStep(
 		final String waitDuration,
 		final String alias,
@@ -531,7 +531,7 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout The presence of this text indicates that timeouts are ignored
 	 */
 	@When("^I wait \"(\\d+)\" seconds for a link with the text content of"
-			+ "( alias) \"([^\"]*)\" to not be present(,? ignoring timeouts?)?")
+			+ "( alias)? \"([^\"]*)\" to not be present(,? ignoring timeouts?)?")
 	public void notPresentLinkStep(
 		final String waitDuration,
 		final String alias,

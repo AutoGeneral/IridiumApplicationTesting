@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -222,6 +223,144 @@ public class ModifyStepDefinitions {
 
 		dataset.put(alias, dateFormatter.format(date));
 		State.getFeatureStateForThread().setDataSet(dataset);
+	}
+
+	/**
+	 * Subtract two aliases
+	 *
+	 * @param alias The alias that holds the first value
+	 * @param subtractAlias include the word alias to get the value of the subtraction from an aliased value
+	 * @param subtract The alias or value that is to be subtracted from the first value
+	 */
+	@Then("^I modify(?: the)? alias \"(.*?)\" by subtracting( alias)? \"(.*?)\" from it")
+	public void subtract(final String alias, final String subtractAlias, final String subtract) {
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
+
+		final String subtractValue = autoAliasUtils.getValue(
+			subtract,
+			StringUtils.isNotBlank(subtractAlias),
+			State.getFeatureStateForThread());
+
+		final BigDecimal result = new BigDecimal(value).subtract(new BigDecimal(subtractValue));
+
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
+		dataset.put(alias, result.toString());
+		State.getFeatureStateForThread().setDataSet(dataset);
+	}
+
+	/**
+	 * Add two aliases
+	 *
+	 * @param alias The alias that holds the first value
+	 * @param addAlias include the word alias to get the value of the addition from an aliased value
+	 * @param add The alias that holds the value to add to the first value
+	 */
+	@Then("^I modify(?: the)? alias \"(.*?)\" by adding( alias)? \"(.*?)\" to it")
+	public void add(final String alias, final String addAlias, final String add) {
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
+
+		final String addValue = autoAliasUtils.getValue(
+			add,
+			StringUtils.isNotBlank(addAlias),
+			State.getFeatureStateForThread());
+
+		final BigDecimal result = new BigDecimal(value).add(new BigDecimal(addValue));
+
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
+		dataset.put(alias, result.toString());
+		State.getFeatureStateForThread().setDataSet(dataset);
+	}
+
+	/**
+	 * Multiply two aliases
+	 *
+	 * @param alias The alias that holds the first value
+	 * @param multiplyAlias include the word alias to get the value of the multiplier from an aliased value
+	 * @param multiply The alias that holds the value to multiply with the first value
+	 */
+	@Then("^I modify(?: the)? alias \"(.*?)\" by multiplying( alias)? \"(.*?)\" with it")
+	public void multiply(final String alias, final String multiplyAlias, final String multiply) {
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
+
+		final String multiplyValue = autoAliasUtils.getValue(
+			multiply,
+			StringUtils.isNotBlank(multiplyAlias),
+			State.getFeatureStateForThread());
+
+		final BigDecimal result = new BigDecimal(value).multiply(new BigDecimal(multiplyValue));
+
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
+		dataset.put(alias, result.toString());
+		State.getFeatureStateForThread().setDataSet(dataset);
+	}
+
+	/**
+	 * Divide two aliases
+	 *
+	 * @param alias The alias that holds the first value
+	 * @param divideAlias include the word alias to get the value of the divisor from an aliased value
+	 * @param divide The alias that holds the value to divide with the first value
+	 */
+	@Then("^I modify(?: the)? alias \"(.*?)\" by dividing( alias)? \"(.*?)\" into it")
+	public void divide(final String alias, final String divideAlias, final String divide) {
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
+
+		final String divideValue = autoAliasUtils.getValue(
+			divide,
+			StringUtils.isNotBlank(divideAlias),
+			State.getFeatureStateForThread());
+
+		final BigDecimal result = new BigDecimal(value).divide(new BigDecimal(divideValue));
+
+		final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
+		dataset.put(alias, result.toString());
+		State.getFeatureStateForThread().setDataSet(dataset);
+	}
+
+	/**
+	 * Set an alias to the maximum value
+	 *
+	 * @param alias The alias that holds the first value
+	 * @param maxValueAlias include the word alias to get the value of the max value from an aliased value
+	 * @param maxValue The value
+	 */
+	@Then("^I modify(?: the)? alias \"(.*?)\" by setting it to( alias)? \"(.*?)\" if the value it holds is smaller")
+	public void max(final String alias, final String maxValueAlias, final String maxValue) {
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
+
+		final String fixedMaxValue = autoAliasUtils.getValue(
+			maxValue,
+			StringUtils.isNotBlank(maxValueAlias),
+			State.getFeatureStateForThread());
+
+		if (Double.parseDouble(value) < Double.parseDouble(fixedMaxValue)) {
+			final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
+			dataset.put(alias, fixedMaxValue);
+			State.getFeatureStateForThread().setDataSet(dataset);
+		}
+	}
+
+	/**
+	 * Set an alias to the minimum value
+	 *
+	 * @param alias The alias that holds the first value
+	 * @param minValueAlias include the word alias to get the value of the max value from an aliased value
+	 * @param minValue The value
+	 */
+	@Then("^I modify(?: the)? alias \"(.*?)\" by setting it to( alias)? \"(.*?)\" if the value it holds is larger")
+	public void min(final String alias, final String minValueAlias, final String minValue) {
+		final String value = State.getFeatureStateForThread().getDataSet().get(alias);
+
+		final String fixedMinValue = autoAliasUtils.getValue(
+			minValue,
+			StringUtils.isNotBlank(minValueAlias),
+			State.getFeatureStateForThread());
+
+		if (Double.parseDouble(fixedMinValue) < Double.parseDouble(value)) {
+			final Map<String, String> dataset = State.getFeatureStateForThread().getDataSet();
+			dataset.put(alias, fixedMinValue);
+			State.getFeatureStateForThread().setDataSet(dataset);
+		}
 	}
 
 }

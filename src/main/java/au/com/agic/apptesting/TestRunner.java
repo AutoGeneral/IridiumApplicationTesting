@@ -1,54 +1,20 @@
 package au.com.agic.apptesting;
 
-import static au.com.agic.apptesting.constants.Constants.OPEN_REPORT_FILE_SYSTEM_PROPERTY;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
 import au.com.agic.apptesting.exception.RunScriptsException;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
-import au.com.agic.apptesting.utils.ApplicationUrlLoader;
-import au.com.agic.apptesting.utils.CleanupUtils;
-import au.com.agic.apptesting.utils.DesktopInteraction;
-import au.com.agic.apptesting.utils.ExceptionWriter;
-import au.com.agic.apptesting.utils.FeatureLoader;
-import au.com.agic.apptesting.utils.FeatureState;
-import au.com.agic.apptesting.utils.FileSystemUtils;
-import au.com.agic.apptesting.utils.JUnitReportMerge;
-import au.com.agic.apptesting.utils.JarDownloader;
-import au.com.agic.apptesting.utils.LoggingConfiguration;
-import au.com.agic.apptesting.utils.ProxyDetails;
-import au.com.agic.apptesting.utils.ProxyManager;
-import au.com.agic.apptesting.utils.ScreenCapture;
-import au.com.agic.apptesting.utils.SystemPropertyUtils;
-import au.com.agic.apptesting.utils.TagAnalyser;
-import au.com.agic.apptesting.utils.WebDriverHandler;
-import au.com.agic.apptesting.utils.impl.ApplicationUrlLoaderImpl;
-import au.com.agic.apptesting.utils.impl.CleanupUtilsImpl;
-import au.com.agic.apptesting.utils.impl.DesiredCapabilitiesLoaderImpl;
-import au.com.agic.apptesting.utils.impl.DesktopInteractionImpl;
-import au.com.agic.apptesting.utils.impl.ExceptionWriterImpl;
-import au.com.agic.apptesting.utils.impl.FileSystemUtilsImpl;
-import au.com.agic.apptesting.utils.impl.JUnitReportMergeImpl;
-import au.com.agic.apptesting.utils.impl.JarDownloaderImpl;
-import au.com.agic.apptesting.utils.impl.LocalPathFeatureLoaderImpl;
-import au.com.agic.apptesting.utils.impl.LogbackConfiguration;
-import au.com.agic.apptesting.utils.impl.ProxyManagerImpl;
-import au.com.agic.apptesting.utils.impl.ScreenCaptureImpl;
-import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-import au.com.agic.apptesting.utils.impl.TagAnalyserImpl;
-import au.com.agic.apptesting.utils.impl.WebDriverHandlerImpl;
-
+import au.com.agic.apptesting.utils.*;
+import au.com.agic.apptesting.utils.impl.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.threadpool.DefaultThreadPool;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -56,7 +22,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.validation.constraints.NotNull;
+import static au.com.agic.apptesting.constants.Constants.OPEN_REPORT_FILE_SYSTEM_PROPERTY;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Typically Cucumber tests are run as jUnit tests. However, in our configuration we run Cucumber as a standalone
@@ -69,6 +37,7 @@ public class TestRunner {
 	private static final ExceptionWriter EXCEPTION_WRITER = new ExceptionWriterImpl();
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final ApplicationUrlLoader APPLICATION_URL_LOADER = new ApplicationUrlLoaderImpl();
+	private static final DesiredCapabilitiesLoader DESIRED_CAPABILITIES_LOADER  = new DesiredCapabilitiesLoaderImpl();
 	private static final JUnitReportMerge J_UNIT_REPORT_MERGE = new JUnitReportMergeImpl();
 
 	private static final ScreenCapture SCREEN_CAPTURE = new ScreenCaptureImpl();
@@ -103,11 +72,23 @@ public class TestRunner {
 	 */
 	private int failure = 0;
 
-	public int run(final List<File> globalTempFiles) {
+	public int run(@NotNull final List<File> globalTempFiles) {
+		checkNotNull(globalTempFiles);
+
 		/*
 		  This is the directory that will hold our reports
 		*/
 		final String reportOutput = FILE_SYSTEM_UTILS.buildReportDirectoryName() + File.separator;
+
+		/*
+			(re)initialise the pojos loaded from config files
+		 */
+		APPLICATION_URL_LOADER.initialise();
+
+		/*
+			(re)initialise the pojos loaded from config files
+		 */
+		DESIRED_CAPABILITIES_LOADER.initialise();
 
 		/*
 			Configure the logging
@@ -142,7 +123,7 @@ public class TestRunner {
 				Now run the tests
 			 */
 			try {
-				runScripts(reportOutput);
+				runScripts(reportOutput, globalTempFiles);
 				mergeReports(reportOutput);
 			} catch (final FileProfileAccessException ex) {
 				LOGGER.error("WEBAPPTESTER-BUG-0003: There was an exception thrown while trying to run"
@@ -188,11 +169,10 @@ public class TestRunner {
 		final String appName =
 			SYSTEM_PROPERTY_UTILS.getProperty(Constants.FEATURE_GROUP_SYSTEM_PROPERTY);
 
-		final List<DesiredCapabilities> desiredCapabilities =
-			new DesiredCapabilitiesLoaderImpl().getCapabilities();
+		State.initialise();
 
 		State.THREAD_DESIRED_CAPABILITY_MAP.initialise(
-			desiredCapabilities,
+			DESIRED_CAPABILITIES_LOADER.getCapabilities(),
 			APPLICATION_URL_LOADER.getAppUrls(appName),
 			APPLICATION_URL_LOADER.getDatasets(),
 			reportOutput,
@@ -204,7 +184,8 @@ public class TestRunner {
 	 * Spawn threads to run Cucumber scripts, and wait until they are all finished
 	 */
 	@SuppressWarnings("BusyWait")
-	private void runScripts(@NotNull final String reportDirectory) {
+	private void runScripts(@NotNull final String reportDirectory, @NotNull final List<File> globalTempFiles) {
+		checkNotNull(globalTempFiles);
 		checkArgument(StringUtils.isNotBlank(reportDirectory));
 
 		final String appName = SYSTEM_PROPERTY_UTILS.getProperty(
@@ -221,7 +202,7 @@ public class TestRunner {
 			&& !Constants.PHANTOMJS.equalsIgnoreCase(SYSTEM_PROPERTY_UTILS.getProperty(
 			Constants.TEST_DESTINATION_SYSTEM_PROPERTY));
 
-		String testPath = null;
+		File testPath = null;
 
 		try {
 			/*
@@ -237,13 +218,16 @@ public class TestRunner {
 			final FeatureLoader featureLoader = getFeatureLoader();
 
 			/*
-				Get the file system path that holds the feature scripts
+				Get the file system path that holds the feature scripts. This path
+				is a generated temp dir, and needs to be cleaned up after the test
+				is done.
 			*/
 			testPath = featureLoader.loadFeatures("", appName);
 
 			/*
 				For each combination of browser and url run a test
 			*/
+			LOGGER.info("Running " + State.THREAD_DESIRED_CAPABILITY_MAP.getNumberCapabilities() + " test combinations");
 			for (int i = 0; i < State.THREAD_DESIRED_CAPABILITY_MAP.getNumberCapabilities(); ++i) {
 				/*
 					For those first few threads that are execute immediately, add a small offset.
@@ -259,7 +243,7 @@ public class TestRunner {
 						Ignore this
 					 */
 				}
-				threadPool.invokeLater(new CucumberThread(reportDirectory, testPath));
+				threadPool.invokeLater(new CucumberThread(reportDirectory, testPath.toString()));
 			}
 
 			/*
@@ -285,11 +269,7 @@ public class TestRunner {
 			LOGGER.info("Report files can be found in {}", reportDirectory);
 		} finally {
 			State.THREAD_DESIRED_CAPABILITY_MAP.shutdown();
-
-			if (testPath != null) {
-				new File(testPath).delete();
-			}
-
+			FileUtils.deleteQuietly(testPath);
 			SCREEN_CAPTURE.stop();
 		}
 	}

@@ -893,20 +893,15 @@ public class ValidationStepDefinitions {
 			NumberUtils.toLong(waitDuration, State.getFeatureStateForThread().getDefaultWait()),
 			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 		try {
-			final boolean result = wait.until(
-				ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(by)));
-			if (!result) {
-				throw new TimeoutException(
-					"Gave up after waiting " + Integer.parseInt(waitDuration)
-						+ " seconds for the element to not be present");
-			}
+			wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+			/*
+				If we get here the wait succeeded, which means the step has failed
+			 */
+			throw new ValidationException("Element was present within " + waitDuration + " seconds");
 		} catch (final TimeoutException ex) {
 			/*
-				Rethrow if we have not ignored errors
+				This indicates success
 			 */
-			if (StringUtils.isBlank(ignoringTimeout)) {
-				throw ex;
-			}
 		}
 	}
 
@@ -921,7 +916,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout The presence of this text indicates that timeouts are ignored
 	 */
 	@Then("^(?:I verify(?: that)? )?a link with the text content of"
-		+ "( alias) \"([^\"]*)\" is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "( alias)? \"([^\"]*)\" is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void presentLinkStep(
 		final String alias,
 		final String linkContent,
@@ -957,7 +952,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout The presence of this text indicates that timeouts are ignored
 	 */
 	@Then("^(?:I verify(?: that)? )?a link with the text content of"
-		+ "( alias) \"([^\"]*)\" is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+		+ "( alias)? \"([^\"]*)\" is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notPresentLinkStep(
 		final String alias,
 		final String linkContent,
@@ -972,22 +967,15 @@ public class ValidationStepDefinitions {
 				webDriver,
 				NumberUtils.toLong(waitDuration, State.getFeatureStateForThread().getDefaultWait()),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-			final boolean result = wait.until(
-				ExpectedConditions.not(
-					ExpectedConditions.presenceOfAllElementsLocatedBy(By.linkText(content))));
-
-			if (!result) {
-				throw new TimeoutException(
-					"Gave up after waiting " + Integer.parseInt(waitDuration)
-						+ " seconds for the element to not be present");
-			}
+			wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.linkText(content)));
+			/*
+				If we get here the wait succeeded, which means the step has failed
+			 */
+			throw new ValidationException("Element was present within " + waitDuration + " seconds");
 		} catch (final TimeoutException ex) {
-				/*
-					Rethrow if we have not ignored errors
-				 */
-			if (StringUtils.isBlank(ignoringTimeout)) {
-				throw ex;
-			}
+			/*
+				This indicates success
+			 */
 		}
 	}
 
@@ -1063,21 +1051,16 @@ public class ValidationStepDefinitions {
 				webDriver,
 				NumberUtils.toLong(waitDuration, State.getFeatureStateForThread().getDefaultWait()),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-			final boolean result = wait.until(
-				ExpectedConditions.not(ExpectedConditions.visibilityOfAllElementsLocatedBy(
-					By.cssSelector("[" + attribute + "='" + attributeValue + "']"))));
-			if (!result) {
-				throw new TimeoutException(
-					"Gave up after waiting " + Integer.parseInt(waitDuration)
-						+ " seconds for the element to not be displayed");
-			}
+			wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+					By.cssSelector("[" + attribute + "='" + attributeValue + "']")));
+			/*
+				If we get here the wait succeeded, which means the step has failed
+			 */
+			throw new ValidationException("Element was present within " + waitDuration + " seconds");
 		} catch (final TimeoutException ex) {
 			/*
-				Rethrow if we have not ignored errors
+				This indicates success
 			 */
-			if (StringUtils.isBlank(ignoringTimeout)) {
-				throw ex;
-			}
 		}
 	}
 
@@ -1153,21 +1136,17 @@ public class ValidationStepDefinitions {
 				webDriver,
 				NumberUtils.toLong(waitDuration, State.getFeatureStateForThread().getDefaultWait()),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-			final boolean result = wait.until(
-				ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(
-					By.cssSelector("[" + attribute + "='" + attributeValue + "']"))));
-			if (!result) {
-				throw new TimeoutException(
-					"Gave up after waiting " + Integer.parseInt(waitDuration)
-						+ " seconds for the element to not be present");
-			}
-		} catch (final TimeoutException ex) {
+			wait.until(
+				ExpectedConditions.presenceOfAllElementsLocatedBy(
+					By.cssSelector("[" + attribute + "='" + attributeValue + "']")));
 			/*
-				Rethrow if we have not ignored errors
+				If we get here the wait succeeded, which means the step has failed
 			 */
-			if (StringUtils.isBlank(ignoringTimeout)) {
-				throw ex;
-			}
+			throw new ValidationException("Element was present within " + waitDuration + " seconds");
+		} catch (final TimeoutException ignored) {
+			/*
+				This indicates success
+			 */
 		}
 	}
 }

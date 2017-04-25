@@ -1,0 +1,20 @@
+<profile>
+    <browserstack>
+        <accessToken>token</accessToken>
+        <username>user</username>
+    </browserstack>
+    <settings>
+        <desiredCapabilities enabled="true" group="Android,Mobile">
+            <capability name="platform" value="ANDROID"/>
+            <capability name="device" value="Samsung Galaxy S5"/>
+            <capability name="browserstack.debug" value="true"/>
+        </desiredCapabilities>
+    </settings>
+    <urlMappings>
+        <featureGroup name="Google">
+            <urlMapping>
+                <url name="default">https://google.com</url>
+            </urlMapping>
+        </featureGroup>
+    </urlMappings>
+</profile>

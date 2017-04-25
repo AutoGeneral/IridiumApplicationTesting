@@ -2,10 +2,12 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Open App
+    Given I display a starting marker
     # Load the page from the appUrlOverride value
-    Given I open the application
+    And I open the application
     # Load the page from the URL
     And I open the page "https://mcasperson.github.io/iridium/examples/test.html"
+    Then I verify that there were no HTTP errors
     And I set the default wait time between steps to "0.2" seconds
     And I set the default wait for elements to be available to "3" seconds
     And I set the alias mappings
@@ -41,7 +43,30 @@ Feature: Test of the steps provided by Iridium
       | NoUISlider           | #nouislider > div                                         |
       | CaseChange           | abcdefg                                                   |
       | DropDownListIndex    | 2                                                         |
+      | ArithmeticTest       | 1                                                         |
+    And I dump the alias map to the console
     And I dump the value of the alias "Non Existant Element" to the console
+    And I verify that the alias "this alias does not exist" is empty
+    # Make sure this sequence of configurations works as expected
+    And I set autoaliasing to "true"
+    And I disable autoaliasing
+    And I enable autoaliasing
+
+  @test
+  Scenario: Test cookie steps
+    And I dump the value of the cookie called "whatever"
+    And I delete cookies called "whatever"
+    And I delete cookies called "whatever" with the path "/somecontext"
+    And I delete all cookies
+
+  @test
+  Scenario: Test window resizing
+    And I set the window size to "1024x768"
+
+  @test
+  Scenario: Test scrolling
+    And I scroll to the bottom of the page
+    And I scroll to the top of the page
 
   @test
   Scenario: Test Autoaliasing
@@ -53,9 +78,33 @@ Feature: Test of the steps provided by Iridium
     Then I verify that the page contains the text "MouseDown Text"
 
   @test
+  Scenario: Arithmetic
+    And I modify the alias "ArithmeticTest" by setting it to "2" if the value it holds is smaller
+    Then I verify that the alias "ArithmeticTest" is equal to "2"
+    And I modify the alias "ArithmeticTest" by setting it to "1" if the value it holds is larger
+    Then I verify that the alias "ArithmeticTest" is equal to "1"
+    And I modify the alias "ArithmeticTest" by multiplying "10" with it
+    Then I verify that the alias "ArithmeticTest" is equal to "10"
+    And I modify the alias "ArithmeticTest" by dividing "2" into it
+    Then I verify that the alias "ArithmeticTest" is equal to "5"
+    And I modify the alias "ArithmeticTest" by adding "2000" to it
+    Then I verify that the alias "ArithmeticTest" is equal to "2005"
+    And I modify the alias "ArithmeticTest" by subtracting "1005" from it
+    Then I verify that the alias "ArithmeticTest" is equal to "1000"
+    And I modify the alias "ArithmeticTest" by multiplying "ArithmeticTest" with it
+    Then I verify that the alias "ArithmeticTest" is equal to "1000000"
+    And I modify the alias "ArithmeticTest" by dividing "ArithmeticTest" into it
+    Then I verify that the alias "ArithmeticTest" is equal to "1"
+    And I modify the alias "ArithmeticTest" by adding "ArithmeticTest" to it
+    Then I verify that the alias "ArithmeticTest" is equal to "2"
+    And I modify the alias "ArithmeticTest" by subtracting "ArithmeticTest" from it
+    Then I verify that the alias "ArithmeticTest" is equal to "0"
+
+  @test @linktest
   Scenario: Issue 90 Test: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/90
     And I open the link with the text content of "Test Link" in a new window
-    And I switch to the new window
+	And I sleep for "5" seconds
+	And I switch to the new window
     And I close the current window
 
   @fail-with-one-window
@@ -81,6 +130,10 @@ Feature: Test of the steps provided by Iridium
 	  	return "Failed to find alias mapping";
 	  	"""
 	  Then I verify that the alias "JavaScript Return Value" is equal to alias "CaseChange"
+    And I run the following JavaScript
+        """
+	  	console.log('testing javascript');
+	  	"""
 
   @test
   Scenario: Issue 88 Test: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/88
@@ -153,7 +206,10 @@ Feature: Test of the steps provided by Iridium
   @test
   Scenario: Modify element attributes
     And I modify the element found by "eventButton" by setting the attribute "data-test" to "New Value"
+    And I modify the element found by "this does not exist" by setting the attribute "data-test" to "New Value" if it exists
     And I save the attribute content of "data-test" from the element found by "eventButton" to the alias "Data Test Attr"
+    And I verify that the alias "Data Test Attr" is equal to "New Value"
+    And I save the attribute content of "data-test" from the element with the ID of "eventButton" to the alias "Data Test Attr"
     And I verify that the alias "Data Test Attr" is equal to "New Value"
 
   # https://github.com/AutoGeneral/IridiumApplicationTesting/issues/32
@@ -190,6 +246,7 @@ Feature: Test of the steps provided by Iridium
       And I wait "1" seconds for the element with the css selector of "thisdoesntexist" to not be displayed
       And I wait "1" seconds for the element found by "thisdoesntexist" to not be present
       And I wait "1" seconds for the element found by "thisdoesntexist" to not be displayed
+      And I verify that the element found by "will not exist" is not displayed within "1" second
 
   @test
   Scenario: Modify aliased values
@@ -259,6 +316,15 @@ Feature: Test of the steps provided by Iridium
     Then I verify the element with the class of "buttonClass" is present
     Then I verify the element with the class alias of "Non Existant Element" is not present within "1" second
 
+    Then I verify that a link with the text content of "this does not exist" is not present
+    Then I verify the element with the attribute of "id" equal to "output" is displayed
+    Then I verify the element with the attribute of "id" equal to "this does not exist" is not displayed
+    Then I verify the element with the attribute of "id" equal to "this does not exist" is not displayed within "1" second
+
+    Then I verify the element with the attribute of "id" equal to "output" is present
+    Then I verify the element with the attribute of "id" equal to "this does not exist" is not present
+    Then I verify the element with the attribute of "id" equal to "this does not exist" is not present within "1" second
+
   @test
   Scenario: Manual Mouse Events
     And I "mousedown" on the hidden element found by "eventButton"
@@ -287,10 +353,19 @@ Feature: Test of the steps provided by Iridium
     Then I verify that the page contains the text "Button keyup"
     And I "keypress" on the hidden element found by "eventButton"
     Then I verify that the page contains the text "Button keypress"
+    And I dispatch a "keydown" event on the hidden element with the ID of "eventButton"
+    Then I verify that the page contains the text "Button keydown"
+    And I dispatch a "keyup" event on the hidden element with the ID of "eventButton"
+    Then I verify that the page contains the text "Button keyup"
+    And I dispatch a "keypress" event on the hidden element with the ID of "eventButton"
+    Then I verify that the page contains the text "Button keypress"
 
   @test
   Scenario: Work with DropDown Lists
     And I select "Option 2" from the drop down list found by "selectList"
+    And I save the content of the first selected option from the drop down list found by "selectList" to the alias "Drop Down List Text"
+    Then I verify that the alias "Drop Down List Text" is equal to "Option 2"
+    And I select "Option 2" from the drop down list with the ID of "selectList"
     And I save the content of the first selected option from the drop down list found by "selectList" to the alias "Drop Down List Text"
     Then I verify that the alias "Drop Down List Text" is equal to "Option 2"
     And I save the content of the first selected option from the drop down list with the ID of "selectList" to the alias "Drop Down List Text"
@@ -302,10 +377,21 @@ Feature: Test of the steps provided by Iridium
   # This step adds "if it exists" because the Firefox Marionette driver has a bug
   # that will cause this step to fail.
     And I select option number "3" from the drop down list found by "selectList" if it exists
+    And I select option number "100" from the drop down list found by "this does not exist" if it exists
+    And I select option number "3" from the drop down list with the ID of "selectList" if it exists
 
   @test
   Scenario: Focus on Elements
+    And I focus on the element found by "this does not exist" if it exists
+    And I focus on the element with the ID of "his does not exist" if it exists
     And I focus on the element found by "textArea"
+    And I press CTRL-A on the active element
+    And I press CMD-A on the active element
+    And I press the Delete on the active element "10" times
+    And I press the down arrow key on the active element
+    And I press the up arrow key on the active element
+    And I press the left arrow key on the active element
+    And I press the right arrow key on the active element
     Then I verify that the page contains the text "Focused on textarea"
     And I focus on the element with the ID of "textArea2"
     Then I verify that the page contains the text "Focused on textarea2"
@@ -322,6 +408,8 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Test Clicking Elements
+    And I verify that the element found by "buttonId" is clickable
+    And I verify that the element with the ID of "buttonId" is clickable within "10" seconds
     And I click the element found by "buttonId"
     Then I verify that the page contains the text "Button By ID Clicked"
     And I click the element found by "buttonClass"
@@ -337,6 +425,31 @@ Feature: Test of the steps provided by Iridium
     And I click the element with the class of "buttonClass"
     Then I verify that the page contains the text "Button By Class Clicked"
     And I click the element with the name of "buttonName"
+    Then I verify that the page contains the text "Button By Name Clicked"
+
+  @test
+  Scenario: Test Clicking Elements multiple times
+    And I save the current date with the format "MM" to the alias "This Month"
+    And I save the current date offset by "2 month" with the format "MM" to the alias "Next Month"
+    And I modify the alias "Next Month" by subtracting alias "This Month" from it
+    And I copy the alias "Next Month" to the alias "Click Repeat"
+    And I modify the alias "Click Repeat" by setting it to "2" if the value it holds is smaller
+
+    And I click the element found by "buttonId" "Click Repeat" times
+    Then I verify that the page contains the text "Button By ID Clicked"
+    And I click the element found by "buttonClass" "Click Repeat" times
+    Then I verify that the page contains the text "Button By Class Clicked"
+    And I click the element found by "buttonName" "Click Repeat" times
+    Then I verify that the page contains the text "Button By Name Clicked"
+    And I click the element found by "buttonValue" "Click Repeat" times
+    Then I verify that the page contains the text "Button By Value Clicked"
+    And I click the element found by "Button By Text" "Click Repeat" times
+    Then I verify that the page contains the text "Button By Text Clicked"
+    And I click the element with the ID of "buttonId" "Click Repeat" times
+    Then I verify that the page contains the text "Button By ID Clicked"
+    And I click the element with the class of "buttonClass" "Click Repeat" times
+    Then I verify that the page contains the text "Button By Class Clicked"
+    And I click the element with the name of "buttonName" "Click Repeat" times
     Then I verify that the page contains the text "Button By Name Clicked"
 
   @test
@@ -397,12 +510,21 @@ Feature: Test of the steps provided by Iridium
     Then I verify that the page contains the text alias "Button Name Output"
 
   @test
+  Scenario: Test verification steps
+    And I verify that the element found by "textClass" should have a class of "textClass"
+
+  @test
   Scenario: Test Populating Inputs
     And I populate the element found by "textId" with "Text Box Found By ID"
     And I populate the element found by "textClass" with "Text Box Found By Class" with a keystroke delay of "100" milliseconds
     And I populate the element found by "textName" with "Text Box Found By Name" with a keystroke delay of "50" milliseconds
     And I populate the element found by "textValue" with "Text Box Found By Value" with a keystroke delay of "25" milliseconds
+    And I clear the hidden element found by "textId"
+    And I populate the element found by "textId" with a random number between "1" and "10"
+    And I clear the hidden element found by "textId"
+    And I populate the hidden element found by "textId" with "Hidden Text Box Found By ID"
     And I clear the element found by "textId"
+    And I clear the hidden element found by "textId"
     And I clear the element found by "textClass"
     And I clear the element found by "textName"
     And I clear the element with the xpath alias of "Text Box xpath"
@@ -411,6 +533,19 @@ Feature: Test of the steps provided by Iridium
     And I populate the element with the name of "textName" with "Text Box Found By Name" with a keystroke delay of "50" milliseconds
     And I populate the element with the css selector alias of "Text Box css" with "Text Box Found By CSS Selector" with a keystroke delay of "25" milliseconds
     And I populate the element with the xpath alias of "Text Box xpath" with " And Then With An XPath" with a keystroke delay of "25" milliseconds
+    And I clear the element with the ID of "textId"
+    And I populate the element with the ID of "textId" with a random number between "1" and "10"
+    And I clear the element with the ID of "textId"
+    And I populate the element with the ID of "textId" with a random number between "1" and "10"
+    And I clear the element with the ID of "textId"
+    And I populate the hidden element with the ID of "textId" with "Text Box Found By ID"
+    And I clear the element with the ID of "textId"
+    And I populate the element with the attribute of "name" equal to "textName" with "Text Box Found By Name"
+    And I clear the element with the ID of "textId"
+    And I populate the element with the ID of "formText" with "Text Box Found By ID" and submit
+    Then I verify that the page contains the text "Form submitted"
+    And I populate the element found by "formText" with "Text Box Found By ID" and submit
+    Then I verify that the page contains the text "Form submitted"
     And I clear the element with the ID of "textId"
     And I clear the element with the class of "textClass"
     And I clear the element with the name of "textName"
@@ -465,6 +600,8 @@ Feature: Test of the steps provided by Iridium
     And I save the attribute content of "data-verify" from the element found by "verifyString" to the alias "Example String Attr"
     And I save the value of the element found by "optionValue" to the alias "Option Value"
     Then I verify that the alias "Example Number" is a number
+    And I save the value of the element with the ID of "optionValue" to the alias "Option Value"
+    Then I verify that the alias "Example Number" is a number
     And I verify that the alias "Example String" is not a number
     And I verify that the alias "Example Number" is not empty
     And I verify that the alias "Example String" is not empty
@@ -492,6 +629,8 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Click Links
+    And I wait "30" seconds for a link with the text content of alias "Link Contents" to be present
+    And I wait "2" seconds for a link with the text content of "This link does not exist" to not be present
     And I click the link with the text content of "Test Link"
     And I click the hidden link with the text content alias of "Link Contents"
 
@@ -501,16 +640,23 @@ Feature: Test of the steps provided by Iridium
     And I go back ignoring errors
     And I go forward ignoring errors
     And I go to the hash location "whatever"
+	And I go back ignoring errors
 
   @test
   Scenario: Wait steps
     And I wait "30" seconds for the element found by "verifyDivClass" to be displayed
     And I wait "1" seconds for the element found by "thisDoesntExist" to be displayed ignoring timeouts
+    And I wait "2" seconds for the element with the attribute of "id" equal to "verifyDivClass" to be displayed
+    And I wait "2" seconds for the element with the attribute of "id" equal to "verifyDivClass" to be present
+    And I wait "30" seconds for the element with the attribute of "id" equal to "this does not exist" to not be displayed
+    And I wait "30" seconds for the element with the attribute of "id" equal to "this does not exist" to not be present
     And I wait "30" seconds for the element with the ID of "verifyDivClass" to be displayed
     And I wait "1" seconds for the element with the ID alias of "Non-Existant Field" to be displayed ignoring timeouts
     And I sleep for "1" second
     And I wait "30" seconds for the element found by alias "Button ID" to be present
+    And I wait "30" seconds for the element with the ID alias of "Button ID" to be present
     And I wait "30" seconds for the element found by alias "Button ID" to be clickable
+    And I wait "30" seconds for the element with the ID of "Button ID" to be clickable
     And I wait "1" seconds for the element found by alias "Non-Existant Field" to be present ignoring timeouts
     And I wait "1" seconds for the element found by alias "Non-Existant Field" to be clickable ignoring timeouts
 

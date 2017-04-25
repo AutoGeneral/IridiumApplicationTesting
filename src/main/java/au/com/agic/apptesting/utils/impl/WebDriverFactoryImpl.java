@@ -1,14 +1,10 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static au.com.agic.apptesting.constants.Constants.PHANTOMJS_LOGGING_LEVEL_SYSTEM_PROPERTY;
-import static au.com.agic.apptesting.constants.Constants.PHANTON_JS_USER_AGENT_SYSTEM_PROPERTY;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverFactory;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
@@ -28,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,7 +33,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import javax.validation.constraints.NotNull;
+import static au.com.agic.apptesting.constants.Constants.PHANTOMJS_LOGGING_LEVEL_SYSTEM_PROPERTY;
+import static au.com.agic.apptesting.constants.Constants.PHANTON_JS_USER_AGENT_SYSTEM_PROPERTY;
 
 /**
  * An implementation of the web driver factory
@@ -180,8 +178,10 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			 */
 			final Path cookies = Files.createTempFile("phantomjs-cookies", ".txt");
 			final Path session = Files.createTempDirectory("phantomjs-session");
+			final Path log = Files.createTempFile("phantomjs", ".log");
 			tempFiles.add(cookies.toFile());
 			tempFiles.add(session.toFile());
+			tempFiles.add(log.toFile());
 
 			/*
 				We need to ignore ssl errors
@@ -191,7 +191,8 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 				"--ignore-ssl-errors=true",
 				"--webdriver-loglevel=" + loggingLevel,
 				"--local-storage-path=" + session.toString(),
-				"--cookies-file=" + cookies.toString()};
+				"--cookies-file=" + cookies.toString(),
+				"--webdriver-logfile=" + log.toString()};
 			capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, cliArgs);
 
 			/*

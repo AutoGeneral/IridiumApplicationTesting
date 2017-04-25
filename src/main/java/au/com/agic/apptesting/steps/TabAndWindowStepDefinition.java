@@ -66,9 +66,8 @@ public class TabAndWindowStepDefinition {
 		/*
 			Switch to another window (otherwise all other commands fail)
 		 */
-		final String otherWindowHandle = webDriver.getWindowHandles().iterator().next();
-		if (otherWindowHandle != null) {
-			webDriver.switchTo().window(otherWindowHandle);
+		if (webDriver.getWindowHandles().iterator().hasNext()) {
+			webDriver.switchTo().window(webDriver.getWindowHandles().iterator().next());
 		} else {
 			throw new BrowserWindowException("You can only use this step when there is more than one tab or window.");
 		}

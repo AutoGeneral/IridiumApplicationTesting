@@ -146,9 +146,16 @@ sourceSets {
 	}
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'org.seleniumhq.selenium:selenium-remote-driver:3.3.1' // version 3.4.0 introduces some breaking changes
+    }
+}
+
 def mysqlDriverVersion = '5.1.34'
-def guavaVersion = '19.0'
+def guavaVersion = '21.0'
 def seleniumVersion = '3.3.1'
+def htmlUnitDriverVersion = '2.26'
 def validationVersion = '1.1.0.Final'
 def cucumberVersion = '1.2.5'
 def logbackVersion = '1.1.7'
@@ -156,8 +163,9 @@ def slf4jVersion = '1.7.21'
 def threadPoolVersion = '20030513.073905'
 def commonsIoVersion = '2.5'
 def commonsLangVersion = '3.4'
+def commonsExecVersion = '1.3'
 def operaDriverVersion = '1.5'
-def phantomJsDriverVersion = '1.3.0'        // https://github.com/detro/ghostdriver/issues/397
+def phantomJsDriverVersion = '1.4.1'        // https://github.com/detro/ghostdriver/issues/397
 def cucumberHtmlFormatterVersion = '0.2.3'
 def monteRepackVersion = '1.0.1'
 def javaSlangVersion = '2.0.5'
@@ -167,7 +175,7 @@ def compressCommonsVersion = '1.12'
 def xmlApisVersion =  '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2'
 def cucumberSpringVersion = '1.2.5'
-def springFrameworkVersion = '4.3.2.RELEASE'
+def springFrameworkVersion = '4.3.7.RELEASE'
 def aspectJVersion='1.8.9'
 
 dependencies {
@@ -186,14 +194,18 @@ dependencies {
     compile 'mysql:mysql-connector-java:' + mysqlDriverVersion
     compile 'com.google.guava:guava:' + guavaVersion
     compile 'org.seleniumhq.selenium:selenium-java:' + seleniumVersion
+	compile 'org.seleniumhq.selenium:selenium-api:' + seleniumVersion
     compile 'javax.validation:validation-api:' + validationVersion
     compile 'ch.qos.logback:logback-classic:' + logbackVersion
     compile 'ch.qos.logback:logback-core:' + logbackVersion
     compile 'org.slf4j:jul-to-slf4j:' + slf4jVersion
     compile 'commons-threadpool:commons-threadpool:' + threadPoolVersion
     compile 'commons-io:commons-io:' + commonsIoVersion
-    compile 'org.apache.commons:commons-lang3:' + commonsLangVersion
-    compile 'org.seleniumhq.selenium:selenium-chrome-driver:' + seleniumVersion
+	compile 'org.apache.commons:commons-exec:' + commonsExecVersion
+	compile 'org.apache.commons:commons-lang3:' + commonsLangVersion
+	compile 'org.seleniumhq.selenium:htmlunit-driver:' + htmlUnitDriverVersion
+	compile 'org.seleniumhq.selenium:selenium-remote-driver:' + seleniumVersion
+	compile 'org.seleniumhq.selenium:selenium-chrome-driver:' + seleniumVersion
     compile 'org.seleniumhq.selenium:selenium-firefox-driver:' + seleniumVersion
     compile 'org.seleniumhq.selenium:selenium-safari-driver:' + seleniumVersion
     compile 'com.codeborne:phantomjsdriver:' + phantomJsDriverVersion
@@ -215,10 +227,10 @@ dependencies {
     compile group: 'edu.stanford.ejalbert', name: 'BrowserLauncher2', version: '1.3'
     compile group: 'org.owasp.jbrofuzz', name: 'jbrofuzz', version: '2.5.1'
     compile group: 'org.owasp.jbrofuzz', name: 'jbrofuzz-encoder', version: '2.5.1'
-    compile group: 'org.apache.ant', name: 'ant', version: '1.9.7'
-    compile group: 'org.bouncycastle', name: 'bcmail-jdk15on', version: '1.55'
-    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.55'
-    compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.55'
+    compile group: 'org.apache.ant', name: 'ant', version: '1.10.1'
+    compile group: 'org.bouncycastle', name: 'bcmail-jdk15on', version: '1.56'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.56'
+    compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.56'
     compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
     compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
@@ -232,26 +244,23 @@ dependencies {
     compile group: 'net.sf.ezmorph', name: 'ezmorph', version: '1.0.6'
     compile group: 'edu.umass.cs.benchlab', name: 'harlib', version: '1.1.2'
     compile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.4'
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
-    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.5'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
+    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.6'
     compile group: 'com.github.zafarkhaja', name: 'java-semver', version: '0.9.0'
     compile group: 'org.jdom', name: 'jdom', version: '1.1.3'
     compile group: 'net.htmlparser.jericho', name: 'jericho-html', version: '3.4'
     compile group: 'org.jfree', name: 'jfreechart', version: '1.0.19'
-    compile group: 'org.jgrapht', name: 'jgrapht-core', version: '1.0.0'
+    compile group: 'org.jgrapht', name: 'jgrapht-core', version: '1.0.1'
     compile group: 'com.sun.woodstock.dependlibs', name: 'jh', version: '2.0'
     compile group: 'net.sf.json-lib', name: 'json-lib', version: '2.4', classifier: 'jdk15'
     compile group: 'com.yuvimasory', name: 'orange-extensions', version: '1.3.0'
-    compile group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '2.6.0'
-    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.15.1'
+    compile group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '2.6.1'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.16.1'
     compile group: 'org.swinglabs', name: 'swingx', version: '1.6.1'
     compile group: 'com.io7m.xom', name: 'xom', version: '1.2.10'
     compile group: 'log4j', name: 'log4j', version: '1.2.17'
 
-
     compile 'junit:junit:4.12'
-    //testCompile 'info.cukes:cucumber-junit:' + cucumberVersion
-    //testCompile 'info.cukes:cucumber-picocontainer:' + cucumberVersion
 }
 
 /*

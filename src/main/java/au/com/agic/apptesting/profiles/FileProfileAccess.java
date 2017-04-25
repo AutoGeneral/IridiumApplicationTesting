@@ -1,30 +1,26 @@
 package au.com.agic.apptesting.profiles;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.exception.ConfigurationException;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
-
+import javaslang.control.Try;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Optional;
-
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.Optional;
 
-import javaslang.control.Try;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class FileProfileAccess<T> {
 
@@ -69,7 +65,8 @@ public class FileProfileAccess<T> {
 				/*
 					Convert the file contents to a pojo
 				 */
-				.mapTry(profileString -> (T) jaxbUnmarshaller.unmarshal(IOUtils.toInputStream(profileString)))
+				.mapTry(profileString -> (T) jaxbUnmarshaller.unmarshal(IOUtils.toInputStream(
+					profileString, Charset.defaultCharset())))
 				/*
 					Convert the pojo to an optional
 				 */
@@ -92,11 +89,7 @@ public class FileProfileAccess<T> {
 		checkArgument(StringUtils.isNoneBlank(localFilename));
 
 		try {
-			if (Files.exists(Paths.get(localFilename))) {
-				return FileUtils.readFileToString(new File(localFilename));
-			}
-
-			throw new ConfigurationException("File " + localFilename + " does not exist");
+			return FileUtils.readFileToString(new File(localFilename), Charset.defaultCharset());
 		} catch (final IOException ex) {
 			throw new ConfigurationException(ex);
 		}
@@ -105,12 +98,17 @@ public class FileProfileAccess<T> {
 	private String processRemoteFile(@NotNull final String remoteFileName)  {
 		checkArgument(StringUtils.isNoneBlank(remoteFileName));
 
+		File copy = null;
 		try {
-			final File copy = File.createTempFile("capabilities", ".xml");
+			copy = File.createTempFile("capabilities", ".xml");
 			FileUtils.copyURLToFile(new URL(remoteFileName), copy, TIMEOUT, TIMEOUT);
 			return processLocalFile(copy.getAbsolutePath());
 		} catch (final IOException ex) {
 			throw new ConfigurationException(ex);
+		} finally {
+			if (copy != null) {
+				FileUtils.deleteQuietly(copy);
+			}
 		}
 	}
 

@@ -1,7 +1,5 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.FeatureFilesException;
 import au.com.agic.apptesting.exception.NoFeaturesException;
@@ -9,18 +7,18 @@ import au.com.agic.apptesting.utils.FeatureFileImporter;
 import au.com.agic.apptesting.utils.FeatureFileUtils;
 import au.com.agic.apptesting.utils.FeatureLoader;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
-
+import javaslang.control.Try;
 import org.apache.commons.io.FileUtils;
 
+import javax.validation.constraints.NotNull;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
-import javaslang.control.Try;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A feature loaded that just returns a local path name that contains existing feature files
@@ -37,7 +35,7 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 	 */
 	@NotNull
 	@Override
-	public String loadFeatures(
+	public File loadFeatures(
 		final String identifier,
 		final String featureGroup) {
 		return loadFeatures(Arrays.asList(identifier), featureGroup);
@@ -48,7 +46,7 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 	 */
 	@NotNull
 	@Override
-	public String loadFeatures(
+	public File loadFeatures(
 			@NotNull final List<String> identifier,
 			final String featureGroup) {
 		checkNotNull(identifier);
@@ -72,9 +70,20 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 				.map(e -> FEATURE_FILE_IMPORTER.processFeatureImportComments(
 					e,
 					SYSTEM_PROPERTY_UTILS.getProperty(Constants.IMPORT_BASE_URL)))
-				.forEach(e -> Try.run(() -> FileUtils.copyFileToDirectory(e, temp2.toFile())));
+				.peek(e -> Try.run(() -> {
+					FileUtils.copyFileToDirectory(e, temp2.toFile());
+				}))
+				.forEach(FileUtils::deleteQuietly);
 
-			return temp2.toString();
+			/*
+				Delete any files we downloaded
+			 */
+			filteredFiles.stream()
+				.filter(e -> !e.isLocalSource())
+				.map(e -> e.getFile())
+				.forEach(FileUtils::deleteQuietly);
+
+			return temp2.toFile();
 		} catch (final IOException ex) {
 			throw new FeatureFilesException(ex);
 		}

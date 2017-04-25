@@ -3,8 +3,8 @@ package au.com.agic.apptesting;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +41,20 @@ public class LiveTests {
 			@Override
 			public boolean accept(final File dir, final String name) {
 				if(name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png")) {
+					LOGGER.info("Found screenshot file file: " + name);
+					return true;
+				}
+
+				return false;
+			}
+		});
+	}
+
+	private File[] getScreenshots() {
+		return new File(".").listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(final File dir, final String name) {
+				if(name.endsWith(".png")) {
 					LOGGER.info("Found screenshot file file: " + name);
 					return true;
 				}
@@ -79,7 +96,41 @@ public class LiveTests {
 
 	@After
 	public void cleanUpFiles() {
-		globalTempFiles.forEach(File::delete);
+		globalTempFiles.forEach(FileUtils::deleteQuietly);
+	}
+
+	@Test(expected=Exception.class)
+	public void testInvalidURL() {
+		setCommonProperties();
+		System.setProperty("testSource", "http://example.org/thisdoesnotexist.feature");
+		new TestRunner().run(globalTempFiles);
+	}
+
+	/**
+	 * Test that a screenshot is taken
+	 */
+	@Test
+	public void testScreenshot() {
+
+		/*
+			Clean up any existing files
+		 */
+		Arrays.stream(getFailureScreenshots()).forEach(FileUtils::deleteQuietly);
+
+		setCommonProperties();
+		System.setProperty("testSource", this.getClass().getResource("/screenshot.feature").toString());
+		System.setProperty("testDestination", "PhantomJS");
+		final int failures = new TestRunner().run(globalTempFiles);
+
+		/*
+			We expect the feature to fail
+		 */
+		Assert.assertTrue(failures == 0);
+
+		/*
+			Try and find a failure screenshot
+		 */
+		Assert.assertTrue(Arrays.stream(getScreenshots()).anyMatch(f -> f.getName().contains("testscreenshot")));
 	}
 
 	/**
@@ -109,6 +160,27 @@ public class LiveTests {
 			Try and find a failure screenshot
 		 */
 		Assert.assertTrue(getFailureScreenshots().length == 1);
+	}
+
+	/**
+	 * Test that report files are saved in a custom dir when specified
+	 */
+	@Test
+	public void testCustomReportDir() throws IOException {
+		final Path tempDir = Files.createTempDirectory("test");
+
+		try {
+			setCommonProperties();
+			System.setProperty(Constants.REPORTS_DIRECTORY, tempDir.toString());
+			System.setProperty("testSource", this.getClass().getResource("/screenshotonfailure.feature").toString());
+			System.setProperty("enableScreenshotOnError", "true");
+			System.setProperty("testDestination", "PhantomJS");
+			new TestRunner().run(globalTempFiles);
+
+			Assert.assertTrue(tempDir.toFile().listFiles().length != 0);
+		} finally {
+			FileUtils.deleteQuietly(tempDir.toFile());
+		}
 	}
 
 	/**
@@ -412,13 +484,111 @@ public class LiveTests {
 		Assert.fail();
 	}
 
+	@Test
+	public void negativeClickTests() {
+		final String feature = "/negativeclicktests.feature";
+		final String tagPrefix = "@neg-click-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void negativeEventTests() {
+		final String feature = "/negativeeventtests.feature";
+		final String tagPrefix = "@neg-event-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void negativeExtractTests() {
+		final String feature = "/negativeextracttests.feature";
+		final String tagPrefix = "@neg-extract-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void negativeDropDownTests() {
+		final String feature = "/negativedropdowntests.feature";
+		final String tagPrefix = "@neg-dropdown-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void negativeFocusTests() {
+		final String feature = "/negativefocustests.feature";
+		final String tagPrefix = "@neg-focus-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void negativeOpenTests() {
+		final String feature = "/negativeopentests.feature";
+		final String tagPrefix = "@neg-open-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void negativeTabTests() {
+		final String feature = "/negativetabtests.feature";
+		final String tagPrefix = "@neg-tab-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void negativePopulateTests() {
+		final String feature = "/negativepopulatetests.feature";
+		final String tagPrefix = "@neg-populate-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void negativeVerifyTests() {
+		final String feature = "/negativevalidationtests.feature";
+		final String tagPrefix = "@neg-verify-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void negativeWaitTests() {
+		final String feature = "/negativewaittests.feature";
+		final String tagPrefix = "@neg-wait-";
+		runNegativeTest(feature, tagPrefix);
+	}
+
+	@Test
+	public void runDatasetTest() {
+			setCommonProperties();
+			System.setProperty("testSource", this.getClass().getResource("/datasettest.feature").toString());
+			System.setProperty("dataset", this.getClass().getResource("/dataset.xml").toString());
+			System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
+			System.setProperty("featureGroupName", "Google");
+			System.setProperty("testDestination", "PhantomJS");
+			final int failures = new TestRunner().run(globalTempFiles);
+			Assert.assertEquals(0, failures);
+	}
+
+	private void runNegativeTest(final String feature, final String tagPrefix) {
+		final int maxTags = findHighestTag(feature, tagPrefix);
+		for (int i = 1; i <= maxTags; ++i) {
+			setCommonProperties();
+			System.setProperty("testSource", this.getClass().getResource(feature).toString());
+			System.setProperty("testDestination", "PhantomJS");
+			System.setProperty("tagsOverride", tagPrefix + i);
+			final int failures = new TestRunner().run(globalTempFiles);
+			Assert.assertEquals(1, failures);
+		}
+	}
+
 	private void setCommonProperties() {
+		System.setProperty(Constants.REPORTS_DIRECTORY, "");
 		System.setProperty("webdriver.chrome.driver", "");
 		System.setProperty("webdriver.opera.driver", "");
 		System.setProperty("webdriver.ie.driver", "");
 		System.setProperty("webdriver.gecko.driver", "");
 		System.setProperty("webdriver.edge.driver", "");
 		System.setProperty("phantomjs.binary.path", "");
+		System.setProperty("appURLOverride", "");
+		System.setProperty("featureGroupName", "");
+		System.setProperty("testRetryCount", "1");
 		System.setProperty("enableScenarioScreenshots", "false");
 		System.setProperty("saveReportsInHomeDir", "false");
 		System.setProperty("phantomJSLoggingLevel", "NONE");
@@ -427,5 +597,30 @@ public class LiveTests {
 		System.setProperty("dryRun", "");
 		System.setProperty("importBaseUrl", "");
 		System.setProperty("enableScreenshotOnError", "false");
+		System.setProperty("monochromeOutput", "false");
+		System.setProperty("dataset", "");
+		System.setProperty("configuration", "");
+	}
+
+	/**
+	 *
+	 * @param file The feature file
+	 * @param tagPrefix The prefix for the tags to count
+	 * @return The highest tag number
+	 */
+	private int findHighestTag(final String file, final String tagPrefix) {
+		try {
+			final int maxTags = 1000;
+			final String contents = IOUtils.toString(this.getClass().getResource(file));
+			for (int count = 1; count < maxTags; ++count) {
+				if (!contents.contains(tagPrefix + count)) {
+					return count - 1;
+				}
+			}
+
+			return maxTags;
+		} catch (final IOException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 }

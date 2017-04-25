@@ -1,7 +1,5 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ConfigurationException;
 import au.com.agic.apptesting.exception.DriverException;
@@ -12,7 +10,6 @@ import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.ThreadWebDriverMap;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -20,16 +17,13 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkArgument;
 
 public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
@@ -39,7 +33,8 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	private static final String URL = "@hub.browserstack.com/wd/hub";
 	private static final Logger LOGGER = LoggerFactory.getLogger(RemoteThreadWebDriverMapImpl.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
-	private static final FileProfileAccess<Configuration> PROFILE_ACCESS = new FileProfileAccess<>(
+
+	private final FileProfileAccess<Configuration> profileAccess = new FileProfileAccess<>(
 		SYSTEM_PROPERTY_UTILS.getProperty(Constants.CONFIGURATION),
 		Configuration.class);
 
@@ -111,7 +106,7 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	}
 
 	private boolean loadDetailsFromProfile() {
-		final Optional<Configuration> profile = PROFILE_ACCESS.getProfile();
+		final Optional<Configuration> profile = profileAccess.getProfile();
 		if (profile.isPresent()) {
 			browserStackUsername = profile.get().getBrowserstack().getUsername();
 			browserStackAccessToken = profile.get().getBrowserstack().getAccessToken();
@@ -151,7 +146,7 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 		reportDirectory = myReportDirectory;
 
 		/*
-			myProxyPort is ignored, because we can setup proxys when running in browserstack
+			myProxyPort is ignored, because we can't setup proxies when running in browserstack
 		 */
 	}
 
@@ -159,6 +154,9 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	@Override
 	public synchronized FeatureState getDesiredCapabilitiesForThread(@NotNull final String name) {
 		try {
+			/*
+				Return the previous generated details if they exist
+			 */
 			if (threadIdToCapMap.containsKey(name)) {
 				return threadIdToCapMap.get(name);
 			}
@@ -166,15 +164,16 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 			/*
 				Some validation checking
 			 */
-			if (originalDesiredCapabilities.isEmpty() || originalApplicationUrls.isEmpty()) {
-				throw new ConfigurationException("There are no configurations available. "
+			if (originalDesiredCapabilities.isEmpty()) {
+				throw new ConfigurationException("There are no desired capabilities defined. "
 					+ "Check the configuration profiles have the required information in them");
 			}
 
 			/*
 				We have allocated our available configurations
 			 */
-			if (currentUrl >= originalApplicationUrls.size()) {
+			final int urlCount = Math.max(originalApplicationUrls.size(), 1);
+			if (currentUrl >= urlCount) {
 				throw new ConfigurationException("Configuration pool has been exhausted!");
 			}
 
@@ -255,7 +254,7 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 			Each application is run against each capability
 		 */
 		return originalDesiredCapabilities.size()
-			* originalApplicationUrls.size()
+			* Math.max(1, originalApplicationUrls.size())
 			* Math.max(1, getMaxDataSets());
 	}
 
