@@ -11,13 +11,11 @@ import javaslang.control.Try;
 import org.apache.commons.io.FileUtils;
 
 import javax.validation.constraints.NotNull;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -67,14 +65,20 @@ public class LocalPathFeatureLoaderImpl implements FeatureLoader {
 
 			final Path temp2 = Files.createTempDirectory(null);
 
-			final List<File> importedFiles = filteredFiles.stream()
+			filteredFiles.stream()
 				.map(e -> FEATURE_FILE_IMPORTER.processFeatureImportComments(
 					e,
 					SYSTEM_PROPERTY_UTILS.getProperty(Constants.IMPORT_BASE_URL)))
-				.collect(Collectors.toList());
+				.peek(e -> Try.run(() -> FileUtils.copyFileToDirectory(e, temp2.toFile())))
+				.peek(FileUtils::deleteQuietly);
 
-			importedFiles.forEach(e -> Try.run(() -> FileUtils.copyFileToDirectory(e, temp2.toFile())));
-			importedFiles.forEach(FileUtils::deleteQuietly);
+			/*
+				Delete any files we downloaded
+			 */
+			filteredFiles.stream()
+				.filter(e -> !e.isLocalSource())
+				.map(e -> e.getFile())
+				.forEach(FileUtils::deleteQuietly);
 
 			return temp2.toString();
 		} catch (final IOException ex) {

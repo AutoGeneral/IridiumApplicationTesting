@@ -91,17 +91,14 @@ public class FeatureFileUtilsImpl implements FeatureFileUtils {
 	}
 
 	private List<File> processRemoteUrl(@NotNull final String path) throws IOException {
-		final File copy = File.createTempFile("webapptester", ".feature");
-
 		try {
+			final File copy = File.createTempFile("webapptester", ".feature");
 			FileUtils.copyURLToFile(new URL(path), copy);
 			return Arrays.asList(copy);
 		} catch (final FileNotFoundException ex) {
 			throw new RemoteFeatureException("The remote file could not be downloaded."
 				+ " Either the URL was invalid, or the path was actually supposed to reference a"
 				+ " local file but that file could not be found an so was assumed to be a URL.",  ex);
-		} finally {
-			FileUtils.deleteQuietly(copy);
 		}
 	}
 
