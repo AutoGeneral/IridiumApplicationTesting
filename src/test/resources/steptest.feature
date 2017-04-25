@@ -640,6 +640,7 @@ Feature: Test of the steps provided by Iridium
     And I go back ignoring errors
     And I go forward ignoring errors
     And I go to the hash location "whatever"
+	And I go back ignoring errors
 
   @test
   Scenario: Wait steps
