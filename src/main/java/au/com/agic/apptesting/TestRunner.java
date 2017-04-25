@@ -223,7 +223,6 @@ public class TestRunner {
 				is done.
 			*/
 			testPath = featureLoader.loadFeatures("", appName);
-			globalTempFiles.add(testPath);
 
 			/*
 				For each combination of browser and url run a test
@@ -270,11 +269,7 @@ public class TestRunner {
 			LOGGER.info("Report files can be found in {}", reportDirectory);
 		} finally {
 			State.THREAD_DESIRED_CAPABILITY_MAP.shutdown();
-
-			if (testPath != null) {
-				new File(testPath).delete();
-			}
-
+			FileUtils.deleteQuietly(testPath);
 			SCREEN_CAPTURE.stop();
 		}
 	}
