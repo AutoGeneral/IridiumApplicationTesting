@@ -11,7 +11,6 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.threadpool.DefaultThreadPool;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +37,7 @@ public class TestRunner {
 	private static final ExceptionWriter EXCEPTION_WRITER = new ExceptionWriterImpl();
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final ApplicationUrlLoader APPLICATION_URL_LOADER = new ApplicationUrlLoaderImpl();
+	private static final DesiredCapabilitiesLoader DESIRED_CAPABILITIES_LOADER  = new DesiredCapabilitiesLoaderImpl();
 	private static final JUnitReportMerge J_UNIT_REPORT_MERGE = new JUnitReportMergeImpl();
 
 	private static final ScreenCapture SCREEN_CAPTURE = new ScreenCaptureImpl();
@@ -84,6 +84,11 @@ public class TestRunner {
 			(re)initialise the pojos loaded from config files
 		 */
 		APPLICATION_URL_LOADER.initialise();
+
+		/*
+			(re)initialise the pojos loaded from config files
+		 */
+		DESIRED_CAPABILITIES_LOADER.initialise();
 
 		/*
 			Configure the logging
@@ -164,11 +169,8 @@ public class TestRunner {
 		final String appName =
 			SYSTEM_PROPERTY_UTILS.getProperty(Constants.FEATURE_GROUP_SYSTEM_PROPERTY);
 
-		final List<DesiredCapabilities> desiredCapabilities =
-			new DesiredCapabilitiesLoaderImpl().getCapabilities();
-
 		State.THREAD_DESIRED_CAPABILITY_MAP.initialise(
-			desiredCapabilities,
+			DESIRED_CAPABILITIES_LOADER.getCapabilities(),
 			APPLICATION_URL_LOADER.getAppUrls(appName),
 			APPLICATION_URL_LOADER.getDatasets(),
 			reportOutput,
