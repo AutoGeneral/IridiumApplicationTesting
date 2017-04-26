@@ -74,7 +74,7 @@ public class ClickingStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click (?:a|an|the) element found by( alias)? \"([^\"]*)\"(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
+	@When("^I click (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickElementSimpleStep(
 		final String alias,
 		final String selectorValue,
@@ -190,8 +190,8 @@ public class ClickingStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click (?:a|an|the) hidden element found by( alias)? "
-		+ "\"([^\"]*)\"(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
+	@When("^I click (?:a|an|the) hidden(?: element found by)?( alias)? "
+		+ "\"([^\"]*)\"(?: \\w+)*(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickSimpleHiddenElementStep(
 		final String alias,
 		final String selectorValue,
@@ -581,7 +581,7 @@ public class ClickingStepDefinitions {
 	 * @param exists Include this to ignore errors caused by missing elements
 	 */
 	@When("^I \"(click|mousedown|mouseup|mouseover|mouseout|mousemove|dblclick)\" \"(\\d+(?:\\.\\d+)?)%\" horizontally and \"(\\d+(?:\\.\\d+)?)%\" vertically within"
-		+ " the area of (?:a|an|the)(?: element found by)( alias)? \"([^\"]*)\"(?: \\w+)*(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
+		+ " the area of (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickInElement(
 			final String event,
 			final Float xAxis,

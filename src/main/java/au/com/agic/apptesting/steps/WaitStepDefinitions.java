@@ -73,7 +73,7 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)( alias)? \"([^\"]*)\"(?: \\w+)* to be displayed"
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)* to be displayed"
 		+ "(,? ignoring timeouts?)?")
 	public void displaySimpleWaitStep(
 		final String waitDuration,
@@ -112,7 +112,7 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)( element found by)( alias)? \"([^\"]*)\"(?: \\w+)* to not be displayed"
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)* to not be displayed"
 		+ "(,? ignoring timeouts?)?")
 	public void notDisplaySimpleWaitStep(
 		final String waitDuration,
@@ -245,7 +245,7 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)"
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)?"
 		+ "( alias)? \"([^\"]*)\"(?: \\w+)* to be clickable(,? ignoring timeouts?)?")
 	public void clickWaitStep(
 		final String waitDuration,
@@ -326,7 +326,7 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
 	 *                        present
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)( alias)? \"([^\"]*)\"(?: \\w+)* "
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)* "
 		+ "to be present(,? ignoring timeouts?)?")
 	public void presentSimpleWaitStep(
 		final String waitDuration,
@@ -365,7 +365,7 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
 	 *                        present
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)( alias)? \"([^\"]*)\"(?: \\w+)* "
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)* "
 		+ "to not be present(,? ignoring timeouts?)?")
 	public void notPresentSimpleWaitStep(
 		final String waitDuration,
