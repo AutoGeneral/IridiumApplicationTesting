@@ -50,8 +50,8 @@ public class FocusStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I focus(?: on)? (?:a|an|the) element found by( alias)? "
-		+ "\"([^\"]*)\"( if it exists)?$")
+	@When("^I focus(?: on)? (?:a|an|the)(?: element found by)( alias)? "
+		+ "\"([^\"]*)\"(?: \\w+)*( if it exists)?$")
 	public void focusElementStep(
 		final String alias,
 		final String selectorValue,
