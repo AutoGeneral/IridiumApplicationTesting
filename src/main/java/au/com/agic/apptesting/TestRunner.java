@@ -49,10 +49,6 @@ public class TestRunner {
 	private static final ProxyManager PROXY_MANAGER = new ProxyManagerImpl();
 	private static final String HTML_EXTENSION = ".html";
 	private static final CleanupUtils CLEANUP_UTILS = new CleanupUtilsImpl();
-	/**
-	 * Used to name threads that might be reused
-	 */
-	private static final AtomicInteger THREAD_COUNT = new AtomicInteger(0);
 
 	private static final TagAnalyser TAG_ANALYSER = new TagAnalyserImpl();
 
@@ -332,7 +328,7 @@ public class TestRunner {
 					Threads might be reused, so the id is shared, but we can set the name to
 					something new each time.
 				*/
-				Thread.currentThread().setName(Constants.THREAD_NAME_PREFIX + THREAD_COUNT.incrementAndGet());
+				Thread.currentThread().setName(Constants.THREAD_NAME_PREFIX + Main.THREAD_COUNT.incrementAndGet());
 
 				/*
 					Get the details for this thread
