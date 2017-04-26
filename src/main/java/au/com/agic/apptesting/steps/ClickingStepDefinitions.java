@@ -581,7 +581,7 @@ public class ClickingStepDefinitions {
 	 * @param exists Include this to ignore errors caused by missing elements
 	 */
 	@When("^I \"(click|mousedown|mouseup|mouseover|mouseout|mousemove|dblclick)\" \"(\\d+(?:\\.\\d+)?)%\" horizontally and \"(\\d+(?:\\.\\d+)?)%\" vertically within"
-		+ " the area of (?:a|an|the) element found by( alias)? \"([^\"]*)\"(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
+		+ " the area of (?:a|an|the)(?: element found by)( alias)? \"([^\"]*)\"(?: \\w+)*(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickInElement(
 			final String event,
 			final Float xAxis,

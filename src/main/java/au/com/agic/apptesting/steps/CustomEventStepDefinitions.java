@@ -54,7 +54,8 @@ public class CustomEventStepDefinitions {
 	 *                      literal value.
 	 * @param exists		Set this string to ignore errors id there element doesn't exist
 	 */
-	@When("I(?: dispatch a)? \"(.*?)\"(?: event)? on (?:a|an|the) hidden element found by( alias)? \"([^\"]*)\"( if it exists)?")
+	@When("I(?: dispatch a)? \"(.*?)\"(?: event)? on (?:a|an|the) hidden(:? element found by)( alias)?"
+		+ " \"([^\"]*)\"(?: \\w+)*( if it exists)?")
 	public void triggetCustom(
 		final String event,
 		final String alias,
