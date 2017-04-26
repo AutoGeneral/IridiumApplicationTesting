@@ -61,7 +61,7 @@ public class FeatureFileUtilsImpl implements FeatureFileUtils {
 
 			}
 
-			if (Files.isRegularFile(Paths.get(fixedPath))) {
+			if (Files.isRegularFile(Paths.get(fixedPath)) || Files.isRegularFile(Paths.get("./" + fixedPath))) {
 				/*
 					We know this is a single file, so just return it. Note that we
 					ignore the supplied feature group when we are looking at

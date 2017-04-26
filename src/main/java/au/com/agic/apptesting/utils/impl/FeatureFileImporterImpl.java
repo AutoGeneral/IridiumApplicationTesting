@@ -173,8 +173,8 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 
 		if (file.isLocalSource() || StringUtils.isBlank(baseUrl)) {
 			checkState(file.getFile() != null);
-			checkState(file.getFile().getParentFile() != null);
-			return file.getFile().getParentFile().getAbsolutePath() + "/";
+			checkState(file.getFile().getAbsoluteFile().getParentFile() != null);
+			return file.getFile().getAbsoluteFile().getParentFile().getAbsolutePath() + "/";
 		}
 
 		return baseUrl;
