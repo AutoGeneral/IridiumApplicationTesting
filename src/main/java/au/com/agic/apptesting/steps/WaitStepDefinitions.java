@@ -752,8 +752,8 @@ public class WaitStepDefinitions {
 	 * @param text The text to find on the page, or the alias to the text
 	 * @throws InterruptedException Thread.sleep was interrupted
 	 */
-	@Then("^I wait \"(\\d+)\" seconds for the page to contain the text( alias)? \"(.*?)\"")
-	public void verifyPageContent(final Integer wait, final String alias, final String text) throws InterruptedException {
+	@Then("^I wait \"(\\d+)\" seconds for the page to contain the text( alias)? \"(.*?)\"(,? ignoring timeouts?)?")
+	public void verifyPageContent(final Integer wait, final String alias, final String text, final String ignoreTimeout) throws InterruptedException {
 		final String fixedtext = autoAliasUtils.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
@@ -773,7 +773,9 @@ public class WaitStepDefinitions {
 		}
 		while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
 
-		throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");
+		if (StringUtils.isBlank(ignoreTimeout)) {
+			throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");
+		}
 	}
 
 	/**
@@ -783,8 +785,8 @@ public class WaitStepDefinitions {
 	 * @param text The text to find on the page, or the alias to the text
 	 * @throws InterruptedException Thread.sleep was interrupted
 	 */
-	@Then("^I wait \"(\\d+)\" seconds for the page to contain the regex( alias)? \"(.*?)\"")
-	public void verifyPageRegexContent(final Integer wait, final String alias, final String text) throws InterruptedException {
+	@Then("^I wait \"(\\d+)\" seconds for the page to contain the regex( alias)? \"(.*?)\"(,? ignoring timeouts?)?")
+	public void verifyPageRegexContent(final Integer wait, final String alias, final String text, final String ignoreTimeout) throws InterruptedException {
 		final String fixedRegex = autoAliasUtils.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 		final Pattern pattern = Pattern.compile(fixedRegex);
 
@@ -805,7 +807,9 @@ public class WaitStepDefinitions {
 		}
 		while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
 
-		throw new ValidationException("Could not find the regular expression \"" + fixedRegex + "\" on the page");
+		if (StringUtils.isBlank(ignoreTimeout)) {
+			throw new ValidationException("Could not find the regular expression \"" + fixedRegex + "\" on the page");
+		}
 	}
 
 	/**

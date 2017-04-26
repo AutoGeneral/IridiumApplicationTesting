@@ -101,6 +101,11 @@ Feature: Test of the steps provided by Iridium
     And I modify the alias "ArithmeticTest" by subtracting "ArithmeticTest" from it
     Then I verify that the alias "ArithmeticTest" is equal to "0"
 
+  @test
+  Scenario: Test waiting for non-existent text
+    And I wait "1" seconds for the page to contain the text "This text will never exist", ignoring timeouts
+    And I wait "1" seconds for the page to contain the regex "This regex will never exist", ignoring timeouts
+
   @test @linktest
   Scenario: Issue 90 Test: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/90
     And I open the link with the text content of "Test Link" in a new window
