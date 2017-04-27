@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,9 +92,9 @@ public class DebuggingStepDefinitions {
 	@When("I dump the alias map to the console$")
 	public void dumpAliasMap() {
 		LOGGER.info("Dump of the alias map for thread {}", Thread.currentThread().getName());
-		for (final String key : State.getFeatureStateForThread().getDataSet().keySet()) {
-			LOGGER.info("{}: {}", key, State.getFeatureStateForThread().getDataSet().get(key));
-		}
+		State.getFeatureStateForThread().getDataSet().entrySet().stream()
+			.sorted((o1, o2) -> o1.getKey().compareTo(o2.getKey()))
+			.forEach(entry -> LOGGER.info("{}: {}", entry.getKey(), entry.getValue()));
 	}
 
 	/**
