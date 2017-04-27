@@ -53,7 +53,7 @@ public class DataExtractionStepDefinitions {
 	 *                         statement.
 	 */
 	@When("^I save the value of (?:a|an|the)(?: element found by)?( alias)? "
-		+ "\"([^\"]*)\"(?: \\w+)* to the alias \"([^\"]*)\"( if it exists)?")
+		+ "\"([^\"]*)\"(?: \\w+)*? to the alias \"([^\"]*)\"( if it exists)?")
 	public void saveSimpleValueAttribute(
 		final String alias,
 		final String selectorValue,
@@ -102,7 +102,7 @@ public class DataExtractionStepDefinitions {
 	 *                         found is ignored. Essentially setting this text makes this an optional
 	 *                         statement.
 	 */
-	@When("^I save the attribute content of \"([^\"]*)\" from (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)* "
+	@When("^I save the attribute content of \"([^\"]*)\" from (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*? "
 		+ "to the alias \"([^\"]*)\"( if it exists)?")
 	public void saveSimpleAttributeContent(
 		final String attribute,
@@ -189,7 +189,7 @@ public class DataExtractionStepDefinitions {
 	 *                         found is ignored. Essentially setting this text makes this an optional
 	 *                         statement.
 	 */
-	@When("^I save the text content of (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)* to the alias "
+	@When("^I save the text content of (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*? to the alias "
 		+ "\"([^\"]*)\"( if it exists)?")
 	public void saveSimpleTextContent(
 		final String alias,
@@ -273,7 +273,7 @@ public class DataExtractionStepDefinitions {
 	 *                         statement.
 	 */
 	@When("^I save the text content of (?:a|an|the) hidden(?: element found by)?( alias)? \"([^\"]*)\""
-		+ "(?: \\w+)* to the alias \"([^\"]*)\"( if it exists)?")
+		+ "(?: \\w+)*? to the alias \"([^\"]*)\"( if it exists)?")
 	public void saveSimpleHiddenTextContent(
 		final String alias,
 		final String selectorValue,
@@ -412,7 +412,7 @@ public class DataExtractionStepDefinitions {
 	 *                         statement.
 	 */
 	@When("^I save the ((?:content)|(?:value)) of the first selected option from (?:a|an|the)(?: drop down list found by)?"
-		+ "( alias)? \"([^\"]*)\"(?: \\w+)* to the alias \"([^\"]*)\"( if it exists)?")
+		+ "( alias)? \"([^\"]*)\"(?: \\w+)*? to the alias \"([^\"]*)\"( if it exists)?")
 	public void saveSelectedTextContent(
 		final String valueOrContent,
 		final String alias,

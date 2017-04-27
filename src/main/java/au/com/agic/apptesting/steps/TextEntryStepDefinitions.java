@@ -59,7 +59,7 @@ public class TextEntryStepDefinitions {
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
 	 *                      set, this value is found from the data set. Otherwise it is a literal value.
 	 */
-	@When("^I clear (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*")
+	@When("^I clear (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*?")
 	public void clearElement(
 		final String alias,
 		final String selectorValue) {
@@ -102,7 +102,7 @@ public class TextEntryStepDefinitions {
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias was
 	 *                      set, this value is found from the data set. Otherwise it is a literal value.
 	 */
-	@When("^I clear (?:a|an|the) hidden(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*")
+	@When("^I clear (?:a|an|the) hidden(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*?")
 	public void clearHiddenElement(
 		final String alias,
 		final String selectorValue) {
@@ -159,7 +159,7 @@ public class TextEntryStepDefinitions {
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@When("^I populate (?:a|an|the)(?: element found by)?( alias)? "
-		+ "\"([^\"]*)\"(?: \\w+)* with( alias)? \"([^\"]*)\" and submit( if it exists)?$")
+		+ "\"([^\"]*)\"(?: \\w+)*? with( alias)? \"([^\"]*)\" and submit( if it exists)?$")
 	public void populateSimpleElementAndSubmitStep(
 		final String alias,
 		final String selectorValue,
@@ -267,7 +267,7 @@ public class TextEntryStepDefinitions {
 	 */
 	@SuppressWarnings("checkstyle:parameternumber")
 	@When("^I populate (?:a|an|the)(?: element found by)?( alias)? "
-		+ "\"([^\"]*)\"(?: \\w+)* with( alias)? \"([^\"]*)\"( if it exists)?( if it is empty)?"
+		+ "\"([^\"]*)\"(?: \\w+)*? with( alias)? \"([^\"]*)\"( if it exists)?( if it is empty)?"
 		+ "(?: with a keystroke delay of \"(\\d+)\" milliseconds)?$")
 	public void populateElementStep(
 		final String alias,
@@ -414,7 +414,7 @@ public class TextEntryStepDefinitions {
 	 */
 	@SuppressWarnings("checkstyle:parameternumber")
 	@When("^I populate (?:a|an|the)(?: element found by)?( alias)? "
-		+ "\"([^\"]*)\"(?: \\w+)* with a random number between( alias)? \"([^\"]*)\" and( alias)? "
+		+ "\"([^\"]*)\"(?: \\w+)*? with a random number between( alias)? \"([^\"]*)\" and( alias)? "
 		+ "\"([^\"]*)\"( if it exists)?$")
 	public void populateElementWithRandomNumberStep(
 		final String alias,
@@ -551,7 +551,7 @@ public class TextEntryStepDefinitions {
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@When("^I populate (?:a|an|the) hidden(?: element found by)?( alias)? "
-		+ "\"([^\"]*)\"(?: \\w+)* with( alias)? \"([^\"]*)\"( if it exists)?$")
+		+ "\"([^\"]*)\"(?: \\w+)*? with( alias)? \"([^\"]*)\"( if it exists)?$")
 	public void populateHiddenElementAndSubmitStep(
 		final String alias,
 		final String selectorValue,

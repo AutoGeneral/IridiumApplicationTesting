@@ -65,7 +65,7 @@ public class DropDownStepDefinitions {
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@When("^I select( alias)? \"([^\"]*)\" from (?:a|the)(?: drop down list found by)?( alias)? "
-		+ "\"([^\"]*)\"(?: \\w+)*( if it exists)?$")
+		+ "\"([^\"]*)\"(?: \\w+)*?( if it exists)?$")
 	public void selectSimpleDropDownListItemStep(
 		final String itemAlias,
 		final String itemName,
@@ -161,7 +161,7 @@ public class DropDownStepDefinitions {
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@When("^I select option(?: number)?( alias)? \"([^\"]*)\" from (?:a|the)(?: drop down list found by)?"
-		+ "( alias)? \"([^\"]*)\"(?: \\w+)*( if it exists)?$")
+		+ "( alias)? \"([^\"]*)\"(?: \\w+)*?( if it exists)?$")
 	public void selectSimpleDropDownListIndexStep(
 		final String itemAlias,
 		final String itemIndex,
