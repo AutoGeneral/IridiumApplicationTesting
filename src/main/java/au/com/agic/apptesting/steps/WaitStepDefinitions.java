@@ -748,8 +748,10 @@ public class WaitStepDefinitions {
 	/**
 	 * Waits a period of time for the presence of some text on the page.
 	 * @param wait  The maximum amount of time to wait for
-	 * @param alias This text appears if the text is astucally an alias key
+	 * @param alias This text appears if the text is actually an alias key
 	 * @param text The text to find on the page, or the alias to the text
+	 * @param ignoreTimeout If this text is present in the step, the step will silently fail if the
+	 *                         requested page text could not be found
 	 * @throws InterruptedException Thread.sleep was interrupted
 	 */
 	@Then("^I wait \"(\\d+)\" seconds for the page to contain the text( alias)? \"(.*?)\"(,? ignoring timeouts?)?")
@@ -781,8 +783,10 @@ public class WaitStepDefinitions {
 	/**
 	 * Waits a period of time for the presence of some text matching a regular expression on the page.
 	 * @param wait  The maximum amount of time to wait for
-	 * @param alias This text appears if the text is astucally an alias key
+	 * @param alias This text appears if the text is actually an alias key
 	 * @param text The text to find on the page, or the alias to the text
+	 * @param ignoreTimeout If this text is present in the step, the step will silently fail if the
+	  *                         requested page regex could not be found
 	 * @throws InterruptedException Thread.sleep was interrupted
 	 */
 	@Then("^I wait \"(\\d+)\" seconds for the page to contain the regex( alias)? \"(.*?)\"(,? ignoring timeouts?)?")
