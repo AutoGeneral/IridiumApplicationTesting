@@ -149,6 +149,8 @@ sourceSets {
 configurations.all {
     resolutionStrategy {
         force 'org.seleniumhq.selenium:selenium-remote-driver:3.3.1' // version 3.4.0 introduces some breaking changes
+		force 'org.seleniumhq.selenium:selenium-api:3.3.1'
+		force 'org.seleniumhq.selenium:selenium-support:3.3.1'
     }
 }
 
