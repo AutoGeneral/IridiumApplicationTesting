@@ -4,7 +4,7 @@ language: java
 jdk:
 - oraclejdk8
 addons:
-  firefox: "53.0"
+  firefox: "50.0"
 before_install:
 - export CHROME_BIN=/usr/bin/google-chrome
 - export DISPLAY=:99.0
