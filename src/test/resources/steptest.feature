@@ -704,7 +704,7 @@ Feature: Test of the steps provided by Iridium
   @test
   Scenario: Clicking missing elements
     And I click the element found by "thisDoesntExist" if it exists
-    And I click the "thisDoesntExist" buttonif it exists
+    And I click the "thisDoesntExist" button if it exists
     And I click the element found by alias "Non-Existant Field" if it exists
     And I click the alias "Non-Existant Field" button if it exists
     And I click the element with the ID of "thisDoesntExist" if it exists
