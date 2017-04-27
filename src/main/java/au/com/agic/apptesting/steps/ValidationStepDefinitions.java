@@ -795,7 +795,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
 	 *                        present
 	 */
-	@Then("^(?:I verify(?: that)? )?(?:a|an|the)( element found by)( alias)? \"([^\"]*)\"(?: \\w+)* "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)* "
 		+ "is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notPresentSimpleWaitStep(
 		final String alias,
