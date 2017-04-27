@@ -11,11 +11,16 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class Main {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
+	/**
+	 * Used to name threads that might be reused
+	 */
+	public static final AtomicInteger THREAD_COUNT = new AtomicInteger(0);
 
 	private Main() {
 	}
@@ -76,12 +81,8 @@ public final class Main {
 
 			return lastFailures;
 		} finally {
-			try {
-				globalTempFiles.forEach(File::delete);
-			} catch (final Exception ex) {
-				LOGGER.error(
-					"WEBAPPTESTER-BUG-0008: Failed to remove global temp file", ex);
-			}
+			THREAD_COUNT.set(0);
+			globalTempFiles.forEach(File::delete);
 		}
 	}
 

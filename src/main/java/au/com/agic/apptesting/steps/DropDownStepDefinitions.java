@@ -64,8 +64,8 @@ public class DropDownStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I select( alias)? \"([^\"]*)\" from (?:a|the) drop down list found by( alias)? "
-		+ "\"([^\"]*)\"( if it exists)?$")
+	@When("^I select( alias)? \"([^\"]*)\" from (?:a|the)(?: drop down list found by)?( alias)? "
+		+ "\"([^\"]*)\"(?: \\w+)*?( if it exists)?$")
 	public void selectSimpleDropDownListItemStep(
 		final String itemAlias,
 		final String itemName,
@@ -160,8 +160,8 @@ public class DropDownStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I select option(?: number)?( alias)? \"([^\"]*)\" from (?:a|the) drop down list found by"
-		+ "( alias)? \"([^\"]*)\"( if it exists)?$")
+	@When("^I select option(?: number)?( alias)? \"([^\"]*)\" from (?:a|the)(?: drop down list found by)?"
+		+ "( alias)? \"([^\"]*)\"(?: \\w+)*?( if it exists)?$")
 	public void selectSimpleDropDownListIndexStep(
 		final String itemAlias,
 		final String itemIndex,

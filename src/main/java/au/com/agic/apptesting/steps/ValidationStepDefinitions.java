@@ -82,7 +82,7 @@ public class ValidationStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@Then("^(?:I verify(?: that)? )?the element found by( alias)? \"([^\"]*)\" should have a "
+	@Then("^(?:I verify(?: that)? )?(?:an|a|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*? should have a "
 		+ "class( alias)? of \"([^\"]*)\"( if it exists)?$")
 	public void checkElementClassStep(
 		final String selectorAlias,
@@ -512,7 +512,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element found by( alias)? \"([^\"]*)\" is displayed"
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*? is displayed"
 		+ "(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void displaySimpleWaitStep(
 		final String alias,
@@ -549,7 +549,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element found by( alias)? \"([^\"]*)\" is not displayed"
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*? is not displayed"
 		+ "(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notDisplaySimpleWaitStep(
 		final String alias,
@@ -678,8 +678,8 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@When("^(?:I verify(?: that)? )?(?:a|an|the) element found by"
-		+ "( alias)? \"([^\"]*)\" is clickable(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
+	@When("^(?:I verify(?: that)? )?(?:a|an|the)(?: element found by)?"
+		+ "( alias)? \"([^\"]*)\"(?: \\w+)*? is clickable(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void clickWaitStep(
 		final String alias,
 		final String selectorValue,
@@ -758,7 +758,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
 	 *                        present
 	 */
-	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element found by( alias)? \"([^\"]*)\" "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*? "
 		+ "is present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void presentSimpleWaitStep(
 		final String alias,
@@ -795,7 +795,7 @@ public class ValidationStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
 	 *                        present
 	 */
-	@Then("^(?:I verify(?: that)? )?(?:a|an|the) element found by( alias)? \"([^\"]*)\" "
+	@Then("^(?:I verify(?: that)? )?(?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*? "
 		+ "is not present(?: within \"(\\d+)\" seconds?)?(,? ignoring timeouts?)?")
 	public void notPresentSimpleWaitStep(
 		final String alias,

@@ -73,7 +73,7 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by( alias)? \"([^\"]*)\" to be displayed"
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*? to be displayed"
 		+ "(,? ignoring timeouts?)?")
 	public void displaySimpleWaitStep(
 		final String waitDuration,
@@ -112,7 +112,7 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by( alias)? \"([^\"]*)\" to not be displayed"
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*? to not be displayed"
 		+ "(,? ignoring timeouts?)?")
 	public void notDisplaySimpleWaitStep(
 		final String waitDuration,
@@ -245,8 +245,8 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
 	 *                        found
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by"
-		+ "( alias)? \"([^\"]*)\" to be clickable(,? ignoring timeouts?)?")
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)?"
+		+ "( alias)? \"([^\"]*)\"(?: \\w+)*? to be clickable(,? ignoring timeouts?)?")
 	public void clickWaitStep(
 		final String waitDuration,
 		final String alias,
@@ -326,7 +326,7 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
 	 *                        present
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by( alias)? \"([^\"]*)\" "
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*? "
 		+ "to be present(,? ignoring timeouts?)?")
 	public void presentSimpleWaitStep(
 		final String waitDuration,
@@ -365,7 +365,7 @@ public class WaitStepDefinitions {
 	 * @param ignoringTimeout Include this text to ignore a timeout while waiting for the element to be
 	 *                        present
 	 */
-	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the) element found by( alias)? \"([^\"]*)\" "
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*? "
 		+ "to not be present(,? ignoring timeouts?)?")
 	public void notPresentSimpleWaitStep(
 		final String waitDuration,
@@ -748,12 +748,14 @@ public class WaitStepDefinitions {
 	/**
 	 * Waits a period of time for the presence of some text on the page.
 	 * @param wait  The maximum amount of time to wait for
-	 * @param alias This text appears if the text is astucally an alias key
+	 * @param alias This text appears if the text is actually an alias key
 	 * @param text The text to find on the page, or the alias to the text
+	 * @param ignoreTimeout If this text is present in the step, the step will silently fail if the
+	 *                         requested page text could not be found
 	 * @throws InterruptedException Thread.sleep was interrupted
 	 */
-	@Then("^I wait \"(\\d+)\" seconds for the page to contain the text( alias)? \"(.*?)\"")
-	public void verifyPageContent(final Integer wait, final String alias, final String text) throws InterruptedException {
+	@Then("^I wait \"(\\d+)\" seconds for the page to contain the text( alias)? \"(.*?)\"(,? ignoring timeouts?)?")
+	public void verifyPageContent(final Integer wait, final String alias, final String text, final String ignoreTimeout) throws InterruptedException {
 		final String fixedtext = autoAliasUtils.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
@@ -773,18 +775,22 @@ public class WaitStepDefinitions {
 		}
 		while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
 
-		throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");
+		if (StringUtils.isBlank(ignoreTimeout)) {
+			throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");
+		}
 	}
 
 	/**
 	 * Waits a period of time for the presence of some text matching a regular expression on the page.
 	 * @param wait  The maximum amount of time to wait for
-	 * @param alias This text appears if the text is astucally an alias key
+	 * @param alias This text appears if the text is actually an alias key
 	 * @param text The text to find on the page, or the alias to the text
+	 * @param ignoreTimeout If this text is present in the step, the step will silently fail if the
+	  *                         requested page regex could not be found
 	 * @throws InterruptedException Thread.sleep was interrupted
 	 */
-	@Then("^I wait \"(\\d+)\" seconds for the page to contain the regex( alias)? \"(.*?)\"")
-	public void verifyPageRegexContent(final Integer wait, final String alias, final String text) throws InterruptedException {
+	@Then("^I wait \"(\\d+)\" seconds for the page to contain the regex( alias)? \"(.*?)\"(,? ignoring timeouts?)?")
+	public void verifyPageRegexContent(final Integer wait, final String alias, final String text, final String ignoreTimeout) throws InterruptedException {
 		final String fixedRegex = autoAliasUtils.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 		final Pattern pattern = Pattern.compile(fixedRegex);
 
@@ -805,7 +811,9 @@ public class WaitStepDefinitions {
 		}
 		while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
 
-		throw new ValidationException("Could not find the regular expression \"" + fixedRegex + "\" on the page");
+		if (StringUtils.isBlank(ignoreTimeout)) {
+			throw new ValidationException("Could not find the regular expression \"" + fixedRegex + "\" on the page");
+		}
 	}
 
 	/**
