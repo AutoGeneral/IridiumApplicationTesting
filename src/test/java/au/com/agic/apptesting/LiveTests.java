@@ -555,7 +555,7 @@ public class LiveTests {
 	}
 
 	@Test
-	public void runDatasetTest() {
+	public void runXmlDatasetTest() {
 			setCommonProperties();
 			System.setProperty("testSource", this.getClass().getResource("/datasettest.feature").toString());
 			System.setProperty("dataset", this.getClass().getResource("/dataset.xml").toString());
@@ -564,6 +564,18 @@ public class LiveTests {
 			System.setProperty("testDestination", "PhantomJS");
 			final int failures = new TestRunner().run(globalTempFiles);
 			Assert.assertEquals(0, failures);
+	}
+
+	@Test
+	public void runCsvDatasetTest() {
+		setCommonProperties();
+		System.setProperty("testSource", this.getClass().getResource("/datasettest.feature").toString());
+		System.setProperty("dataset", this.getClass().getResource("/dataset.csv").toString());
+		System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
+		System.setProperty("featureGroupName", "Google");
+		System.setProperty("testDestination", "PhantomJS");
+		final int failures = new TestRunner().run(globalTempFiles);
+		Assert.assertEquals(0, failures);
 	}
 
 	private void runNegativeTest(final String feature, final String tagPrefix) {

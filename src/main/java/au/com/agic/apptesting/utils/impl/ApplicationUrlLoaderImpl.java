@@ -4,6 +4,7 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.profiles.FileProfileAccess;
 import au.com.agic.apptesting.profiles.configuration.*;
 import au.com.agic.apptesting.profiles.dataset.DataSet;
+import au.com.agic.apptesting.profiles.dataset.DatasetsFactory;
 import au.com.agic.apptesting.profiles.dataset.DatasetsRootElement;
 import au.com.agic.apptesting.profiles.dataset.Setting;
 import au.com.agic.apptesting.utils.ApplicationUrlLoader;
@@ -31,22 +32,25 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
+	private static final String DATASETS_FILE = SYSTEM_PROPERTY_UTILS.getProperty(
+		Constants.DATA_SETS_PROFILE_SYSTEM_PROPERTY);
+	private static final String CONFIG_FILE = SYSTEM_PROPERTY_UTILS.getProperty(
+		Constants.CONFIGURATION);
+
+	private static final DatasetsFactory DATASETS_FACTORY = new DatasetsFactory();
+
 	private FileProfileAccess<Configuration> profileAccess = new FileProfileAccess<>(
-		SYSTEM_PROPERTY_UTILS.getProperty(Constants.CONFIGURATION),
+		CONFIG_FILE,
 		Configuration.class);
 
-	private  FileProfileAccess<DatasetsRootElement> datasetAccess = new FileProfileAccess<>(
-		SYSTEM_PROPERTY_UTILS.getProperty(Constants.DATA_SETS_PROFILE_SYSTEM_PROPERTY),
-		DatasetsRootElement.class);
+	private Optional<DatasetsRootElement> datasets = DATASETS_FACTORY.getDatasets(DATASETS_FILE);
 
 	public void initialise() {
 		profileAccess = new FileProfileAccess<>(
-			SYSTEM_PROPERTY_UTILS.getProperty(Constants.CONFIGURATION),
+			CONFIG_FILE,
 			Configuration.class);
 
-		datasetAccess = new FileProfileAccess<>(
-			SYSTEM_PROPERTY_UTILS.getProperty(Constants.DATA_SETS_PROFILE_SYSTEM_PROPERTY),
-			DatasetsRootElement.class);
+		datasets = DATASETS_FACTORY.getDatasets(DATASETS_FILE);
 	}
 
 	private String getAppUrl() {
@@ -62,7 +66,7 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 	public List<UrlMapping> getAppUrls(final String featureGroup) {
 
 		checkState(profileAccess != null, "initialise() must be called");
-		checkState(datasetAccess != null, "initialise() must be called");
+		checkState(datasets != null, "initialise() must be called");
 
         /*
 			Deal with the override. This system property takes precedence over
@@ -89,7 +93,7 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 		}
 
 		/*
-			The final option is to get the mappins from the xml file
+			The final option is to get the mappins from the csv or xml file
 		 */
 		final Optional<Configuration> configuration = profileAccess.getProfile();
 
@@ -135,19 +139,16 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 	public Map<Integer, Map<String, String>> getDatasets() {
 
 		checkState(profileAccess != null, "initialise() must be called");
-		checkState(datasetAccess != null, "initialise() must be called");
-
-		final Optional<DatasetsRootElement> dataset = datasetAccess.getProfile();
+		checkState(datasets != null, "initialise() must be called");
 
 		/*
 			It is possible that a profile does not exist with data sets for this featureGroup
 		 */
-		if (!dataset.isPresent()) {
+		if (!datasets.isPresent()) {
 			return new HashMap<>();
 		}
 
-		return getDatasets(dataset.get());
-
+		return getDatasets(datasets.get());
 	}
 
 	private Map<Integer, Map<String, String>> getDatasets(@NotNull final DatasetsRootElement profile) {
