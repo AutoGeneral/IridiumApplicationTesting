@@ -1,0 +1,16 @@
+# The following line is the header line and determines the dataset keys for each CSV position...
+Sometimes empty,	Sometimes null,	Surrounded in spaces
+
+# These are comments and can be where you would expect the header to be if you want.
+# Comments cannot go at the end of a CSV row though.
+# Empty lines are cool too.
+
+# Spaces in the values are trimmed either side, unless you quote them.
+# If a value is not to be set, use the string UNDEFINED without quotes.
+# "UNDEFINED" is also interpretted as not set.
+# Adjacent commas are interpreted as an empty string, not unset value.
+
+"",					UNDEFINED,   	hello
+not empty,			not null,  		trimmed
+      ,   			UNDEFINED ,		"comma, here"
+      ,   			"UNDEFINED"	,	"  not trimmed  "
