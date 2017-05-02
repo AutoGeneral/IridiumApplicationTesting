@@ -32,8 +32,6 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
-	private static final String DATASETS_FILE = SYSTEM_PROPERTY_UTILS.getProperty(
-		Constants.DATA_SETS_PROFILE_SYSTEM_PROPERTY);
 	private static final String CONFIG_FILE = SYSTEM_PROPERTY_UTILS.getProperty(
 		Constants.CONFIGURATION);
 
@@ -43,14 +41,17 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 		CONFIG_FILE,
 		Configuration.class);
 
-	private Optional<DatasetsRootElement> datasets = DATASETS_FACTORY.getDatasets(DATASETS_FILE);
+	private Optional<DatasetsRootElement> datasets;
 
 	public void initialise() {
 		profileAccess = new FileProfileAccess<>(
 			CONFIG_FILE,
 			Configuration.class);
 
-		datasets = DATASETS_FACTORY.getDatasets(DATASETS_FILE);
+		final String datsetsFile = SYSTEM_PROPERTY_UTILS.getProperty(
+				Constants.DATA_SETS_PROFILE_SYSTEM_PROPERTY);
+
+		datasets = DATASETS_FACTORY.getDatasets(datsetsFile);
 	}
 
 	private String getAppUrl() {
