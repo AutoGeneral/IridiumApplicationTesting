@@ -121,7 +121,7 @@ public final class Main {
 			try {
 				LOGGER.error(
 					"WEBAPPTESTER-INFO-0011: "
-						+ "Iridium was shut down because it ran longer than the maximum execution time of " + maxExecutionTime + " milliseconds");
+						+ "Iridium was shut down because it ran longer than the maximum execution time of " + maxExecutionTime + " seconds");
 				System.exit(-2);
 			} catch (final Exception ex) {
 				LOGGER.error(
