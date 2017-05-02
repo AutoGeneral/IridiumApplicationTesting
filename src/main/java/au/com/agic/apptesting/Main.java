@@ -96,10 +96,13 @@ public final class Main {
 	}
 
 	private static void cancelShutdownTimer() {
-		checkState(terminatorFuture != null);
+		if (terminatorFuture != null) {
+			terminatorFuture.cancel(false);
+		}
 
-		terminatorFuture.cancel(false);
-		terminator.shutdown();
+		if (terminator != null) {
+			terminator.shutdown();
+		}
 
 		terminatorFuture = null;
 		terminator = null;
@@ -116,17 +119,19 @@ public final class Main {
 			SYSTEM_PROPERTY_UTILS.getProperty(Constants.MAX_EXECUTION_TIME)
 		);
 
-		terminator = Executors.newSingleThreadScheduledExecutor();
-		terminatorFuture = terminator.schedule(() -> {
-			try {
-				LOGGER.error(
-					"WEBAPPTESTER-INFO-0011: "
-						+ "Iridium was shut down because it ran longer than the maximum execution time of " + maxExecutionTime + " seconds");
-				System.exit(-2);
-			} catch (final Exception ex) {
-				LOGGER.error(
-					"WEBAPPTESTER-BUG-0009: The shutdown timer threw an exception", ex);
-			}
-		}, maxExecutionTime, TimeUnit.SECONDS);
+		if (maxExecutionTime > 0) {
+			terminator = Executors.newSingleThreadScheduledExecutor();
+			terminatorFuture = terminator.schedule(() -> {
+				try {
+					LOGGER.error(
+						"WEBAPPTESTER-INFO-0011: "
+							+ "Iridium was shut down because it ran longer than the maximum execution time of " + maxExecutionTime + " seconds");
+					System.exit(-2);
+				} catch (final Exception ex) {
+					LOGGER.error(
+						"WEBAPPTESTER-BUG-0009: The shutdown timer threw an exception", ex);
+				}
+			}, maxExecutionTime, TimeUnit.SECONDS);
+		}
 	}
 }
