@@ -21,10 +21,10 @@ Feature: Open an application
 	# Open the login dialog and close it again
 	Scenario: Open Profile
 	 # Click on an element referencing the aliased xpath we set above
-		And I wait "30" seconds for the element found by alias "NoProfileImage" to be displayed
+		And I wait "10" seconds for the element found by alias "NoProfileImage" to be displayed
 		And I click the element found by alias "NoProfileImage"
 	  # Click on an element referencing the aliased class name we set above
-		And I wait "30" seconds for the element found by alias "LoginBackground" to be displayed
+		And I wait "10" seconds for the element found by alias "LoginBackground" to be displayed
 		And I click the element found by alias "LoginBackground"
 
 	Scenario: Navigate the main links
