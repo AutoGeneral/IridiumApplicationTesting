@@ -21,7 +21,7 @@ class FileContentRetrieval {
 
 	private static final int TIMEOUT = 15000;
 
-	Optional<String> retrieveStringFromFile(@NotNull final String filename) {
+	Optional<String> retrieveStringFromFile(final String filename) {
 		if (StringUtils.isNotBlank(filename)) {
 			/*
 				Attempt to get the contents of the local file, falling back
