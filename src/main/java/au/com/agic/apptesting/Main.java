@@ -3,7 +3,7 @@ package au.com.agic.apptesting;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,13 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.google.common.base.Preconditions.checkState;
 
 public final class Main {
 
@@ -21,6 +27,8 @@ public final class Main {
 	 * Used to name threads that might be reused
 	 */
 	public static final AtomicInteger THREAD_COUNT = new AtomicInteger(0);
+	private static ScheduledExecutorService terminator;
+	private static Future<?> terminatorFuture;
 
 	private Main() {
 	}
@@ -82,31 +90,43 @@ public final class Main {
 			return lastFailures;
 		} finally {
 			THREAD_COUNT.set(0);
-			globalTempFiles.forEach(File::delete);
+			globalTempFiles.forEach(FileUtils::deleteQuietly);
+			cancelShutdownTimer();
 		}
+	}
+
+	private static void cancelShutdownTimer() {
+		checkState(terminatorFuture != null);
+
+		terminatorFuture.cancel(false);
+		terminator.shutdown();
+
+		terminatorFuture = null;
+		terminator = null;
 	}
 
 	/**
 	 * Creates a thread that will shutdown the application after a certain amount of time has passed.
 	 */
 	private static void createShutdownTimer() {
+		checkState(terminatorFuture == null);
+		checkState(terminator == null);
+
 		final int maxExecutionTime = NumberUtils.toInt(
 			SYSTEM_PROPERTY_UTILS.getProperty(Constants.MAX_EXECUTION_TIME)
 		);
 
-		if (maxExecutionTime > 0) {
-			new Thread(() -> {
-				try {
-					Thread.sleep(maxExecutionTime);
-					LOGGER.error(
-						"WEBAPPTESTER-INFO-0011: "
-							+ "Iridium was shut down because it ran longer than the maximum execution time of " + maxExecutionTime + " milliseconds");
-					System.exit(-2);
-				} catch (final Exception ex) {
-					LOGGER.error(
-						"WEBAPPTESTER-BUG-0009: The shutdown timer threw an exception", ex);
-				}
-			}).start();
-		}
+		terminator = Executors.newSingleThreadScheduledExecutor();
+		terminatorFuture = terminator.schedule(() -> {
+			try {
+				LOGGER.error(
+					"WEBAPPTESTER-INFO-0011: "
+						+ "Iridium was shut down because it ran longer than the maximum execution time of " + maxExecutionTime + " milliseconds");
+				System.exit(-2);
+			} catch (final Exception ex) {
+				LOGGER.error(
+					"WEBAPPTESTER-BUG-0009: The shutdown timer threw an exception", ex);
+			}
+		}, maxExecutionTime, TimeUnit.SECONDS);
 	}
 }
