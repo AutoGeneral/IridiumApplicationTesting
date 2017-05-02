@@ -12,7 +12,6 @@ Feature: Open an application
  	# Open up the web page
   	Scenario: Launch App
 		And I set the default wait time between steps to "5"
-		And I set the default wait time between steps to "5"
    		# Allow all traffic to the main domain
 		And I enable the whitelist with responding with "500" for unmatched requests
 		And I allow access to the URL regex ".*?dzone.*"
@@ -49,11 +48,11 @@ Feature: Open an application
 		And I click the link with the text content of "REFCARDZ"
 		 # WebDriver considers this link to be obscured by another element, so
 		 # we use a special step to click these "hidden" links
-		And I wait "30" seconds for the element found by "Getting Started With Appium" to be displayed
+		And I wait "10" seconds for the element found by "Getting Started With Appium" to be displayed
 		And I click the hidden link with the text content of "Getting Started With Appium"
-		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
+		And I wait "10" seconds for the element found by alias "HomeLink" to be displayed
 		And I go back
-		And I wait "30" seconds for the element found by "RESTful API Lifecycle Management" to be displayed
+		And I wait "10" seconds for the element found by "RESTful API Lifecycle Management" to be displayed
 		And I click the hidden link with the text content of "RESTful API Lifecycle Management"
-		And I wait "30" seconds for the element found by alias "HomeLink" to be displayed
+		And I wait "10" seconds for the element found by alias "HomeLink" to be displayed
 		And I go back
