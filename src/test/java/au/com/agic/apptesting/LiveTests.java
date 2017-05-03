@@ -329,7 +329,7 @@ public class LiveTests {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			setCommonProperties();
 			System.setProperty("appURLOverride", "https://example.org");
-			System.setProperty("testSource", this.getClass().getResource("/failtestwithzap.feature").getPath());
+			System.setProperty("testSource", this.getClass().getResource("/failtestwithzap.feature").toString());
 			System.setProperty("testDestination", "PhantomJS");
 			System.setProperty("startInternalProxy", "zap");
 			final int failures = new TestRunner().run(globalTempFiles);
