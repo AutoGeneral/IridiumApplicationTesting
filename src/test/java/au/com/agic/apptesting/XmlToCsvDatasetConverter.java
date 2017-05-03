@@ -7,23 +7,30 @@ import au.com.agic.apptesting.profiles.dataset.Setting;
 import org.junit.Assert;
 
 import javax.validation.constraints.NotNull;
+import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+// Run this main with a single CLA - the XML dataset file resource (eg /homeQuote/dataset.xml)
+// It will spit out the CSV version on STDOUT
+
 public class XmlToCsvDatasetConverter {
 	private static final DatasetsFactory DATASETS_FACTORY = new DatasetsFactory();
+	private static final String DELIMITER = ",";
 
 	public static void main(String[] args) {
 		Assert.assertEquals(1, args.length);
 		String xmlDatasetsFile = args[0];
-		String xmlDatasetsFileUrl = XmlToCsvDatasetConverter.class.getResource(xmlDatasetsFile).toString();
+		URL datasetResource = XmlToCsvDatasetConverter.class.getResource(xmlDatasetsFile);
 
-		new XmlToCsvDatasetConverter().run(xmlDatasetsFileUrl);
+		Assert.assertNotNull("Unable to find " + xmlDatasetsFile, datasetResource);
+
+		new XmlToCsvDatasetConverter().run(datasetResource.toString());
 	}
 
-	public void run(String xmlDatasetsFileUrl) {
+	private void run(String xmlDatasetsFileUrl) {
 		Optional<DatasetsRootElement> datasets = DATASETS_FACTORY.getDatasets(xmlDatasetsFileUrl);
 
 		if(datasets.isPresent()) {
@@ -31,12 +38,27 @@ public class XmlToCsvDatasetConverter {
 
 			List<String> allKeys = datasetsMap.values().stream()
 				.flatMap(i -> i.keySet().stream())
+				.distinct()
 				.collect(Collectors.toList());
 
-			System.out.println(allKeys);
+			String heading = allKeys.stream()
+				.collect(Collectors.joining(DELIMITER));
+
+			System.out.println(heading);
+
+			for(int dataSetIndex = 0; dataSetIndex < datasetsMap.keySet().size(); dataSetIndex++) {
+				Map<String, String> thisDataSet = datasetsMap.get(dataSetIndex);
+
+				String row = allKeys.stream()
+					.map(key -> String.format("\"%s\"",thisDataSet.get(key)))
+					.collect(Collectors.joining(DELIMITER));
+
+				System.out.println(row);
+			}
 		}
 	}
 
+	// The following, somewhat copied from ApplicationUrlLoaderImpl
 	private Map<Integer, Map<String, String>> getDatasets(@NotNull final DatasetsRootElement profile) {
 		checkNotNull(profile);
 
@@ -67,7 +89,7 @@ public class XmlToCsvDatasetConverter {
 
 		final Map<String, String> commonDataSet = new HashMap<>();
 
-		profile.getDataSets().getCommonDataSet().getSettings().stream()
+		profile.getDataSets().getCommonDataSet().getSettings()
 			/*
 				Ensure we add the data set to a sequential index
 			 */
