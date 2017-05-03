@@ -156,6 +156,12 @@ public final class Constants {
 	public static final String CHROME = "Chrome";
 	/**
 	 * The value assigned to the system property to indicate that the tests should
+	 * be run in chrome. Chrome is the default if no other matches are found for
+	 * the system property.
+	 */
+	public static final String CHROME_HEADLESS = "ChromeHeadless";
+	/**
+	 * The value assigned to the system property to indicate that the tests should
 	 * be run in Firefox using the Marionette driver. This is required with Firefox 48
 	 * and all future versions.
 	 * See https://github.com/SeleniumHQ/selenium/issues/2559 for details.

@@ -10,6 +10,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -110,8 +111,8 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			return new EdgeDriver(capabilities);
 		}
 
-		if (Constants.PHANTOMJS.equalsIgnoreCase(browser)) {
-			return buildPhantomJS(capabilities, tempFiles);
+		if (Constants.CHROME_HEADLESS.equalsIgnoreCase(browser)) {
+			return buildChromeHeadless(mainProxy, capabilities);
 		}
 
 		return buildChrome(mainProxy, capabilities);
@@ -119,6 +120,22 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 
 	private WebDriver buildChrome(final Optional<ProxyDetails<?>> mainProxy,
 		final DesiredCapabilities capabilities) {
+
+		return new ChromeDriver(capabilities);
+	}
+
+	private WebDriver buildChromeHeadless(final Optional<ProxyDetails<?>> mainProxy,
+		final DesiredCapabilities capabilities) {
+
+		/*
+			These options are documented at:
+			https://developers.google.com/web/updates/2017/04/headless-chrome
+		 */
+		final ChromeOptions options = new ChromeOptions();
+		options.addArguments("headless");
+		options.addArguments("disable-gpu");
+
+		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
 		return new ChromeDriver(capabilities);
 	}
