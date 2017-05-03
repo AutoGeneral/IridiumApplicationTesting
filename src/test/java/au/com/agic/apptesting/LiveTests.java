@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -343,6 +344,7 @@ public class LiveTests {
 	}
 
 	@Test
+	@Ignore("These tests are better run individually in a CI system")
 	public void modifyRequests19() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -365,10 +367,8 @@ public class LiveTests {
 		Assert.fail();
 	}
 
-	/*
-		This test fails more often than not from Travis CI, so it is disabled
-	 */
-	//@Test
+	@Test
+	@Ignore("These tests are better run individually in a CI system")
 	public void passiveSecurity20() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -393,6 +393,7 @@ public class LiveTests {
 	}
 
 	@Test
+	@Ignore("These tests are better run individually in a CI system")
 	public void gherkinExamples21() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -416,6 +417,7 @@ public class LiveTests {
 	}
 
 	@Test
+	@Ignore("These tests are better run individually in a CI system")
 	public void deadLinkCheck23() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -439,6 +441,7 @@ public class LiveTests {
 	}
 
 	@Test
+	@Ignore("These tests are better run individually in a CI system")
 	public void acceptanceTest24() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -462,6 +465,7 @@ public class LiveTests {
 	}
 
 	@Test
+	@Ignore("These tests are better run individually in a CI system")
 	public void driverPerScenario25() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
