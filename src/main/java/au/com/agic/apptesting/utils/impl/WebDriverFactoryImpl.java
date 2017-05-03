@@ -91,11 +91,11 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			.ifPresent(proxy -> capabilities.setCapability("proxy", proxy));
 
 		if (Constants.MARIONETTE.equalsIgnoreCase(browser)) {
-			return buildFirefox(mainProxy, capabilities);
+			return buildFirefox(mainProxy, capabilities, false);
 		}
 
 		if (Constants.FIREFOX.equalsIgnoreCase(browser)) {
-			return buildFirefox(mainProxy, capabilities);
+			return buildFirefox(mainProxy, capabilities, true);
 		}
 
 		if (Constants.SAFARI.equalsIgnoreCase(browser)) {
@@ -159,7 +159,8 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 
 	private WebDriver buildFirefox(
 		final Optional<ProxyDetails<?>> mainProxy,
-		final DesiredCapabilities capabilities) {
+		final DesiredCapabilities capabilities,
+		final boolean setProfile) {
 
 		final FirefoxOptions options = new FirefoxOptions().addDesiredCapabilities(capabilities);
 
@@ -178,32 +179,34 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			If we have not specified a profile via the system properties, go ahead
 			and create one here.
 		 */
-		if (StringUtils.isBlank(firefoxProfile)) {
-			final FirefoxProfile profile = new FirefoxProfile();
+		if (setProfile) {
+			if (StringUtils.isBlank(firefoxProfile)) {
+				final FirefoxProfile profile = new FirefoxProfile();
 
-			/*
-				This is required for the CI unit tests to pass with firefox
-			 */
-			profile.setAcceptUntrustedCertificates(true);
+				/*
+					This is required for the CI unit tests to pass with firefox
+				 */
+				profile.setAcceptUntrustedCertificates(true);
 
-			/*
-				Set the proxy
-			 */
-			if (mainProxy.isPresent()) {
+				/*
+					Set the proxy
+				 */
+				if (mainProxy.isPresent()) {
 
-				profile.setPreference("network.proxy.type", 1);
-				profile.setPreference("network.proxy.http", "localhost");
-				profile.setPreference("network.proxy.http_port", mainProxy.get().getPort());
-				profile.setPreference("network.proxy.ssl", "localhost");
-				profile.setPreference("network.proxy.ssl_port", mainProxy.get().getPort());
-				profile.setPreference("network.proxy.no_proxies_on", "");
+					profile.setPreference("network.proxy.type", 1);
+					profile.setPreference("network.proxy.http", "localhost");
+					profile.setPreference("network.proxy.http_port", mainProxy.get().getPort());
+					profile.setPreference("network.proxy.ssl", "localhost");
+					profile.setPreference("network.proxy.ssl_port", mainProxy.get().getPort());
+					profile.setPreference("network.proxy.no_proxies_on", "");
+				}
+
+				options.setProfile(profile);
+			} else {
+				final ProfilesIni profileLoader = new ProfilesIni();
+				final FirefoxProfile profile = profileLoader.getProfile(firefoxProfile);
+				options.setProfile(profile);
 			}
-
-			options.setProfile(profile);
-		} else {
-			final ProfilesIni profileLoader = new ProfilesIni();
-			final FirefoxProfile profile = profileLoader.getProfile(firefoxProfile);
-			options.setProfile(profile);
 		}
 
 		return new FirefoxDriver(options);
