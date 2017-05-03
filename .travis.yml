@@ -20,7 +20,7 @@ before_install:
 - eval `ssh-agent -s`
 - ssh-add iridium_github_pages
 - rm -f iridium_github_pages
-script: "travis_wait 60 ./gradlew '-DtestBrowsers=Chrome,PhantomJS,Marionette' check --stacktrace"
+script: "travis_wait 60 ./gradlew '-DtestBrowsers=Chrome' check --stacktrace"
 deploy:
   - provider: releases
     api_key:
