@@ -198,6 +198,10 @@ public final class Constants {
 	 */
 	public static final String PHANTOMJS = "PhantomJS";
 	/**
+	 * The location of the Firefox executable
+	 */
+	public static final String FIREFOX_BINARY = "FirefoxBinary";
+	/**
 	 * The system property that defines the phantomjs logging level
 	 */
 	public static final String PHANTOMJS_LOGGING_LEVEL_SYSTEM_PROPERTY = "phantomJSLoggingLevel";
