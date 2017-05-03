@@ -269,10 +269,11 @@ public class ValidationStepDefinitions {
 	/**
 	 * We track response codes in the BrowsermobProxyUtilsImpl class, and if any where in the
 	 * range 400 - 599, we output those as an error.
+	 * @param qualifier can be used to specify if errors were expected or not
 	 */
 	@SuppressWarnings("unchecked")
-	@Then("(?:I verify(?: that)? )?there were no HTTP errors")
-	public void verifyHttpCodes() {
+	@Then("(?:I verify(?: that)? )?there were (no|some) HTTP errors")
+	public void verifyHttpCodes(final String qualifier) {
 		final Optional<ProxyDetails<?>> browserMob =
 			State.getFeatureStateForThread().getProxyInterface(BrowsermobProxyUtilsImpl.PROXY_NAME);
 
@@ -282,8 +283,7 @@ public class ValidationStepDefinitions {
 					(List<HttpMessageInfo>) browserMob.get()
 						.getProperties().get(BrowsermobProxyUtilsImpl.INVALID_REQUESTS);
 
-				if (!responses.isEmpty()) {
-
+				if ("no".equals(qualifier) && !responses.isEmpty()) {
 					final StringBuilder message =
 						new StringBuilder("The following URLs returned HTTP errors\n");
 
@@ -293,6 +293,8 @@ public class ValidationStepDefinitions {
 					});
 
 					throw new HttpResponseException(message.toString());
+				} else if ("some".equals(qualifier) && responses.isEmpty()) {
+					throw new HttpResponseException("No HTTP errors were found");
 				}
 			}
 		}
