@@ -1,0 +1,43 @@
+<profile>
+    <dataSets>
+        <dataSet>
+            <setting name="Postcode Input">4214</setting>
+            <setting name="Address Input">5 SUGARGUM COURT</setting>
+            <setting name="Building Type Input">Freestanding Home</setting>
+            <setting name="Body Corporate Input">No</setting>
+            <setting name="Year Built Input">2000-2010</setting>
+            <setting name="Wall Type Input">Besser Block / Cement</setting>
+            <setting name="Roof Type Input">Clay / Terracotta Tiles</setting>
+            <setting name="Home Occupied Input">Owner Occupied</setting>
+            <setting name="Quote Type Input">Home Only</setting>
+            <setting name="Rebuild Cost Input">1000000</setting>
+            <setting name="Business Activity Input">No</setting>
+            <setting name="Had Previous Insurance Input">Yes</setting>
+            <setting name="Previous Insurance At Address Input">Yes</setting>
+            <setting name="Previous Insurance Input">AAMI</setting>
+            <setting name="Previous Insurance Length Input">3 Years</setting>
+            <setting name="Thefts Input">No</setting>
+            <setting name="DOB Day Input">01</setting>
+            <setting name="DOB Month Input">01</setting>
+            <setting name="DOB Year Input">1980</setting>
+            <setting name="Older Resident Input">No</setting>
+            <setting name="Bushfire Input">No</setting>
+            <setting name="Structurally Sound Input">Yes</setting>
+            <setting name="Neighbours Input">No</setting>
+            <setting name="Neighbour One">Main road</setting>
+            <setting name="Neighbour Two">Vacant land</setting>
+            <setting name="Occupied Work Hours Input">No</setting>
+            <setting name="Currently Unoccupied Input">No</setting>
+            <setting name="Mortgage Input">No</setting>
+            <setting name="Mortgagee Input">Commonwealth Bank of Australia</setting>
+            <setting name="Undergoing Construction Input">No</setting>
+            <setting name="Refused Insurance Input">No</setting>
+            <setting name="Criminal Offence Input">No</setting>
+            <setting name="Motor Burnout Input">No</setting>
+            <setting name="Accidental Damage Input">No</setting>
+            <setting name="Flood Cover Input">No</setting>
+            <setting name="Final Price Lower Bound">1500</setting>
+            <setting name="Final Price Upper Bound">2000</setting>            
+        </dataSet>
+    </dataSets>
+</profile>
