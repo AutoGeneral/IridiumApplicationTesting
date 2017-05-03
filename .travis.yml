@@ -11,7 +11,7 @@ before_install:
 - sh -e /etc/init.d/xvfb start
 - sudo apt-get update
 - sudo apt-get install -y libappindicator1 fonts-liberation
-- wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
+- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 - sudo dpkg -i google-chrome*.deb
 - wget ${Keystore}
 - wget ${GPG_Keyring}
@@ -20,7 +20,7 @@ before_install:
 - eval `ssh-agent -s`
 - ssh-add iridium_github_pages
 - rm -f iridium_github_pages
-script: "travis_wait 60 ./gradlew '-DtestBrowsers=ChromeHeadless,Marionette,PhantomJS' check --stacktrace"
+script: "travis_wait 60 ./gradlew '-DtestBrowsers=Chrome,PhantomJS,Marionette' check --stacktrace"
 deploy:
   - provider: releases
     api_key:
