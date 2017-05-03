@@ -3,7 +3,7 @@ Feature: Negative step tests
   @neg-wait-1
   Scenario: Negative wait test 1
     Given I open the page "http://google.com"
-    Then I wait "2" seconds for a link with the text content of alias "nope" to be present
+    Then I wait "2" seconds for a link with the text content of "nope" to be present
 
   @neg-wait-2
   Scenario: Negative wait test 2
