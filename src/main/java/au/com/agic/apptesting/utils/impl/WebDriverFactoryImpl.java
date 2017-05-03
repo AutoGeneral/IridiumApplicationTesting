@@ -118,6 +118,10 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			return buildChromeHeadless(mainProxy, capabilities);
 		}
 
+		if (Constants.PHANTOMJS.equalsIgnoreCase(browser)) {
+			return buildPhantomJS(capabilities, tempFiles);
+		}
+
 		return buildChrome(mainProxy, capabilities);
 	}
 
