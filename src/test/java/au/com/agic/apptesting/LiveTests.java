@@ -88,7 +88,7 @@ public class LiveTests {
 		if (StringUtils.isBlank(browsersSysProp)) {
 			browsers.add("PhantomJS");
 			browsers.add("Marionette");
-			browsers.add("Chrome");
+			browsers.add("ChromeHeadless");
 		} else {
 			browsers.addAll(Arrays.asList(browsersSysProp.split(",")));
 		}
