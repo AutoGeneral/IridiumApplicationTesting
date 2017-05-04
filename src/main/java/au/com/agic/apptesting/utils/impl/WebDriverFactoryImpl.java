@@ -62,7 +62,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		/*
 			Configure the proxy settings
 		 */
-		final DesiredCapabilities capabilities = DesiredCapabilities.htmlUnitWithJs();
+		final DesiredCapabilities capabilities = new DesiredCapabilities();
 
 		/*
 			Don't worry about ssl issues
@@ -165,14 +165,6 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		final Optional<ProxyDetails<?>> mainProxy,
 		final DesiredCapabilities capabilities,
 		final boolean setProfile) {
-
-		/*
-			Avoid this exception
-			org.openqa.selenium.SessionNotCreatedException: TypeError: Given browserName
-			[object String] "htmlunit", but my name is [object String] "firefox"
-			(WARNING: The server did not provide any stacktrace information)
-		 */
-		capabilities.setBrowserName("firefox");
 
 		final FirefoxOptions options = new FirefoxOptions().addDesiredCapabilities(capabilities);
 
