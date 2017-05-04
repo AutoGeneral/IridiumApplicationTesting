@@ -78,17 +78,23 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			.findFirst();
 
 		/*
-			Add that proxy as a capability
+			Add that proxy as a capability for browsers other than Firefox and Marionette.
+			There is a bug in the geckodriver that prevents us from using capabilities for
+			the proxy: https://github.com/mozilla/geckodriver/issues/669
 		 */
-		mainProxy
-			.map(myMainProxy -> {
-				final Proxy proxy = new Proxy();
-				proxy.setProxyType(Proxy.ProxyType.MANUAL);
-				proxy.setHttpProxy("localhost:" + myMainProxy.getPort());
-				proxy.setSslProxy("localhost:" + myMainProxy.getPort());
-				return proxy;
-			})
-			.ifPresent(proxy -> capabilities.setCapability("proxy", proxy));
+		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) && !Constants.FIREFOX.equalsIgnoreCase(browser)) {
+			mainProxy
+				.map(myMainProxy -> {
+					final Proxy proxy = new Proxy();
+					proxy.setProxyType(Proxy.ProxyType.MANUAL);
+					proxy.setHttpProxy("localhost:" + myMainProxy.getPort());
+					proxy.setSslProxy("localhost:" + myMainProxy.getPort());
+					proxy.setSocksProxy("localhost:" + myMainProxy.getPort());
+					proxy.setFtpProxy("localhost:" + myMainProxy.getPort());
+					return proxy;
+				})
+				.ifPresent(proxy -> capabilities.setCapability("proxy", proxy));
+		}
 
 		if (Constants.MARIONETTE.equalsIgnoreCase(browser)) {
 			return buildFirefox(mainProxy, capabilities, false);
@@ -166,7 +172,17 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		final DesiredCapabilities capabilities,
 		final boolean setProfile) {
 
-		final FirefoxOptions options = new FirefoxOptions().addDesiredCapabilities(capabilities);
+		final FirefoxOptions options = new FirefoxOptions().addCapabilities(capabilities);
+
+		/*
+			https://github.com/mozilla/geckodriver/issues/669
+		 */
+		mainProxy.ifPresent(proxy -> {
+			options.addPreference("network.proxy.http", "localhost");
+			options.addPreference("network.proxy.http_port", proxy.getPort());
+			options.addPreference("network.proxy.https", "localhost");
+			options.addPreference("network.proxy.https_port", proxy.getPort());
+		});
 
 		/*
 			Override the firefox binary
