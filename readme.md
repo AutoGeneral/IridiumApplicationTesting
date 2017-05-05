@@ -1,5 +1,9 @@
 # A&G Iridium Application Testing Suite
 
+## Chat
+
+[![Chat](https://badges.gitter.im/Iridiumtester/repo.png)](https://gitter.im/Iridiumtester/Lobby)
+
 ## Build Status
 [![Build Status](https://travis-ci.org/mcasperson/IridiumApplicationTesting.svg?branch=master)](https://travis-ci.org/mcasperson/IridiumApplicationTesting)
 
