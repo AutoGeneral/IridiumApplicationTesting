@@ -25,7 +25,7 @@ Feature: Open an application
 		And I click the element found by alias "NoProfileImage"
 	  # Click on an element referencing the aliased class name we set above
 		And I wait "10" seconds for the element found by alias "LoginBackground" to be displayed
-		And I click the element found by alias "LoginBackground"
+		And I click the hidden element found by alias "LoginBackground"
 
 	Scenario: Navigate the main links
 		And I click the link with the text content of "REFCARDZ"
