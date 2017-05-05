@@ -16,7 +16,7 @@ Feature: Open an application
 		And I enable the whitelist with responding with "500" for unmatched requests
 		And I allow access to the URL regex ".*?dzone.*"
 		And I open the application
-		And I set the window size to "1024x768"
+		And I set the window size to "1280x960"
 
 	# Open the login dialog and close it again
 	Scenario: Open Profile

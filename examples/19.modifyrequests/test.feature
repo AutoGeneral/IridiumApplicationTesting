@@ -16,7 +16,7 @@ Feature: Open an application
    		# Speed up tests by blocking thumbnails
 		And I block access to the URL regex ".*?thumbnail.*" with response "500"
 		And I open the application
-		And I set the window size to "1024x768"
+		And I set the window size to "1280x960"
 
 	Scenario: Navigate the main links
 		And I click the link with the text content of "REFCARDZ"
