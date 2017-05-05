@@ -6,10 +6,7 @@ import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,7 +85,7 @@ public class LiveTests {
 		if (StringUtils.isBlank(browsersSysProp)) {
 			browsers.add("PhantomJS");
 			browsers.add("Marionette");
-			browsers.add("Chrome");
+			browsers.add("PhantomJS");
 		} else {
 			browsers.addAll(Arrays.asList(browsersSysProp.split(",")));
 		}
@@ -332,7 +329,7 @@ public class LiveTests {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			setCommonProperties();
 			System.setProperty("appURLOverride", "https://example.org");
-			System.setProperty("testSource", this.getClass().getResource("/failtestwithzap.feature").getPath());
+			System.setProperty("testSource", this.getClass().getResource("/failtestwithzap.feature").toString());
 			System.setProperty("testDestination", "PhantomJS");
 			System.setProperty("startInternalProxy", "zap");
 			final int failures = new TestRunner().run(globalTempFiles);
@@ -343,6 +340,7 @@ public class LiveTests {
 	}
 
 	@Test
+	@Ignore("These tests are better run individually in a CI system")
 	public void modifyRequests19() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -365,10 +363,8 @@ public class LiveTests {
 		Assert.fail();
 	}
 
-	/*
-		This test fails more often than not from Travis CI, so it is disabled
-	 */
-	//@Test
+	@Test
+	@Ignore("These tests are better run individually in a CI system")
 	public void passiveSecurity20() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -393,6 +389,7 @@ public class LiveTests {
 	}
 
 	@Test
+	@Ignore("These tests are better run individually in a CI system")
 	public void gherkinExamples21() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -416,6 +413,7 @@ public class LiveTests {
 	}
 
 	@Test
+	@Ignore("These tests are better run individually in a CI system")
 	public void deadLinkCheck23() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -439,6 +437,7 @@ public class LiveTests {
 	}
 
 	@Test
+	@Ignore("These tests are better run individually in a CI system")
 	public void acceptanceTest24() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
@@ -462,6 +461,7 @@ public class LiveTests {
 	}
 
 	@Test
+	@Ignore("These tests are better run individually in a CI system")
 	public void driverPerScenario25() {
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {

@@ -13,4 +13,4 @@ Feature: Open an application
     # Typically, when used in conjunction with the
     # "I open all links in new tabs and then close the tabs" step, these
     # errors means your site has dead links.
-    And I verify that there were no HTTP errors
+    And I verify that there were some HTTP errors

@@ -13,7 +13,7 @@ public class DatasetsFactory {
 
 	private static final CSVParserToDataSetTransformer DATA_SET_CSV_TRANSFORMER = new CSVParserToDataSetTransformer();
 
-	public Optional<DatasetsRootElement> getDatasets(String filename) {
+	public Optional<DatasetsRootElement> getDatasets(final String filename) {
 		String fileExtension = FilenameUtils.getExtension(filename);
 
 		switch(fileExtension) {
