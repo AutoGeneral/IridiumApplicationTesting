@@ -10,9 +10,13 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -58,7 +62,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		/*
 			Configure the proxy settings
 		 */
-		final DesiredCapabilities capabilities = DesiredCapabilities.htmlUnitWithJs();
+		final DesiredCapabilities capabilities = new DesiredCapabilities();
 
 		/*
 			Don't worry about ssl issues
@@ -74,24 +78,30 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			.findFirst();
 
 		/*
-			Add that proxy as a capability
+			Add that proxy as a capability for browsers other than Firefox and Marionette.
+			There is a bug in the geckodriver that prevents us from using capabilities for
+			the proxy: https://github.com/mozilla/geckodriver/issues/669
 		 */
-		mainProxy
-			.map(myMainProxy -> {
-				final Proxy proxy = new Proxy();
-				proxy.setProxyType(Proxy.ProxyType.MANUAL);
-				proxy.setHttpProxy("localhost:" + myMainProxy.getPort());
-				proxy.setSslProxy("localhost:" + myMainProxy.getPort());
-				return proxy;
-			})
-			.ifPresent(proxy -> capabilities.setCapability("proxy", proxy));
+		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) && !Constants.FIREFOX.equalsIgnoreCase(browser)) {
+			mainProxy
+				.map(myMainProxy -> {
+					final Proxy proxy = new Proxy();
+					proxy.setProxyType(Proxy.ProxyType.MANUAL);
+					proxy.setHttpProxy("localhost:" + myMainProxy.getPort());
+					proxy.setSslProxy("localhost:" + myMainProxy.getPort());
+					proxy.setSocksProxy("localhost:" + myMainProxy.getPort());
+					proxy.setFtpProxy("localhost:" + myMainProxy.getPort());
+					return proxy;
+				})
+				.ifPresent(proxy -> capabilities.setCapability("proxy", proxy));
+		}
 
 		if (Constants.MARIONETTE.equalsIgnoreCase(browser)) {
-			return new FirefoxDriver(capabilities);
+			return buildFirefox(mainProxy, capabilities, false);
 		}
 
 		if (Constants.FIREFOX.equalsIgnoreCase(browser)) {
-			return buildFirefox(mainProxy, capabilities);
+			return buildFirefox(mainProxy, capabilities, true);
 		}
 
 		if (Constants.SAFARI.equalsIgnoreCase(browser)) {
@@ -110,6 +120,10 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			return new EdgeDriver(capabilities);
 		}
 
+		if (Constants.CHROME_HEADLESS.equalsIgnoreCase(browser)) {
+			return buildChromeHeadless(mainProxy, capabilities);
+		}
+
 		if (Constants.PHANTOMJS.equalsIgnoreCase(browser)) {
 			return buildPhantomJS(capabilities, tempFiles);
 		}
@@ -123,42 +137,99 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		return new ChromeDriver(capabilities);
 	}
 
+	private WebDriver buildChromeHeadless(final Optional<ProxyDetails<?>> mainProxy,
+		final DesiredCapabilities capabilities) {
+
+		/*
+			These options are documented at:
+			https://developers.google.com/web/updates/2017/04/headless-chrome
+		 */
+		final ChromeOptions options = new ChromeOptions();
+		options.addArguments("headless");
+		options.addArguments("disable-gpu");
+
+		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
+		return new ChromeDriver(capabilities);
+	}
+
+	/**
+	 *
+	 * @return The binary used to run firefox if it was set via the FIREFOX_BINARY system property,
+	 * or null if the FIREFOX_BINARY system property was not defined
+	 */
+	private FirefoxBinary getFirefoxBinary() {
+		final String firefoxBinary = SYSTEM_PROPERTY_UTILS.getProperty(Constants.FIREFOX_BINARY);
+		if (firefoxBinary != null) {
+			return new FirefoxBinary(new File(firefoxBinary));
+		}
+
+		return null;
+	}
+
 	private WebDriver buildFirefox(
 		final Optional<ProxyDetails<?>> mainProxy,
-		final DesiredCapabilities capabilities) {
+		final DesiredCapabilities capabilities,
+		final boolean setProfile) {
+
+		final FirefoxOptions options = new FirefoxOptions().addCapabilities(capabilities);
+
+		/*
+			https://github.com/mozilla/geckodriver/issues/669
+		 */
+		mainProxy.ifPresent(proxy -> {
+			options.addPreference("network.proxy.http", "localhost");
+			options.addPreference("network.proxy.http_port", proxy.getPort());
+			options.addPreference("network.proxy.https", "localhost");
+			options.addPreference("network.proxy.https_port", proxy.getPort());
+		});
+
+		/*
+			Override the firefox binary
+		 */
+		final FirefoxBinary firefoxBinary = getFirefoxBinary();
+		if (firefoxBinary != null) {
+			options.setBinary(firefoxBinary);
+		}
 
 		final String firefoxProfile = SYSTEM_PROPERTY_UTILS.getProperty(
 			Constants.FIREFOX_PROFILE_SYSTEM_PROPERTY);
 
-			/*
-				If we have not specified a profile via the system properties, go ahead
-				and create one here.
-			 */
-		if (StringUtils.isBlank(firefoxProfile)) {
-			final FirefoxProfile profile = new FirefoxProfile();
+		/*
+			If we have not specified a profile via the system properties, go ahead
+			and create one here.
+		 */
+		if (setProfile) {
+			if (StringUtils.isBlank(firefoxProfile)) {
+				final FirefoxProfile profile = new FirefoxProfile();
 
-			/*
-				This is required for the CI unit tests to pass with firefox
-			 */
-			profile.setAcceptUntrustedCertificates(true);
+				/*
+					This is required for the CI unit tests to pass with firefox
+				 */
+				profile.setAcceptUntrustedCertificates(true);
 
-			/*
-				Set the proxy
-			 */
-			if (mainProxy.isPresent()) {
+				/*
+					Set the proxy
+				 */
+				if (mainProxy.isPresent()) {
 
-				profile.setPreference("network.proxy.type", 1);
-				profile.setPreference("network.proxy.http", "localhost");
-				profile.setPreference("network.proxy.http_port", mainProxy.get().getPort());
-				profile.setPreference("network.proxy.ssl", "localhost");
-				profile.setPreference("network.proxy.ssl_port", mainProxy.get().getPort());
-				profile.setPreference("network.proxy.no_proxies_on", "");
+					profile.setPreference("network.proxy.type", 1);
+					profile.setPreference("network.proxy.http", "localhost");
+					profile.setPreference("network.proxy.http_port", mainProxy.get().getPort());
+					profile.setPreference("network.proxy.ssl", "localhost");
+					profile.setPreference("network.proxy.ssl_port", mainProxy.get().getPort());
+					profile.setPreference("network.proxy.no_proxies_on", "");
+				}
+
+				options.setProfile(profile);
+			} else {
+				final ProfilesIni profileLoader = new ProfilesIni();
+				final FirefoxProfile profile = profileLoader.getProfile(firefoxProfile);
+				options.setProfile(profile);
 			}
-
-			return new FirefoxDriver(profile);
 		}
 
-		return new FirefoxDriver(capabilities);
+		return new FirefoxDriver(options);
 	}
 
 	private WebDriver buildPhantomJS(final DesiredCapabilities capabilities, final List<File> tempFiles) {
