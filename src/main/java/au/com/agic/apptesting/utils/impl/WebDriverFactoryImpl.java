@@ -5,6 +5,7 @@ import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverFactory;
+import javaslang.control.Try;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
@@ -105,19 +106,27 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		if (Constants.SAFARI.equalsIgnoreCase(browser)) {
-			return new SafariDriver(capabilities);
+			return Try.of(() -> new SafariDriver(capabilities))
+				.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.OPERA.equalsIgnoreCase(browser)) {
-			return new OperaDriver(capabilities);
+			return Try.of(() -> new OperaDriver(capabilities))
+				.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.IE.equalsIgnoreCase(browser)) {
-			return new InternetExplorerDriver(capabilities);
+			return Try.of(() -> new InternetExplorerDriver(capabilities))
+				.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.EDGE.equalsIgnoreCase(browser)) {
-			return new EdgeDriver(capabilities);
+			return Try.of(() -> new EdgeDriver(capabilities))
+				.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.CHROME_HEADLESS.equalsIgnoreCase(browser)) {
@@ -134,7 +143,9 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 	private WebDriver buildChrome(final Optional<ProxyDetails<?>> mainProxy,
 		final DesiredCapabilities capabilities) {
 
-		return new ChromeDriver(capabilities);
+		return Try.of(() -> new ChromeDriver(capabilities))
+			.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
 	private WebDriver buildChromeHeadless(final Optional<ProxyDetails<?>> mainProxy,
@@ -150,7 +161,9 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 
 		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
-		return new ChromeDriver(capabilities);
+		return Try.of(() -> new ChromeDriver(capabilities))
+			.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
 	/**
@@ -229,7 +242,9 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			}
 		}
 
-		return new FirefoxDriver(options);
+		return Try.of(() -> new FirefoxDriver(options))
+			.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
 	private WebDriver buildPhantomJS(final DesiredCapabilities capabilities, final List<File> tempFiles) {
@@ -276,22 +291,23 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 				capabilities.setCapability("phantomjs.page.settings.userAgent", userAgent);
 			}
 
-			final PhantomJSDriver retValue = new PhantomJSDriver(capabilities);
+			return Try.of(() -> new PhantomJSDriver(capabilities))
+				.andThenTry(driver -> {
+					/*
+						This is required by PhantomJS
+						https://github.com/angular/protractor/issues/585
+					 */
+					driver.manage().window().setSize(
+						new Dimension(PHANTOM_JS_SCREEN_WIDTH, PHANTOM_JS_SCREEN_HEIGHT));
 
-			/*
-				This is required by PhantomJS
-				https://github.com/angular/protractor/issues/585
-			 */
-			retValue.manage().window().setSize(
-				new Dimension(PHANTOM_JS_SCREEN_WIDTH, PHANTOM_JS_SCREEN_HEIGHT));
-
-			/*
-				Give the dev servers a large timeout
-			 */
-			retValue.manage().timeouts()
-				.pageLoadTimeout(PHANTOMJS_TIMEOUTS, TimeUnit.SECONDS);
-
-			return retValue;
+					/*
+						Give the dev servers a large timeout
+					 */
+					driver.manage().timeouts()
+						.pageLoadTimeout(PHANTOMJS_TIMEOUTS, TimeUnit.SECONDS);
+				})
+				.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+				.getOrElseThrow(ex -> new RuntimeException(ex));
 		} catch (final IOException ex) {
 			throw new DriverException("Could not create temp folder or file for PhantomJS cookies and session", ex);
 		}

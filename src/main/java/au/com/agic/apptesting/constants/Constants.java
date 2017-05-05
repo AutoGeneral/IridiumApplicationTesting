@@ -8,6 +8,11 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * The error code returned when a web driver failed to start
+	 */
+	public static final int WEB_DRIVER_FAILURE_EXIT_CODE = -3;
+
+	/**
 	 * The format of dates that are saved in filenames like screenshots and har files
 	 */
 	public static final String FILE_DATE_FORMAT = "YYYYMMddHHmmssSSS";
