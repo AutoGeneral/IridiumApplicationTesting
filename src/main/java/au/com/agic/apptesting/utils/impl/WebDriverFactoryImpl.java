@@ -52,6 +52,16 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 	private static final int PHANTOMJS_TIMEOUTS = 60;
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
+	/**
+	 * Note that we exit the application here if the driver could not be created. This is because an exception
+	 * during the creation of a driver can leave the binary running in the background with no way to clean it up
+	 * (this was observed in the Gecko Driver). To allow long running systems a chance to catch this resource leak,
+	 * we return with a specific error code.
+	 *
+	 * @param proxies The list of proxies that are used when configuring the web driver
+	 * @param tempFiles maintains a list of temp files that are deleted once Iridium is closed
+	 * @return The web driver for the given browser
+	 */
 	@Override
 	public WebDriver createWebDriver(
 		@NotNull final List<ProxyDetails<?>> proxies,
