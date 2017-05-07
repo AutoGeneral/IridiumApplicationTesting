@@ -152,7 +152,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 
 	private void exitWithError() {
 		LOGGER.error("WEBAPPTESTER-BUG-0010: Failed to create the WebDriver");
-		System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE)
+		System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE);
 	}
 
 	private WebDriver buildChrome(final Optional<ProxyDetails<?>> mainProxy,
