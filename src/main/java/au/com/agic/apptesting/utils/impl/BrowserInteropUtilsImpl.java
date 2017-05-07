@@ -169,6 +169,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
 		if (isFirefox) {
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Firefox Marionette driver. "
+				+ "Applying find link by text workaround.");
+
 			/*
 				Firefox will often fail to find a link by its text content, so we manually
 				create the equivalent xpath
