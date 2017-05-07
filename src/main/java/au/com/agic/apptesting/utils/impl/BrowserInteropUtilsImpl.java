@@ -185,7 +185,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 				webDriver,
 				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-			return wait.until(ExpectedConditions.elementToBeClickable(by));
+			return wait.until(ExpectedConditions.presenceOfElementLocated(by));
 		} else {
 			/*
 				Use the standard webdriver api to find the link
