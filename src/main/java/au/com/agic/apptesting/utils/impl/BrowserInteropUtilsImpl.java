@@ -179,7 +179,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 			final By by = getBy.getBy(
 				"xpath",
 				false,
-				"//a[text()[normalize-space(.)='" + text.replaceAll("'", "''") + "')]",
+				"//a[text()[normalize-space(.)='" + text.replaceAll("'", "''") + "']]",
 				State.getFeatureStateForThread());
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
