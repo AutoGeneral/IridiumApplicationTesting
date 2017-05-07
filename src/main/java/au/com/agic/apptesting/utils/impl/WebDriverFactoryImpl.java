@@ -117,25 +117,25 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 
 		if (Constants.SAFARI.equalsIgnoreCase(browser)) {
 			return Try.of(() -> new SafariDriver(capabilities))
-				.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+				.onFailure(ex -> exitWithError())
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.OPERA.equalsIgnoreCase(browser)) {
 			return Try.of(() -> new OperaDriver(capabilities))
-				.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+				.onFailure(ex -> exitWithError())
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.IE.equalsIgnoreCase(browser)) {
 			return Try.of(() -> new InternetExplorerDriver(capabilities))
-				.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+				.onFailure(ex -> exitWithError())
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.EDGE.equalsIgnoreCase(browser)) {
 			return Try.of(() -> new EdgeDriver(capabilities))
-				.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+				.onFailure(ex -> exitWithError())
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
@@ -150,11 +150,16 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		return buildChrome(mainProxy, capabilities);
 	}
 
+	private void exitWithError() {
+		LOGGER.error("WEBAPPTESTER-BUG-0010: Failed to create the WebDriver");
+		System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE)
+	}
+
 	private WebDriver buildChrome(final Optional<ProxyDetails<?>> mainProxy,
 		final DesiredCapabilities capabilities) {
 
 		return Try.of(() -> new ChromeDriver(capabilities))
-			.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+			.onFailure(ex -> exitWithError())
 			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
@@ -172,7 +177,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
 		return Try.of(() -> new ChromeDriver(capabilities))
-			.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+			.onFailure(ex -> exitWithError())
 			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
@@ -253,7 +258,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		return Try.of(() -> new FirefoxDriver(options))
-			.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+			.onFailure(ex -> exitWithError())
 			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
@@ -316,7 +321,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 					driver.manage().timeouts()
 						.pageLoadTimeout(PHANTOMJS_TIMEOUTS, TimeUnit.SECONDS);
 				})
-				.onFailure(ex -> System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE))
+				.onFailure(ex -> exitWithError())
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		} catch (final IOException ex) {
 			throw new DriverException("Could not create temp folder or file for PhantomJS cookies and session", ex);
