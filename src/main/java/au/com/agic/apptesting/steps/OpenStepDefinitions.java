@@ -74,7 +74,7 @@ public class OpenStepDefinitions {
 	 * @param urlName The URL name from mappings to load.
 	 * @param timeout Set this text to ignore timeouts when opening a page
 	 */
-	@When("^I open the application(?: \"([^\"]*)\")?(,? ignoring timeouts)$")
+	@When("^I open the application(?: \"([^\"]*)\")?(,? ignoring timeouts)?$")
 	public void openApplication(final String urlName, final String timeout) {
 		try {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
