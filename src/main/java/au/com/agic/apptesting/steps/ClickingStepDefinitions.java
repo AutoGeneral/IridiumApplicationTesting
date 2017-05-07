@@ -338,12 +338,7 @@ public class ClickingStepDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
 			for (int i = 0; i < fixedTimes; ++i) {
-				final WebDriverWait wait = new WebDriverWait(
-					webDriver,
-					State.getFeatureStateForThread().getDefaultWait(),
-					Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-				final WebElement element = wait.until(
-					ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
+				final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
 				final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 				js.executeScript("arguments[0].click();", element);
 				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
