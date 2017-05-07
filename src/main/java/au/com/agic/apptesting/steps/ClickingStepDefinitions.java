@@ -1,27 +1,12 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.BrowserInteropUtils;
-import au.com.agic.apptesting.utils.CountConverter;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.JavaScriptRunner;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
-
-import org.apache.commons.lang.math.NumberUtils;
+import au.com.agic.apptesting.utils.*;
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -32,7 +17,7 @@ import org.springframework.stereotype.Component;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import cucumber.api.java.en.When;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Gherkin steps used to click elements.
@@ -311,12 +296,7 @@ public class ClickingStepDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
 			for (int i = 0; i < fixedTimes; ++i) {
-				final WebDriverWait wait = new WebDriverWait(
-					webDriver,
-					State.getFeatureStateForThread().getDefaultWait(),
-					Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-				final WebElement element = wait.until(
-					ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
+				final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
 				element.click();
 				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}

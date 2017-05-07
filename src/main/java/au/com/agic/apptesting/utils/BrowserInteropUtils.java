@@ -68,4 +68,12 @@ public interface BrowserInteropUtils {
 	 * @param webDriver The selenium webdriver
 	 */
 	void cancelAlert(@NotNull WebDriver webDriver);
+
+	/**
+	 *
+	 * @param webDriver The selenium webdriver
+	 * @param text The text content of the link
+	 * @return The link element
+	 */
+	WebElement getLinkByText(@NotNull final WebDriver webDriver, @NotNull final String text);
 }
