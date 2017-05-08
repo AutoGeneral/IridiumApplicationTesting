@@ -79,9 +79,22 @@ public class TabAndWindowStepDefinition {
 	 * Maximise the browser window
 	 */
 	@When("I maximi(?:s|z)e the window")
-	public void maximiseWindow() {
+	public void maximiseWindow() throws Throwable {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		webDriver.manage().window().maximize();
+		/*
+		 	This step will sometimes fail in Chrome, so retry a few times in the event of an error
+		 	because it doesn't matter if we resize a few times.
+		 	https://github.com/SeleniumHQ/selenium/issues/1853
+		  */
+		Try<Void> resizeTry = null;
+		for (int i = 0; i < 3; ++i) {
+			if ((resizeTry = Try.run(() -> webDriver.manage().window().maximize())).isSuccess()) {
+				return;
+			}
+		}
+
+		resizeTry.getOrElseThrow(ex -> ex);
+
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
@@ -107,6 +120,8 @@ public class TabAndWindowStepDefinition {
 		}
 
 		resizeTry.getOrElseThrow(ex -> ex);
+
+		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	private Try<Void> resizeWindow(@NotNull final WebDriver webDriver,
