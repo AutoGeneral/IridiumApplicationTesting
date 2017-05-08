@@ -117,25 +117,25 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 
 		if (Constants.SAFARI.equalsIgnoreCase(browser)) {
 			return Try.of(() -> new SafariDriver(capabilities))
-				.onFailure(ex -> exitWithError())
+				.onFailure(ex -> exitWithError(ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.OPERA.equalsIgnoreCase(browser)) {
 			return Try.of(() -> new OperaDriver(capabilities))
-				.onFailure(ex -> exitWithError())
+				.onFailure(ex -> exitWithError(ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.IE.equalsIgnoreCase(browser)) {
 			return Try.of(() -> new InternetExplorerDriver(capabilities))
-				.onFailure(ex -> exitWithError())
+				.onFailure(ex -> exitWithError(ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.EDGE.equalsIgnoreCase(browser)) {
 			return Try.of(() -> new EdgeDriver(capabilities))
-				.onFailure(ex -> exitWithError())
+				.onFailure(ex -> exitWithError(ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
@@ -150,8 +150,8 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		return buildChrome(mainProxy, capabilities);
 	}
 
-	private void exitWithError() {
-		LOGGER.error("WEBAPPTESTER-BUG-0010: Failed to create the WebDriver");
+	private void exitWithError(final Throwable ex) {
+		LOGGER.error("WEBAPPTESTER-BUG-0010: Failed to create the WebDriver", ex);
 		System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE);
 	}
 
