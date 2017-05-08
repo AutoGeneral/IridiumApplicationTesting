@@ -159,7 +159,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		final DesiredCapabilities capabilities) {
 
 		return Try.of(() -> new ChromeDriver(capabilities))
-			.onFailure(ex -> exitWithError())
+			.onFailure(ex -> exitWithError(ex))
 			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
@@ -177,7 +177,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
 		return Try.of(() -> new ChromeDriver(capabilities))
-			.onFailure(ex -> exitWithError())
+			.onFailure(ex -> exitWithError(ex))
 			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
@@ -258,7 +258,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		return Try.of(() -> new FirefoxDriver(options))
-			.onFailure(ex -> exitWithError())
+			.onFailure(ex -> exitWithError(ex))
 			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
@@ -321,7 +321,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 					driver.manage().timeouts()
 						.pageLoadTimeout(PHANTOMJS_TIMEOUTS, TimeUnit.SECONDS);
 				})
-				.onFailure(ex -> exitWithError())
+				.onFailure(ex -> exitWithError(ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		} catch (final IOException ex) {
 			throw new DriverException("Could not create temp folder or file for PhantomJS cookies and session", ex);
