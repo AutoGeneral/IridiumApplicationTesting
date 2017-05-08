@@ -61,6 +61,7 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Test window resizing
+	And I maximise the window
     And I set the window size to "1024x768"
 
   @test
