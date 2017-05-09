@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static au.com.agic.apptesting.constants.Constants.OPEN_REPORT_FILE_SYSTEM_PROPERTY;
 import static com.google.common.base.Preconditions.checkArgument;
@@ -142,7 +141,7 @@ public class TestRunner {
 			/*
 				Clean up temp files
 			 */
-			tempFiles.forEach(File::delete);
+			tempFiles.forEach(FileUtils::deleteQuietly);
 
 			/*
 				Gracefully shutdown the proxies
