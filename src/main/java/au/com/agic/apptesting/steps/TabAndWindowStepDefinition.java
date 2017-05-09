@@ -4,16 +4,16 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.exception.BrowserWindowException;
 import au.com.agic.apptesting.utils.SleepUtils;
 import cucumber.api.java.en.When;
-import javaslang.control.Try;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.policy.SimpleRetryPolicy;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,14 +86,14 @@ public class TabAndWindowStepDefinition {
 		 	because it doesn't matter if we resize a few times.
 		 	https://github.com/SeleniumHQ/selenium/issues/1853
 		  */
-		Try<Void> resizeTry = null;
-		for (int i = 0; i < 3; ++i) {
-			if ((resizeTry = Try.run(() -> webDriver.manage().window().maximize())).isSuccess()) {
-				return;
-			}
-		}
-
-		resizeTry.getOrElseThrow(ex -> ex);
+		final RetryTemplate template = new RetryTemplate();
+		final SimpleRetryPolicy policy = new SimpleRetryPolicy();
+		policy.setMaxAttempts(2);
+		template.setRetryPolicy(policy);
+		template.execute(context -> {
+			webDriver.manage().window().maximize();
+			return null;
+		});
 
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
@@ -112,22 +112,17 @@ public class TabAndWindowStepDefinition {
 		 	because it doesn't matter if we resize a few times.
 		 	https://github.com/SeleniumHQ/selenium/issues/1853
 		  */
-		Try<Void> resizeTry = null;
-		for (int i = 0; i < 3; ++i) {
-			if ((resizeTry = resizeWindow(webDriver, width, height)).isSuccess()) {
-				return;
-			}
-		}
-
-		resizeTry.getOrElseThrow(ex -> ex);
+		final RetryTemplate template = new RetryTemplate();
+		final SimpleRetryPolicy policy = new SimpleRetryPolicy();
+		policy.setMaxAttempts(2);
+		template.setRetryPolicy(policy);
+		template.execute(context -> {
+			webDriver.manage().window().setPosition(new Point(0, 0));
+			webDriver.manage().window().setSize(new Dimension(width, height));
+			return null;
+		});
 
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
-	private Try<Void> resizeWindow(@NotNull final WebDriver webDriver,
-								   @NotNull final Integer width,
-								   @NotNull final Integer height) {
-		return Try.run(() -> webDriver.manage().window().setPosition(new Point(0, 0)))
-			.andThenTry(() -> webDriver.manage().window().setSize(new Dimension(width, height)));
-	}
 }

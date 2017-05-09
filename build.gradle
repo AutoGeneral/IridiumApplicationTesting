@@ -177,6 +177,7 @@ def sysoutOverSLF4JVersion = '1.0.2'
 def cucumberSpringVersion = '1.2.5'
 def springFrameworkVersion = '4.3.7.RELEASE'
 def aspectJVersion='1.8.9'
+def springRetryVersion='1.2.0.RELEASE'
 
 dependencies {
     compile 'org.springframework:spring-core:' + springFrameworkVersion
@@ -219,8 +220,10 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-compress', version: compressCommonsVersion
 	compile group: 'xml-apis', name: 'xml-apis', version: xmlApisVersion
     compile group: 'uk.org.lidalia', name: 'sysout-over-slf4j', version: sysoutOverSLF4JVersion
+	compile group: 'org.springframework.retry', name: 'spring-retry', version: springRetryVersion
 
-    /*
+
+	/*
         The following are dependencies required by ZAP
      */
     compile group: 'commons-httpclient', name: 'commons-httpclient', version: '3.1.0.redhat-7'
