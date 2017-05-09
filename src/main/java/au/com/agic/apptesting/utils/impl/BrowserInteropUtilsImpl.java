@@ -174,18 +174,16 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 			/*
 				Firefox will often fail to find a link by its text content, so we manually
-				create the equivalent xpath
+				create the equivalent xpath and find it via JavaScript.
 			 */
-			final By by = getBy.getBy(
-				"xpath",
-				false,
-				"//a[text()[normalize-space(.)='" + text.replaceAll("'", "''") + "']]",
-				State.getFeatureStateForThread());
-			final WebDriverWait wait = new WebDriverWait(
-				webDriver,
-				State.getFeatureStateForThread().getDefaultWait(),
-				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-			return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+			final String xpath = "//a[text()[normalize-space(.)='" + text.replaceAll("'", "''") + "']]";
+			final String clickLink = "return document.evaluate(\"" + xpath.replace("\"", "\\\"") + "\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;";
+			final WebElement element = (WebElement)((JavascriptExecutor)webDriver).executeScript(clickLink);
+			if (element == null) {
+				throw new NoSuchElementException("Cannot locate an element using xpath " + xpath);
+			}
+
+			return element;
 		} else {
 			/*
 				Use the standard webdriver api to find the link
