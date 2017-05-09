@@ -165,7 +165,7 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 		try {
 			final RetryTemplate template = new RetryTemplate();
 			final SimpleRetryPolicy policy = new SimpleRetryPolicy();
-			policy.setMaxAttempts(3);
+			policy.setMaxAttempts(Constants.URL_COPY_RETRIES);
 			template.setRetryPolicy(policy);
 			return template.execute(context -> {
 				FileUtils.copyURLToFile(new URL(path), copy);

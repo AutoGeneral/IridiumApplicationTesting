@@ -8,6 +8,16 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * The number of times we try to copy files from URLs
+	 */
+	public static final int URL_COPY_RETRIES = 3;
+
+	/**
+	 * The number of times we try to perform web driver actions that might fail
+	 */
+	public static final int WEBDRIVER_ACTION_RETRIES = 2;
+
+	/**
 	 * The error code returned when a web driver failed to start
 	 */
 	public static final int WEB_DRIVER_FAILURE_EXIT_CODE = -3;

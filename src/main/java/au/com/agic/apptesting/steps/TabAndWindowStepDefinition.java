@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.BrowserWindowException;
 import au.com.agic.apptesting.utils.SleepUtils;
 import cucumber.api.java.en.When;
@@ -88,7 +89,7 @@ public class TabAndWindowStepDefinition {
 		  */
 		final RetryTemplate template = new RetryTemplate();
 		final SimpleRetryPolicy policy = new SimpleRetryPolicy();
-		policy.setMaxAttempts(2);
+		policy.setMaxAttempts(Constants.WEBDRIVER_ACTION_RETRIES);
 		template.setRetryPolicy(policy);
 		template.execute(context -> {
 			webDriver.manage().window().maximize();
@@ -114,7 +115,7 @@ public class TabAndWindowStepDefinition {
 		  */
 		final RetryTemplate template = new RetryTemplate();
 		final SimpleRetryPolicy policy = new SimpleRetryPolicy();
-		policy.setMaxAttempts(2);
+		policy.setMaxAttempts(Constants.WEBDRIVER_ACTION_RETRIES);
 		template.setRetryPolicy(policy);
 		template.execute(context -> {
 			webDriver.manage().window().setPosition(new Point(0, 0));

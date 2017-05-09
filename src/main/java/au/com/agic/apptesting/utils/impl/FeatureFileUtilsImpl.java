@@ -1,5 +1,6 @@
 package au.com.agic.apptesting.utils.impl;
 
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.FileProfileAccessException;
 import au.com.agic.apptesting.exception.RemoteFeatureException;
 import au.com.agic.apptesting.utils.FeatureFileUtils;
@@ -7,6 +8,8 @@ import au.com.agic.apptesting.utils.FeatureReader;
 import javaslang.control.Try;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.retry.policy.SimpleRetryPolicy;
+import org.springframework.retry.support.RetryTemplate;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
@@ -94,7 +97,15 @@ public class FeatureFileUtilsImpl implements FeatureFileUtils {
 		final File copy = File.createTempFile("webapptester", ".feature");
 
 		try {
-			FileUtils.copyURLToFile(new URL(path), copy);
+			final RetryTemplate template = new RetryTemplate();
+			final SimpleRetryPolicy policy = new SimpleRetryPolicy();
+			policy.setMaxAttempts(Constants.URL_COPY_RETRIES);
+			template.setRetryPolicy(policy);
+			template.execute(context -> {
+				FileUtils.copyURLToFile(new URL(path), copy);
+				return null;
+			});
+
 			return Arrays.asList(copy);
 		} catch (final FileNotFoundException ex) {
 			/*
