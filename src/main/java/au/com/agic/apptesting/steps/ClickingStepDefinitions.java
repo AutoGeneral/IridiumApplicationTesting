@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
@@ -304,6 +305,8 @@ public class ClickingStepDefinitions {
 				final SimpleRetryPolicy policy = new SimpleRetryPolicy();
 				policy.setMaxAttempts(Constants.WEBDRIVER_ACTION_RETRIES);
 				template.setRetryPolicy(policy);
+				final FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
+				template.setBackOffPolicy(fixedBackOffPolicy);
 				template.execute(context -> {
 					element.click();
 					return null;
@@ -353,6 +356,8 @@ public class ClickingStepDefinitions {
 				final SimpleRetryPolicy policy = new SimpleRetryPolicy();
 				policy.setMaxAttempts(Constants.WEBDRIVER_ACTION_RETRIES);
 				template.setRetryPolicy(policy);
+				final FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
+				template.setBackOffPolicy(fixedBackOffPolicy);
 				template.execute(context -> {
 					final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
 					final JavascriptExecutor js = (JavascriptExecutor) webDriver;
