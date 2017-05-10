@@ -15,7 +15,7 @@ public final class Constants {
 	/**
 	 * The number of times we try to perform web driver actions that might fail
 	 */
-	public static final int WEBDRIVER_ACTION_RETRIES = 2;
+	public static final int WEBDRIVER_ACTION_RETRIES = 3;
 
 	/**
 	 * The error code returned when a web driver failed to start
