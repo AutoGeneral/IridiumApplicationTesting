@@ -12,6 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.policy.SimpleRetryPolicy;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 
 import java.security.NoSuchAlgorithmException;
@@ -297,7 +299,16 @@ public class ClickingStepDefinitions {
 
 			for (int i = 0; i < fixedTimes; ++i) {
 				final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
-				element.click();
+
+				final RetryTemplate template = new RetryTemplate();
+				final SimpleRetryPolicy policy = new SimpleRetryPolicy();
+				policy.setMaxAttempts(Constants.WEBDRIVER_ACTION_RETRIES);
+				template.setRetryPolicy(policy);
+				template.execute(context -> {
+					element.click();
+					return null;
+				});
+
 				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
 		} catch (final TimeoutException | NoSuchElementException ex) {
@@ -338,9 +349,17 @@ public class ClickingStepDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
 			for (int i = 0; i < fixedTimes; ++i) {
-				final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
-				final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-				js.executeScript("arguments[0].click();", element);
+				final RetryTemplate template = new RetryTemplate();
+				final SimpleRetryPolicy policy = new SimpleRetryPolicy();
+				policy.setMaxAttempts(Constants.WEBDRIVER_ACTION_RETRIES);
+				template.setRetryPolicy(policy);
+				template.execute(context -> {
+					final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
+					final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+					js.executeScript("arguments[0].click();", element);
+					return null;
+				});
+
 				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
 		} catch (final TimeoutException | NoSuchElementException ex) {
