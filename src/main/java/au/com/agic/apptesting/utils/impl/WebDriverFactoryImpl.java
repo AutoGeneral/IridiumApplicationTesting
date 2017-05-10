@@ -108,62 +108,62 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		if (Constants.MARIONETTE.equalsIgnoreCase(browser)) {
-			return buildFirefox(mainProxy, capabilities, false);
+			return buildFirefox(browser, mainProxy, capabilities, false);
 		}
 
 		if (Constants.FIREFOX.equalsIgnoreCase(browser)) {
-			return buildFirefox(mainProxy, capabilities, true);
+			return buildFirefox(browser, mainProxy, capabilities, true);
 		}
 
 		if (Constants.SAFARI.equalsIgnoreCase(browser)) {
 			return Try.of(() -> new SafariDriver(capabilities))
-				.onFailure(ex -> exitWithError(ex))
+				.onFailure(ex -> exitWithError(browser, ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.OPERA.equalsIgnoreCase(browser)) {
 			return Try.of(() -> new OperaDriver(capabilities))
-				.onFailure(ex -> exitWithError(ex))
+				.onFailure(ex -> exitWithError(browser, ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.IE.equalsIgnoreCase(browser)) {
 			return Try.of(() -> new InternetExplorerDriver(capabilities))
-				.onFailure(ex -> exitWithError(ex))
+				.onFailure(ex -> exitWithError(browser, ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.EDGE.equalsIgnoreCase(browser)) {
 			return Try.of(() -> new EdgeDriver(capabilities))
-				.onFailure(ex -> exitWithError(ex))
+				.onFailure(ex -> exitWithError(browser, ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.CHROME_HEADLESS.equalsIgnoreCase(browser)) {
-			return buildChromeHeadless(mainProxy, capabilities);
+			return buildChromeHeadless(browser, mainProxy, capabilities);
 		}
 
 		if (Constants.PHANTOMJS.equalsIgnoreCase(browser)) {
-			return buildPhantomJS(capabilities, tempFiles);
+			return buildPhantomJS(browser, capabilities, tempFiles);
 		}
 
-		return buildChrome(mainProxy, capabilities);
+		return buildChrome(browser, mainProxy, capabilities);
 	}
 
-	private void exitWithError(final Throwable ex) {
-		LOGGER.error("WEBAPPTESTER-BUG-0010: Failed to create the WebDriver", ex);
+	private void exitWithError(final String browser, final Throwable ex) {
+		LOGGER.error("WEBAPPTESTER-BUG-0010: Failed to create the " + browser + " WebDriver", ex);
 		System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE);
 	}
 
-	private WebDriver buildChrome(final Optional<ProxyDetails<?>> mainProxy,
+	private WebDriver buildChrome(final String browser, final Optional<ProxyDetails<?>> mainProxy,
 		final DesiredCapabilities capabilities) {
 
 		return Try.of(() -> new ChromeDriver(capabilities))
-			.onFailure(ex -> exitWithError(ex))
+			.onFailure(ex -> exitWithError(browser, ex))
 			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
-	private WebDriver buildChromeHeadless(final Optional<ProxyDetails<?>> mainProxy,
+	private WebDriver buildChromeHeadless(final String browser, final Optional<ProxyDetails<?>> mainProxy,
 		final DesiredCapabilities capabilities) {
 
 		/*
@@ -177,7 +177,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
 		return Try.of(() -> new ChromeDriver(capabilities))
-			.onFailure(ex -> exitWithError(ex))
+			.onFailure(ex -> exitWithError(browser, ex))
 			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
@@ -196,6 +196,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 	}
 
 	private WebDriver buildFirefox(
+		final String browser,
 		final Optional<ProxyDetails<?>> mainProxy,
 		final DesiredCapabilities capabilities,
 		final boolean setProfile) {
@@ -258,11 +259,13 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		return Try.of(() -> new FirefoxDriver(options))
-			.onFailure(ex -> exitWithError(ex))
+			.onFailure(ex -> exitWithError(browser, ex))
 			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
-	private WebDriver buildPhantomJS(final DesiredCapabilities capabilities, final List<File> tempFiles) {
+	private WebDriver buildPhantomJS(final String browser,
+									 final DesiredCapabilities capabilities,
+									 final List<File> tempFiles) {
 		try {
 			/*
 				PhantomJS will often report a lot of unnecessary errors, so by default
@@ -321,7 +324,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 					driver.manage().timeouts()
 						.pageLoadTimeout(PHANTOMJS_TIMEOUTS, TimeUnit.SECONDS);
 				})
-				.onFailure(ex -> exitWithError(ex))
+				.onFailure(ex -> exitWithError(browser, ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		} catch (final IOException ex) {
 			throw new DriverException("Could not create temp folder or file for PhantomJS cookies and session", ex);
