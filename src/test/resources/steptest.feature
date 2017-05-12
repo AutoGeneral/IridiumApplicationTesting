@@ -61,6 +61,7 @@ Feature: Test of the steps provided by Iridium
 
   @test
   Scenario: Test window resizing
+	And I maximise the window
     And I set the window size to "1024x768"
 
   @test
@@ -790,6 +791,11 @@ Feature: Test of the steps provided by Iridium
     And I wait "30" seconds for a link with the text content of alias "Link Contents" to be present
     And I wait "2" seconds for a link with the text content of "This link does not exist" to not be present
     And I click the link with the text content of "Test Link"
+	# Firefox will often fail trying to click this link twice in a row for some reason with the error:
+    # org.openqa.selenium.StaleElementReferenceException: The element reference of <a> stale: either the
+	# element is no longer attached to the DOM or the page has been refreshed
+    # So we sleep for a bit before clicking again
+	And I sleep for "1" second
     And I click the hidden link with the text content alias of "Link Contents"
 
   @test

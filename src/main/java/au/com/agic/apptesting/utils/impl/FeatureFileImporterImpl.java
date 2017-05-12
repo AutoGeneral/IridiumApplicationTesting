@@ -8,6 +8,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.retry.policy.SimpleRetryPolicy;
+import org.springframework.retry.support.RetryTemplate;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
@@ -161,8 +163,14 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 		final File copy = File.createTempFile("webapptester", ".feature");
 
 		try {
-			FileUtils.copyURLToFile(new URL(path), copy);
-			return FileUtils.readFileToString(copy, Charset.defaultCharset());
+			final RetryTemplate template = new RetryTemplate();
+			final SimpleRetryPolicy policy = new SimpleRetryPolicy();
+			policy.setMaxAttempts(Constants.URL_COPY_RETRIES);
+			template.setRetryPolicy(policy);
+			return template.execute(context -> {
+				FileUtils.copyURLToFile(new URL(path), copy);
+				return FileUtils.readFileToString(copy, Charset.defaultCharset());
+			});
 		} finally {
 			FileUtils.deleteQuietly(copy);
 		}

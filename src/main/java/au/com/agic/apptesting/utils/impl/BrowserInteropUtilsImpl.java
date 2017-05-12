@@ -4,13 +4,11 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.BrowserDetection;
 import au.com.agic.apptesting.utils.BrowserInteropUtils;
+import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import cucumber.api.java.Before;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -38,6 +36,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 	@Autowired
 	private SystemPropertyUtils systemPropertyUtils;
+
+	@Autowired
+	private GetBy getBy;
 
 	private boolean disableInterop() {
 		return systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false);
@@ -157,6 +158,42 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 					+ "}", element);
 		} else {
 			js.executeScript("arguments[0].focus();", element);
+		}
+	}
+
+	@Override
+	public WebElement getLinkByText(@NotNull final WebDriver webDriver, @NotNull final String text) {
+		checkNotNull(webDriver);
+		checkNotNull(text);
+
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
+
+		if (isFirefox) {
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Firefox Marionette driver. "
+				+ "Applying find link by text workaround.");
+
+			/*
+				Firefox will often fail to find a link by its text content, so we manually
+				create the equivalent xpath and find it via JavaScript.
+			 */
+			final String xpath = "//a[text()[normalize-space(.)='" + text.replaceAll("'", "''") + "']]";
+			final String clickLink = "return document.evaluate(\"" + xpath.replace("\"", "\\\"") + "\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;";
+			final WebElement element = (WebElement)((JavascriptExecutor)webDriver).executeScript(clickLink);
+			if (element == null) {
+				throw new NoSuchElementException("Cannot locate an element using xpath " + xpath);
+			}
+
+			return element;
+		} else {
+			/*
+				Use the standard webdriver api to find the link
+			 */
+			final WebDriverWait wait = new WebDriverWait(
+				webDriver,
+				State.getFeatureStateForThread().getDefaultWait(),
+				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
+			return wait.until(
+				ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
 		}
 	}
 

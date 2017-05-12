@@ -1,11 +1,14 @@
 package au.com.agic.apptesting.profiles;
 
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ConfigurationException;
 import javaslang.control.Try;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.retry.policy.SimpleRetryPolicy;
+import org.springframework.retry.support.RetryTemplate;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
@@ -67,7 +70,17 @@ class FileContentRetrieval {
 		File copy = null;
 		try {
 			copy = File.createTempFile("capabilities", ".tmp");
-			FileUtils.copyURLToFile(new URL(remoteFileName), copy, TIMEOUT, TIMEOUT);
+
+			final File finalCopy = copy;
+			final RetryTemplate template = new RetryTemplate();
+			final SimpleRetryPolicy policy = new SimpleRetryPolicy();
+			policy.setMaxAttempts(Constants.URL_COPY_RETRIES);
+			template.setRetryPolicy(policy);
+			template.execute(context -> {
+				FileUtils.copyURLToFile(new URL(remoteFileName), finalCopy, TIMEOUT, TIMEOUT);
+				return null;
+			});
+
 			return retrieveStringFromLocalFile(copy.getAbsolutePath());
 		} catch (final IOException ex) {
 			throw new ConfigurationException(ex);

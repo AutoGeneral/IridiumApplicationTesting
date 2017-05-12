@@ -1,17 +1,12 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.SleepUtils;
-
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +19,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import cucumber.api.java.en.When;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Gherin steps used to open web pages.
@@ -45,20 +40,27 @@ public class OpenStepDefinitions {
 	 * and testing a page with lots of links will take forever.
 	 */
 	private static final int TAB_OPEN_TIME = 5000;
-	
+
 	/**
 	 * Opens up the supplied URL.
 	 *
 	 * @param alias include this text if the url is actually an alias to be loaded from the configuration
 	 *              file
 	 * @param url   The URL of the page to open
+	 * @param timeout Set this text to ignore timeouts when opening a page
 	 */
-	@When("^I open the page( alias)? \"([^\"]*)\"$")
-	public void openPage(final String alias, final String url) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final String urlValue = autoAliasUtils.getValue(url, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
-		webDriver.get(urlValue);
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+	@When("^I open the page( alias)? \"([^\"]*)\"(,? ignoring timeouts)?$")
+	public void openPage(final String alias, final String url, final String timeout) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final String urlValue = autoAliasUtils.getValue(url, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
+			webDriver.get(urlValue);
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final TimeoutException ex) {
+			if (StringUtils.isBlank(timeout)) {
+				throw ex;
+			}
+		}
 	}
 
 	/**
@@ -70,40 +72,47 @@ public class OpenStepDefinitions {
 	 * branches.
 	 *
 	 * @param urlName The URL name from mappings to load.
+	 * @param timeout Set this text to ignore timeouts when opening a page
 	 */
-	@When("^I open the application(?: \"([^\"]*)\")?$")
-	public void openApplication(final String urlName) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+	@When("^I open the application(?: \"([^\"]*)\")?(,? ignoring timeouts)?$")
+	public void openApplication(final String urlName, final String timeout) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
-		if (StringUtils.isNotBlank(urlName)) {
+			if (StringUtils.isNotBlank(urlName)) {
 
-			final String url = State.getFeatureStateForThread().getUrlDetails()
-				.map(urlMapping -> urlMapping.getUrl(urlName))
-				.orElse(null);
+				final String url = State.getFeatureStateForThread().getUrlDetails()
+					.map(urlMapping -> urlMapping.getUrl(urlName))
+					.orElse(null);
 
-			checkState(StringUtils.isNotBlank(url), "The url associated with the app name "
-				+ urlName + " was not found. "
-				+ "This may mean that you have defined a default URL with the appURLOverride "
-				+ "system property. "
-				+ "When you set the appURLOverride system property, you can no longer reference "
-				+ "named applications. "
-				+ "Alternatively, make sure the configuration file defines the named application.");
+				checkState(StringUtils.isNotBlank(url), "The url associated with the app name "
+					+ urlName + " was not found. "
+					+ "This may mean that you have defined a default URL with the appURLOverride "
+					+ "system property. "
+					+ "When you set the appURLOverride system property, you can no longer reference "
+					+ "named applications. "
+					+ "Alternatively, make sure the configuration file defines the named application.");
 
-			LOGGER.info("WEBAPPTESTER-INFO-0001: Opened the url {}", url);
+				LOGGER.info("WEBAPPTESTER-INFO-0001: Opened the url {}", url);
 
-			webDriver.get(url);
-		} else {
-			final String url = State.getFeatureStateForThread().getUrlDetails()
-				.map(UrlMapping::getDefaultUrl)
-				.orElse(null);
+				webDriver.get(url);
+			} else {
+				final String url = State.getFeatureStateForThread().getUrlDetails()
+					.map(UrlMapping::getDefaultUrl)
+					.orElse(null);
 
-			checkState(StringUtils.isNotBlank(url), "You have not defined a default URL");
+				checkState(StringUtils.isNotBlank(url), "You have not defined a default URL");
 
-			LOGGER.info("WEBAPPTESTER-INFO-0001: Opened the url {}", url);
-			webDriver.get(url);
+				LOGGER.info("WEBAPPTESTER-INFO-0001: Opened the url {}", url);
+				webDriver.get(url);
+			}
+
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final TimeoutException ex) {
+			if (StringUtils.isBlank(timeout)) {
+				throw ex;
+			}
 		}
-
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
 	/**

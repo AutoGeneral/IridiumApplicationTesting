@@ -1,38 +1,26 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.BrowserInteropUtils;
-import au.com.agic.apptesting.utils.CountConverter;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.JavaScriptRunner;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
-
-import org.apache.commons.lang.math.NumberUtils;
+import au.com.agic.apptesting.utils.*;
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.backoff.FixedBackOffPolicy;
+import org.springframework.retry.policy.SimpleRetryPolicy;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import cucumber.api.java.en.When;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Gherkin steps used to click elements.
@@ -311,13 +299,19 @@ public class ClickingStepDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
 			for (int i = 0; i < fixedTimes; ++i) {
-				final WebDriverWait wait = new WebDriverWait(
-					webDriver,
-					State.getFeatureStateForThread().getDefaultWait(),
-					Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-				final WebElement element = wait.until(
-					ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
-				element.click();
+				final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
+
+				final RetryTemplate template = new RetryTemplate();
+				final SimpleRetryPolicy policy = new SimpleRetryPolicy();
+				policy.setMaxAttempts(Constants.WEBDRIVER_ACTION_RETRIES);
+				template.setRetryPolicy(policy);
+				final FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
+				template.setBackOffPolicy(fixedBackOffPolicy);
+				template.execute(context -> {
+					element.click();
+					return null;
+				});
+
 				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
 		} catch (final TimeoutException | NoSuchElementException ex) {
@@ -358,14 +352,19 @@ public class ClickingStepDefinitions {
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
 			for (int i = 0; i < fixedTimes; ++i) {
-				final WebDriverWait wait = new WebDriverWait(
-					webDriver,
-					State.getFeatureStateForThread().getDefaultWait(),
-					Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
-				final WebElement element = wait.until(
-					ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
-				final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-				js.executeScript("arguments[0].click();", element);
+				final RetryTemplate template = new RetryTemplate();
+				final SimpleRetryPolicy policy = new SimpleRetryPolicy();
+				policy.setMaxAttempts(Constants.WEBDRIVER_ACTION_RETRIES);
+				template.setRetryPolicy(policy);
+				final FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
+				template.setBackOffPolicy(fixedBackOffPolicy);
+				template.execute(context -> {
+					final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
+					final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+					js.executeScript("arguments[0].click();", element);
+					return null;
+				});
+
 				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
 		} catch (final TimeoutException | NoSuchElementException ex) {

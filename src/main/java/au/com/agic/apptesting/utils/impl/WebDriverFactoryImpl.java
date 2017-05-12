@@ -5,6 +5,7 @@ import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverFactory;
+import javaslang.control.Try;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
@@ -51,6 +52,16 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 	private static final int PHANTOMJS_TIMEOUTS = 60;
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
+	/**
+	 * Note that we exit the application here if the driver could not be created. This is because an exception
+	 * during the creation of a driver can leave the binary running in the background with no way to clean it up
+	 * (this was observed in the Gecko Driver). To allow long running systems a chance to catch this resource leak,
+	 * we return with a specific error code.
+	 *
+	 * @param proxies The list of proxies that are used when configuring the web driver
+	 * @param tempFiles maintains a list of temp files that are deleted once Iridium is closed
+	 * @return The web driver for the given browser
+	 */
 	@Override
 	public WebDriver createWebDriver(
 		@NotNull final List<ProxyDetails<?>> proxies,
@@ -97,47 +108,62 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		if (Constants.MARIONETTE.equalsIgnoreCase(browser)) {
-			return buildFirefox(mainProxy, capabilities, false);
+			return buildFirefox(browser, mainProxy, capabilities, false);
 		}
 
 		if (Constants.FIREFOX.equalsIgnoreCase(browser)) {
-			return buildFirefox(mainProxy, capabilities, true);
+			return buildFirefox(browser, mainProxy, capabilities, true);
 		}
 
 		if (Constants.SAFARI.equalsIgnoreCase(browser)) {
-			return new SafariDriver(capabilities);
+			return Try.of(() -> new SafariDriver(capabilities))
+				.onFailure(ex -> exitWithError(browser, ex))
+				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.OPERA.equalsIgnoreCase(browser)) {
-			return new OperaDriver(capabilities);
+			return Try.of(() -> new OperaDriver(capabilities))
+				.onFailure(ex -> exitWithError(browser, ex))
+				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.IE.equalsIgnoreCase(browser)) {
-			return new InternetExplorerDriver(capabilities);
+			return Try.of(() -> new InternetExplorerDriver(capabilities))
+				.onFailure(ex -> exitWithError(browser, ex))
+				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.EDGE.equalsIgnoreCase(browser)) {
-			return new EdgeDriver(capabilities);
+			return Try.of(() -> new EdgeDriver(capabilities))
+				.onFailure(ex -> exitWithError(browser, ex))
+				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
 
 		if (Constants.CHROME_HEADLESS.equalsIgnoreCase(browser)) {
-			return buildChromeHeadless(mainProxy, capabilities);
+			return buildChromeHeadless(browser, mainProxy, capabilities);
 		}
 
 		if (Constants.PHANTOMJS.equalsIgnoreCase(browser)) {
-			return buildPhantomJS(capabilities, tempFiles);
+			return buildPhantomJS(browser, capabilities, tempFiles);
 		}
 
-		return buildChrome(mainProxy, capabilities);
+		return buildChrome(browser, mainProxy, capabilities);
 	}
 
-	private WebDriver buildChrome(final Optional<ProxyDetails<?>> mainProxy,
+	private void exitWithError(final String browser, final Throwable ex) {
+		LOGGER.error("WEBAPPTESTER-BUG-0010: Failed to create the " + browser + " WebDriver", ex);
+		System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE);
+	}
+
+	private WebDriver buildChrome(final String browser, final Optional<ProxyDetails<?>> mainProxy,
 		final DesiredCapabilities capabilities) {
 
-		return new ChromeDriver(capabilities);
+		return Try.of(() -> new ChromeDriver(capabilities))
+			.onFailure(ex -> exitWithError(browser, ex))
+			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
-	private WebDriver buildChromeHeadless(final Optional<ProxyDetails<?>> mainProxy,
+	private WebDriver buildChromeHeadless(final String browser, final Optional<ProxyDetails<?>> mainProxy,
 		final DesiredCapabilities capabilities) {
 
 		/*
@@ -150,7 +176,9 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 
 		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
-		return new ChromeDriver(capabilities);
+		return Try.of(() -> new ChromeDriver(capabilities))
+			.onFailure(ex -> exitWithError(browser, ex))
+			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
 	/**
@@ -168,6 +196,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 	}
 
 	private WebDriver buildFirefox(
+		final String browser,
 		final Optional<ProxyDetails<?>> mainProxy,
 		final DesiredCapabilities capabilities,
 		final boolean setProfile) {
@@ -229,10 +258,14 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			}
 		}
 
-		return new FirefoxDriver(options);
+		return Try.of(() -> new FirefoxDriver(options))
+			.onFailure(ex -> exitWithError(browser, ex))
+			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
-	private WebDriver buildPhantomJS(final DesiredCapabilities capabilities, final List<File> tempFiles) {
+	private WebDriver buildPhantomJS(final String browser,
+									 final DesiredCapabilities capabilities,
+									 final List<File> tempFiles) {
 		try {
 			/*
 				PhantomJS will often report a lot of unnecessary errors, so by default
@@ -276,22 +309,23 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 				capabilities.setCapability("phantomjs.page.settings.userAgent", userAgent);
 			}
 
-			final PhantomJSDriver retValue = new PhantomJSDriver(capabilities);
+			return Try.of(() -> new PhantomJSDriver(capabilities))
+				.andThenTry(driver -> {
+					/*
+						This is required by PhantomJS
+						https://github.com/angular/protractor/issues/585
+					 */
+					driver.manage().window().setSize(
+						new Dimension(PHANTOM_JS_SCREEN_WIDTH, PHANTOM_JS_SCREEN_HEIGHT));
 
-			/*
-				This is required by PhantomJS
-				https://github.com/angular/protractor/issues/585
-			 */
-			retValue.manage().window().setSize(
-				new Dimension(PHANTOM_JS_SCREEN_WIDTH, PHANTOM_JS_SCREEN_HEIGHT));
-
-			/*
-				Give the dev servers a large timeout
-			 */
-			retValue.manage().timeouts()
-				.pageLoadTimeout(PHANTOMJS_TIMEOUTS, TimeUnit.SECONDS);
-
-			return retValue;
+					/*
+						Give the dev servers a large timeout
+					 */
+					driver.manage().timeouts()
+						.pageLoadTimeout(PHANTOMJS_TIMEOUTS, TimeUnit.SECONDS);
+				})
+				.onFailure(ex -> exitWithError(browser, ex))
+				.getOrElseThrow(ex -> new RuntimeException(ex));
 		} catch (final IOException ex) {
 			throw new DriverException("Could not create temp folder or file for PhantomJS cookies and session", ex);
 		}
