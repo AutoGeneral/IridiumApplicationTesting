@@ -182,7 +182,8 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 			 */
 			final DesiredCapabilities desiredCapabilities =
 				originalDesiredCapabilities.get(currentCapability);
-			final UrlMapping url = originalApplicationUrls.get(currentUrl);
+			final UrlMapping url = originalApplicationUrls.isEmpty() ?
+				null : originalApplicationUrls.get(currentUrl);
 			final Map<String, String> dataSet = originalDataSets.containsKey(currentDataset)
 				? new HashMap<>(originalDataSets.get(currentDataset)) : new HashMap<>();
 
