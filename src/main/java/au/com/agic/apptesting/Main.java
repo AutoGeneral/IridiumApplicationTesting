@@ -68,6 +68,14 @@ public final class Main {
 			);
 
 			/*
+				Get the delay between retries
+			 */
+			final int retryDelay = NumberUtils.toInt(
+				SYSTEM_PROPERTY_UTILS.getProperty(Constants.DELAY_BETWEEN_RETRY),
+				0
+			);
+
+			/*
 				Execute the tests
 			 */
 			int lastFailures = 0;
@@ -85,6 +93,8 @@ public final class Main {
 				if (lastFailures == 0) {
 					break;
 				}
+
+				Thread.sleep(retryDelay * 1000);
 			}
 
 			return lastFailures;
