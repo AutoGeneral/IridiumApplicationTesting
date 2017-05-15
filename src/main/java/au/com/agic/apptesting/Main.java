@@ -17,6 +17,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javaslang.control.Try;
+
 import static com.google.common.base.Preconditions.checkState;
 
 public final class Main {
