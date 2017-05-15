@@ -3,6 +3,7 @@ package au.com.agic.apptesting;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
+import javaslang.control.Try;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -16,8 +17,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import javaslang.control.Try;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -96,7 +95,7 @@ public final class Main {
 					break;
 				}
 
-				Try.of(() -> Thread.sleep(retryDelay * 1000));
+				Try.run(() -> Thread.sleep(retryDelay * 1000));
 			}
 
 			return lastFailures;
