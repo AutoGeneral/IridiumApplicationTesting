@@ -52,6 +52,11 @@ public final class Constants {
 	public static final String MERGED_REPORT = "MergedReport.xml";
 
 	/**
+	 * Sets the delay between test retries
+	 */
+	public static final String DELAY_BETWEEN_RETRY = "delayBetweenRetries";
+
+	/**
 	 * Sets the access token used when accessing browserstack
 	 */
 	public static final String BROWSER_STACK_ACCESS_TOKEN = "browserStackAccessToken";

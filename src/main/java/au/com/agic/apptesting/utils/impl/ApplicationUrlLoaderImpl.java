@@ -187,7 +187,7 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 					.map(FeatureGroup::getUrlMappings)
 					.orElse(new ArrayList<>())
 			)
-			.get();
+			.orElse(new ArrayList<UrlMapping>());
 	}
 
 	/**

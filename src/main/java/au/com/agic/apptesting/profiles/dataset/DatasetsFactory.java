@@ -16,26 +16,28 @@ public class DatasetsFactory {
 	public Optional<DatasetsRootElement> getDatasets(final String filename) {
 		String fileExtension = FilenameUtils.getExtension(filename);
 
-		switch(fileExtension) {
-			case CSV_EXTENSION:
-			{
-				CsvFileAccess datasetCsvAccess = new CsvFileAccess (filename);
-				Optional<CSVParser> csvParser = datasetCsvAccess.getCsvRecords();
+		if (fileExtension != null) {
+			switch (fileExtension) {
+				case CSV_EXTENSION: {
+					CsvFileAccess datasetCsvAccess = new CsvFileAccess(filename);
+					Optional<CSVParser> csvParser = datasetCsvAccess.getCsvRecords();
 
-				if(csvParser.isPresent()) {
-					return Optional.of(DATA_SET_CSV_TRANSFORMER.transform(csvParser.get()));
+					if (csvParser.isPresent()) {
+						return Optional.of(DATA_SET_CSV_TRANSFORMER.transform(csvParser.get()));
+					}
+					return Optional.empty();
 				}
-				return Optional.empty();
-			}
-			case XML_EXTENSION:
-			default:
-			{
-				FileProfileAccess<DatasetsRootElement> datasetXmlAccess = new FileProfileAccess<>(
-					filename,
-					DatasetsRootElement.class);
+				case XML_EXTENSION:
+				default: {
+					FileProfileAccess<DatasetsRootElement> datasetXmlAccess = new FileProfileAccess<>(
+						filename,
+						DatasetsRootElement.class);
 
-				return datasetXmlAccess.getProfile();
+					return datasetXmlAccess.getProfile();
+				}
 			}
 		}
+
+		return Optional.empty();
 	}
 }
