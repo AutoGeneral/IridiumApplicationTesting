@@ -94,7 +94,7 @@ public final class Main {
 					break;
 				}
 
-				Thread.sleep(retryDelay * 1000);
+				Try.of(() -> Thread.sleep(retryDelay * 1000));
 			}
 
 			return lastFailures;
