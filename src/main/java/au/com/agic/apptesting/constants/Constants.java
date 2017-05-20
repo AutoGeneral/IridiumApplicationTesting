@@ -176,10 +176,20 @@ public final class Constants {
 	public static final String CHROME = "Chrome";
 	/**
 	 * The value assigned to the system property to indicate that the tests should
+	 * be run in chrome with a number of command line switches to lock it down.
+	 */
+	public static final String CHROME_SECURE = "ChromeSecure";
+	/**
+	 * The value assigned to the system property to indicate that the tests should
 	 * be run in chrome. Chrome is the default if no other matches are found for
 	 * the system property.
 	 */
 	public static final String CHROME_HEADLESS = "ChromeHeadless";
+	/**
+	 * The value assigned to the system property to indicate that the tests should
+	 * be run in chrome in headless mode locked down.
+	 */
+	public static final String CHROME_HEADLESS_SECURE = "ChromeHeadlessSecure";
 	/**
 	 * The value assigned to the system property to indicate that the tests should
 	 * be run in Firefox using the Marionette driver. This is required with Firefox 48

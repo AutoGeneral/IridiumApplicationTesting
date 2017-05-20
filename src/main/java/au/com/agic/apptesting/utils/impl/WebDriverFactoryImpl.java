@@ -140,7 +140,15 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		if (Constants.CHROME_HEADLESS.equalsIgnoreCase(browser)) {
-			return buildChromeHeadless(browser, mainProxy, capabilities);
+			return buildChromeHeadless(browser, mainProxy, capabilities, false);
+		}
+
+		if (Constants.CHROME_HEADLESS_SECURE.equalsIgnoreCase(browser)) {
+			return buildChromeHeadless(browser, mainProxy, capabilities, true);
+		}
+
+		if (Constants.CHROME_SECURE.equalsIgnoreCase(browser)) {
+			return buildChromeSecure(browser, mainProxy, capabilities);
 		}
 
 		if (Constants.PHANTOMJS.equalsIgnoreCase(browser)) {
@@ -155,6 +163,23 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE);
 	}
 
+	private ChromeOptions buildSecureChromeOptions() {
+		final ChromeOptions options = new ChromeOptions();
+		options.addArguments("disable-file-system");
+		options.addArguments("use-file-for-fake-audio-capture");
+		options.addArguments("use-file-for-fake-video-capture");
+		options.addArguments("use-fake-device-for-media-stream");
+		options.addArguments("use-fake-ui-for-media-stream");
+		options.addArguments("disable-sync");
+		options.addArguments("disable-tab-for-desktop-share");
+		options.addArguments("disable-translate");
+		options.addArguments("disable-voice-input");
+		options.addArguments("disable-volume-adjust-sound");
+		options.addArguments("disable-wake-on-wifi");
+		options.addArguments("no-default-browser-check");
+		return options;
+	}
+
 	private WebDriver buildChrome(final String browser, final Optional<ProxyDetails<?>> mainProxy,
 		final DesiredCapabilities capabilities) {
 
@@ -163,14 +188,32 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
-	private WebDriver buildChromeHeadless(final String browser, final Optional<ProxyDetails<?>> mainProxy,
-		final DesiredCapabilities capabilities) {
+	private WebDriver buildChromeSecure(final String browser,
+										final Optional<ProxyDetails<?>> mainProxy,
+										final DesiredCapabilities capabilities) {
+		/*
+			These options are documented at:
+			http://peter.sh/experiments/chromium-command-line-switches/
+		 */
+		final ChromeOptions options = buildSecureChromeOptions();
+
+		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
+		return Try.of(() -> new ChromeDriver(capabilities))
+			.onFailure(ex -> exitWithError(browser, ex))
+			.getOrElseThrow(ex -> new RuntimeException(ex));
+	}
+
+	private WebDriver buildChromeHeadless(final String browser,
+										  final Optional<ProxyDetails<?>> mainProxy,
+										  final DesiredCapabilities capabilities,
+										  final boolean secure) {
 
 		/*
 			These options are documented at:
 			https://developers.google.com/web/updates/2017/04/headless-chrome
 		 */
-		final ChromeOptions options = new ChromeOptions();
+		final ChromeOptions options = secure ? buildSecureChromeOptions() : new ChromeOptions();
 		options.addArguments("headless");
 		options.addArguments("disable-gpu");
 
