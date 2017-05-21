@@ -30,6 +30,14 @@ public interface SystemPropertyUtils {
 	boolean getPropertyAsBoolean(String name, boolean defaultValue);
 
 	/**
+	 * Gets a system property as a float
+	 * @param name The name of the property
+	 * @param defaultValue The default value if the property is empty or null
+	 * @return the boolean value of the system property, or the default value if the system property is empty
+	 */
+	float getPropertyAsFloat(String name, float defaultValue);
+
+	/**
 	 * Extracts system properties, either from their default name, or with the javaws prefix.
 	 * Treats empty strings as null.
 	 *

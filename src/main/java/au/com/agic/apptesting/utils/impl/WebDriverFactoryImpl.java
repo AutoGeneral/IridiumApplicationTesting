@@ -140,22 +140,30 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		if (Constants.CHROME_HEADLESS.equalsIgnoreCase(browser)) {
-			return buildChromeHeadless(browser, mainProxy, capabilities, false);
+			return buildChrome(browser, mainProxy, capabilities, false, true, false);
 		}
 
 		if (Constants.CHROME_HEADLESS_SECURE.equalsIgnoreCase(browser)) {
-			return buildChromeHeadless(browser, mainProxy, capabilities, true);
+			return buildChrome(browser, mainProxy, capabilities, true, true, false);
 		}
 
 		if (Constants.CHROME_SECURE.equalsIgnoreCase(browser)) {
-			return buildChromeSecure(browser, mainProxy, capabilities);
+			return buildChrome(browser, mainProxy, capabilities, true, false, false);
+		}
+
+		if (Constants.CHROME_FULLSCREEN.equalsIgnoreCase(browser)) {
+			return buildChrome(browser, mainProxy, capabilities, false, false, true);
+		}
+
+		if (Constants.CHROME_SECURE_FULLSCREEN.equalsIgnoreCase(browser)) {
+			return buildChrome(browser, mainProxy, capabilities, true, false, true);
 		}
 
 		if (Constants.PHANTOMJS.equalsIgnoreCase(browser)) {
 			return buildPhantomJS(browser, capabilities, tempFiles);
 		}
 
-		return buildChrome(browser, mainProxy, capabilities);
+		return buildChromeBasic(browser, mainProxy, capabilities);
 	}
 
 	private void exitWithError(final String browser, final Throwable ex) {
@@ -180,42 +188,35 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		return options;
 	}
 
-	private WebDriver buildChrome(final String browser, final Optional<ProxyDetails<?>> mainProxy,
-		final DesiredCapabilities capabilities) {
+	private WebDriver buildChromeBasic(final String browser, final Optional<ProxyDetails<?>> mainProxy,
+									   final DesiredCapabilities capabilities) {
 
 		return Try.of(() -> new ChromeDriver(capabilities))
 			.onFailure(ex -> exitWithError(browser, ex))
 			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
-	private WebDriver buildChromeSecure(final String browser,
-										final Optional<ProxyDetails<?>> mainProxy,
-										final DesiredCapabilities capabilities) {
-		/*
-			These options are documented at:
-			http://peter.sh/experiments/chromium-command-line-switches/
-		 */
-		final ChromeOptions options = buildSecureChromeOptions();
-
-		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-
-		return Try.of(() -> new ChromeDriver(capabilities))
-			.onFailure(ex -> exitWithError(browser, ex))
-			.getOrElseThrow(ex -> new RuntimeException(ex));
-	}
-
-	private WebDriver buildChromeHeadless(final String browser,
-										  final Optional<ProxyDetails<?>> mainProxy,
-										  final DesiredCapabilities capabilities,
-										  final boolean secure) {
+	private WebDriver buildChrome(final String browser,
+								  final Optional<ProxyDetails<?>> mainProxy,
+								  final DesiredCapabilities capabilities,
+								  final boolean secure,
+								  final boolean headless,
+								  final boolean fullscreen) {
 
 		/*
 			These options are documented at:
 			https://developers.google.com/web/updates/2017/04/headless-chrome
 		 */
 		final ChromeOptions options = secure ? buildSecureChromeOptions() : new ChromeOptions();
-		options.addArguments("headless");
-		options.addArguments("disable-gpu");
+
+		if (headless) {
+			options.addArguments("headless");
+			options.addArguments("disable-gpu");
+		}
+
+		if (fullscreen) {
+			options.addArguments("kiosk");
+		}
 
 		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
