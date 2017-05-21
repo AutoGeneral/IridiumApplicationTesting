@@ -42,6 +42,11 @@ public final class Constants {
 	public static final String HAR_FILE_NAME = HAR_FILE_NAME_PREFIX + "." + HAR_FILE_NAME_EXTENSION;
 
 	/**
+	 * The system property that can be used to disable the automatic webdriver extraction
+	 */
+	public static final String USE_SUPPLIED_WEBDRIVERS = "useSuppliedWebdrivers";
+
+	/**
 	 * The system property that defines how long the app will run for before shuting down
 	 */
 	public static final String MAX_EXECUTION_TIME = "maxExecutionTime";

@@ -42,14 +42,18 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 	public void configureWebDriver(@NotNull final List<File> tempFiles) {
 		checkNotNull(tempFiles);
 
+		final boolean useSuppliedWebDrivers =
+			SYSTEM_PROPERTY_UTILS.getPropertyAsBoolean(
+				Constants.USE_SUPPLIED_WEBDRIVERS, true);
+
 		final boolean is64BitOS = OS_DETECTION.is64BitOS();
 
 		if (SystemUtils.IS_OS_WINDOWS) {
-			configureWindows(tempFiles, is64BitOS);
+			configureWindows(tempFiles, is64BitOS, useSuppliedWebDrivers);
 		} else if (SystemUtils.IS_OS_MAC) {
-			configureMac(tempFiles, is64BitOS);
+			configureMac(tempFiles, is64BitOS, useSuppliedWebDrivers);
 		} else if (SystemUtils.IS_OS_LINUX) {
-			configureLinux(tempFiles, is64BitOS);
+			configureLinux(tempFiles, is64BitOS, useSuppliedWebDrivers);
 		}
 
 		/*
@@ -67,14 +71,16 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.getProperty(x)));
 	}
 
-	private void configureWindows(@NotNull final List<File> tempFiles, final boolean is64BitOS) {
+	private void configureWindows(@NotNull final List<File> tempFiles,
+								  final boolean is64BitOS,
+								  final boolean useSuppliedWebDrivers) {
 		try {
 			final boolean marionetteWebDriverSet =
 				StringUtils.isNotBlank(
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY));
 
-			if (!marionetteWebDriverSet) {
+			if (useSuppliedWebDrivers && !marionetteWebDriverSet) {
 				System.setProperty(
 					GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY,
 					extractZipDriver(
@@ -88,7 +94,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
-			if (!chromeWebDriverSet) {
+			if (useSuppliedWebDrivers && !chromeWebDriverSet) {
 				System.setProperty(
 					Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
@@ -102,7 +108,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
-			if (!operaWebDriverSet) {
+			if (useSuppliedWebDrivers && !operaWebDriverSet) {
 				System.setProperty(
 					Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
@@ -116,7 +122,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						Constants.EDGE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
-			if (!edgeWebDriverSet) {
+			if (useSuppliedWebDrivers && !edgeWebDriverSet) {
 				System.setProperty(
 					Constants.EDGE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
@@ -130,7 +136,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
-			if (!ieWebDriverSet) {
+			if (useSuppliedWebDrivers && !ieWebDriverSet) {
 				System.setProperty(
 					Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
@@ -144,7 +150,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
 
-			if (!phantomWebDriverSet) {
+			if (useSuppliedWebDrivers && !phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
 					extractZipDriver(
@@ -158,14 +164,16 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		}
 	}
 
-	private void configureMac(@NotNull final List<File> tempFiles, final boolean is64BitOS) {
+	private void configureMac(@NotNull final List<File> tempFiles,
+							  final boolean is64BitOS,
+							  final boolean useSuppliedWebDrivers) {
 		try {
 			final boolean marionetteWebDriverSet =
 				StringUtils.isNotBlank(
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY));
 
-			if (!marionetteWebDriverSet) {
+			if (useSuppliedWebDrivers && !marionetteWebDriverSet) {
 				System.setProperty(
 					GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY,
 					extractZipDriver(
@@ -179,7 +187,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
-			if (!chromeWebDriverSet) {
+			if (useSuppliedWebDrivers && !chromeWebDriverSet) {
 				System.setProperty(
 					Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
@@ -193,7 +201,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
-			if (!operaWebDriverSet) {
+			if (useSuppliedWebDrivers && !operaWebDriverSet) {
 				System.setProperty(
 					Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
@@ -207,7 +215,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
 
-			if (!phantomWebDriverSet) {
+			if (useSuppliedWebDrivers && !phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
 					extractZipDriver(
@@ -221,14 +229,16 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		}
 	}
 
-	private void configureLinux(@NotNull final List<File> tempFiles, final boolean is64BitOS) {
+	private void configureLinux(@NotNull final List<File> tempFiles,
+								final boolean is64BitOS,
+								final boolean useSuppliedWebDrivers) {
 		try {
 			final boolean marionetteWebDriverSet =
 				StringUtils.isNotBlank(
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY));
 
-			if (!marionetteWebDriverSet) {
+			if (useSuppliedWebDrivers && !marionetteWebDriverSet) {
 				System.setProperty(
 					GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY,
 					extractZipDriver(
@@ -242,7 +252,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
-			if (!chromeWebDriverSet) {
+			if (useSuppliedWebDrivers && !chromeWebDriverSet) {
 				System.setProperty(
 					Constants.CHROME_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
@@ -256,7 +266,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY));
 
-			if (!operaWebDriverSet) {
+			if (useSuppliedWebDrivers && !operaWebDriverSet) {
 				System.setProperty(
 					Constants.OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY,
 					extractDriver(
@@ -270,7 +280,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 					SYSTEM_PROPERTY_UTILS.getProperty(
 						Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY));
 
-			if (!phantomWebDriverSet) {
+			if (useSuppliedWebDrivers && !phantomWebDriverSet) {
 				System.setProperty(
 					Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY,
 					extractZipDriver(
