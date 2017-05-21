@@ -5,15 +5,16 @@ import au.com.agic.apptesting.utils.AutoAliasUtils;
 import cucumber.api.java.en.Then;
 import javaslang.control.Try;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 
 /**
  * This class contains steps that can be used to display help information
@@ -21,6 +22,14 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  */
 @Component
 public class HelpPopupStepDefinitions {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(HelpPopupStepDefinitions.class);
+	private static final int MESSAGE_WIDTH = 800;
+	private static final int MESSAGE_HEIGHT = 600;
+	private static final int BORDER_THICKNESS = 5;
+	private static final Integer DEFAULT_TIME_TO_DISPLAY = 5;
+	private static final int MESSAGE_FONT_SIZE = 48;
+	private static final Color MESSAGE_BACKGROUND_COLOUR = new Color(255, 236, 179);
 
 	@Autowired
 	private AutoAliasUtils autoAliasUtils;
@@ -40,17 +49,19 @@ public class HelpPopupStepDefinitions {
 							   final String ignoreErrors) {
 		try {
 
-			final String timeValue = autoAliasUtils.getValue(
+			final String timeValue = StringUtils.isBlank(time)
+				? DEFAULT_TIME_TO_DISPLAY.toString()
+				: autoAliasUtils.getValue(
 				time,
-				isNotBlank(timeAlias),
+				StringUtils.isNotBlank(timeAlias),
 				State.getFeatureStateForThread());
 
-			final Integer fixedTime = NumberUtils.toInt(timeValue, 5);
+			final Integer fixedTime = NumberUtils.toInt(timeValue, DEFAULT_TIME_TO_DISPLAY);
 
 			final JFrame frame = new JFrame();
 			frame.setAlwaysOnTop(true);
 			frame.setUndecorated(true);
-			frame.setSize(800, 600);
+			frame.setSize(MESSAGE_WIDTH, MESSAGE_HEIGHT);
 
 			/*
 				Center the window
@@ -62,12 +73,12 @@ public class HelpPopupStepDefinitions {
 			 */
 			final JLabel label = new JLabel(message);
 			final Font labelFont = label.getFont();
-			label.setFont(new Font(labelFont.getName(), Font.PLAIN, 48));
+			label.setFont(new Font(labelFont.getName(), Font.PLAIN, MESSAGE_FONT_SIZE));
 			label.setHorizontalAlignment(JLabel.CENTER);
 			label.setVerticalAlignment(JLabel.CENTER);
 			label.setOpaque(true);
-			label.setBackground(new Color(255, 236, 179));
-			label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+			label.setBackground(MESSAGE_BACKGROUND_COLOUR);
+			label.setBorder(BorderFactory.createLineBorder(Color.BLACK, BORDER_THICKNESS));
 			frame.getContentPane().add(label);
 
 			/*
@@ -82,6 +93,7 @@ public class HelpPopupStepDefinitions {
 			frame.setVisible(false);
 			frame.dispose();
 		} catch (final Exception ex) {
+			LOGGER.error("Could not display popup", ex);
 			if (!StringUtils.isEmpty(ignoreErrors)) {
 				throw ex;
 			}
