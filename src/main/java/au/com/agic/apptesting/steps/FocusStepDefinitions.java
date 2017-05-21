@@ -1,18 +1,16 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.BrowserInteropUtils;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
 
+import au.com.agic.apptesting.utils.impl.MouseMovementUtilsImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +37,9 @@ public class FocusStepDefinitions {
 	@Autowired
 	private BrowserInteropUtils browserInteropUtils;
 
+	@Autowired
+	private MouseMovementUtilsImpl mouseMovementUtils;
+
 	/**
 	 * Focuses on an element. <p> Often with text fields that have some kind of mask you need to first focus
 	 * on the element before populating it, otherwise you might not enter all characters correctly.
@@ -63,6 +64,13 @@ public class FocusStepDefinitions {
 				State.getFeatureStateForThread());
 
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
+
 			browserInteropUtils.focusOnElement(webDriver, element);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final WebElementException ex) {
@@ -99,6 +107,13 @@ public class FocusStepDefinitions {
 				State.getFeatureStateForThread());
 			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final WebElement element = webDriver.findElement(by);
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
+
 			browserInteropUtils.focusOnElement(webDriver, element);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException | NoSuchElementException ex) {
