@@ -69,8 +69,8 @@ public class MouseMovementUtilsImpl implements MouseMovementUtils {
 			final Long width = (Long)javascriptExecutor.executeScript(
 				"return arguments[0].clientWidth;", element);
 			mouseGlide(
-				(int)((viewPoint.x + width) * zoom),
-				(int)((viewPoint.y + height) * zoom),
+				(int)((viewPoint.x + width / 2) * zoom),
+				(int)((viewPoint.y + height / 2) * zoom),
 				Constants.MOUSE_MOVE_TIME,
 				Constants.MOUSE_MOVE_STEPS);
 		}
