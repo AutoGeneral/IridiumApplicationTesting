@@ -37,16 +37,27 @@ public class HelpPopupStepDefinitions {
 	/**
 	 * Displays a message in a window above the browser. Only works
 	 * where Java is able to create a UI.
-	 * @param message The message to display
-	 * @param timeAlias indicates that the time value is aliased
-	 * @param time The time to show the message for
+	 *
+	 * @param message      The message to display
+	 * @param width			The width of the help popup
+	 * @param height		The height of the help popup
+	 * @param fontSize		The font size
+	 * @param timeAlias    indicates that the time value is aliased
+	 * @param time         The time to show the message for
 	 * @param ignoreErrors Add this text to ignore any errors
 	 */
-	@Then("I display the help message \"(.*?)\"(?: for( alias)? \"(.*?)\" seconds)?( ignoring errors)?")
+	@Then("I display the help message \"(.*?)\""
+		+ "(?: in a window sized \"(.*?)x(.*?)\")?"
+		+ "(?: with font size \"(.*?)\")?"
+		+ "(?: for( alias)? \"(.*?)\" seconds)?( ignoring errors)?")
 	public void displayMessage(final String message,
+							   final String width,
+							   final String height,
+							   final String fontSize,
 							   final String timeAlias,
 							   final String time,
 							   final String ignoreErrors) {
+
 		try {
 
 			final String timeValue = StringUtils.isBlank(time)
@@ -57,11 +68,14 @@ public class HelpPopupStepDefinitions {
 				State.getFeatureStateForThread());
 
 			final Integer fixedTime = NumberUtils.toInt(timeValue, DEFAULT_TIME_TO_DISPLAY);
+			final Integer fixedWidth = NumberUtils.toInt(width, MESSAGE_WIDTH);
+			final Integer fixedHeight = NumberUtils.toInt(height, MESSAGE_HEIGHT);
+			final Integer fixedFont = NumberUtils.toInt(fontSize, MESSAGE_FONT_SIZE);
 
 			final JFrame frame = new JFrame();
 			frame.setAlwaysOnTop(true);
 			frame.setUndecorated(true);
-			frame.setSize(MESSAGE_WIDTH, MESSAGE_HEIGHT);
+			frame.setSize(fixedWidth, fixedHeight);
 
 			/*
 				Center the window
@@ -73,7 +87,7 @@ public class HelpPopupStepDefinitions {
 			 */
 			final JLabel label = new JLabel(message);
 			final Font labelFont = label.getFont();
-			label.setFont(new Font(labelFont.getName(), Font.PLAIN, MESSAGE_FONT_SIZE));
+			label.setFont(new Font(labelFont.getName(), Font.PLAIN, fixedFont));
 			label.setHorizontalAlignment(JLabel.CENTER);
 			label.setVerticalAlignment(JLabel.CENTER);
 			label.setOpaque(true);
