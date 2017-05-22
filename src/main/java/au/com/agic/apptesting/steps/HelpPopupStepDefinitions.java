@@ -85,12 +85,16 @@ public class HelpPopupStepDefinitions {
 			/*
 				Create the message
 			 */
-			final JLabel label = new JLabel(message);
+			final JLabel label = new JLabel(
+				"<html><p style='padding: 20px'>"
+					+ message
+					+ "</p></html>");
 			final Font labelFont = label.getFont();
 			label.setFont(new Font(labelFont.getName(), Font.PLAIN, fixedFont));
 			label.setHorizontalAlignment(JLabel.CENTER);
 			label.setVerticalAlignment(JLabel.CENTER);
 			label.setOpaque(true);
+			label.setMaximumSize(new Dimension(fixedWidth, fixedHeight));
 			label.setBackground(MESSAGE_BACKGROUND_COLOUR);
 			label.setBorder(BorderFactory.createLineBorder(Color.BLACK, BORDER_THICKNESS));
 			frame.getContentPane().add(label);
