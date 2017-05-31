@@ -1,10 +1,8 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
-
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.GeckoDriverService;
@@ -16,6 +14,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Implementation that deals with the restrictions imposed by web start
@@ -62,6 +62,17 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 			.map(String::toLowerCase)
 			.map(String::trim)
 			.map(Boolean::parseBoolean)
+			.orElse(defaultValue);
+	}
+
+	@Override
+	public float getPropertyAsFloat(final String name, final float defaultValue) {
+		checkArgument(StringUtils.isNotBlank(name));
+
+		return Optional.ofNullable(SYSTEM_PROPERTY_UTILS.getProperty(name))
+			.map(String::toLowerCase)
+			.map(String::trim)
+			.map(NumberUtils::toFloat)
 			.orElse(defaultValue);
 	}
 

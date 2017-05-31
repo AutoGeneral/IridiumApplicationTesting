@@ -4,6 +4,7 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.*;
+import au.com.agic.apptesting.utils.impl.MouseMovementUtilsImpl;
 import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
@@ -45,6 +46,8 @@ public class ClickingStepDefinitions {
 	private JavaScriptRunner javaScriptRunner;
 	@Autowired
 	private CountConverter countConverter;
+	@Autowired
+	private MouseMovementUtilsImpl mouseMovementUtils;
 
 	/**
 	 * A simplified step that will click on an element found by ID attribute, name attribue,
@@ -79,6 +82,12 @@ public class ClickingStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
 
 			/*
 				Account for PhantomJS issues clicking certain types of elements
@@ -140,6 +149,13 @@ public class ClickingStepDefinitions {
 				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
+
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			/*
@@ -196,6 +212,12 @@ public class ClickingStepDefinitions {
 				selectorValue,
 				State.getFeatureStateForThread());
 
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
+
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			/*
@@ -251,6 +273,13 @@ public class ClickingStepDefinitions {
 				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
+
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			/*
@@ -300,6 +329,12 @@ public class ClickingStepDefinitions {
 
 			for (int i = 0; i < fixedTimes; ++i) {
 				final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
+
+				mouseMovementUtils.mouseGlide(
+					(JavascriptExecutor) webDriver,
+					element,
+					Constants.MOUSE_MOVE_TIME,
+					Constants.MOUSE_MOVE_STEPS);
 
 				final RetryTemplate template = new RetryTemplate();
 				final SimpleRetryPolicy policy = new SimpleRetryPolicy();
@@ -360,6 +395,13 @@ public class ClickingStepDefinitions {
 				template.setBackOffPolicy(fixedBackOffPolicy);
 				template.execute(context -> {
 					final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
+
+					mouseMovementUtils.mouseGlide(
+						(JavascriptExecutor) webDriver,
+						element,
+						Constants.MOUSE_MOVE_TIME,
+						Constants.MOUSE_MOVE_STEPS);
+
 					final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 					js.executeScript("arguments[0].click();", element);
 					return null;
@@ -434,6 +476,12 @@ public class ClickingStepDefinitions {
 					ExpectedConditions.elementToBeClickable(
 						By.cssSelector("[" + attr + "='" + random + "']")));
 
+				mouseMovementUtils.mouseGlide(
+					(JavascriptExecutor) webDriver,
+					element,
+					Constants.MOUSE_MOVE_TIME,
+					Constants.MOUSE_MOVE_STEPS);
+
 				element.click();
 				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
@@ -494,6 +542,13 @@ public class ClickingStepDefinitions {
 				final WebElement element = wait.until(
 					ExpectedConditions.elementToBeClickable(
 						By.cssSelector("[" + attr + "='" + value + "']")));
+
+				mouseMovementUtils.mouseGlide(
+					(JavascriptExecutor) webDriver,
+					element,
+					Constants.MOUSE_MOVE_TIME,
+					Constants.MOUSE_MOVE_STEPS);
+
 				element.click();
 				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
@@ -603,6 +658,12 @@ public class ClickingStepDefinitions {
 					selectorValue,
 					State.getFeatureStateForThread());
 
+				mouseMovementUtils.mouseGlide(
+					(JavascriptExecutor) webDriver,
+					element,
+					Constants.MOUSE_MOVE_TIME,
+					Constants.MOUSE_MOVE_STEPS);
+
 				final Double width = Double.parseDouble(js.executeScript("return arguments[0].offsetWidth;", element).toString());
 				final Double height = Double.parseDouble(js.executeScript("return arguments[0].offsetHeight;", element).toString());
 
@@ -679,6 +740,13 @@ public class ClickingStepDefinitions {
 					Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 				final WebElement element = wait.until(
 					ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
+
+				mouseMovementUtils.mouseGlide(
+					(JavascriptExecutor) webDriver,
+					element,
+					Constants.MOUSE_MOVE_TIME,
+					Constants.MOUSE_MOVE_STEPS);
+
 				final JavascriptExecutor js = JavascriptExecutor.class.cast(webDriver);
 
 				js.executeScript("window.open(arguments[0].getAttribute('href'),'_blank');", element);

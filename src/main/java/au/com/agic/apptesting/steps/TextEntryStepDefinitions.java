@@ -10,6 +10,7 @@ import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
 
+import au.com.agic.apptesting.utils.impl.MouseMovementUtilsImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -47,6 +48,8 @@ public class TextEntryStepDefinitions {
 	private AutoAliasUtils autoAliasUtils;
 	@Autowired
 	private SimpleWebElementInteraction simpleWebElementInteraction;
+	@Autowired
+	private MouseMovementUtilsImpl mouseMovementUtils;
 
 	private static final Pattern BLANK_OR_MASKED_RE = Pattern.compile("^(_|\\s)+$");
 	private static final Pattern SINGLE_QUOTE_RE = Pattern.compile("'");
@@ -63,10 +66,20 @@ public class TextEntryStepDefinitions {
 	public void clearElement(
 		final String alias,
 		final String selectorValue) {
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+
 		final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
 			State.getFeatureStateForThread());
+
+		mouseMovementUtils.mouseGlide(
+			(JavascriptExecutor) webDriver,
+			element,
+			Constants.MOUSE_MOVE_TIME,
+			Constants.MOUSE_MOVE_STEPS);
+
 		element.clear();
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
@@ -90,6 +103,13 @@ public class TextEntryStepDefinitions {
 			State.getFeatureStateForThread().getDefaultWait(),
 			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
+
+		mouseMovementUtils.mouseGlide(
+			(JavascriptExecutor) webDriver,
+			element,
+			Constants.MOUSE_MOVE_TIME,
+			Constants.MOUSE_MOVE_STEPS);
+
 		element.clear();
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
@@ -112,6 +132,12 @@ public class TextEntryStepDefinitions {
 			StringUtils.isNotBlank(alias),
 			selectorValue,
 			State.getFeatureStateForThread());
+
+		mouseMovementUtils.mouseGlide(
+			(JavascriptExecutor) webDriver,
+			element,
+			Constants.MOUSE_MOVE_TIME,
+			Constants.MOUSE_MOVE_STEPS);
 
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("arguments[0].value='';", element);
@@ -137,6 +163,13 @@ public class TextEntryStepDefinitions {
 			State.getFeatureStateForThread().getDefaultWait(),
 			Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
+
+		mouseMovementUtils.mouseGlide(
+			(JavascriptExecutor) webDriver,
+			element,
+			Constants.MOUSE_MOVE_TIME,
+			Constants.MOUSE_MOVE_STEPS);
+
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("arguments[0].value='';", element);
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
@@ -167,10 +200,18 @@ public class TextEntryStepDefinitions {
 		final String content,
 		final String exists) {
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+
 			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
 
 			// Simulate key presses
 			final String value = autoAliasUtils.getValue(
@@ -228,6 +269,12 @@ public class TextEntryStepDefinitions {
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
+
 			// Simulate key presses
 			final String value = autoAliasUtils.getValue(
 				content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
@@ -278,6 +325,8 @@ public class TextEntryStepDefinitions {
 		final String empty,
 		final Integer delay) {
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+
 			final Integer fixedDelay = delay == null
 				? State.getFeatureStateForThread().getDefaultKeyStrokeDelay()
 				: delay;
@@ -286,6 +335,12 @@ public class TextEntryStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
 
 			/*
 				See if the element is blank, or contains only underscores (as you might find in
@@ -365,6 +420,12 @@ public class TextEntryStepDefinitions {
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
+
 			/*
 				See if the element is blank, or contains only underscores (as you might find in
 				an empty phone number field for example
@@ -425,10 +486,18 @@ public class TextEntryStepDefinitions {
 		final String randomEnd,
 		final String exists) {
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+
 			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
 
 			final String startValue = autoAliasUtils.getValue(
 				randomStart, StringUtils.isNotBlank(randomStartAlias), State.getFeatureStateForThread());
@@ -507,6 +576,12 @@ public class TextEntryStepDefinitions {
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
+
 			final String startValue = autoAliasUtils.getValue(
 				randomStart, StringUtils.isNotBlank(randomStartAlias), State.getFeatureStateForThread());
 
@@ -559,15 +634,22 @@ public class TextEntryStepDefinitions {
 		final String content,
 		final String exists) {
 		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+
 			final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
 
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
+
 			final String textValue = autoAliasUtils.getValue(
 				content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript(
 				"arguments[0].value = '"
@@ -618,6 +700,12 @@ public class TextEntryStepDefinitions {
 				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
 
 			final String textValue = autoAliasUtils.getValue(
 				content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
@@ -683,6 +771,12 @@ public class TextEntryStepDefinitions {
 			final WebElement element = wait.until(
 				ExpectedConditions.elementToBeClickable(
 					By.cssSelector("[" + attr + "='" + value + "']")));
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
 
 			/*
 				See if the element is blank, or contains only underscores (as you might find in

@@ -8,6 +8,15 @@ import java.util.regex.Pattern;
 public final class Constants {
 
 	/**
+	 * The amount of time to take moving the mouse across the screen
+	 */
+	public static final int MOUSE_MOVE_TIME = 500;
+	/**
+	 * The number of steps to use when moving the mouse across the screen
+	 */
+	public static final int MOUSE_MOVE_STEPS = 100;
+
+	/**
 	 * The number of times we try to copy files from URLs
 	 */
 	public static final int URL_COPY_RETRIES = 3;
@@ -40,6 +49,23 @@ public final class Constants {
 	 * The default name of the HAR file saved by browsermob
 	 */
 	public static final String HAR_FILE_NAME = HAR_FILE_NAME_PREFIX + "." + HAR_FILE_NAME_EXTENSION;
+
+	/**
+	 * The system property that can be used to enable the mouse cursor to be moved
+	 * to the element being interacted with
+	 */
+	public static final String MOVE_CURSOR_TO_ELEMENT = "moveCursorToElement";
+
+	/**
+	 * The system property that can be used in conjuntion with moveCursorToElement
+	 * to define the screen zoom in windows.
+	 */
+	public static final String SCREEN_ZOOM_FACTOR = "screenZoomFactor";
+
+	/**
+	 * The system property that can be used to disable the automatic webdriver extraction
+	 */
+	public static final String USE_SUPPLIED_WEBDRIVERS = "useSuppliedWebdrivers";
 
 	/**
 	 * The system property that defines how long the app will run for before shuting down
@@ -176,10 +202,31 @@ public final class Constants {
 	public static final String CHROME = "Chrome";
 	/**
 	 * The value assigned to the system property to indicate that the tests should
+	 * be run in chrome run in full screen mode.
+	 */
+	public static final String CHROME_FULLSCREEN = "ChromeFullscreen";
+	/**
+	 * The value assigned to the system property to indicate that the tests should
+	 * be run in chrome run in full screen mode with security settings enabled.
+	 */
+	public static final String CHROME_SECURE_FULLSCREEN = "ChromeSecureFullscreen";
+
+	/**
+	 * The value assigned to the system property to indicate that the tests should
+	 * be run in chrome with a number of command line switches to lock it down.
+	 */
+	public static final String CHROME_SECURE = "ChromeSecure";
+	/**
+	 * The value assigned to the system property to indicate that the tests should
 	 * be run in chrome. Chrome is the default if no other matches are found for
 	 * the system property.
 	 */
 	public static final String CHROME_HEADLESS = "ChromeHeadless";
+	/**
+	 * The value assigned to the system property to indicate that the tests should
+	 * be run in chrome in headless mode locked down.
+	 */
+	public static final String CHROME_HEADLESS_SECURE = "ChromeHeadlessSecure";
 	/**
 	 * The value assigned to the system property to indicate that the tests should
 	 * be run in Firefox using the Marionette driver. This is required with Firefox 48

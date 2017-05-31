@@ -34,7 +34,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -140,14 +142,30 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		if (Constants.CHROME_HEADLESS.equalsIgnoreCase(browser)) {
-			return buildChromeHeadless(browser, mainProxy, capabilities);
+			return buildChrome(browser, mainProxy, capabilities, false, true, false);
+		}
+
+		if (Constants.CHROME_HEADLESS_SECURE.equalsIgnoreCase(browser)) {
+			return buildChrome(browser, mainProxy, capabilities, true, true, false);
+		}
+
+		if (Constants.CHROME_SECURE.equalsIgnoreCase(browser)) {
+			return buildChrome(browser, mainProxy, capabilities, true, false, false);
+		}
+
+		if (Constants.CHROME_FULLSCREEN.equalsIgnoreCase(browser)) {
+			return buildChrome(browser, mainProxy, capabilities, false, false, true);
+		}
+
+		if (Constants.CHROME_SECURE_FULLSCREEN.equalsIgnoreCase(browser)) {
+			return buildChrome(browser, mainProxy, capabilities, true, false, true);
 		}
 
 		if (Constants.PHANTOMJS.equalsIgnoreCase(browser)) {
 			return buildPhantomJS(browser, capabilities, tempFiles);
 		}
 
-		return buildChrome(browser, mainProxy, capabilities);
+		return buildChrome(browser, mainProxy, capabilities, false, false, false);
 	}
 
 	private void exitWithError(final String browser, final Throwable ex) {
@@ -155,24 +173,53 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE);
 	}
 
-	private WebDriver buildChrome(final String browser, final Optional<ProxyDetails<?>> mainProxy,
-		final DesiredCapabilities capabilities) {
-
-		return Try.of(() -> new ChromeDriver(capabilities))
-			.onFailure(ex -> exitWithError(browser, ex))
-			.getOrElseThrow(ex -> new RuntimeException(ex));
+	private ChromeOptions buildChromeOptions() {
+		final ChromeOptions options = new ChromeOptions();
+		final Map<String, Object> prefs = new HashMap<String, Object>();
+		prefs.put("credentials_enable_service", false);
+		prefs.put("password_manager_enabled", false);
+		options.setExperimentalOption("prefs", prefs);
+		return options;
 	}
 
-	private WebDriver buildChromeHeadless(final String browser, final Optional<ProxyDetails<?>> mainProxy,
-		final DesiredCapabilities capabilities) {
+	private void buildSecureChromeOptions(final ChromeOptions options) {
+		options.addArguments("disable-file-system");
+		options.addArguments("use-file-for-fake-audio-capture");
+		options.addArguments("use-file-for-fake-video-capture");
+		options.addArguments("use-fake-device-for-media-stream");
+		options.addArguments("use-fake-ui-for-media-stream");
+		options.addArguments("disable-sync");
+		options.addArguments("disable-tab-for-desktop-share");
+		options.addArguments("disable-translate");
+		options.addArguments("disable-voice-input");
+		options.addArguments("disable-volume-adjust-sound");
+		options.addArguments("disable-wake-on-wifi");
+	}
+
+	private WebDriver buildChrome(final String browser,
+								  final Optional<ProxyDetails<?>> mainProxy,
+								  final DesiredCapabilities capabilities,
+								  final boolean secure,
+								  final boolean headless,
+								  final boolean fullscreen) {
 
 		/*
 			These options are documented at:
 			https://developers.google.com/web/updates/2017/04/headless-chrome
 		 */
-		final ChromeOptions options = new ChromeOptions();
-		options.addArguments("headless");
-		options.addArguments("disable-gpu");
+		final ChromeOptions options = buildChromeOptions();
+		if (secure) {
+			buildSecureChromeOptions(options);
+		}
+
+		if (headless) {
+			options.addArguments("headless");
+			options.addArguments("disable-gpu");
+		}
+
+		if (fullscreen) {
+			options.addArguments("kiosk");
+		}
 
 		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 

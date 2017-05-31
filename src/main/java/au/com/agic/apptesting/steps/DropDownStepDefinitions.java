@@ -12,12 +12,9 @@ import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.utils.SleepUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 
+import au.com.agic.apptesting.utils.impl.MouseMovementUtilsImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -50,6 +47,8 @@ public class DropDownStepDefinitions {
 	private SystemPropertyUtils systemPropertyUtils;
 	@Autowired
 	private BrowserInteropUtils browserInteropUtils;
+	@Autowired
+	private MouseMovementUtilsImpl mouseMovementUtils;
 
 	/**
 	 * Select an item from a drop down list using simple selection
@@ -84,6 +83,12 @@ public class DropDownStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
 
 			browserInteropUtils.selectFromDropDownList(webDriver, element, selection);
 
@@ -137,6 +142,12 @@ public class DropDownStepDefinitions {
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
+
 			browserInteropUtils.selectFromDropDownList(webDriver, element, selection);
 
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
@@ -174,10 +185,18 @@ public class DropDownStepDefinitions {
 
 			checkState(selection != null, "the aliased item index does not exist");
 
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+
 			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
 
 			final Select select = new Select(element);
 			select.selectByIndex(Integer.parseInt(selection));
@@ -229,6 +248,12 @@ public class DropDownStepDefinitions {
 				State.getFeatureStateForThread().getDefaultWait(),
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				element,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
 
 			final Select select = new Select(element);
 			select.selectByIndex(Integer.parseInt(selection));
