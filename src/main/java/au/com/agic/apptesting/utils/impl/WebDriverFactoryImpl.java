@@ -34,7 +34,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -163,7 +165,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			return buildPhantomJS(browser, capabilities, tempFiles);
 		}
 
-		return buildChromeBasic(browser, mainProxy, capabilities);
+		return buildChrome(browser, mainProxy, capabilities, false, false, false);
 	}
 
 	private void exitWithError(final String browser, final Throwable ex) {
@@ -171,8 +173,16 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		System.exit(Constants.WEB_DRIVER_FAILURE_EXIT_CODE);
 	}
 
-	private ChromeOptions buildSecureChromeOptions() {
+	private ChromeOptions buildChromeOptions() {
 		final ChromeOptions options = new ChromeOptions();
+		final Map<String, Object> prefs = new HashMap<String, Object>();
+		prefs.put("credentials_enable_service", false);
+		prefs.put("password_manager_enabled", false);
+		options.setExperimentalOption("prefs", prefs);
+		return options;
+	}
+
+	private void buildSecureChromeOptions(final ChromeOptions options) {
 		options.addArguments("disable-file-system");
 		options.addArguments("use-file-for-fake-audio-capture");
 		options.addArguments("use-file-for-fake-video-capture");
@@ -184,16 +194,6 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		options.addArguments("disable-voice-input");
 		options.addArguments("disable-volume-adjust-sound");
 		options.addArguments("disable-wake-on-wifi");
-		options.addArguments("no-default-browser-check");
-		return options;
-	}
-
-	private WebDriver buildChromeBasic(final String browser, final Optional<ProxyDetails<?>> mainProxy,
-									   final DesiredCapabilities capabilities) {
-
-		return Try.of(() -> new ChromeDriver(capabilities))
-			.onFailure(ex -> exitWithError(browser, ex))
-			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
 	private WebDriver buildChrome(final String browser,
@@ -207,7 +207,10 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			These options are documented at:
 			https://developers.google.com/web/updates/2017/04/headless-chrome
 		 */
-		final ChromeOptions options = secure ? buildSecureChromeOptions() : new ChromeOptions();
+		final ChromeOptions options = buildChromeOptions();
+		if (secure) {
+			buildSecureChromeOptions(options);
+		}
 
 		if (headless) {
 			options.addArguments("headless");
