@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jnlp spec="1.0+"
-codebase="https://s3-ap-southeast-2.amazonaws.com/ag-iridium/">
+codebase="https://s3.amazonaws.com/iridium-release/">
     <information>
     <title>Web Application Tester</title>
 <vendor>Lights On</vendor>
