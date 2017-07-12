@@ -19,7 +19,7 @@ for more details.
 A training package has been made available on [Udemy](https://www.udemy.com/creating-end-to-end-tests-with-cucumber-and-webdriver/?couponCode=IRIDIUM_COUPON_2017).
 
 ## Downloads
-Download the latest version from [here](https://s3-ap-southeast-2.amazonaws.com/ag-iridium/IridiumApplicationTesting.jar)
+Download the latest version from [here](https://s3.amazonaws.com/iridium-release/IridiumApplicationTesting.jar)
 
 Find past releases [here](https://github.com/mcasperson/IridiumApplicationTesting/releases)
 
