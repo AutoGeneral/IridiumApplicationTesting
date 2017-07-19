@@ -73,7 +73,7 @@ task signJar(dependsOn: shadowJar) << {
 	ant.signjar(
 		jar: jar.archivePath,
 		destDir: 'build/signed',
-		alias: certum2017,
+		alias: alias,
 		keystore: keystore,
 		storepass: storepass,
 		keypass: keypass);
