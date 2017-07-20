@@ -79,8 +79,6 @@ task signJar(dependsOn: shadowJar) << {
 		keypass: keypass);
 }
 
-assemble.dependsOn signJar
-
 jar {
     manifest {
         attributes(

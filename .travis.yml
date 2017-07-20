@@ -15,7 +15,6 @@ before_install:
 - sudo dpkg -i google-chrome*.deb
 - wget https://s3.amazonaws.com/iridium-cloud-support/opera-developer_46.0.2573.0_amd64.deb
 - sudo dpkg -i opera-developer*.deb
-- wget ${Keystore}
 - wget ${GPG_Keyring}
 - openssl aes-256-cbc -K $encrypted_a39daf039737_key -iv $encrypted_a39daf039737_iv -in iridium_github_pages.enc -out iridium_github_pages -d
 - chmod 600 iridium_github_pages
@@ -24,26 +23,6 @@ before_install:
 - rm -f iridium_github_pages
 script: "travis_wait 60 ./gradlew '-DtestBrowsers=ChromeSecure,PhantomJS,Marionette' check --stacktrace"
 deploy:
-  - provider: releases
-    api_key:
-      secure: BlmfOcFkBguFOSEO34UkZ/X/aBZjeHiCyuMbfx3IXQjK6IbR77I917CTdP4w855zS1ShM06M3mnDhyc0yL5WDOrJJ+xxPWBHCo+JPbW4dXILBd5NS3oGu4rA51MlvLw/2z9mi5EJ7iivCuVzQBzXrMnYZbKL+LMWDKeuLtrZ9mTVIlPLLyR2yxh3n5zlrVD3xzbdxUxaV2DnAYCc9QkT6aC78qOvg69yPqSV1hXm9EWkJdjid15fM3xfuwCUfYpfOxcSFeBciOLd6zzxDnnOj6avnqbzahuY7kIUUAHaWbj5rt1RrtUq0nPEVpS4PBTF5ANclcGQcAmHgY+eErAYnc4EAzi17QE4cVzM61LDN+/BwGnsU0N71XQiDGTrZ+6zWFLW9SjpBKLl9GRmJglbewUIsSkIbVfVsM5jB6kknDb73NPT1QrHnhwegKTf10qnkWSAhN4x95fkNwecR7j0XI5P6HIbDvJixEIebcbn+G77de/2UGNhJj86nAkVbvBpj7hIB7TM0nqYMz3b0BPB+CIPxEAiGH8XMjH/tPxYzWZtz+aCXO0rno/FirjR+Iz1BUhZKq3qGQkeiEiEhb/7A5ZMUouph4x/FZLMKLgmP/K5MIC3OBy4mUCMrI7LtYunoKG2+7HldjRMbCi8umST9R/4JpYTe2Ixb8Oyv91tJzg=
-    file:
-    - build/signed/IridiumApplicationTesting.jar
-    skip_cleanup: true
-    on:
-      tags: true
-  - provider: s3
-    access_key_id:
-      secure: "a/12qI6W6xIPfGnID5/ZWiFfDgw2YgOl/axDTisPxrmoBvp1vXH9nfFtZqeB6sBgNvlIuN4L4mi1QpjV6LXp8+cqTwxDeKaR+LsQgct+zXWCW22snl9YZrbhSotrAgwjS9DrIb8W3uwP35lb79XBrw3z2BS6bptdhPrlXxRRT/qF3SyZ4+Q6A9NPVh+FtuQf4HHu3whrAQ9WUNKJ/2qxlAsysi/77ZOIgvrPIkDryhdDYrOzMyuZa708pLkDV+t+GmHx/WHSmoYaTkP+utX/G6YqMxt+j1PLbnKL8ZH4GTOOc0KAUxLiBdwowpXpAgFC6i7QLjMYkT8TzUN0U4jg//nhlzyGnjcHHQ0/DyESe3Y6WgpuMI3srpTy2iNiL8mSzY1BP0aGeg7KIEgvy1tl019B05TVDYGzCRI0YuO6ICmdpo6GTGq551EqDvMUYJ0fKMo4Pwn//2G5z4/y7FB9ihaH3YktLzMHwexPqbXLQpLgn9N2OJrkqTmmy9XuDgY7w25fBiMSHlab+atvu7esgOgRS9otHr5ZrBTOaqEjhIuLMy0vRSPz9W7rsI2m51+W6chAO7etZNnctwmTXVK6vsy3xm9Y+QliETEDdTTdnAtyUzaTsuzAVXi0PUCXDTi5u/QMUrInkeJCrUapn3/cz+0eSe6k0/AGyJNo/2867Ho="
-    secret_access_key:
-      secure: "teFgyNPHRcuH+3wJ7DhQTRmDbscm5N935LeCJR6p7o9FaHhdbnmNmntyjEsJvtfnJ9CF6Kld1hEGmo7k8mFx4iY4PnMJ/g9rIYQkqDKeOkroEOkKbI6hPxbli90Ae7DlGcJTGiazTRyPk8GqrOctOyhIc+rx6WXi7KSVoJbBRq2frUqnxSk9gb1ECikyZ6qYfYhQGHrzMI16ykaDvz11BBVVOddgC4r107lqy3Iha85u9FbtPq4/ASOFfm5F9BqGQav5Sy4NOmtCQtgHsHb2uwM7eHzfvtLdTaMXfrkmtiT6LbXpclLqhcgjNw0qKc6fC4p3Cig/QSdI0BY/OanP+fbkYyLYNqRB7WUV7qg9GnHA+diPzP/6DD5RwMlMDd2P56ZGHHy9UupNFKLPdVHE70zqvskq/wRDOyU5y6YKvOjebg4yy2tuMnMBfj4leB6+Ac1VG1mXuYWCEogmgUfucKludF6FhLisLFQPHoxcDONt+XBd6YCSseXKKOck/v6DUPMwEsG+AP0/QP7KbMG9eRlp4Dtethawye6ULxJaZErosmFy1oEu6YrHndf9GT/U5jaV2l8TKh2GZuQDSb10UYJd9nOXPw4Bm/rLtwXH83zaVOOda+0i1YKDT/IxnfT9HK8gs3P6woEYi4ifhjJvkw5xv1lvH9YAS/Z75RZJ/fc="
-    bucket: "iridium-release"
-    local-dir: build/signed
-    skip_cleanup: true
-    acl: public_read
-    region: us-east-1
-    on:
-      tags: true
   - provider: script
     script: "DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PMavenVersion=${TRAVIS_TAG}' uploadArchives"
     skip_cleanup: true
