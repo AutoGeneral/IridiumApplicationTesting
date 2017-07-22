@@ -1,4 +1,4 @@
-# 'Certificate for Card Authentication' comes from the alias name returned by the list.ps1 command
+# 'Certificate for PIV Authentication' comes from the alias name returned by the list.ps1 command
 # This is some example output.
 #
 # Keystore type: PKCS11
@@ -21,11 +21,13 @@
 #          Signature algorithm name: SHA256withRSA
 #          Version: 3
 
-& "C:\Program Files\Java\jdk1.8.0_131\bin\jarsigner.exe" -tsa http://timestamp.digicert.com `
+& "C:\Program Files\Java\jdk1.8.0_131\bin\jarsigner.exe" `
+	-tsa http://timestamp.digicert.com `
     -keystore NONE `
 	-storetype PKCS11 `
     -providerClass sun.security.pkcs11.SunPKCS11 `
     -providerArg provider.cfg `
     -sigalg SHA256withRSA `
+	-certchain all.pem `
     build\libs\IridiumApplicationTesting.jar `
     'Certificate for Digital Signature'
