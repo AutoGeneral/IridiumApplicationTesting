@@ -28,4 +28,4 @@
     -providerArg provider.cfg `
     -sigalg SHA256withRSA `
     build\libs\IridiumApplicationTesting.jar `
-    'Certificate for Card Authentication'
+    'Certificate for Digital Signature'
