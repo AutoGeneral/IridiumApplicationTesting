@@ -15,6 +15,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.policy.SimpleRetryPolicy;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
@@ -194,6 +196,23 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 				Constants.ELEMENT_WAIT_SLEEP_TIMEOUT);
 			return wait.until(
 				ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
+		}
+	}
+
+	@Override
+	public void maximizeWindow() {
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final boolean isChrome = browserDetection.isChrome(webDriver);
+
+		if (isChrome) {
+			/*
+				With driver 2.31 and Chrome 60, maximizing doesn't work. So we just set the
+				browser to a known size instead as a workaround.
+			 */
+			webDriver.manage().window().setPosition(new Point(0, 0));
+			webDriver.manage().window().setSize(new Dimension(1024, 768));
+		} else {
+			webDriver.manage().window().maximize();
 		}
 	}
 

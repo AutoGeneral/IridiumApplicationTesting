@@ -76,4 +76,9 @@ public interface BrowserInteropUtils {
 	 * @return The link element
 	 */
 	WebElement getLinkByText(@NotNull final WebDriver webDriver, @NotNull final String text);
+
+	/**
+	 * Maximizes the browser window
+	 */
+	void maximizeWindow();
 }

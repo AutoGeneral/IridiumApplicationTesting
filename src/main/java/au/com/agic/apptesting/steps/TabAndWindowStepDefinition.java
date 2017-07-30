@@ -3,6 +3,7 @@ package au.com.agic.apptesting.steps;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.BrowserWindowException;
+import au.com.agic.apptesting.utils.BrowserInteropUtils;
 import au.com.agic.apptesting.utils.SleepUtils;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.Dimension;
@@ -26,6 +27,8 @@ public class TabAndWindowStepDefinition {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TabAndWindowStepDefinition.class);
 	@Autowired
 	private SleepUtils sleepUtils;
+	@Autowired
+	private BrowserInteropUtils browserInteropUtils;
 
 	/**
 	 * Switchs to the specified tab. This is useful when you open a link that opens in a new window.
@@ -81,21 +84,7 @@ public class TabAndWindowStepDefinition {
 	 */
 	@When("I maximi(?:s|z)e the window")
 	public void maximiseWindow() throws Throwable {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		/*
-		 	This step will sometimes fail in Chrome, so retry a few times in the event of an error
-		 	because it doesn't matter if we resize a few times.
-		 	https://github.com/SeleniumHQ/selenium/issues/1853
-		  */
-		final RetryTemplate template = new RetryTemplate();
-		final SimpleRetryPolicy policy = new SimpleRetryPolicy();
-		policy.setMaxAttempts(Constants.WEBDRIVER_ACTION_RETRIES);
-		template.setRetryPolicy(policy);
-		template.execute(context -> {
-			webDriver.manage().window().maximize();
-			return null;
-		});
-
+		browserInteropUtils.maximizeWindow();
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
 
