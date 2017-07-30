@@ -203,11 +203,15 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	public void maximizeWindow() {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final boolean isChrome = browserDetection.isChrome(webDriver);
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
-		if (isChrome) {
+		if (isChrome || isFirefox) {
 			/*
 				With driver 2.31 and Chrome 60, maximizing doesn't work. So we just set the
 				browser to a known size instead as a workaround.
+
+				Firefox also has an issue with maximizing the window:
+				https://github.com/mozilla/geckodriver/issues/820
 			 */
 			webDriver.manage().window().setPosition(new Point(0, 0));
 			webDriver.manage().window().setSize(new Dimension(1024, 768));
