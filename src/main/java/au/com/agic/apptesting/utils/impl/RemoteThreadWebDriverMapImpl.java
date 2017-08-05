@@ -188,6 +188,11 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 				? new HashMap<>(originalDataSets.get(currentDataset)) : new HashMap<>();
 
 			/*
+				Disable popup blocker
+			 */
+			desiredCapabilities.setCapability("disable-popup-blocking", true);
+
+			/*
 				Tick over to the next url when all the capabilities have been consumed
 			 */
 			++currentCapability;

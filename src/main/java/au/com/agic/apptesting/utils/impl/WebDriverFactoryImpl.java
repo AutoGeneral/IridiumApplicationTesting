@@ -84,6 +84,11 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		capabilities.setCapability("acceptInsecureCerts", true);
 
 		/*
+			Don't block popups
+		 */
+		capabilities.setCapability("disable-popup-blocking", true);
+
+		/*
 			Find the proxy that the browser should point to
 		 */
 		final Optional<ProxyDetails<?>> mainProxy = proxies.stream()
