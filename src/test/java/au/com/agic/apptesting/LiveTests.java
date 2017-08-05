@@ -36,6 +36,15 @@ public class LiveTests {
 	private final List<File> globalTempFiles = new ArrayList<File>();
 	private final List<String> browsers = new ArrayList<String>();
 	private boolean runNegTests = true;
+	private boolean runSimpleTests = true;
+
+	public boolean runNegTests() {
+		return runNegTests;
+	}
+
+	public boolean runSimpleTests() {
+		return runSimpleTests;
+	}
 
 	private File[] getFailureScreenshots() {
 		return new File(".").listFiles(new FilenameFilter() {
@@ -107,6 +116,7 @@ public class LiveTests {
 
 	@Test(expected=Exception.class)
 	public void testInvalidURL() {
+		Assume.assumeTrue(runSimpleTests());
 		setCommonProperties();
 		System.setProperty("testSource", "http://example.org/thisdoesnotexist.feature");
 		new TestRunner().run(globalTempFiles);
@@ -117,7 +127,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void testScreenshot() {
-
+		Assume.assumeTrue(runSimpleTests());
 		/*
 			Clean up any existing files
 		 */
@@ -145,7 +155,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void testScreenshotOnFailure() {
-
+		Assume.assumeTrue(runSimpleTests());
 		/*
 			Clean up any existing files
 		 */
@@ -173,6 +183,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void testCustomReportDir() throws IOException {
+		Assume.assumeTrue(runSimpleTests());
 		final Path tempDir = Files.createTempDirectory("test");
 
 		try {
@@ -196,6 +207,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void testFeatureImport() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
 				setCommonProperties();
@@ -225,6 +237,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void testFeatureImport2() {
+		Assume.assumeTrue(runSimpleTests());
 		setCommonProperties();
 		System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
 		System.setProperty("testSource", "parent-fragment.feature");
@@ -302,6 +315,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void failWhenClosingOnlyWindow() {
+		Assume.assumeTrue(runSimpleTests());
 		/*
 			Firefox and browserstack actually allows you to close the final window, so we don't test
 			it here.
@@ -329,7 +343,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void dryRun() throws InterruptedException {
-
+		Assume.assumeTrue(runSimpleTests());
 		setCommonProperties();
 		System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
 		System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
@@ -344,6 +358,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void restartZap() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			setCommonProperties();
 			System.setProperty("appURLOverride", "https://example.org");
@@ -384,6 +399,7 @@ public class LiveTests {
 	@Test
 	@Ignore("These tests are better run individually in a CI system")
 	public void passiveSecurity20() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
 				setCommonProperties();
@@ -409,6 +425,7 @@ public class LiveTests {
 	@Test
 	@Ignore("These tests are better run individually in a CI system")
 	public void gherkinExamples21() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
 				setCommonProperties();
@@ -433,6 +450,7 @@ public class LiveTests {
 	@Test
 	@Ignore("These tests are better run individually in a CI system")
 	public void deadLinkCheck23() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
 				setCommonProperties();
@@ -457,6 +475,7 @@ public class LiveTests {
 	@Test
 	@Ignore("These tests are better run individually in a CI system")
 	public void acceptanceTest24() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
 				setCommonProperties();
@@ -481,6 +500,7 @@ public class LiveTests {
 	@Test
 	@Ignore("These tests are better run individually in a CI system")
 	public void driverPerScenario25() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
 				setCommonProperties();
@@ -500,10 +520,6 @@ public class LiveTests {
 		}
 
 		Assert.fail();
-	}
-
-	public boolean runNegTests() {
-		return runNegTests;
 	}
 
 	@Test
@@ -588,18 +604,20 @@ public class LiveTests {
 
 	@Test
 	public void runXmlDatasetTest() {
-			setCommonProperties();
-			System.setProperty("testSource", this.getClass().getResource("/datasettest.feature").toString());
-			System.setProperty("dataset", this.getClass().getResource("/dataset.xml").toString());
-			System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
-			System.setProperty("featureGroupName", "Google");
-			System.setProperty("testDestination", "PhantomJS");
-			final int failures = new TestRunner().run(globalTempFiles);
-			Assert.assertEquals(0, failures);
+		Assume.assumeTrue(runSimpleTests());
+		setCommonProperties();
+		System.setProperty("testSource", this.getClass().getResource("/datasettest.feature").toString());
+		System.setProperty("dataset", this.getClass().getResource("/dataset.xml").toString());
+		System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
+		System.setProperty("featureGroupName", "Google");
+		System.setProperty("testDestination", "PhantomJS");
+		final int failures = new TestRunner().run(globalTempFiles);
+		Assert.assertEquals(0, failures);
 	}
 
 	@Test
 	public void runCsvDatasetTest() {
+		Assume.assumeTrue(runSimpleTests());
 		setCommonProperties();
 		System.setProperty("testSource", this.getClass().getResource("/datasettest.feature").toString());
 		System.setProperty("dataset", this.getClass().getResource("/dataset.csv").toString());
