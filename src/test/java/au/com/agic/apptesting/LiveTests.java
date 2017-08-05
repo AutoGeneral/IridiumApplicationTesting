@@ -250,26 +250,28 @@ public class LiveTests {
 					System.setProperty("tagsOverride", "@tag1,@tag2,@tag3,@tag5,@test;~@tag4,@test");
 					final int failures = new TestRunner().run(globalTempFiles);
 
-					/*
-						We always expect to find the browsermob<date>.har file, regardless of the
-						success or failure of the test.
-		 			*/
-					LOGGER.info("Testing for har file presence");
-					Assert.assertTrue(getHarFiles().length != 0);
-					Assert.assertTrue(Stream.of(getHarFiles())
-						.anyMatch(file -> file.getName().matches(
-						Constants.HAR_FILE_NAME_PREFIX
-							+ "\\d{17}\\."
-							+ Constants.HAR_FILE_NAME_EXTENSION)));
+					if (!Constants.REMOTE_TESTS.equals(System.getProperty("testDestination"))) {
+						/*
+							We always expect to find the browsermob<date>.har file, regardless of the
+							success or failure of the test.
+						*/
+						LOGGER.info("Testing for har file presence");
+						Assert.assertTrue(getHarFiles().length != 0);
+						Assert.assertTrue(Stream.of(getHarFiles())
+							.anyMatch(file -> file.getName().matches(
+								Constants.HAR_FILE_NAME_PREFIX
+									+ "\\d{17}\\."
+									+ Constants.HAR_FILE_NAME_EXTENSION)));
 
-					if (failures == 0) {
+						if (failures == 0) {
 						/*
 							We expect to have a manually dumped har file
 						 */
-						Assert.assertTrue(Stream.of(getHarFiles())
-							.anyMatch(file -> file.getName().matches("test\\d{17}\\.har")));
+							Assert.assertTrue(Stream.of(getHarFiles())
+								.anyMatch(file -> file.getName().matches("test\\d{17}\\.har")));
 
-						continue browserLoop;
+							continue browserLoop;
+						}
 					}
 					Thread.sleep(SLEEP);
 				} catch (final Exception ignored) {
