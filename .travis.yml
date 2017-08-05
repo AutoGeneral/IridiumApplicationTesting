@@ -27,7 +27,7 @@ before_install:
 - eval `ssh-agent -s`
 - ssh-add iridium_github_pages
 - rm -f iridium_github_pages
-script: travis_wait 60 ./gradlew "-DtestBrowsers=$TEST_SUITE" check --stacktrace
+script: travis_wait 60 ./gradlew -DtestBrowsers="$TEST_SUITE" check --stacktrace
 deploy:
   - provider: script
     script: "DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PMavenVersion=${TRAVIS_TAG}' uploadArchives"
