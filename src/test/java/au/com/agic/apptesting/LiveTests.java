@@ -28,7 +28,7 @@ public class LiveTests {
 	private static final String TEST_BROWSERS_SYSTEM_PROPERTY = "testBrowsers";
 	private static final Logger LOGGER = LoggerFactory.getLogger(LiveTests.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
-	private static final int RETRY_COUNT = 3;
+	private static final int RETRY_COUNT = 1;
 	private static final int SLEEP = 60000;
 	private final List<File> globalTempFiles = new ArrayList<File>();
 	private final List<String> browsers = new ArrayList<String>();
