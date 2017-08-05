@@ -25,6 +25,7 @@ script:
 - travis_wait 60 ./gradlew '-DtestBrowsers=ChromeSecure' check --stacktrace
 - travis_wait 60 ./gradlew '-DtestBrowsers=Marionette' check --stacktrace
 - travis_wait 60 ./gradlew '-DtestBrowsers=PhantomJS' check --stacktrace
+- travis_wait 60 ./gradlew '-DtestBrowsers=Opera' check --stacktrace
 - travis_wait 60 ./gradlew '-DtestBrowsers=BrowserStack' check --stacktrace
 deploy:
   - provider: script
