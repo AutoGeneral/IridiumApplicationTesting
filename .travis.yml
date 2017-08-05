@@ -6,11 +6,11 @@ jdk:
 addons:
   firefox: "54.0.1"
 env:
-- TEST_SUITE={"browsers":["PhantomJS"], "runNegTests":false}
-- TEST_SUITE={"browsers":["ChromeSecure"], "runNegTests":false}
-- TEST_SUITE={"browsers":["Firefox"], "runNegTests":false}
-- TEST_SUITE={"browsers":["BrowserStack"], "runNegTests":true}
-- TEST_SUITE={"browsers":["Opera"], "runNegTests":false}
+- TEST_SUITE={'browsers':['PhantomJS'], 'runNegTests':false}
+- TEST_SUITE={'browsers':['ChromeSecure'], 'runNegTests':false}
+- TEST_SUITE={'browsers':['Firefox'], 'runNegTests':false}
+- TEST_SUITE={'browsers':['BrowserStack'], 'runNegTests':true}
+- TEST_SUITE={'browsers':['Opera'], 'runNegTests':false}
 before_install:
 - export CHROME_BIN=/usr/bin/google-chrome
 - export DISPLAY=:99.0
@@ -27,7 +27,7 @@ before_install:
 - eval `ssh-agent -s`
 - ssh-add iridium_github_pages
 - rm -f iridium_github_pages
-script: travis_wait 60 ./gradlew '-DtestBrowsers=$TEST_SUITE' check --stacktrace
+script: travis_wait 60 ./gradlew "-DtestBrowsers=$TEST_SUITE" check --stacktrace
 deploy:
   - provider: script
     script: "DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PMavenVersion=${TRAVIS_TAG}' uploadArchives"
