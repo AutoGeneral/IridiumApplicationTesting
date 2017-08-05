@@ -6,6 +6,9 @@ import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +35,7 @@ public class LiveTests {
 	private static final int SLEEP = 60000;
 	private final List<File> globalTempFiles = new ArrayList<File>();
 	private final List<String> browsers = new ArrayList<String>();
+	private boolean runNegTests = true;
 
 	private File[] getFailureScreenshots() {
 		return new File(".").listFiles(new FilenameFilter() {
@@ -80,14 +84,19 @@ public class LiveTests {
 	 * via a system property.
 	 */
 	@Before
-	public void getBrowserList() {
+	public void getBrowserList() throws JSONException {
 		final String browsersSysProp = SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(TEST_BROWSERS_SYSTEM_PROPERTY);
 		if (StringUtils.isBlank(browsersSysProp)) {
 			browsers.add("ChromeSecure");
 			browsers.add("Marionette");
 			browsers.add("PhantomJS");
 		} else {
-			browsers.addAll(Arrays.asList(browsersSysProp.split(",")));
+			final JSONObject settings = new JSONObject(browsersSysProp);
+			final JSONArray browserArray = settings.getJSONArray("browsers");
+			for (int i = 0; i < browserArray.length(); ++i) {
+				browsers.add(browserArray.getString(i));
+			}
+			runNegTests = settings.getBoolean("runNegTests");
 		}
 	}
 
@@ -492,8 +501,13 @@ public class LiveTests {
 		Assert.fail();
 	}
 
+	public boolean runNegTests() {
+		return runNegTests;
+	}
+
 	@Test
 	public void negativeClickTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativeclicktests.feature";
 		final String tagPrefix = "@neg-click-";
 		runNegativeTest(feature, tagPrefix);
@@ -501,6 +515,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeEventTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativeeventtests.feature";
 		final String tagPrefix = "@neg-event-";
 		runNegativeTest(feature, tagPrefix);
@@ -508,6 +523,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeExtractTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativeextracttests.feature";
 		final String tagPrefix = "@neg-extract-";
 		runNegativeTest(feature, tagPrefix);
@@ -515,6 +531,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeDropDownTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativedropdowntests.feature";
 		final String tagPrefix = "@neg-dropdown-";
 		runNegativeTest(feature, tagPrefix);
@@ -522,6 +539,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeFocusTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativefocustests.feature";
 		final String tagPrefix = "@neg-focus-";
 		runNegativeTest(feature, tagPrefix);
@@ -529,6 +547,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeOpenTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativeopentests.feature";
 		final String tagPrefix = "@neg-open-";
 		runNegativeTest(feature, tagPrefix);
@@ -536,6 +555,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeTabTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativetabtests.feature";
 		final String tagPrefix = "@neg-tab-";
 		runNegativeTest(feature, tagPrefix);
@@ -543,6 +563,7 @@ public class LiveTests {
 
 	@Test
 	public void negativePopulateTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativepopulatetests.feature";
 		final String tagPrefix = "@neg-populate-";
 		runNegativeTest(feature, tagPrefix);
@@ -550,6 +571,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeVerifyTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativevalidationtests.feature";
 		final String tagPrefix = "@neg-verify-";
 		runNegativeTest(feature, tagPrefix);
@@ -557,6 +579,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeWaitTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativewaittests.feature";
 		final String tagPrefix = "@neg-wait-";
 		runNegativeTest(feature, tagPrefix);
