@@ -6,6 +6,7 @@ import au.com.agic.apptesting.exception.BrowserWindowException;
 import au.com.agic.apptesting.utils.BrowserInteropUtils;
 import au.com.agic.apptesting.utils.SleepUtils;
 import cucumber.api.java.en.When;
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -46,37 +47,49 @@ public class TabAndWindowStepDefinition {
 	/**
 	 * Switchs to the specified window. This is useful when you open a link that opens in a new window.
 	 */
-	@When("I switch to the new window")
-	public void switchWindows() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		webDriver.getWindowHandles().stream()
-			.filter(e -> !e.equals(webDriver.getWindowHandle()))
-			.forEach(e -> webDriver.switchTo().window(e));
+	@When("I switch to the new window( ignoring errors)?")
+	public void switchWindows(final String ignoreErrors) throws Exception {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			webDriver.getWindowHandles().stream()
+				.filter(e -> !e.equals(webDriver.getWindowHandle()))
+				.forEach(e -> webDriver.switchTo().window(e));
 
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
 	}
 
 	/**
 	 * Switchs to the specified window. This is useful when you open a link that opens in a new
 	 * window.
 	 */
-	@When("I close the current window")
-	public void closeWindow() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		/*
-			Close the current window
-		 */
-		webDriver.close();
-		/*
-			Switch to another window (otherwise all other commands fail)
-		 */
-		if (webDriver.getWindowHandles().iterator().hasNext()) {
-			webDriver.switchTo().window(webDriver.getWindowHandles().iterator().next());
-		} else {
-			throw new BrowserWindowException("You can only use this step when there is more than one tab or window.");
-		}
+	@When("I close the current window( ignoring errors)?")
+	public void closeWindow(final String ignoreErrors) {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			/*
+				Close the current window
+			 */
+			webDriver.close();
+			/*
+				Switch to another window (otherwise all other commands fail)
+			 */
+			if (webDriver.getWindowHandles().iterator().hasNext()) {
+				webDriver.switchTo().window(webDriver.getWindowHandles().iterator().next());
+			} else {
+				throw new BrowserWindowException("You can only use this step when there is more than one tab or window.");
+			}
 
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
 	}
 
 	/**
