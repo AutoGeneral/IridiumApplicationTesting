@@ -262,17 +262,18 @@ public class LiveTests {
 								Constants.HAR_FILE_NAME_PREFIX
 									+ "\\d{17}\\."
 									+ Constants.HAR_FILE_NAME_EXTENSION)));
-
-						if (failures == 0) {
-						/*
-							We expect to have a manually dumped har file
-						 */
-							Assert.assertTrue(Stream.of(getHarFiles())
-								.anyMatch(file -> file.getName().matches("test\\d{17}\\.har")));
-
-							continue browserLoop;
-						}
 					}
+
+					if (failures == 0) {
+					/*
+						We expect to have a manually dumped har file
+					 */
+						Assert.assertTrue(Stream.of(getHarFiles())
+							.anyMatch(file -> file.getName().matches("test\\d{17}\\.har")));
+
+						continue browserLoop;
+					}
+
 					Thread.sleep(SLEEP);
 				} catch (final Exception ignored) {
 					/*
