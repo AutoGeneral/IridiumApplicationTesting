@@ -15,8 +15,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.retry.policy.SimpleRetryPolicy;
-import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
@@ -55,7 +53,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		checkNotNull(element);
 		checkNotNull(js);
 
-		if (systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false)) {
+		if (disableInterop()) {
 			return false;
 		}
 
@@ -205,7 +203,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		final boolean isChrome = browserDetection.isChrome(webDriver);
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
-		if (isChrome || isFirefox) {
+		if (!disableInterop() && (isChrome || isFirefox)) {
 			/*
 				With driver 2.31 and Chrome 60, maximizing doesn't work. So we just set the
 				browser to a known size instead as a workaround.
