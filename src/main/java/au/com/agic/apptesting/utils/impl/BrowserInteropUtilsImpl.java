@@ -227,8 +227,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	public void setup() {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+		final boolean isOpera = browserDetection.isOpera(webDriver);
 
-		if (!disableInterop() && isPhantomJS) {
+		if (!disableInterop() && (isPhantomJS || isOpera)) {
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript("window.confirm = function(){return true;}");
 			js.executeScript("window.alert = function(){}");
@@ -259,8 +260,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	@Override
 	public void acceptAlert(@NotNull WebDriver webDriver) {
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+		final boolean isOpera = browserDetection.isOpera(webDriver);
 
-		if (!disableInterop() && isPhantomJS) {
+		if (!disableInterop() && (isOpera || isPhantomJS)) {
 			/*
 				Do nothing because we have already redefined the alert
 				method.
@@ -284,8 +286,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	@Override
 	public void cancelAlert(@NotNull WebDriver webDriver) {
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+		final boolean isOpera = browserDetection.isOpera(webDriver);
 
-		if (!disableInterop() && isPhantomJS) {
+		if (!disableInterop() && (isOpera || isPhantomJS)) {
 			/*
 				Do nothing because we have already redefined the alert
 				method.
