@@ -238,10 +238,11 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	@Override
 	public void waitForAlert(@NotNull WebDriver webDriver, int waitDuration) {
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+		final boolean isOpera = browserDetection.isOpera(webDriver);
 
-		if (!disableInterop() && isPhantomJS) {
+		if (!disableInterop() && (isPhantomJS || isOpera)) {
 			/*
-				This kind of wait is not supported by Phantom JS
+				This kind of wait is not supported by Phantom JS or Opera
 			 */
 			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS driver."
 				+ " Disabling alert wait. This step will always pass, regardless of"

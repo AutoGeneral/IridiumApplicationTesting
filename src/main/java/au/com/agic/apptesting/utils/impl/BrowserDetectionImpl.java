@@ -1,18 +1,18 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.utils.BrowserDetection;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Implementation of the BrowserDetection dervice
@@ -42,6 +42,15 @@ public class BrowserDetectionImpl implements BrowserDetection {
 			TODO: find out the browser name from a remote driver
 		 */
 		return webDriver instanceof PhantomJSDriver;
+	}
+
+	@Override
+	public boolean isOpera(@NotNull final WebDriver webDriver) {
+		checkNotNull(webDriver);
+		/*
+			TODO: find out the browser name from a remote driver
+		 */
+		return webDriver instanceof OperaDriver;
 	}
 
 	@Override

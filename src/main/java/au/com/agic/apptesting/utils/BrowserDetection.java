@@ -23,6 +23,12 @@ public interface BrowserDetection {
 	boolean isPhantomJS(@NotNull WebDriver webDriver);
 
 	/**
+	 * @param webDriver The current web driver
+	 * @return true if the webdriver is controlling the Opera browser
+	 */
+	boolean isOpera(@NotNull WebDriver webDriver);
+
+	/**
 	 *
 	 * @param webDriver The current web driver
 	 * @return true if the webdriver is controlling the Firefox browser
