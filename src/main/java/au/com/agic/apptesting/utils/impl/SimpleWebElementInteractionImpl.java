@@ -1,8 +1,5 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
@@ -10,7 +7,6 @@ import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
 import au.com.agic.apptesting.webdriver.WebDriverWaitEx;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,11 +18,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.validation.constraints.NotNull;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Implementation of the SimpleWebElementInteraction service
@@ -94,6 +92,65 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		}
 
 		throw new WebElementException("All attempts to find element failed");
+	}
+
+	@Override
+	public void getNotClickableElementFoundBy(
+		final boolean valueAlias,
+		final String value,
+		final FeatureState featureState) {
+		getNotClickableElementFoundBy(valueAlias, value, featureState, featureState.getDefaultWait());
+	}
+
+	@Override
+	public void getNotClickableElementFoundBy(
+		final boolean valueAlias,
+		final String value,
+		final FeatureState featureState,
+		final long waitTime) {
+		checkArgument(StringUtils.isNotBlank(value));
+		checkNotNull(featureState);
+
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		long time = 0;
+
+		mainloop:
+		while (time < waitTime * Constants.MILLISECONDS_PER_SECOND) {
+			for (final String locationMethod : LOCATION_METHODS) {
+
+				time += Constants.TIME_SLICE;
+
+				try {
+					final By by = getBy.getBy(locationMethod, valueAlias, value, featureState);
+					final WebDriverWaitEx wait = new WebDriverWaitEx(
+						webDriver,
+						Constants.TIME_SLICE,
+						TimeUnit.MILLISECONDS);
+					final ExpectedCondition<WebElement> condition =
+						ExpectedConditions.elementToBeClickable(by);
+
+					final WebElement element = wait.until(condition);
+
+					/*
+						If we found an element, drop back to the while loop
+					 */
+					if (element != null) {
+						break mainloop;
+					}
+				} catch (final Exception ignored) {
+					/*
+						We expect missing elements to timeout with an exception
+					 */
+				}
+			}
+
+			/*
+				If we got here, none of the locations returned an element
+			 */
+			return;
+		}
+
+		throw new WebElementException("Timeout waiting for elements to not be visible");
 	}
 
 	@Override
