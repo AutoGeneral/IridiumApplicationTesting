@@ -4,10 +4,9 @@
         <username>user</username>
     </browserstack>
     <settings>
-        <desiredCapabilities enabled="true" group="Android,Mobile">
-            <capability name="platform" value="ANDROID"/>
-            <capability name="device" value="Samsung Galaxy S5"/>
-            <capability name="browserstack.debug" value="true"/>
+		<desiredCapabilities enabled="true" group="Edge">
+			<capability name="platform" value="WINDOWS"/>
+			<capability name="browserName" value="edge"/>
         </desiredCapabilities>
     </settings>
     <urlMappings>

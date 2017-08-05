@@ -244,6 +244,9 @@ public class LiveTests {
 					System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
 					System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
 					System.setProperty("testDestination", browser);
+					System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
+					System.setProperty("browserStackUsername", System.getenv("browserStackUsername"));
+					System.setProperty("browserStackAccessToken", System.getenv("browserStackAccessToken"));
 					System.setProperty("tagsOverride", "@tag1,@tag2,@tag3,@tag5,@test;~@tag4,@test");
 					final int failures = new TestRunner().run(globalTempFiles);
 
@@ -612,6 +615,8 @@ public class LiveTests {
 		System.setProperty("monochromeOutput", "false");
 		System.setProperty("dataset", "");
 		System.setProperty("configuration", "");
+		System.setProperty("browserStackUsername", "");
+		System.setProperty("browserStackAccessToken", "");
 	}
 
 	/**
