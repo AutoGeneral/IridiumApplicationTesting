@@ -48,10 +48,10 @@ apply plugin: 'com.matthewcasperson.build.iridium'
 
 mainClassName = "au.com.agic.apptesting.Main"
 
-def alias = hasProperty("KeystoreAlias") ? getProperty("KeystoreAlias") : System.getenv("KeystoreAlias");
-def keystore = hasProperty("KeystoreName") ? getProperty("KeystoreName") : System.getenv("KeystoreName");
-def storepass = hasProperty("KeystoreStorePass") ? getProperty("KeystoreStorePass") : System.getenv("KeystoreStorePass");
-def keypass = hasProperty("KeystorePass") ? getProperty("KeystorePass") : System.getenv("KeystorePass");
+def alias = hasProperty("KeystoreAlias") ? getProperty("KeystoreAlias") : System.getenv("KeystoreAlias")
+def keystore = hasProperty("KeystoreName") ? getProperty("KeystoreName") : System.getenv("KeystoreName")
+def storepass = hasProperty("KeystoreStorePass") ? getProperty("KeystoreStorePass") : System.getenv("KeystoreStorePass")
+def keypass = hasProperty("KeystorePass") ? getProperty("KeystorePass") : System.getenv("KeystorePass")
 
 jacocoTestReport {
 	reports {
@@ -67,16 +67,18 @@ jacocoTestReport {
 
 check.dependsOn jacocoTestReport
 
-task signJar(dependsOn: shadowJar) << {
-	ant.delete(dir:'build/signed')
-	ant.mkdir(dir:'build/signed')
-	ant.signjar(
-		jar: jar.archivePath,
-		destDir: 'build/signed',
-		alias: alias,
-		keystore: keystore,
-		storepass: storepass,
-		keypass: keypass);
+task signJar(dependsOn: shadowJar) {
+	doLast {
+		ant.delete(dir: 'build/signed')
+		ant.mkdir(dir: 'build/signed')
+		ant.signjar(
+			jar: jar.archivePath,
+			destDir: 'build/signed',
+			alias: alias,
+			keystore: keystore,
+			storepass: storepass,
+			keypass: keypass)
+	}
 }
 
 jar {
