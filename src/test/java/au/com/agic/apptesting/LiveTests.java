@@ -303,11 +303,12 @@ public class LiveTests {
 	@Test
 	public void failWhenClosingOnlyWindow() {
 		/*
-			Firefox actually allows you to close the final window, so we don't test
+			Firefox and browserstack actually allows you to close the final window, so we don't test
 			it here.
 		 */
 		final List<String> closeFailBrowsers = browsers.stream()
 				.filter(browser -> !"Marionette".equalsIgnoreCase(browser))
+			.filter(browser -> !"BrowserStack".equalsIgnoreCase(browser))
 				.collect(Collectors.toList());
 
 		for (final String browser : closeFailBrowsers) {
