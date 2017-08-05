@@ -4,9 +4,11 @@
         <username>user</username>
     </browserstack>
     <settings>
+		<!-- browserstack.ie.enablePopups -->
 		<desiredCapabilities enabled="true" group="Edge">
 			<capability name="platform" value="WINDOWS"/>
 			<capability name="browserName" value="edge"/>
+			<capability name="browserstack.edge.enablePopups" value="true"/>
         </desiredCapabilities>
     </settings>
     <urlMappings>

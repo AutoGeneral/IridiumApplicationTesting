@@ -851,6 +851,7 @@ Feature: Test of the steps provided by Iridium
 	Scenario: Issue 90 Test: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/90
 		And I open the link with the text content of "Test Link" in a new window
 		And I sleep for "5" seconds
-   # Popup blockers in Edge may prevent open and closing windows
-   #And I switch to the new window ignoring errors
-   #And I close the current window ignoring errors
+	  # Remote tests must allow popups e.g. browserstack.ie.enablePopups = true
+	# https://www.browserstack.com/automate/capabilities
+		And I switch to the new window ignoring errors
+		And I close the current window ignoring errors
