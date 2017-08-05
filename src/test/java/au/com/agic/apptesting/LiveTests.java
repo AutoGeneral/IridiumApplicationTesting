@@ -100,21 +100,27 @@ public class LiveTests {
 			browsers.add("Marionette");
 			browsers.add("PhantomJS");
 		} else {
-			final JSONObject settings = new JSONObject(browsersSysProp);
+			try {
 
-			if (settings.has("browsers")) {
-				final JSONArray browserArray = settings.getJSONArray("browsers");
-				for (int i = 0; i < browserArray.length(); ++i) {
-					browsers.add(browserArray.getString(i));
+
+				final JSONObject settings = new JSONObject(browsersSysProp);
+
+				if (settings.has("browsers")) {
+					final JSONArray browserArray = settings.getJSONArray("browsers");
+					for (int i = 0; i < browserArray.length(); ++i) {
+						browsers.add(browserArray.getString(i));
+					}
 				}
-			}
 
-			if (settings.has("runNegTests")) {
-				runNegTests = settings.getBoolean("runNegTests");
-			}
+				if (settings.has("runNegTests")) {
+					runNegTests = settings.getBoolean("runNegTests");
+				}
 
-			if (settings.has("runSimpleTests")) {
-				runSimpleTests = settings.getBoolean("runSimpleTests");
+				if (settings.has("runSimpleTests")) {
+					runSimpleTests = settings.getBoolean("runSimpleTests");
+				}
+			} catch (final Exception ex) {
+				LOGGER.error("invalid test selection");
 			}
 		}
 	}

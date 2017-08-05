@@ -107,14 +107,6 @@ Feature: Test of the steps provided by Iridium
     And I wait "1" seconds for the page to contain the text "This text will never exist", ignoring timeouts
     And I wait "1" seconds for the page to contain the regex "This regex will never exist", ignoring timeouts
 
-  @test @linktest
-  Scenario: Issue 90 Test: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/90
-    And I open the link with the text content of "Test Link" in a new window
-	And I sleep for "5" seconds
- # Popup blockers in Edge may prevent open and closing windows
- #And I switch to the new window ignoring errors
-	#And I close the current window ignoring errors
-
   @fail-with-one-window
   Scenario: Fail when closing the only window
     And I close the current window
@@ -195,25 +187,6 @@ Feature: Test of the steps provided by Iridium
       return document.getElementById('nouislider').noUiSlider.get()[0];
       """
     Then I verify that the alias "NoUISlider Value" is larger than "0"
-
-  @test
-  Scenario: Test alert handling
-	And I click the element found by "alertButton"
-    And I wait "30" seconds for an alert to be displayed
-    And I click "OK" on the alert
-    And I click the "alertButton" button
-    And I wait "30" seconds for an alert to be displayed
-	And I click "OK" on the alert
-	And I click the element found by "confirmButton"
-	And I wait "30" seconds for an alert to be displayed
-    And I click "Cancel" on the alert
-    And I click the "confirmButton" button
-    And I wait "30" seconds for an alert to be displayed
-	And I click "Cancel" on the alert
-	# Timeouts should be ignored if there is no alert
-	And I wait "2" seconds for an alert to be displayed, ignoring timeouts
-	And I click "OK" on the alert if it exists
-	And I click "Cancel" on the alert if it exists
 
   @test
   Scenario: Click elements with random IDs
@@ -854,3 +827,30 @@ Feature: Test of the steps provided by Iridium
   Scenario: Modify HTTP request headers
     And I set header "X-Forwarded-For" with value "127.0.0.1"
     And I remove header "User-Agent"
+
+	@test
+	Scenario: Test alert handling
+		And I click the element found by "alertButton"
+		And I wait "30" seconds for an alert to be displayed
+		And I click "OK" on the alert
+		And I click the "alertButton" button
+		And I wait "30" seconds for an alert to be displayed
+		And I click "OK" on the alert
+		And I click the element found by "confirmButton"
+		And I wait "30" seconds for an alert to be displayed
+		And I click "Cancel" on the alert
+		And I click the "confirmButton" button
+		And I wait "30" seconds for an alert to be displayed
+		And I click "Cancel" on the alert
+	 # Timeouts should be ignored if there is no alert
+		And I wait "2" seconds for an alert to be displayed, ignoring timeouts
+		And I click "OK" on the alert if it exists
+		And I click "Cancel" on the alert if it exists
+
+	@test @linktest
+	Scenario: Issue 90 Test: https://github.com/AutoGeneral/IridiumApplicationTesting/issues/90
+		And I open the link with the text content of "Test Link" in a new window
+		And I sleep for "5" seconds
+   # Popup blockers in Edge may prevent open and closing windows
+   #And I switch to the new window ignoring errors
+   #And I close the current window ignoring errors

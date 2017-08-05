@@ -6,11 +6,11 @@ jdk:
 addons:
   firefox: "54.0.1"
 env:
-- TEST_SUITE="{'browsers':['PhantomJS'], 'runNegTests':true, 'runSimpleTests':true}"
-- TEST_SUITE="{'browsers':['ChromeSecure'], 'runNegTests':false, 'runSimpleTests':false}"
-- TEST_SUITE="{'browsers':['Firefox'], 'runNegTests':false, 'runSimpleTests':false}"
-- TEST_SUITE="{'browsers':['BrowserStack'], 'runNegTests':false, 'runSimpleTests':false}"
-- TEST_SUITE="{'browsers':['Opera'], 'runNegTests':false, 'runSimpleTests':false}"
+- TEST_SUITE="{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}"
+- TEST_SUITE="{'browsers':['Chrome'],'runNegTests':false,'runSimpleTests':false}"
+- TEST_SUITE="{'browsers':['Marionette'],'runNegTests':false,'runSimpleTests':false}"
+- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false}"
+- TEST_SUITE="{'browsers':['Opera'],'runNegTests':false,'runSimpleTests':false}"
 before_install:
 - export CHROME_BIN=/usr/bin/google-chrome
 - export DISPLAY=:99.0
@@ -19,7 +19,7 @@ before_install:
 - sudo apt-get install -y libappindicator1 fonts-liberation
 - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 - sudo dpkg -i google-chrome*.deb
-- wget https://s3.amazonaws.com/iridium-cloud-support/opera-developer_46.0.2573.0_amd64.deb
+- wget https://s3.amazonaws.com/iridium-cloud-support/opera-developer_48.0.2670.0_amd64.deb
 - sudo dpkg -i opera-developer*.deb
 - wget ${GPG_Keyring}
 - openssl aes-256-cbc -K $encrypted_a39daf039737_key -iv $encrypted_a39daf039737_iv -in iridium_github_pages.enc -out iridium_github_pages -d
@@ -27,23 +27,32 @@ before_install:
 - eval `ssh-agent -s`
 - ssh-add iridium_github_pages
 - rm -f iridium_github_pages
-script: travis_wait 60 "./gradlew \"-DtestBrowsers=$TEST_SUITE\" check --stacktrace"
+script: ./gradlew -DtestBrowsers=${TEST_SUITE} check --stacktrace
 deploy:
   - provider: script
-    script: "DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PMavenVersion=${TRAVIS_TAG}' uploadArchives"
+    script: >-
+      if [[ $TEST_SUITE -eq "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]];
+      then
+        DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PMavenVersion=${TRAVIS_TAG}' uploadArchives;
+      fi;
     skip_cleanup: true
     on:
       tags: true
   - provider: script
     script: >-
-      cd ..;
-      git clone git@github.com:mcasperson/mcasperson.github.io.git;
-      cd mcasperson.github.io;
-      rm -rf IridiumApplicationTesting/javadoc;
-      cp -r ../IridiumApplicationTesting/build/docs/javadoc IridiumApplicationTesting;
-      git add .;
-      git commit -m "Updated docs";
-      git push origin master;
+      if [[ $TEST_SUITE -eq "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]];
+      then
+        cd ..;
+        git clone git@github.com:mcasperson/mcasperson.github.io.git;
+        cd mcasperson.github.io;
+        rm -rf IridiumApplicationTesting/javadoc;
+        cp -r ../IridiumApplicationTesting/build/docs/javadoc IridiumApplicationTesting;
+        git add .;
+        git commit -m "Updated docs";
+        git push origin master;
+      fi;
     skip_cleanup: true
+    on:
+      tags: true
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - if [[ $TEST_SUITE -eq "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then bash <(curl -s https://codecov.io/bash); fi

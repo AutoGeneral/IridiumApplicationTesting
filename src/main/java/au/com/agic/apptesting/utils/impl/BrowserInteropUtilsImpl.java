@@ -15,6 +15,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.policy.SimpleRetryPolicy;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
@@ -204,18 +206,38 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
 		if (!disableInterop() && (isChrome || isFirefox)) {
-			/*
-				With driver 2.31 and Chrome 60, maximizing doesn't work. So we just set the
-				browser to a known size instead as a workaround.
-				https://bugs.chromium.org/p/chromedriver/issues/detail?id=1901
-
-				Firefox also has an issue with maximizing the window:
-				https://github.com/mozilla/geckodriver/issues/820
-			 */
-			webDriver.manage().window().setPosition(new Point(0, 0));
-			webDriver.manage().window().setSize(new Dimension(1024, 768));
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Chrome or Firefox driver."
+				+ " Disabling window maximization, due to the bugs "
+				+ " htps://bugs.chromium.org/p/chromedriver/issues/detail?id=1901"
+				+ " and https://github.com/mozilla/geckodriver/issues/820");
 		} else {
 			webDriver.manage().window().maximize();
+		}
+	}
+
+	@Override
+	public void setWindowSize(int width, int height) {
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+
+		final boolean isChrome = browserDetection.isChrome(webDriver);
+
+		if (!disableInterop() && isChrome) {
+		/*
+		 	This step will sometimes fail in Chrome, so retry a few times in the event of an error
+		 	because it doesn't matter if we resize a few times.
+		 	https://github.com/SeleniumHQ/selenium/issues/1853
+		  */
+			final RetryTemplate template = new RetryTemplate();
+			final SimpleRetryPolicy policy = new SimpleRetryPolicy();
+			policy.setMaxAttempts(Constants.WEBDRIVER_ACTION_RETRIES);
+			template.setRetryPolicy(policy);
+			template.execute(context -> {
+				webDriver.manage().window().setPosition(new Point(0, 0));
+				webDriver.manage().window().setSize(new Dimension(width, height));
+				return null;
+			});
+		} else {
+			webDriver.manage().window().setSize(new Dimension(width, height));
 		}
 	}
 
@@ -228,8 +250,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
 		final boolean isOpera = browserDetection.isOpera(webDriver);
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
-		if (!disableInterop() && (isPhantomJS || isOpera)) {
+		if (!disableInterop() && (isPhantomJS || isOpera || isFirefox)) {
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript("window.confirm = function(){return true;}");
 			js.executeScript("window.alert = function(){}");
@@ -240,12 +263,13 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	public void waitForAlert(@NotNull WebDriver webDriver, int waitDuration) {
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
 		final boolean isOpera = browserDetection.isOpera(webDriver);
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
-		if (!disableInterop() && (isPhantomJS || isOpera)) {
+		if (!disableInterop() && (isPhantomJS || isOpera || isFirefox)) {
 			/*
 				This kind of wait is not supported by Phantom JS or Opera
 			 */
-			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS driver."
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS, Firefox or Opera driver."
 				+ " Disabling alert wait. This step will always pass, regardless of"
 				+ " whether there is an alert or not.");
 		} else {
@@ -261,13 +285,14 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	public void acceptAlert(@NotNull WebDriver webDriver) {
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
 		final boolean isOpera = browserDetection.isOpera(webDriver);
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
-		if (!disableInterop() && (isOpera || isPhantomJS)) {
+		if (!disableInterop() && (isOpera || isPhantomJS || isFirefox)) {
 			/*
 				Do nothing because we have already redefined the alert
 				method.
 			 */
-			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS driver."
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS, Firefox or Opera driver."
 				+ " Disabling alert accept. This step will always pass, regardless of"
 				+ " whether there is an alert or not.");
 		} else {
@@ -287,13 +312,14 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	public void cancelAlert(@NotNull WebDriver webDriver) {
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
 		final boolean isOpera = browserDetection.isOpera(webDriver);
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
-		if (!disableInterop() && (isOpera || isPhantomJS)) {
+		if (!disableInterop() && (isOpera || isPhantomJS || isFirefox)) {
 			/*
 				Do nothing because we have already redefined the alert
 				method.
 			 */
-			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS driver."
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS, Firefox or Opera driver."
 				+ " Disabling alert dismiss. This step will always pass, regardless of"
 				+ " whether there is an alert or not.");
 		} else {

@@ -81,4 +81,12 @@ public interface BrowserInteropUtils {
 	 * Maximizes the browser window
 	 */
 	void maximizeWindow();
+
+	/**
+	 * Sets the window size
+	 *
+	 * @param width  The window width
+	 * @param height The window height
+	 */
+	void setWindowSize(final int width, final int height);
 }
