@@ -680,7 +680,7 @@ public class LiveTests {
 		System.setProperty("configuration", "");
 		System.setProperty("browserStackUsername", "");
 		System.setProperty("browserStackAccessToken", "");
-		System.setProperty("numberOfThreads", "5");
+		System.setProperty("numberOfThreads", "2");
 	}
 
 	/**
