@@ -1,30 +1,21 @@
 package au.com.agic.apptesting.steps;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.HttpResponseException;
 import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.ProxyDetails;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.utils.*;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
-
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import net.lightbody.bmp.util.HttpMessageInfo;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -35,9 +26,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
-
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 /**
  * Contains Gherkin step definitions for checking the current state of the web page.
@@ -343,8 +331,12 @@ public class ValidationStepDefinitions {
 		final String fixedtext = autoAliasUtils.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		/*
+			getText() can fail here, we we use the innerText attribute instead.
+			https://github.com/AutoGeneral/IridiumApplicationTesting/issues/109
+		 */
 		final String pageText =
-			webDriver.findElement(By.tagName("body")).getText();
+			webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 		if (!pageText.contains(fixedtext)) {
 			throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");
