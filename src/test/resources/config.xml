@@ -4,12 +4,24 @@
         <username>user</username>
     </browserstack>
     <settings>
-		<!-- browserstack.ie.enablePopups -->
 		<desiredCapabilities enabled="true" group="Edge">
 			<capability name="platform" value="WINDOWS"/>
 			<capability name="browserName" value="edge"/>
 			<capability name="browserstack.edge.enablePopups" value="true"/>
+			<capability name="browserstack.selenium_version" value="3.4.0"/>
         </desiredCapabilities>
+		<desiredCapabilities enabled="true" group="Safari">
+			<capability name="platform" value="MAC"/>
+			<capability name="browserName" value="safari"/>
+			<capability name="browserstack.selenium_version" value="3.4.0"/>
+			<capability name="browserstack.safari.enablePopups" value="true"/>
+		</desiredCapabilities>
+		<desiredCapabilities enabled="true" group="IE">
+			<capability name="platform" value="WIN8"/>
+			<capability name="browserName" value="internet explorer"/>
+			<capability name="browserstack.selenium_version" value="3.4.0"/>
+			<capability name="browserstack.ie.enablePopups" value="true"/>
+		</desiredCapabilities>
     </settings>
     <urlMappings>
         <featureGroup name="Google">
