@@ -55,8 +55,8 @@ Feature: Test of the steps provided by Iridium
 	@test
 	Scenario: Test finding text in page
 		And I verify that the page contains the text "Some text with styles"
-		And I verify that the page contains the text "Some text with hidden elements"
-		And I verify that the page contains the text "Some text with invisible elements"
+		And I verify that the page contains the regex "Some text with (blah)?hidden elements"
+		And I verify that the page contains the regex "Some text with (blah)?invisible elements"
 		And I verify that the page contains the text "Some text with supertext"
 		And I verify that the page contains the text "Some text with subtext"
 		And I verify that the page contains the text "Some text with UTF characters like Є and ϼ"
