@@ -208,7 +208,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		if (!disableInterop() && (isChrome || isFirefox)) {
 			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Chrome or Firefox driver."
 				+ " Disabling window maximization, due to the bugs "
-				+ " htps://bugs.chromium.org/p/chromedriver/issues/detail?id=1901"
+				+ " https://bugs.chromium.org/p/chromedriver/issues/detail?id=1901"
 				+ " and https://github.com/mozilla/geckodriver/issues/820");
 		} else {
 			webDriver.manage().window().maximize();

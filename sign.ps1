@@ -21,7 +21,7 @@
 #          Signature algorithm name: SHA256withRSA
 #          Version: 3
 
-& "C:\Program Files\Java\jdk1.8.0_131\bin\jarsigner.exe" `
+& "C:\Program Files\Java\jdk1.8.0_144\bin\jarsigner.exe" `
 	-tsa http://timestamp.digicert.com `
     -keystore NONE `
 	-storetype PKCS11 `

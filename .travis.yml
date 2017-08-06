@@ -31,7 +31,7 @@ script: ./gradlew -DtestBrowsers=${TEST_SUITE} check --stacktrace
 deploy:
   - provider: script
     script: >-
-      if [[ $TEST_SUITE -eq "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]];
+      if [[ $TEST_SUITE -eq "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]
       then
         DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PMavenVersion=${TRAVIS_TAG}' uploadArchives;
       fi;
@@ -40,7 +40,7 @@ deploy:
       tags: true
   - provider: script
     script: >-
-      if [[ $TEST_SUITE -eq "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]];
+      if [[ $TEST_SUITE -eq "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]
       then
         cd ..;
         git clone git@github.com:mcasperson/mcasperson.github.io.git;
