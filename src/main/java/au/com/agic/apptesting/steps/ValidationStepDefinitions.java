@@ -323,7 +323,7 @@ public class ValidationStepDefinitions {
 
 	/**
 	 * Checks for the presence of some text on the page.
-	 * @param alias This text appears if the text is astucally an alias key
+	 * @param alias This text appears if the text is actually an alias key
 	 * @param text The text to find on the page, or the alias to the text
 	 */
 	@Then("^(?:I verify(?: that)? )?the page contains the text( alias)? \"(.*?)\"")
@@ -345,7 +345,7 @@ public class ValidationStepDefinitions {
 
 	/**
 	 * Checks for the presence of a regex on the page.
-	 * @param alias This text appears if the regex is astucally an alias key
+	 * @param alias This text appears if the regex is actually an alias key
 	 * @param regex The regex to find on the page, or the alias to the regex
 	 */
 	@Then("^(?:I verify(?: that)? )?the page contains the regex( alias)? \"(.*?)\"")
@@ -366,7 +366,7 @@ public class ValidationStepDefinitions {
 
 	/**
 	 * Checks for the absence of some text on the page.
-	 * @param alias This text appears if the text is astucally an alias key
+	 * @param alias This text appears if the text is actually an alias key
 	 * @param text The text to find on the page, or the alias to the text
 	 */
 	@Then("^(?:I verify(?: that)? )?the page does not contain the text( alias)? \"(.*?)\"")
@@ -384,7 +384,7 @@ public class ValidationStepDefinitions {
 
 	/**
 	 * Checks for the absence of a regex on the page.
-	 * @param alias This text appears if the regex is astucally an alias key
+	 * @param alias This text appears if the regex is actually an alias key
 	 * @param regex The regex to find on the page, or the alias to the regex
 	 */
 	@Then("^(?:I verify(?: that)? )?the page does not contain the regex( alias)? \"(.*?)\"")

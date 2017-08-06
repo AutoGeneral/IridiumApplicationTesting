@@ -52,6 +52,16 @@ Feature: Test of the steps provided by Iridium
     And I disable autoaliasing
     And I enable autoaliasing
 
+	@test
+	Scenario: Test finding text in page
+		And I verify that the page contains the text "Some text with styles"
+		And I verify that the page contains the text "Some text with hidden elements"
+		And I verify that the page contains the text "Some text with invisible elements"
+		And I verify that the page contains the text "Some text with supertext"
+		And I verify that the page contains the text "Some text with subtext"
+		And I verify that the page contains the text "Some text with UTF characters like Є and ϼ"
+		And I verify that the page contains the regex "Some\stext\sin\sa\stable"
+
   @test
   Scenario: Test cookie steps
     And I dump the value of the cookie called "whatever"
