@@ -54,14 +54,15 @@ Feature: Test of the steps provided by Iridium
 
 	@test
 	Scenario: Test finding text in page
+		And I wait "30" seconds for the page to contain the text "Some text with styles"
 		And I scroll to the bottom of the page
-		And I verify that the page contains the text "Some text with styles"
 	 # IE reports hidden and invisible text
 		And I verify that the page contains the regex "Some text with (blah)?hidden elements"
 		And I verify that the page contains the regex "Some text with (blah)?invisible elements"
 		And I verify that the page contains the text "Some text with supertext"
 		And I verify that the page contains the text "Some text with subtext"
 		And I verify that the page contains the text "Some text with UTF characters like Є and ϼ"
+	 # The whitespace between table cells can be tabs or spaces depending on the browser
 		And I verify that the page contains the regex "Some\stext\sin\sa\stable"
 
   @test
