@@ -357,7 +357,7 @@ public class ValidationStepDefinitions {
 		final Pattern pattern = Pattern.compile(fixedRegex);
 
 		final String pageText =
-			webDriver.findElement(By.tagName("body")).getText();
+			webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 		if (!pattern.matcher(pageText).find()) {
 			throw new ValidationException("Could not find the regex \"" + fixedRegex + "\" on the page");
@@ -375,7 +375,7 @@ public class ValidationStepDefinitions {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final String pageText =
-			webDriver.findElement(By.tagName("body")).getText();
+			webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 		if (pageText.contains(fixedtext)) {
 			throw new ValidationException("Found the text \"" + fixedtext + "\" on the page");
@@ -396,7 +396,7 @@ public class ValidationStepDefinitions {
 		final Pattern pattern = Pattern.compile(fixedRegex);
 
 		final String pageText =
-			webDriver.findElement(By.tagName("body")).getText();
+			webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 		if (pattern.matcher(pageText).find()) {
 			throw new ValidationException("Found the regex \"" + fixedRegex + "\" on the page");
