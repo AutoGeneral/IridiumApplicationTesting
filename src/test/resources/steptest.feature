@@ -60,7 +60,7 @@ Feature: Test of the steps provided by Iridium
 		And I verify that the page contains the text "Some text with supertext"
 		And I verify that the page contains the text "Some text with subtext"
 		And I verify that the page contains the text "Some text with UTF characters like Є and ϼ"
-		And I verify that the page contains the regex "Some\stext\sin\sa\stable"
+		And I verify that the page contains the regex "Some\s*text\s*in\s*a\s*table"
 
   @test
   Scenario: Test cookie steps
