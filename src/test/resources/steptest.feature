@@ -56,8 +56,9 @@ Feature: Test of the steps provided by Iridium
 	Scenario: Test finding text in page
 		And I scroll to the bottom of the page
 		And I verify that the page contains the text "Some text with styles"
-		And I verify that the page contains the regex "Some text with hidden elements"
-		And I verify that the page contains the regex "Some text with invisible elements"
+	 # IE reports hidden and invisible text
+		And I verify that the page contains the regex "Some text with (blah)?hidden elements"
+		And I verify that the page contains the regex "Some text with (blah)?invisible elements"
 		And I verify that the page contains the text "Some text with supertext"
 		And I verify that the page contains the text "Some text with subtext"
 		And I verify that the page contains the text "Some text with UTF characters like Є and ϼ"
