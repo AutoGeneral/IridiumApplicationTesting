@@ -339,7 +339,7 @@ public class ValidationStepDefinitions {
 			webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 		if (!pageText.contains(fixedtext)) {
-			throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");
+			throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page with text " + pageText);
 		}
 	}
 
@@ -360,7 +360,7 @@ public class ValidationStepDefinitions {
 			webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 		if (!pattern.matcher(pageText).find()) {
-			throw new ValidationException("Could not find the regex \"" + fixedRegex + "\" on the page");
+			throw new ValidationException("Could not find the regex \"" + fixedRegex + "\" on the page with text " + pageText);
 		}
 	}
 
@@ -378,7 +378,7 @@ public class ValidationStepDefinitions {
 			webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 		if (pageText.contains(fixedtext)) {
-			throw new ValidationException("Found the text \"" + fixedtext + "\" on the page");
+			throw new ValidationException("Found the text \"" + fixedtext + "\" on the page with text " + pageText);
 		}
 	}
 
@@ -399,7 +399,7 @@ public class ValidationStepDefinitions {
 			webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 		if (pattern.matcher(pageText).find()) {
-			throw new ValidationException("Found the regex \"" + fixedRegex + "\" on the page");
+			throw new ValidationException("Found the regex \"" + fixedRegex + "\" on the page with text " + pageText);
 		}
 	}
 

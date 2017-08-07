@@ -101,8 +101,6 @@ public class LiveTests {
 			browsers.add("PhantomJS");
 		} else {
 			try {
-
-
 				final JSONObject settings = new JSONObject(browsersSysProp);
 
 				if (settings.has("browsers")) {
