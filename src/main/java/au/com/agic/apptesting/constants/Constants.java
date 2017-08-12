@@ -20,7 +20,7 @@ public final class Constants {
 	 * The system variable that determines if we should download the browserstack
 	 * video once the test is complete
 	 */
-	public static final String DOWNLOAD_BROWSERSTACK_VIDEO_ON_COMPLETION = "DownloadBrowserStackVideo";
+	public static final String DOWNLOAD_BROWSERSTACK_VIDEO_ON_COMPLETION = "downloadBrowserStackVideo";
 
 	/**
 	 * The amount of time to take moving the mouse across the screen
