@@ -74,6 +74,6 @@ public class BrowserDetectionImpl implements BrowserDetection {
 	@Override
 	public boolean isRemote(@NotNull final WebDriver webDriver) {
 		checkNotNull(webDriver);
-		return webDriver instanceof RemoteWebDriver;
+		return webDriver.getClass().equals(RemoteWebDriver.class);
 	}
 }
