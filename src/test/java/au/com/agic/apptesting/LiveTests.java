@@ -679,6 +679,7 @@ public class LiveTests {
 		System.setProperty("browserStackUsername", "");
 		System.setProperty("browserStackAccessToken", "");
 		System.setProperty("numberOfThreads", "2");
+		System.setProperty(Constants.DOWNLOAD_BROWSERSTACK_VIDEO_ON_COMPLETION, "true");
 	}
 
 	/**

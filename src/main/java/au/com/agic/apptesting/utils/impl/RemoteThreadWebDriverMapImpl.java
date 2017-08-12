@@ -6,10 +6,8 @@ import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.profiles.FileProfileAccess;
 import au.com.agic.apptesting.profiles.configuration.Configuration;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
-import au.com.agic.apptesting.utils.FeatureState;
-import au.com.agic.apptesting.utils.ProxyDetails;
-import au.com.agic.apptesting.utils.SystemPropertyUtils;
-import au.com.agic.apptesting.utils.ThreadWebDriverMap;
+import au.com.agic.apptesting.utils.*;
+import javaslang.Tuple2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -33,6 +31,7 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	private static final String URL = "@hub.browserstack.com/wd/hub";
 	private static final Logger LOGGER = LoggerFactory.getLogger(RemoteThreadWebDriverMapImpl.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
+	private static final RemoteTestsUtils REMOTE_TESTS_UTILS = new RemoteTestsUtilsImpl();
 
 	private final FileProfileAccess<Configuration> profileAccess = new FileProfileAccess<>(
 		SYSTEM_PROPERTY_UTILS.getProperty(Constants.CONFIGURATION),
@@ -89,46 +88,16 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	 * Load the browserstack details from configuration
 	 */
 	private void loadBrowserStackSettings() {
-		/*
-			System properties take precedence
-		 */
-		if (!loadDetailsFromSysProps()) {
+		final Optional<Tuple2<String, String>> credentials = REMOTE_TESTS_UTILS.getCredentials();
+		if (credentials.isPresent()) {
+			browserStackUsername = credentials.get()._1();
+			browserStackAccessToken = credentials.get()._2();
+		} else {
 			/*
-				Fall back to using the info in the profile
-			 */
-			if (!loadDetailsFromProfile()) {
-				/*
 					Log an error because there were no details
 				 */
-				LOGGER.error("Could not load browserstack config");
-			}
+			LOGGER.error("Could not load browserstack config");
 		}
-	}
-
-	private boolean loadDetailsFromProfile() {
-		final Optional<Configuration> profile = profileAccess.getProfile();
-		if (profile.isPresent()) {
-			browserStackUsername = profile.get().getBrowserstack().getUsername();
-			browserStackAccessToken = profile.get().getBrowserstack().getAccessToken();
-			return true;
-		}
-
-		return false;
-	}
-
-	private boolean loadDetailsFromSysProps() {
-		final Optional<String> borwserStackUsername =
-			Optional.ofNullable(SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.BROWSER_STACK_USERNAME));
-		final Optional<String> borwserStackAccessToken =
-			Optional.ofNullable(SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(Constants.BROWSER_STACK_ACCESS_TOKEN));
-
-		if (borwserStackUsername.isPresent() && borwserStackAccessToken.isPresent()) {
-			browserStackUsername = borwserStackUsername.get();
-			browserStackAccessToken = borwserStackAccessToken.get();
-			return true;
-		}
-
-		return false;
 	}
 
 	@Override

@@ -63,11 +63,17 @@ public class BrowserDetectionImpl implements BrowserDetection {
 	}
 
 	@Override
-	public boolean isChrome(WebDriver webDriver) {
+	public boolean isChrome(@NotNull final WebDriver webDriver) {
 		checkNotNull(webDriver);
 		/*
 			TODO: find out the browser name from a remote driver
 		 */
 		return webDriver instanceof ChromeDriver;
+	}
+
+	@Override
+	public boolean isRemote(@NotNull final WebDriver webDriver) {
+		checkNotNull(webDriver);
+		return webDriver instanceof RemoteWebDriver;
 	}
 }

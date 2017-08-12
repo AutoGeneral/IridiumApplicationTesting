@@ -2,10 +2,7 @@ package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
-import au.com.agic.apptesting.utils.BrowserDetection;
-import au.com.agic.apptesting.utils.BrowserInteropUtils;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.SystemPropertyUtils;
+import au.com.agic.apptesting.utils.*;
 import cucumber.api.java.Before;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
@@ -15,7 +12,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 
@@ -41,6 +37,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 	@Autowired
 	private GetBy getBy;
+
+	@Autowired
+	private RetryService retryService;
 
 	private boolean disableInterop() {
 		return systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false);
@@ -222,15 +221,12 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		final boolean isChrome = browserDetection.isChrome(webDriver);
 
 		if (!disableInterop() && isChrome) {
-		/*
-		 	This step will sometimes fail in Chrome, so retry a few times in the event of an error
-		 	because it doesn't matter if we resize a few times.
-		 	https://github.com/SeleniumHQ/selenium/issues/1853
-		  */
-			final RetryTemplate template = new RetryTemplate();
-			final SimpleRetryPolicy policy = new SimpleRetryPolicy();
-			policy.setMaxAttempts(Constants.WEBDRIVER_ACTION_RETRIES);
-			template.setRetryPolicy(policy);
+			/*
+				This step will sometimes fail in Chrome, so retry a few times in the event of an error
+				because it doesn't matter if we resize a few times.
+				https://github.com/SeleniumHQ/selenium/issues/1853
+			  */
+			final RetryTemplate template = retryService.getRetryTemplate();
 			template.execute(context -> {
 				webDriver.manage().window().setPosition(new Point(0, 0));
 				webDriver.manage().window().setSize(new Dimension(width, height));

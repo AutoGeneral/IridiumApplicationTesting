@@ -6,6 +6,21 @@ import java.util.regex.Pattern;
  * Common settings
  */
 public final class Constants {
+	/**
+	 * Default timeouts when making HTTP calls
+	 */
+	public static final int HTTP_TIMEOUTS = 1000;
+
+	/**
+	 * The name of the downloaded browserstack video file
+	 */
+	public static final String BROWSERSTACK_VIDEO_FILE_NAME = "BrowserStack";
+
+	/**
+	 * The system variable that determines if we should download the browserstack
+	 * video once the test is complete
+	 */
+	public static final String DOWNLOAD_BROWSERSTACK_VIDEO_ON_COMPLETION = "DownloadBrowserStackVideo";
 
 	/**
 	 * The amount of time to take moving the mouse across the screen
