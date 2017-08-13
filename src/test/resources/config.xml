@@ -23,7 +23,7 @@
 			<capability name="platform" value="ANY"/>
 			<capability name="browserName" value="iPhone"/>
 			<capability name="device" value="iPhone 7 Plus"/>
-			<capability name="realMobile" value="true"/>
+			<capability name="realMobile" value="false"/>
 			<capability name="os_version" value="10.0"/>
 			<capability name="browserstack.selenium_version" value="3.4.0"/>
 		</desiredCapabilities>
