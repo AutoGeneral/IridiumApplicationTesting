@@ -203,12 +203,20 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final boolean isChrome = browserDetection.isChrome(webDriver);
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
+		final boolean isAndroid = browserDetection.isAndroid(webDriver);
+		final boolean isIPad = browserDetection.isIPad(webDriver);
+		final boolean isIPhone = browserDetection.isIPhone(webDriver);
 
-		if (!disableInterop() && (isChrome || isFirefox)) {
-			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Chrome or Firefox driver."
-				+ " Disabling window maximization, due to the bugs "
-				+ " https://bugs.chromium.org/p/chromedriver/issues/detail?id=1901"
-				+ " and https://github.com/mozilla/geckodriver/issues/820");
+		if (!disableInterop()) {
+			if (isAndroid || isIPad || isIPhone) {
+				LOGGER.info("WEBAPPTESTER-INFO-0010: Detected an Android, iPhone or iPad browser. "
+					+ "Maximizing the window on these browsers is not supported.");
+			} else if (isChrome || isFirefox) {
+				LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Chrome or Firefox driver."
+					+ " Disabling window maximization, due to the bugs "
+					+ " https://bugs.chromium.org/p/chromedriver/issues/detail?id=1901"
+					+ " and https://github.com/mozilla/geckodriver/issues/820");
+			}
 		} else {
 			webDriver.manage().window().maximize();
 		}
@@ -219,19 +227,27 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 
 		final boolean isChrome = browserDetection.isChrome(webDriver);
+		final boolean isAndroid = browserDetection.isAndroid(webDriver);
+		final boolean isIPad = browserDetection.isIPad(webDriver);
+		final boolean isIPhone = browserDetection.isIPhone(webDriver);
 
-		if (!disableInterop() && isChrome) {
-			/*
-				This step will sometimes fail in Chrome, so retry a few times in the event of an error
-				because it doesn't matter if we resize a few times.
-				https://github.com/SeleniumHQ/selenium/issues/1853
-			  */
-			final RetryTemplate template = retryService.getRetryTemplate();
-			template.execute(context -> {
-				webDriver.manage().window().setPosition(new Point(0, 0));
-				webDriver.manage().window().setSize(new Dimension(width, height));
-				return null;
-			});
+		if (!disableInterop()) {
+			if (isAndroid || isIPad || isIPhone) {
+				LOGGER.info("WEBAPPTESTER-INFO-0010: Detected an Android, iPhone or iPad browser. "
+					+ "Setting the window size on these browsers is not supported.");
+			} else if (isChrome) {
+				/*
+					This step will sometimes fail in Chrome, so retry a few times in the event of an error
+					because it doesn't matter if we resize a few times.
+					https://github.com/SeleniumHQ/selenium/issues/1853
+				  */
+				final RetryTemplate template = retryService.getRetryTemplate();
+				template.execute(context -> {
+					webDriver.manage().window().setPosition(new Point(0, 0));
+					webDriver.manage().window().setSize(new Dimension(width, height));
+					return null;
+				});
+			}
 		} else {
 			webDriver.manage().window().setSize(new Dimension(width, height));
 		}

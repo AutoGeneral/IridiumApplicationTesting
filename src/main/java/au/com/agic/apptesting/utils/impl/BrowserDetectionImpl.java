@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.utils.BrowserDetection;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -26,6 +27,8 @@ public class BrowserDetectionImpl implements BrowserDetection {
 	private static final String CHROME_BROWSER_NAME = "chrome";
 	private static final String OPERA_BROWSER_NAME = "opera";
 	private static final String SAFARI_BROWSER_NAME = "safari";
+	private static final String IPAD_BROWSER_NAME = "iPad";
+	private static final String IPHONE_BROWSER_NAME = "iPhone";
 
 	@Override
 	public boolean isEdge(@NotNull final WebDriver webDriver) {
@@ -102,5 +105,26 @@ public class BrowserDetectionImpl implements BrowserDetection {
 	public boolean isRemote(@NotNull final WebDriver webDriver) {
 		checkNotNull(webDriver);
 		return webDriver.getClass().equals(RemoteWebDriver.class);
+	}
+
+	@Override
+	public boolean isAndroid(WebDriver webDriver) {
+		return ((RemoteWebDriver) webDriver).getCapabilities().getPlatform().is(Platform.ANDROID);
+	}
+
+	@Override
+	public boolean isIPad(WebDriver webDriver) {
+		return webDriver instanceof RemoteWebDriver
+			&& ((RemoteWebDriver) webDriver).getCapabilities()
+			.getBrowserName()
+			.equalsIgnoreCase(IPAD_BROWSER_NAME);
+	}
+
+	@Override
+	public boolean isIPhone(WebDriver webDriver) {
+		return webDriver instanceof RemoteWebDriver
+			&& ((RemoteWebDriver) webDriver).getCapabilities()
+			.getBrowserName()
+			.equalsIgnoreCase(IPHONE_BROWSER_NAME);
 	}
 }

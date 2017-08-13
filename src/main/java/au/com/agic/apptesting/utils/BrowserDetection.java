@@ -53,4 +53,22 @@ public interface BrowserDetection {
 	 * @return true if the webdriver is controlling a remote browser
 	 */
 	boolean isRemote(@NotNull WebDriver webDriver);
+
+	/**
+	 * @param webDriver The current web driver
+	 * @return true if the webdriver is controlling an android browser
+	 */
+	boolean isAndroid(@NotNull WebDriver webDriver);
+
+	/**
+	 * @param webDriver The current web driver
+	 * @return true if the webdriver is controlling an iPad
+	 */
+	boolean isIPad(@NotNull WebDriver webDriver);
+
+	/**
+	 * @param webDriver The current web driver
+	 * @return true if the webdriver is controlling an iPad
+	 */
+	boolean isIPhone(@NotNull WebDriver webDriver);
 }
