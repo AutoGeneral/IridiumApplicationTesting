@@ -9,7 +9,7 @@ env:
 - TEST_SUITE="{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}"
 - TEST_SUITE="{'browsers':['Chrome'],'runNegTests':false,'runSimpleTests':false}"
 - TEST_SUITE="{'browsers':['Marionette'],'runNegTests':false,'runSimpleTests':false}"
-- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false}"
+- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Desktop'}"
 - TEST_SUITE="{'browsers':['Opera'],'runNegTests':false,'runSimpleTests':false}"
 before_install:
 - export CHROME_BIN=/usr/bin/google-chrome
@@ -31,7 +31,7 @@ script: ./gradlew -DtestBrowsers=${TEST_SUITE} check --stacktrace
 deploy:
   - provider: script
     script: >
-      if [[ $TEST_SUITE -eq "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then
+      if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then
         DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PMavenVersion=${TRAVIS_TAG}' uploadArchives
       fi
     skip_cleanup: true
@@ -39,7 +39,7 @@ deploy:
       tags: true
   - provider: script
     script: >
-      if [[ $TEST_SUITE -eq "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then
+      if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then
         cd ..
         git clone git@github.com:mcasperson/mcasperson.github.io.git
         cd mcasperson.github.io
@@ -53,4 +53,4 @@ deploy:
     on:
       tags: true
 after_success:
-  - if [[ $TEST_SUITE -eq "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then bash <(curl -s https://codecov.io/bash); fi
+  - if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then bash <(curl -s https://codecov.io/bash); fi

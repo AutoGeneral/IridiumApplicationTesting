@@ -9,6 +9,7 @@ import au.com.agic.apptesting.utils.DesiredCapabilitiesLoader;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
@@ -56,7 +57,9 @@ public class DesiredCapabilitiesLoaderImpl implements DesiredCapabilitiesLoader 
 		return configuration
 			.map(Configuration::getSettings)
 			.map(Settings::getDesiredCapabilities)
+
 			.map(x -> x.stream()
+				.filter(y -> BooleanUtils.toBooleanDefaultIfNull(BooleanUtils.toBooleanObject(y.getEnabled()), true))
 				.filter(y -> StringUtils.isBlank(groupName) || Lists.newArrayList(Splitter.on(',')
 					.trimResults()
 					.omitEmptyStrings()

@@ -117,6 +117,10 @@ public class LiveTests {
 				if (settings.has("runSimpleTests")) {
 					runSimpleTests = settings.getBoolean("runSimpleTests");
 				}
+
+				if (settings.has("groupName")) {
+					System.setProperty(Constants.GROUP_NAME_SYSTEM_PROPERTY, settings.getString("groupName"));
+				}
 			} catch (final Exception ex) {
 				LOGGER.error("invalid test selection");
 			}
@@ -655,30 +659,30 @@ public class LiveTests {
 	}
 
 	private void setCommonProperties() {
-		System.setProperty(Constants.REPORTS_DIRECTORY, "");
 		System.setProperty("webdriver.chrome.driver", "");
 		System.setProperty("webdriver.opera.driver", "");
 		System.setProperty("webdriver.ie.driver", "");
 		System.setProperty("webdriver.gecko.driver", "");
 		System.setProperty("webdriver.edge.driver", "");
 		System.setProperty("phantomjs.binary.path", "");
-		System.setProperty("appURLOverride", "");
-		System.setProperty("featureGroupName", "");
-		System.setProperty("testRetryCount", "1");
-		System.setProperty("enableScenarioScreenshots", "false");
-		System.setProperty("saveReportsInHomeDir", "false");
-		System.setProperty("phantomJSLoggingLevel", "NONE");
-		System.setProperty("startInternalProxy", "");
-		System.setProperty("tagsOverride", "");
-		System.setProperty("dryRun", "");
-		System.setProperty("importBaseUrl", "");
-		System.setProperty("enableScreenshotOnError", "false");
-		System.setProperty("monochromeOutput", "false");
-		System.setProperty("dataset", "");
-		System.setProperty("configuration", "");
-		System.setProperty("browserStackUsername", "");
-		System.setProperty("browserStackAccessToken", "");
-		System.setProperty("numberOfThreads", "2");
+		System.setProperty(Constants.REPORTS_DIRECTORY, "");
+		System.setProperty(Constants.APP_URL_OVERRIDE_SYSTEM_PROPERTY, "");
+		System.setProperty(Constants.FEATURE_GROUP_SYSTEM_PROPERTY, "");
+		System.setProperty(Constants.TEST_RETRY_COUNT, "1");
+		System.setProperty(Constants.ENABLE_SCREENSHOTS, "false");
+		System.setProperty(Constants.SAVE_REPORTS_IN_HOME_DIR, "false");
+		System.setProperty(Constants.PHANTOMJS_LOGGING_LEVEL_SYSTEM_PROPERTY, "NONE");
+		System.setProperty(Constants.START_INTERNAL_PROXY, "");
+		System.setProperty(Constants.TAGS_OVERRIDE_SYSTEM_PROPERTY, "");
+		System.setProperty(Constants.DRY_RUN, "");
+		System.setProperty(Constants.IMPORT_BASE_URL, "");
+		System.setProperty(Constants.ENABLE_SCREENSHOT_ON_ERROR, "false");
+		System.setProperty(Constants.MONOCHROME_OUTPUT, "false");
+		System.setProperty(Constants.DATA_SETS_PROFILE_SYSTEM_PROPERTY, "");
+		System.setProperty(Constants.CONFIGURATION, "");
+		System.setProperty(Constants.BROWSER_STACK_USERNAME, "");
+		System.setProperty(Constants.BROWSER_STACK_ACCESS_TOKEN, "");
+		System.setProperty(Constants.NUMBER_THREADS_SYSTEM_PROPERTY, "1");
 		System.setProperty(Constants.DOWNLOAD_BROWSERSTACK_VIDEO_ON_COMPLETION, "true");
 	}
 
