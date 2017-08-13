@@ -22,6 +22,21 @@
 			<capability name="browserstack.selenium_version" value="3.4.0"/>
 			<capability name="browserstack.ie.enablePopups" value="true"/>
 		</desiredCapabilities>
+		<desiredCapabilities enabled="false" group="Firefox">
+			<capability name="platform" value="WIN8"/>
+			<capability name="browserName" value="firefox"/>
+			<capability name="browserstack.selenium_version" value="3.4.0"/>
+		</desiredCapabilities>
+		<desiredCapabilities enabled="false" group="Chrome">
+			<capability name="platform" value="WIN8"/>
+			<capability name="browserName" value="chrome"/>
+			<capability name="browserstack.selenium_version" value="3.4.0"/>
+		</desiredCapabilities>
+		<desiredCapabilities enabled="false" group="Opera">
+			<capability name="platform" value="WIN8"/>
+			<capability name="browserName" value="opera"/>
+			<capability name="browserstack.selenium_version" value="3.4.0"/>
+		</desiredCapabilities>
     </settings>
     <urlMappings>
         <featureGroup name="Google">

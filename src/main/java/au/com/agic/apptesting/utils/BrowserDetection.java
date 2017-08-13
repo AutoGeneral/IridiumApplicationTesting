@@ -44,6 +44,12 @@ public interface BrowserDetection {
 
 	/**
 	 * @param webDriver The current web driver
+	 * @return true if the webdriver is controlling the Safari browser
+	 */
+	boolean isSafari(@NotNull final WebDriver webDriver);
+
+	/**
+	 * @param webDriver The current web driver
 	 * @return true if the webdriver is controlling a remote browser
 	 */
 	boolean isRemote(@NotNull WebDriver webDriver);
