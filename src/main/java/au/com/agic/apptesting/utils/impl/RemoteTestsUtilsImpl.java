@@ -10,6 +10,7 @@ import au.com.agic.apptesting.utils.RetryService;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import javaslang.Tuple;
 import javaslang.Tuple2;
+import javaslang.control.Option;
 import javaslang.control.Try;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -17,18 +18,15 @@ import org.apache.http.HttpHost;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
 import org.json.JSONObject;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.retry.support.RetryTemplate;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Steps that are specific to Auto and General web apps
@@ -42,95 +40,92 @@ public class RemoteTestsUtilsImpl implements RemoteTestsUtils {
 		systemPropertyUtils.getProperty(Constants.CONFIGURATION),
 		Configuration.class);
 
+	private boolean shouldDownloadVideoFile() {
+		return Option.of(State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread())
+			.map(browserDetection::isRemote)
+			.filter(isRemote -> isRemote && systemPropertyUtils.getPropertyAsBoolean(
+				Constants.DOWNLOAD_BROWSERSTACK_VIDEO_ON_COMPLETION,
+				false))
+			.isDefined();
+	}
+
+	private Option<Executor> getExecutor() {
+		return getCredentials()
+			.map(creds -> Executor.newInstance()
+				.auth(new HttpHost("www.browserstack.com"), creds._1(), creds._2())
+				.authPreemptive(new HttpHost("www.browserstack.com")));
+	}
+
+	private File shouldDownloadVideoFile(@NotNull final Executor executor,
+										 @NotNull final String sessionID,
+										 @NotNull final String destination) {
+		checkNotNull(executor);
+		checkArgument(StringUtils.isNotBlank(sessionID));
+		checkArgument(StringUtils.isNotBlank(destination));
+
+		return retryService.getRetryTemplate().execute(context ->
+			Try.of(() -> "https://www.browserstack.com/automate/sessions/" + sessionID + ".json")
+				.mapTry(url -> executor.execute(Request.Get(url)
+					.connectTimeout(Constants.HTTP_TIMEOUTS)
+					.socketTimeout(Constants.HTTP_TIMEOUTS))
+					.returnContent().asString())
+				.mapTry(JSONObject::new)
+				.mapTry(jsonObject -> jsonObject.getJSONObject("automation_session"))
+				.mapTry(jsonObject -> jsonObject.getString("video_url"))
+				.mapTry(url -> Request.Get(url)
+					.connectTimeout(Constants.HTTP_TIMEOUTS)
+					.socketTimeout(Constants.HTTP_TIMEOUTS)
+					.execute().returnContent().asStream())
+				.mapTry(stream -> {
+					final File file = new File(destination + File.separator +
+						Constants.BROWSERSTACK_VIDEO_FILE_NAME + ".mp4");
+					FileUtils.copyInputStreamToFile(stream, file);
+					return file;
+				})
+				.andThenTry(file -> LOGGER.info("Saved BrowserStack video file to " + file.getCanonicalPath()))
+				.getOrElseThrow(ex -> new RuntimeException(ex))
+		);
+	}
+
 	@Override
 	public void saveVideoRecording(@NotNull final String sessionID, @NotNull final String destination) {
 		checkArgument(StringUtils.isNotBlank(sessionID));
 		checkArgument(StringUtils.isNotBlank(destination));
 
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final boolean isRemote = browserDetection.isRemote(webDriver);
-		final boolean downloadVideo = systemPropertyUtils.getPropertyAsBoolean(
-			Constants.DOWNLOAD_BROWSERSTACK_VIDEO_ON_COMPLETION,
-			false);
-
-		if (isRemote && downloadVideo) {
-			final Optional<Tuple2<String, String>> credentials = getCredentials();
-			if (credentials.isPresent()) {
-				final RetryTemplate template = retryService.getRetryTemplate();
-				final Executor executor = Executor.newInstance()
-					.auth(new HttpHost("www.browserstack.com"), credentials.get()._1(), credentials.get()._2())
-					.authPreemptive(new HttpHost("www.browserstack.com"));
-
-				Try.of(template.execute(context -> {
-					Try.of(() -> "https://www.browserstack.com/automate/sessions/" + sessionID + ".json")
-						.mapTry(url -> executor.execute(Request.Get(url)
-							.connectTimeout(Constants.HTTP_TIMEOUTS)
-							.socketTimeout(Constants.HTTP_TIMEOUTS))
-							.returnContent().asString())
-						.mapTry(JSONObject::new)
-						.mapTry(jsonObject -> jsonObject.getJSONObject("automation_session"))
-						.mapTry(jsonObject -> jsonObject.getString("video_url"))
-						.mapTry(url -> Request.Get(url)
-							.connectTimeout(Constants.HTTP_TIMEOUTS)
-							.socketTimeout(Constants.HTTP_TIMEOUTS)
-							.execute().returnContent().asStream())
-						.mapTry(stream -> {
-							final File file = new File(destination + File.separator +
-									Constants.BROWSERSTACK_VIDEO_FILE_NAME + ".mp4");
-							FileUtils.copyInputStreamToFile(stream, file);
-							return file;
-						})
-						.andThenTry(file -> LOGGER.info("Saved BrowserStack video file to " + file.getCanonicalPath()))
-						.getOrElseThrow(ex -> new RuntimeException(ex));
-
-					return null;
-				}))
-					.onFailure(ex -> LOGGER.error("WEBAPPTESTER-BUG-0011: Failed to save BrowserStack video file.", ex));
-			}
+		if (shouldDownloadVideoFile()) {
+			getExecutor().toTry()
+				.mapTry(executor -> shouldDownloadVideoFile(executor, sessionID, destination))
+				.onFailure(ex -> LOGGER.error("WEBAPPTESTER-BUG-0011: Failed to save BrowserStack video file.", ex));
 		}
 	}
 
 	@Override
-	public Optional<Tuple2<String, String>> getCredentials() {
-		return Stream.of(loadDetailsFromSysProps(), loadDetailsFromProfile())
-			.filter(Optional::isPresent)
-			.map(Optional::get)
-			.findFirst();
+	public Option<Tuple2<String, String>> getCredentials() {
+		return loadDetailsFromSysProps()
+			.orElse(loadDetailsFromProfile());
 	}
 
 	@Override
-	public Optional<String> getSessionID() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		if (browserDetection.isRemote(webDriver)) {
-			return Optional.of(RemoteWebDriver.class.cast(webDriver))
-				.map(RemoteWebDriver::getSessionId)
-				.map(Object::toString);
-		}
-		return Optional.empty();
+	public Option<String> getSessionID() {
+		return Try.of(() -> State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread())
+			.mapTry(RemoteWebDriver.class::cast)
+			.map(RemoteWebDriver::toString)
+			.toOption();
 	}
 
 
-	private Optional<Tuple2<String, String>> loadDetailsFromProfile() {
-		final Optional<Configuration> profile = profileAccess.getProfile();
-		if (profile.isPresent()) {
-			return Optional.of(Tuple.of(
-				profile.get().getBrowserstack().getUsername(),
-				profile.get().getBrowserstack().getAccessToken()));
-		}
-
-		return Optional.empty();
+	private Option<Tuple2<String, String>> loadDetailsFromProfile() {
+		return Option.ofOptional(profileAccess.getProfile())
+			.map(profile -> Tuple.of(
+				profile.getBrowserstack().getUsername(),
+				profile.getBrowserstack().getAccessToken()))
+			.filter(tuple -> StringUtils.isNotBlank(tuple._1) && StringUtils.isNotBlank(tuple._2));
 	}
 
-	private Optional<Tuple2<String, String>> loadDetailsFromSysProps() {
-		final Optional<String> browserStackUsername =
-			Optional.ofNullable(systemPropertyUtils.getPropertyEmptyAsNull(Constants.BROWSER_STACK_USERNAME));
-		final Optional<String> browserStackAccessToken =
-			Optional.ofNullable(systemPropertyUtils.getPropertyEmptyAsNull(Constants.BROWSER_STACK_ACCESS_TOKEN));
-
-		if (browserStackUsername.isPresent() && browserStackAccessToken.isPresent()) {
-			return Optional.of(Tuple.of(browserStackUsername.get(), browserStackAccessToken.get()));
-		}
-
-		return Optional.empty();
+	private Option<Tuple2<String, String>> loadDetailsFromSysProps() {
+		return Option.of(Tuple.of(
+			systemPropertyUtils.getPropertyEmptyAsNull(Constants.BROWSER_STACK_USERNAME),
+			systemPropertyUtils.getPropertyEmptyAsNull(Constants.BROWSER_STACK_ACCESS_TOKEN)))
+			.filter(tuple -> StringUtils.isNotBlank(tuple._1) && StringUtils.isNotBlank(tuple._2));
 	}
 }

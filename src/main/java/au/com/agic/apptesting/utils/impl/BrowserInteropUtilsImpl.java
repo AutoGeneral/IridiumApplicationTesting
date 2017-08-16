@@ -41,6 +41,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	@Autowired
 	private RetryService retryService;
 
+	@Autowired
+	private SleepUtils sleepUtils;
+
 	private boolean disableInterop() {
 		return systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false);
 	}
@@ -273,6 +276,8 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 	@Override
 	public void waitForAlert(@NotNull WebDriver webDriver, int waitDuration) {
+		checkNotNull(webDriver);
+
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
 		final boolean isOpera = browserDetection.isOpera(webDriver);
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
@@ -294,7 +299,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	}
 
 	@Override
-	public void acceptAlert(@NotNull WebDriver webDriver) {
+	public void acceptAlert(@NotNull final WebDriver webDriver) {
+		checkNotNull(webDriver);
+
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
 		final boolean isOpera = browserDetection.isOpera(webDriver);
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
@@ -321,7 +328,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	}
 
 	@Override
-	public void cancelAlert(@NotNull WebDriver webDriver) {
+	public void cancelAlert(@NotNull final WebDriver webDriver) {
+		checkNotNull(webDriver);
+
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
 		final boolean isOpera = browserDetection.isOpera(webDriver);
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
@@ -344,6 +353,26 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 			final Alert alert = webDriver.switchTo().alert();
 			alert.dismiss();
+		}
+	}
+
+	@Override
+	public void populateElement(@NotNull final WebDriver webDriver,
+								@NotNull final WebElement element,
+								@NotNull final String value) {
+		checkNotNull(webDriver);
+		checkNotNull(element);
+		checkNotNull(value);
+
+		if (browserDetection.isIPhone(webDriver)) {
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected iPhone."
+				+ " Setting the value of an input element without keystroke delays.");
+			element.sendKeys(value);
+		} else {
+			for (final Character character : value.toCharArray()) {
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
+				element.sendKeys(character.toString());
+			}
 		}
 	}
 

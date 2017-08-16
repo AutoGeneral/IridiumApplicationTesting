@@ -1,9 +1,9 @@
 package au.com.agic.apptesting.utils;
 
 import javaslang.Tuple2;
+import javaslang.control.Option;
 
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
 /**
  * A service for working with remote tests servers like BrowserStack
@@ -19,10 +19,10 @@ public interface RemoteTestsUtils {
 	/**
 	 * @return The Browserstack credentials
 	 */
-	Optional<Tuple2<String, String>> getCredentials();
+	Option<Tuple2<String, String>> getCredentials();
 
 	/**
 	 * @return The remote session ID
 	 */
-	Optional<String> getSessionID();
+	Option<String> getSessionID();
 }

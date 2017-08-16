@@ -6,6 +6,7 @@ import au.com.agic.apptesting.exception.RunScriptsException;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.utils.*;
 import au.com.agic.apptesting.utils.impl.*;
+import javaslang.control.Option;
 import javaslang.control.Try;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -430,7 +431,7 @@ public class TestRunner {
 					Get the session ID, because this will be null after the state is
 					shutdown in the next l
 				 */
-				final Optional<String> sessionId = REMOTE_TESTS_UTILS.getSessionID();
+				final Option<String> sessionId = REMOTE_TESTS_UTILS.getSessionID();
 				final String reportDir = State.getFeatureStateForThread().getReportDirectory();
 
 				/*
@@ -438,7 +439,7 @@ public class TestRunner {
 				*/
 				State.THREAD_DESIRED_CAPABILITY_MAP.shutdown(Thread.currentThread().getName());
 
-				if (sessionId.isPresent()) {
+				if (sessionId.isDefined()) {
 					/*
 						If requested, download the BrowserStack video. Wrap this
 						up in a try so as not to prevent the rest of the cleanup.

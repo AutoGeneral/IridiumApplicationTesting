@@ -8,6 +8,7 @@ import au.com.agic.apptesting.profiles.configuration.Configuration;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.utils.*;
 import javaslang.Tuple2;
+import javaslang.control.Option;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -19,7 +20,10 @@ import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -88,8 +92,8 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	 * Load the browserstack details from configuration
 	 */
 	private void loadBrowserStackSettings() {
-		final Optional<Tuple2<String, String>> credentials = REMOTE_TESTS_UTILS.getCredentials();
-		if (credentials.isPresent()) {
+		final Option<Tuple2<String, String>> credentials = REMOTE_TESTS_UTILS.getCredentials();
+		if (credentials.isDefined()) {
 			browserStackUsername = credentials.get()._1();
 			browserStackAccessToken = credentials.get()._2();
 		} else {

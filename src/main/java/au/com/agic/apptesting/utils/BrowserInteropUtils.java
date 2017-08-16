@@ -89,4 +89,15 @@ public interface BrowserInteropUtils {
 	 * @param height The window height
 	 */
 	void setWindowSize(final int width, final int height);
+
+	/**
+	 * Send the keys to the element
+	 *
+	 * @param webDriver The webdriver
+	 * @param element   The element to populate
+	 * @param value     The value to enter into the element
+	 */
+	void populateElement(@NotNull final WebDriver webDriver,
+						 @NotNull final WebElement element,
+						 @NotNull final String value);
 }
