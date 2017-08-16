@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.validation.constraints.NotNull;
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -33,6 +35,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class RemoteTestsUtilsImpl implements RemoteTestsUtils {
 	private static final Logger LOGGER = LoggerFactory.getLogger(RemoteTestsUtilsImpl.class);
+	private static final Pattern SESSION_ID_REGEX = Pattern.compile("[a-f0-9]{40}");
 	private BrowserDetection browserDetection = new BrowserDetectionImpl();
 	private SystemPropertyUtils systemPropertyUtils = new SystemPropertyUtilsImpl();
 	private RetryService retryService = new RetryServiceImpl();
@@ -110,6 +113,9 @@ public class RemoteTestsUtilsImpl implements RemoteTestsUtils {
 		return Try.of(() -> State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread())
 			.mapTry(RemoteWebDriver.class::cast)
 			.map(RemoteWebDriver::toString)
+			.map(SESSION_ID_REGEX::matcher)
+			.filter(Matcher::find)
+			.map(Matcher::group)
 			.toOption();
 	}
 
