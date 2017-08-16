@@ -633,7 +633,7 @@ Feature: Test of the steps provided by Iridium
 		And I verify that the "textClass" text box should have a class of "textClass"
 
 	@test
-	Scenario: Test Populating Inputs
+	Scenario: Test Populating Inputs 1
 		And I populate the element found by "textId" with "Text Box Found By ID"
 		And I clear the element with the ID of "textId"
 		And I populate the "textId" text box with "Text Box Found By ID"
@@ -649,6 +649,9 @@ Feature: Test of the steps provided by Iridium
 		And I populate the "textValue" text box with "Text Box Found By Value" with a keystroke delay of "25" milliseconds
 		And I clear the "textName" text box
 		And I clear the hidden "textId" text box
+
+	@test
+	Scenario: Test Populating Inputs 2
 		And I populate the element found by "textId" with a random number between "1" and "10"
 		And I clear the hidden element found by "textId"
 		And I populate the hidden element found by "textId" with "Hidden Text Box Found By ID"
@@ -672,6 +675,9 @@ Feature: Test of the steps provided by Iridium
 		And I clear the element with the ID of "textId"
 		And I populate the element with the attribute of "name" equal to "textName" with "Text Box Found By Name"
 		And I clear the element with the ID of "textId"
+
+	@test
+	Scenario: Test Populating Inputs 3
 		And I populate the element with the ID of "formText" with "Text Box Found By ID" and submit
 		Then I verify that the page contains the text "Form submitted"
 		And I populate the element found by "formText" with "Text Box Found By ID" and submit
