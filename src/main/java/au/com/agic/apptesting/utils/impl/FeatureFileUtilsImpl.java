@@ -5,7 +5,7 @@ import au.com.agic.apptesting.exception.FileProfileAccessException;
 import au.com.agic.apptesting.exception.RemoteFeatureException;
 import au.com.agic.apptesting.utils.FeatureFileUtils;
 import au.com.agic.apptesting.utils.FeatureReader;
-import javaslang.control.Try;
+import io.vavr.control.Try;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.retry.policy.SimpleRetryPolicy;

@@ -3,7 +3,7 @@ package au.com.agic.apptesting.steps;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import cucumber.api.java.en.Then;
-import javaslang.control.Try;
+import io.vavr.control.Try;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

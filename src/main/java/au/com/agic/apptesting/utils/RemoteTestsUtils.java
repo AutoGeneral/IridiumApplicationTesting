@@ -1,7 +1,8 @@
 package au.com.agic.apptesting.utils;
 
-import javaslang.Tuple2;
-import javaslang.control.Option;
+
+import io.vavr.Tuple2;
+import io.vavr.control.Option;
 
 import javax.validation.constraints.NotNull;
 

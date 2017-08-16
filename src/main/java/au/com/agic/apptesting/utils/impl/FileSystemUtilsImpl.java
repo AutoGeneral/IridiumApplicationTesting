@@ -3,7 +3,7 @@ package au.com.agic.apptesting.utils.impl;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FileSystemUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
-import javaslang.control.Try;
+import io.vavr.control.Try;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.stereotype.Component;

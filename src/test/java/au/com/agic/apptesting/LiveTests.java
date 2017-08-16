@@ -316,6 +316,7 @@ public class LiveTests {
 						continue browserLoop;
 					}
 
+					LOGGER.warn("Sleeping for " + SLEEP + " milliseconds before trying the test again.");
 					Thread.sleep(SLEEP);
 				} catch (final Exception ignored) {
 					/*

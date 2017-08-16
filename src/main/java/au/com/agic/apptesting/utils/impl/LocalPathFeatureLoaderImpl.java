@@ -7,7 +7,7 @@ import au.com.agic.apptesting.utils.FeatureFileImporter;
 import au.com.agic.apptesting.utils.FeatureFileUtils;
 import au.com.agic.apptesting.utils.FeatureLoader;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
-import javaslang.control.Try;
+import io.vavr.control.Try;
 import org.apache.commons.io.FileUtils;
 
 import javax.validation.constraints.NotNull;

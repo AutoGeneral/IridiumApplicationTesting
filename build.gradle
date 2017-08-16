@@ -167,7 +167,7 @@ def operaDriverVersion = '1.5'
 def phantomJsDriverVersion = '1.4.1'        // https://github.com/detro/ghostdriver/issues/397
 def cucumberHtmlFormatterVersion = '0.2.3'
 def monteRepackVersion = '1.0.1'
-def javaSlangVersion = '2.0.5'
+def vavrVersion = '0.9.0'
 def zapAPIVersion = '1.0.0'
 def browsermobVersion = '2.1.4'
 def compressCommonsVersion = '1.12'
@@ -212,7 +212,7 @@ dependencies {
     compile 'com.opera:operadriver:' + operaDriverVersion
     compile 'org.seleniumhq.selenium:selenium-ie-driver:' + seleniumVersion
     compile 'com.pojosontheweb:monte-repack:' + monteRepackVersion
-    compile 'io.javaslang:javaslang:' + javaSlangVersion
+	compile group: 'io.vavr', name: 'vavr', version: vavrVersion
     compile 'org.zaproxy:zap-clientapi:' + zapAPIVersion
     compile files ("lib/zap-2.5.0.jar", "lib/cucumber-core-1.2.5-AG-SNAPSHOT.jar")
     compile 'net.lightbody.bmp:browsermob-core:' + browsermobVersion
