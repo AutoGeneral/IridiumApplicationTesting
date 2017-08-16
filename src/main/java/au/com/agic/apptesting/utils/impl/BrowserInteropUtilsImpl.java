@@ -369,9 +369,19 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 				+ " Setting the value of an input element without keystroke delays.");
 			element.sendKeys(value);
 		} else {
-			for (final Character character : value.toCharArray()) {
-				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
-				element.sendKeys(character.toString());
+			if (State.getFeatureStateForThread().getDefaultKeyStrokeDelay() == 0) {
+				/*
+					If there is no delay, just send the text
+				 */
+				element.sendKeys(value);
+			} else {
+				/*
+					Otherwise delay each keystroke
+				 */
+				for (final Character character : value.toCharArray()) {
+					sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
+					element.sendKeys(character.toString());
+				}
 			}
 		}
 	}
