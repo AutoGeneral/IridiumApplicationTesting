@@ -210,10 +210,7 @@ public class TextEntryStepDefinitions {
 			final String value = autoAliasUtils.getValue(
 				content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
-			for (final Character character : value.toCharArray()) {
-				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
-				element.sendKeys(character.toString());
-			}
+			browserInteropUtils.populateElement(webDriver, element, value);
 
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 			element.submit();
@@ -272,10 +269,7 @@ public class TextEntryStepDefinitions {
 			final String value = autoAliasUtils.getValue(
 				content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
-			for (final Character character : value.toCharArray()) {
-				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
-				element.sendKeys(character.toString());
-			}
+			browserInteropUtils.populateElement(webDriver, element, value);
 
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 			element.submit();
