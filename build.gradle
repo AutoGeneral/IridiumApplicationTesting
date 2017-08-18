@@ -174,7 +174,7 @@ def springRetryVersion='1.2.0.RELEASE'
 
 configurations.all {
 	resolutionStrategy {
-		force 'com.google.guava:' + guavaVersion
+		force 'com.google.guava:guava:' + guavaVersion
 	}
 }
 
