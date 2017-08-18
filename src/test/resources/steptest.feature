@@ -88,7 +88,7 @@ Feature: Test of the steps provided by Iridium
 	This is actually the default, but test the step anyway
 		Given I enable autoaliasing
 		And I enable HAR logging
-		And I set the default keystroke delay to "200" milliseconds
+		And I set the default keystroke delay to "0" milliseconds
 		And I "mousedown" on the hidden element found by "Event Button"
 		And I "mousedown" on the hidden "Event Button" button
 		Then I verify that the page contains the text "MouseDown Text"
