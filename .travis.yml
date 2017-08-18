@@ -6,7 +6,7 @@ jdk:
 addons:
   firefox: "55.0"
 env:
-- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'iPhone'}"
+#- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'iPhone'}"
 - TEST_SUITE="{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}"
 - TEST_SUITE="{'browsers':['Chrome'],'runNegTests':false,'runSimpleTests':false}"
 - TEST_SUITE="{'browsers':['Marionette'],'runNegTests':false,'runSimpleTests':false}"
