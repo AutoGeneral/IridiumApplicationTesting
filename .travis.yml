@@ -7,13 +7,13 @@ addons:
   firefox: "55.0"
 env:
 #- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'iPhone'}"
+#- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'iPad'}"
 - TEST_SUITE="{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}"
 - TEST_SUITE="{'browsers':['Chrome'],'runNegTests':false,'runSimpleTests':false}"
 - TEST_SUITE="{'browsers':['Marionette'],'runNegTests':false,'runSimpleTests':false}"
 - TEST_SUITE="{'browsers':['Opera'],'runNegTests':false,'runSimpleTests':false}"
 - TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Desktop'}"
 - TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Android'}"
-- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'iPad'}"
 before_install:
 - export CHROME_BIN=/usr/bin/google-chrome
 - export DISPLAY=:99.0
