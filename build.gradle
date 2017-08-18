@@ -145,12 +145,6 @@ sourceSets {
 	}
 }
 
-configurations.all {
-    resolutionStrategy {
-
-    }
-}
-
 def mysqlDriverVersion = '5.1.34'
 def guavaVersion = '21.0'
 def seleniumVersion = '3.4.0'
@@ -177,6 +171,12 @@ def cucumberSpringVersion = '1.2.5'
 def springFrameworkVersion = '4.3.7.RELEASE'
 def aspectJVersion='1.8.9'
 def springRetryVersion='1.2.0.RELEASE'
+
+configurations.all {
+	resolutionStrategy {
+		force 'com.google.guava:' + guavaVersion
+	}
+}
 
 dependencies {
     compile 'org.springframework:spring-core:' + springFrameworkVersion
