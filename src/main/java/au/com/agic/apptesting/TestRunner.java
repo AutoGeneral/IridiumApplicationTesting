@@ -6,6 +6,7 @@ import au.com.agic.apptesting.exception.RunScriptsException;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.utils.*;
 import au.com.agic.apptesting.utils.impl.*;
+import io.vavr.control.Try;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.StringUtils;
@@ -48,6 +49,7 @@ public class TestRunner {
 	private static final ProxyManager PROXY_MANAGER = new ProxyManagerImpl();
 	private static final String HTML_EXTENSION = ".html";
 	private static final CleanupUtils CLEANUP_UTILS = new CleanupUtilsImpl();
+	private static final RemoteTestsUtils REMOTE_TESTS_UTILS = new RemoteTestsUtilsImpl();
 
 	private static final TagAnalyser TAG_ANALYSER = new TagAnalyserImpl();
 
@@ -258,7 +260,7 @@ public class TestRunner {
 				Doh! Some scripts failed, so print a warning
 			*/
 			if (failure != 0) {
-				LOGGER.error("Some of the cucumber tests failed. Check the logs for more details");
+				LOGGER.error("Some of the cucumber tests failed. Check the logs for more details.");
 			}
 
 			LOGGER.info("Report files can be found in {}", reportDirectory);
@@ -424,12 +426,27 @@ public class TestRunner {
 				LOGGER.error("Failed to run Cucumber test", ex);
 				EXCEPTION_WRITER.saveException(reportDirectory, ex);
 			} finally {
-				++completed;
+				testFinalActions();
+
 				/*
 					Clean up this web driver so we don't hold windows open
 				*/
 				State.THREAD_DESIRED_CAPABILITY_MAP.shutdown(Thread.currentThread().getName());
+
+				++completed;
 			}
+		}
+
+		private void testFinalActions() {
+			/*
+				Get the session ID, because this will be null after the state is
+				shutdown in the next l
+			 */
+			REMOTE_TESTS_UTILS.getSessionID()
+				.map(sessionId ->
+					Try.of(() -> State.getFeatureStateForThread().getReportDirectory())
+						.andThenTry(reportDir -> REMOTE_TESTS_UTILS.saveVideoRecording(sessionId, reportDir))
+						.onFailure(ex -> LOGGER.error("WEBAPPTESTER-BUG-0011: Failed to save Browserstack video.", ex)));
 		}
 
 		/**

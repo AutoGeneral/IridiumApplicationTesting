@@ -2,6 +2,7 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import cucumber.api.java.en.When;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -28,15 +29,21 @@ public class JavaScriptStepDefinitions {
 	 *
 	 * @param javaScript         The JavaScript to run
 	 */
-	@When("^I run the following JavaScript$")
-	public void runJavaScript(final String javaScript) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
-		final List<String> aliases = State.getFeatureStateForThread().getDataSet().entrySet().stream()
-			.flatMap(it -> Stream.of(it.getKey(), it.getValue()))
-			.collect(Collectors.toList());
+	@When("^I run the following JavaScript( ignoring errors)?$")
+	public void runJavaScript(final String ignoreErrors, final String javaScript) throws Exception {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+			final List<String> aliases = State.getFeatureStateForThread().getDataSet().entrySet().stream()
+				.flatMap(it -> Stream.of(it.getKey(), it.getValue()))
+				.collect(Collectors.toList());
 
-		js.executeScript(javaScript, aliases);
+			js.executeScript(javaScript, aliases);
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
 	}
 
 	/**
@@ -45,21 +52,25 @@ public class JavaScriptStepDefinitions {
 	 * @param javaScript         The JavaScript to run
 	 * @param alias 			The alias that holds the string result of the script
 	 */
-	@When("^I run the following JavaScript and save the result to alias \"(.*?)\"$")
-	public void runJavaScript(final String alias, final String javaScript) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
-		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+	@When("^I run the following JavaScript and save the result to alias \"(.*?)\"( ignoring errors)?$")
+	public void runJavaScript(final String alias, final String ignoreErrors, final String javaScript) throws Exception {
+		try {
+			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
-		final List<String> aliases = State.getFeatureStateForThread().getDataSet().entrySet().stream()
-			.flatMap(it -> Stream.of(it.getKey(), it.getValue()))
-			.collect(Collectors.toList());
+			final List<String> aliases = State.getFeatureStateForThread().getDataSet().entrySet().stream()
+				.flatMap(it -> Stream.of(it.getKey(), it.getValue()))
+				.collect(Collectors.toList());
 
-		final Object result = js.executeScript(javaScript, aliases);
+			final Object result = js.executeScript(javaScript, aliases);
 
-		final Map<String, String> dataSet = State.getFeatureStateForThread().getDataSet();
-		dataSet.put(alias, result != null ? result.toString() : "");
-		State.getFeatureStateForThread().setDataSet(dataSet);
+			final Map<String, String> dataSet = State.getFeatureStateForThread().getDataSet();
+			dataSet.put(alias, result != null ? result.toString() : "");
+			State.getFeatureStateForThread().setDataSet(dataSet);
+		} catch (final Exception ex) {
+			if (StringUtils.isBlank(ignoreErrors)) {
+				throw ex;
+			}
+		}
 	}
-
-
 }

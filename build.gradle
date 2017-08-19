@@ -48,10 +48,10 @@ apply plugin: 'com.matthewcasperson.build.iridium'
 
 mainClassName = "au.com.agic.apptesting.Main"
 
-def alias = hasProperty("KeystoreAlias") ? getProperty("KeystoreAlias") : System.getenv("KeystoreAlias");
-def keystore = hasProperty("KeystoreName") ? getProperty("KeystoreName") : System.getenv("KeystoreName");
-def storepass = hasProperty("KeystoreStorePass") ? getProperty("KeystoreStorePass") : System.getenv("KeystoreStorePass");
-def keypass = hasProperty("KeystorePass") ? getProperty("KeystorePass") : System.getenv("KeystorePass");
+def alias = hasProperty("KeystoreAlias") ? getProperty("KeystoreAlias") : System.getenv("KeystoreAlias")
+def keystore = hasProperty("KeystoreName") ? getProperty("KeystoreName") : System.getenv("KeystoreName")
+def storepass = hasProperty("KeystoreStorePass") ? getProperty("KeystoreStorePass") : System.getenv("KeystoreStorePass")
+def keypass = hasProperty("KeystorePass") ? getProperty("KeystorePass") : System.getenv("KeystorePass")
 
 jacocoTestReport {
 	reports {
@@ -67,19 +67,19 @@ jacocoTestReport {
 
 check.dependsOn jacocoTestReport
 
-task signJar(dependsOn: shadowJar) << {
-	ant.delete(dir:'build/signed')
-	ant.mkdir(dir:'build/signed')
-	ant.signjar(
-		jar: jar.archivePath,
-		destDir: 'build/signed',
-		alias: alias,
-		keystore: keystore,
-		storepass: storepass,
-		keypass: keypass);
+task signJar(dependsOn: shadowJar) {
+	doLast {
+		ant.delete(dir: 'build/signed')
+		ant.mkdir(dir: 'build/signed')
+		ant.signjar(
+			jar: jar.archivePath,
+			destDir: 'build/signed',
+			alias: alias,
+			keystore: keystore,
+			storepass: storepass,
+			keypass: keypass)
+	}
 }
-
-assemble.dependsOn signJar
 
 jar {
     manifest {
@@ -145,14 +145,8 @@ sourceSets {
 	}
 }
 
-configurations.all {
-    resolutionStrategy {
-
-    }
-}
-
 def mysqlDriverVersion = '5.1.34'
-def guavaVersion = '21.0'
+def guavaVersion = '23.0'
 def seleniumVersion = '3.4.0'
 def htmlUnitDriverVersion = '2.26'
 def validationVersion = '1.1.0.Final'
@@ -167,9 +161,9 @@ def operaDriverVersion = '1.5'
 def phantomJsDriverVersion = '1.4.1'        // https://github.com/detro/ghostdriver/issues/397
 def cucumberHtmlFormatterVersion = '0.2.3'
 def monteRepackVersion = '1.0.1'
-def javaSlangVersion = '2.0.5'
+def vavrVersion = '0.9.0'
 def zapAPIVersion = '1.0.0'
-def browsermobVersion = '2.1.4'
+def browsermobVersion = '2.1.5-SNAPSHOT'
 def compressCommonsVersion = '1.12'
 def xmlApisVersion =  '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2'
@@ -177,6 +171,12 @@ def cucumberSpringVersion = '1.2.5'
 def springFrameworkVersion = '4.3.7.RELEASE'
 def aspectJVersion='1.8.9'
 def springRetryVersion='1.2.0.RELEASE'
+
+configurations.all {
+	resolutionStrategy {
+		//force 'com.google.guava:guava:' + guavaVersion
+	}
+}
 
 dependencies {
     compile 'org.springframework:spring-core:' + springFrameworkVersion
@@ -212,15 +212,18 @@ dependencies {
     compile 'com.opera:operadriver:' + operaDriverVersion
     compile 'org.seleniumhq.selenium:selenium-ie-driver:' + seleniumVersion
     compile 'com.pojosontheweb:monte-repack:' + monteRepackVersion
-    compile 'io.javaslang:javaslang:' + javaSlangVersion
+	compile group: 'io.vavr', name: 'vavr', version: vavrVersion
     compile 'org.zaproxy:zap-clientapi:' + zapAPIVersion
     compile files ("lib/zap-2.5.0.jar", "lib/cucumber-core-1.2.5-AG-SNAPSHOT.jar")
-    compile 'net.lightbody.bmp:browsermob-core:' + browsermobVersion
-    compile group: 'org.apache.commons', name: 'commons-compress', version: compressCommonsVersion
+    //compile 'net.lightbody.bmp:browsermob-core:' + browsermobVersion
+    compile 'com.matthewcasperson:browsermob-core:' + browsermobVersion // use a snapshot build to work around guava incompatibilities until 2.1.5 is officially released
+	compile files('lib/something_local.jar')
+	compile group: 'org.apache.commons', name: 'commons-compress', version: compressCommonsVersion
 	compile group: 'xml-apis', name: 'xml-apis', version: xmlApisVersion
     compile group: 'uk.org.lidalia', name: 'sysout-over-slf4j', version: sysoutOverSLF4JVersion
 	compile group: 'org.springframework.retry', name: 'spring-retry', version: springRetryVersion
-
+	compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.3'
+	compile group: 'org.json', name: 'json', version: '20170516'
 
 	/*
         The following are dependencies required by ZAP

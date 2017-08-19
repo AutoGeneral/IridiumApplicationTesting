@@ -1,20 +1,20 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
-
+import cucumber.api.java.en.When;
+import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.HttpResponse;
+import io.vavr.control.Try;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.core.har.Har;
 import net.lightbody.bmp.filters.RequestFilter;
 import net.lightbody.bmp.proxy.CaptureType;
 import net.lightbody.bmp.util.HttpMessageContents;
 import net.lightbody.bmp.util.HttpMessageInfo;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
@@ -26,14 +26,8 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.util.EnumSet;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import cucumber.api.java.en.When;
-import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.HttpResponse;
-import javaslang.control.Try;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * This class contains Gherkin step definitions relating to the use of the embedded

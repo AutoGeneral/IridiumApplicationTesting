@@ -6,6 +6,9 @@ import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +31,20 @@ public class LiveTests {
 	private static final String TEST_BROWSERS_SYSTEM_PROPERTY = "testBrowsers";
 	private static final Logger LOGGER = LoggerFactory.getLogger(LiveTests.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
-	private static final int RETRY_COUNT = 3;
+	private static final int RETRY_COUNT = 2;
 	private static final int SLEEP = 60000;
 	private final List<File> globalTempFiles = new ArrayList<File>();
 	private final List<String> browsers = new ArrayList<String>();
+	private boolean runNegTests = true;
+	private boolean runSimpleTests = true;
+
+	public boolean runNegTests() {
+		return runNegTests;
+	}
+
+	public boolean runSimpleTests() {
+		return runSimpleTests;
+	}
 
 	private File[] getFailureScreenshots() {
 		return new File(".").listFiles(new FilenameFilter() {
@@ -80,14 +93,37 @@ public class LiveTests {
 	 * via a system property.
 	 */
 	@Before
-	public void getBrowserList() {
+	public void getBrowserList() throws JSONException {
 		final String browsersSysProp = SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(TEST_BROWSERS_SYSTEM_PROPERTY);
 		if (StringUtils.isBlank(browsersSysProp)) {
-			browsers.add("PhantomJS");
+			browsers.add("ChromeSecure");
 			browsers.add("Marionette");
 			browsers.add("PhantomJS");
 		} else {
-			browsers.addAll(Arrays.asList(browsersSysProp.split(",")));
+			try {
+				final JSONObject settings = new JSONObject(browsersSysProp);
+
+				if (settings.has("browsers")) {
+					final JSONArray browserArray = settings.getJSONArray("browsers");
+					for (int i = 0; i < browserArray.length(); ++i) {
+						browsers.add(browserArray.getString(i));
+					}
+				}
+
+				if (settings.has("runNegTests")) {
+					runNegTests = settings.getBoolean("runNegTests");
+				}
+
+				if (settings.has("runSimpleTests")) {
+					runSimpleTests = settings.getBoolean("runSimpleTests");
+				}
+
+				if (settings.has("groupName")) {
+					System.setProperty(Constants.GROUP_NAME_SYSTEM_PROPERTY, settings.getString("groupName"));
+				}
+			} catch (final Exception ex) {
+				LOGGER.error("invalid test selection");
+			}
 		}
 	}
 
@@ -98,6 +134,7 @@ public class LiveTests {
 
 	@Test(expected=Exception.class)
 	public void testInvalidURL() {
+		Assume.assumeTrue(runSimpleTests());
 		setCommonProperties();
 		System.setProperty("testSource", "http://example.org/thisdoesnotexist.feature");
 		new TestRunner().run(globalTempFiles);
@@ -108,7 +145,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void testScreenshot() {
-
+		Assume.assumeTrue(runSimpleTests());
 		/*
 			Clean up any existing files
 		 */
@@ -136,7 +173,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void testScreenshotOnFailure() {
-
+		Assume.assumeTrue(runSimpleTests());
 		/*
 			Clean up any existing files
 		 */
@@ -164,6 +201,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void testCustomReportDir() throws IOException {
+		Assume.assumeTrue(runSimpleTests());
 		final Path tempDir = Files.createTempDirectory("test");
 
 		try {
@@ -187,6 +225,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void testFeatureImport() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
 				setCommonProperties();
@@ -216,6 +255,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void testFeatureImport2() {
+		Assume.assumeTrue(runSimpleTests());
 		setCommonProperties();
 		System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
 		System.setProperty("testSource", "parent-fragment.feature");
@@ -244,30 +284,39 @@ public class LiveTests {
 					System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
 					System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
 					System.setProperty("testDestination", browser);
+					System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
+					System.setProperty("browserStackUsername", System.getenv("browserStackUsername"));
+					System.setProperty("browserStackAccessToken", System.getenv("browserStackAccessToken"));
 					System.setProperty("tagsOverride", "@tag1,@tag2,@tag3,@tag5,@test;~@tag4,@test");
 					final int failures = new TestRunner().run(globalTempFiles);
 
-					/*
-						We always expect to find the browsermob<date>.har file, regardless of the
-						success or failure of the test.
-		 			*/
-					LOGGER.info("Testing for har file presence");
-					Assert.assertTrue(getHarFiles().length != 0);
-					Assert.assertTrue(Stream.of(getHarFiles())
-						.anyMatch(file -> file.getName().matches(
-						Constants.HAR_FILE_NAME_PREFIX
-							+ "\\d{17}\\."
-							+ Constants.HAR_FILE_NAME_EXTENSION)));
+					if (!Constants.REMOTE_TESTS.equals(System.getProperty("testDestination"))) {
+						/*
+							We always expect to find the browsermob<date>.har file, regardless of the
+							success or failure of the test.
+						*/
+						LOGGER.info("Testing for har file presence");
+						Assert.assertTrue(getHarFiles().length != 0);
+						Assert.assertTrue(Stream.of(getHarFiles())
+							.anyMatch(file -> file.getName().matches(
+								Constants.HAR_FILE_NAME_PREFIX
+									+ "\\d{17}\\."
+									+ Constants.HAR_FILE_NAME_EXTENSION)));
+
+						if (failures == 0) {
+							/*
+								We expect to have a manually dumped har file
+							 */
+							Assert.assertTrue(Stream.of(getHarFiles())
+								.anyMatch(file -> file.getName().matches("test\\d{17}\\.har")));
+						}
+					}
 
 					if (failures == 0) {
-						/*
-							We expect to have a manually dumped har file
-						 */
-						Assert.assertTrue(Stream.of(getHarFiles())
-							.anyMatch(file -> file.getName().matches("test\\d{17}\\.har")));
-
 						continue browserLoop;
 					}
+
+					LOGGER.warn("Sleeping for " + SLEEP + " milliseconds before trying the test again.");
 					Thread.sleep(SLEEP);
 				} catch (final Exception ignored) {
 					/*
@@ -285,12 +334,14 @@ public class LiveTests {
 	 */
 	@Test
 	public void failWhenClosingOnlyWindow() {
+		Assume.assumeTrue(runSimpleTests());
 		/*
-			Firefox actually allows you to close the final window, so we don't test
+			Firefox and browserstack actually allows you to close the final window, so we don't test
 			it here.
 		 */
 		final List<String> closeFailBrowsers = browsers.stream()
 				.filter(browser -> !"Marionette".equalsIgnoreCase(browser))
+			.filter(browser -> !"BrowserStack".equalsIgnoreCase(browser))
 				.collect(Collectors.toList());
 
 		for (final String browser : closeFailBrowsers) {
@@ -311,7 +362,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void dryRun() throws InterruptedException {
-
+		Assume.assumeTrue(runSimpleTests());
 		setCommonProperties();
 		System.setProperty("appURLOverride", "https://mcasperson.github.io/iridium/examples/test.html");
 		System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
@@ -326,6 +377,7 @@ public class LiveTests {
 	 */
 	@Test
 	public void restartZap() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			setCommonProperties();
 			System.setProperty("appURLOverride", "https://example.org");
@@ -366,6 +418,7 @@ public class LiveTests {
 	@Test
 	@Ignore("These tests are better run individually in a CI system")
 	public void passiveSecurity20() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
 				setCommonProperties();
@@ -391,6 +444,7 @@ public class LiveTests {
 	@Test
 	@Ignore("These tests are better run individually in a CI system")
 	public void gherkinExamples21() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
 				setCommonProperties();
@@ -415,6 +469,7 @@ public class LiveTests {
 	@Test
 	@Ignore("These tests are better run individually in a CI system")
 	public void deadLinkCheck23() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
 				setCommonProperties();
@@ -439,6 +494,7 @@ public class LiveTests {
 	@Test
 	@Ignore("These tests are better run individually in a CI system")
 	public void acceptanceTest24() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
 				setCommonProperties();
@@ -463,6 +519,7 @@ public class LiveTests {
 	@Test
 	@Ignore("These tests are better run individually in a CI system")
 	public void driverPerScenario25() {
+		Assume.assumeTrue(runSimpleTests());
 		for (int retry = 0; retry < RETRY_COUNT; ++retry) {
 			try {
 				setCommonProperties();
@@ -486,6 +543,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeClickTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativeclicktests.feature";
 		final String tagPrefix = "@neg-click-";
 		runNegativeTest(feature, tagPrefix);
@@ -493,6 +551,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeEventTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativeeventtests.feature";
 		final String tagPrefix = "@neg-event-";
 		runNegativeTest(feature, tagPrefix);
@@ -500,6 +559,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeExtractTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativeextracttests.feature";
 		final String tagPrefix = "@neg-extract-";
 		runNegativeTest(feature, tagPrefix);
@@ -507,6 +567,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeDropDownTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativedropdowntests.feature";
 		final String tagPrefix = "@neg-dropdown-";
 		runNegativeTest(feature, tagPrefix);
@@ -514,6 +575,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeFocusTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativefocustests.feature";
 		final String tagPrefix = "@neg-focus-";
 		runNegativeTest(feature, tagPrefix);
@@ -521,6 +583,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeOpenTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativeopentests.feature";
 		final String tagPrefix = "@neg-open-";
 		runNegativeTest(feature, tagPrefix);
@@ -528,6 +591,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeTabTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativetabtests.feature";
 		final String tagPrefix = "@neg-tab-";
 		runNegativeTest(feature, tagPrefix);
@@ -535,6 +599,7 @@ public class LiveTests {
 
 	@Test
 	public void negativePopulateTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativepopulatetests.feature";
 		final String tagPrefix = "@neg-populate-";
 		runNegativeTest(feature, tagPrefix);
@@ -542,6 +607,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeVerifyTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativevalidationtests.feature";
 		final String tagPrefix = "@neg-verify-";
 		runNegativeTest(feature, tagPrefix);
@@ -549,6 +615,7 @@ public class LiveTests {
 
 	@Test
 	public void negativeWaitTests() {
+		Assume.assumeTrue(runNegTests());
 		final String feature = "/negativewaittests.feature";
 		final String tagPrefix = "@neg-wait-";
 		runNegativeTest(feature, tagPrefix);
@@ -556,18 +623,20 @@ public class LiveTests {
 
 	@Test
 	public void runXmlDatasetTest() {
-			setCommonProperties();
-			System.setProperty("testSource", this.getClass().getResource("/datasettest.feature").toString());
-			System.setProperty("dataset", this.getClass().getResource("/dataset.xml").toString());
-			System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
-			System.setProperty("featureGroupName", "Google");
-			System.setProperty("testDestination", "PhantomJS");
-			final int failures = new TestRunner().run(globalTempFiles);
-			Assert.assertEquals(0, failures);
+		Assume.assumeTrue(runSimpleTests());
+		setCommonProperties();
+		System.setProperty("testSource", this.getClass().getResource("/datasettest.feature").toString());
+		System.setProperty("dataset", this.getClass().getResource("/dataset.xml").toString());
+		System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
+		System.setProperty("featureGroupName", "Google");
+		System.setProperty("testDestination", "PhantomJS");
+		final int failures = new TestRunner().run(globalTempFiles);
+		Assert.assertEquals(0, failures);
 	}
 
 	@Test
 	public void runCsvDatasetTest() {
+		Assume.assumeTrue(runSimpleTests());
 		setCommonProperties();
 		System.setProperty("testSource", this.getClass().getResource("/datasettest.feature").toString());
 		System.setProperty("dataset", this.getClass().getResource("/dataset.csv").toString());
@@ -591,27 +660,31 @@ public class LiveTests {
 	}
 
 	private void setCommonProperties() {
-		System.setProperty(Constants.REPORTS_DIRECTORY, "");
 		System.setProperty("webdriver.chrome.driver", "");
 		System.setProperty("webdriver.opera.driver", "");
 		System.setProperty("webdriver.ie.driver", "");
 		System.setProperty("webdriver.gecko.driver", "");
 		System.setProperty("webdriver.edge.driver", "");
 		System.setProperty("phantomjs.binary.path", "");
-		System.setProperty("appURLOverride", "");
-		System.setProperty("featureGroupName", "");
-		System.setProperty("testRetryCount", "1");
-		System.setProperty("enableScenarioScreenshots", "false");
-		System.setProperty("saveReportsInHomeDir", "false");
-		System.setProperty("phantomJSLoggingLevel", "NONE");
-		System.setProperty("startInternalProxy", "");
-		System.setProperty("tagsOverride", "");
-		System.setProperty("dryRun", "");
-		System.setProperty("importBaseUrl", "");
-		System.setProperty("enableScreenshotOnError", "false");
-		System.setProperty("monochromeOutput", "false");
-		System.setProperty("dataset", "");
-		System.setProperty("configuration", "");
+		System.setProperty(Constants.REPORTS_DIRECTORY, "");
+		System.setProperty(Constants.APP_URL_OVERRIDE_SYSTEM_PROPERTY, "");
+		System.setProperty(Constants.FEATURE_GROUP_SYSTEM_PROPERTY, "");
+		System.setProperty(Constants.TEST_RETRY_COUNT, "1");
+		System.setProperty(Constants.ENABLE_SCREENSHOTS, "false");
+		System.setProperty(Constants.SAVE_REPORTS_IN_HOME_DIR, "false");
+		System.setProperty(Constants.PHANTOMJS_LOGGING_LEVEL_SYSTEM_PROPERTY, "NONE");
+		System.setProperty(Constants.START_INTERNAL_PROXY, "");
+		System.setProperty(Constants.TAGS_OVERRIDE_SYSTEM_PROPERTY, "");
+		System.setProperty(Constants.DRY_RUN, "");
+		System.setProperty(Constants.IMPORT_BASE_URL, "");
+		System.setProperty(Constants.ENABLE_SCREENSHOT_ON_ERROR, "false");
+		System.setProperty(Constants.MONOCHROME_OUTPUT, "false");
+		System.setProperty(Constants.DATA_SETS_PROFILE_SYSTEM_PROPERTY, "");
+		System.setProperty(Constants.CONFIGURATION, "");
+		System.setProperty(Constants.BROWSER_STACK_USERNAME, "");
+		System.setProperty(Constants.BROWSER_STACK_ACCESS_TOKEN, "");
+		System.setProperty(Constants.NUMBER_THREADS_SYSTEM_PROPERTY, "1");
+		System.setProperty(Constants.DOWNLOAD_BROWSERSTACK_VIDEO_ON_COMPLETION, "true");
 	}
 
 	/**

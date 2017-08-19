@@ -4,12 +4,9 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.BrowserInteropUtils;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
-
+import au.com.agic.apptesting.utils.*;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -22,9 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
-
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 /**
  * This class contains Gherkin steps that define wait conditions.
@@ -254,6 +248,42 @@ public class WaitStepDefinitions {
 		final String ignoringTimeout) {
 		try {
 			simpleWebElementInteraction.getClickableElementFoundBy(
+				StringUtils.isNotBlank(alias),
+				selectorValue,
+				State.getFeatureStateForThread(),
+				Long.parseLong(waitDuration));
+		} catch (final WebElementException ex) {
+			/*
+				Rethrow if we have not ignored errors
+			 */
+			if (StringUtils.isBlank(ignoringTimeout)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * Waits the given amount of time for an element to be clickable on the page. <p> This is most
+	 * useful when waiting for an element to be in a state where it can be interacted with.
+	 *
+	 * @param waitDuration    The maximum amount of time to wait for
+	 * @param alias           If this word is found in the step, it means the selectorValue is found from the
+	 *                        data set.
+	 * @param selectorValue   The value used in conjunction with the selector to match the element. If alias
+	 *                        was set, this value is found from the data set. Otherwise it is a literal
+	 *                        value.
+	 * @param ignoringTimeout include this text to continue the script in the event that the element can't be
+	 *                        found
+	 */
+	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)?"
+		+ "( alias)? \"([^\"]*)\"(?: \\w+)*? to not be clickable(,? ignoring timeouts?)?")
+	public void notClickWaitStep(
+		final String waitDuration,
+		final String alias,
+		final String selectorValue,
+		final String ignoringTimeout) {
+		try {
+			simpleWebElementInteraction.getNotClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread(),

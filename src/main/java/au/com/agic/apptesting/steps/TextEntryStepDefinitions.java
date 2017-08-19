@@ -1,22 +1,13 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
-
+import au.com.agic.apptesting.utils.*;
 import au.com.agic.apptesting.utils.impl.MouseMovementUtilsImpl;
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -28,7 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.regex.Pattern;
 
-import cucumber.api.java.en.When;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Contains Gherkin steps for enterting text.
@@ -50,6 +41,8 @@ public class TextEntryStepDefinitions {
 	private SimpleWebElementInteraction simpleWebElementInteraction;
 	@Autowired
 	private MouseMovementUtilsImpl mouseMovementUtils;
+	@Autowired
+	private BrowserInteropUtils browserInteropUtils;
 
 	private static final Pattern BLANK_OR_MASKED_RE = Pattern.compile("^(_|\\s)+$");
 	private static final Pattern SINGLE_QUOTE_RE = Pattern.compile("'");
@@ -217,10 +210,7 @@ public class TextEntryStepDefinitions {
 			final String value = autoAliasUtils.getValue(
 				content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
-			for (final Character character : value.toCharArray()) {
-				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
-				element.sendKeys(character.toString());
-			}
+			browserInteropUtils.populateElement(webDriver, element, value);
 
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 			element.submit();
@@ -279,10 +269,7 @@ public class TextEntryStepDefinitions {
 			final String value = autoAliasUtils.getValue(
 				content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
-			for (final Character character : value.toCharArray()) {
-				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
-				element.sendKeys(character.toString());
-			}
+			browserInteropUtils.populateElement(webDriver, element, value);
 
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
 			element.submit();
@@ -358,10 +345,8 @@ public class TextEntryStepDefinitions {
 
 				checkState(textValue != null, "the aliased text value does not exist");
 
-				for (final Character character : textValue.toCharArray()) {
-					sleepUtils.sleep(fixedDelay);
-					element.sendKeys(character.toString());
-				}
+				browserInteropUtils.populateElement(webDriver, element, textValue);
+
 				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
 		} catch (final WebElementException ex) {
@@ -442,10 +427,8 @@ public class TextEntryStepDefinitions {
 
 				checkState(textValue != null, "the aliased text value does not exist");
 
-				for (final Character character : textValue.toCharArray()) {
-					sleepUtils.sleep(fixedDelay);
-					element.sendKeys(character.toString());
-				}
+				browserInteropUtils.populateElement(webDriver, element, textValue);
+
 				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
 		} catch (final TimeoutException ex) {
@@ -513,10 +496,8 @@ public class TextEntryStepDefinitions {
 				.nextInt(Math.abs(int2 - int1)) + Math.min(int1, int2);
 
 			// Simulate key presses
-			for (final Character character : random.toString().toCharArray()) {
-				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
-				element.sendKeys(character.toString());
-			}
+			browserInteropUtils.populateElement(webDriver, element, random.toString());
+
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -594,10 +575,8 @@ public class TextEntryStepDefinitions {
 				.nextInt(Math.abs(int2 - int1)) + Math.min(int1, int2);
 
 			// Simulate key presses
-			for (final Character character : random.toString().toCharArray()) {
-				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
-				element.sendKeys(character.toString());
-			}
+			browserInteropUtils.populateElement(webDriver, element, random.toString());
+
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -791,10 +770,8 @@ public class TextEntryStepDefinitions {
 				final String textValue = autoAliasUtils.getValue(
 					content, StringUtils.isNotBlank(contentAlias), State.getFeatureStateForThread());
 
-				for (final Character character : textValue.toCharArray()) {
-					sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
-					element.sendKeys(character.toString());
-				}
+				browserInteropUtils.populateElement(webDriver, element, textValue.toString());
+
 				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 			}
 		} catch (final TimeoutException ex) {

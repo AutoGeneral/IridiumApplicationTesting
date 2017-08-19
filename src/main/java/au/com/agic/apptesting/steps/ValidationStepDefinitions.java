@@ -1,30 +1,21 @@
 package au.com.agic.apptesting.steps;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
-
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.exception.HttpResponseException;
 import au.com.agic.apptesting.exception.ValidationException;
 import au.com.agic.apptesting.exception.WebElementException;
-import au.com.agic.apptesting.utils.AutoAliasUtils;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.ProxyDetails;
-import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.utils.SleepUtils;
+import au.com.agic.apptesting.utils.*;
 import au.com.agic.apptesting.utils.impl.BrowsermobProxyUtilsImpl;
-
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import net.lightbody.bmp.util.HttpMessageInfo;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -35,9 +26,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
-
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 /**
  * Contains Gherkin step definitions for checking the current state of the web page.
@@ -335,7 +323,7 @@ public class ValidationStepDefinitions {
 
 	/**
 	 * Checks for the presence of some text on the page.
-	 * @param alias This text appears if the text is astucally an alias key
+	 * @param alias This text appears if the text is actually an alias key
 	 * @param text The text to find on the page, or the alias to the text
 	 */
 	@Then("^(?:I verify(?: that)? )?the page contains the text( alias)? \"(.*?)\"")
@@ -343,17 +331,21 @@ public class ValidationStepDefinitions {
 		final String fixedtext = autoAliasUtils.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		/*
+			getText() can fail here, we we use the innerText attribute instead.
+			https://github.com/AutoGeneral/IridiumApplicationTesting/issues/109
+		 */
 		final String pageText =
-			webDriver.findElement(By.tagName("body")).getText();
+			webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 		if (!pageText.contains(fixedtext)) {
-			throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page");
+			throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page with text " + pageText);
 		}
 	}
 
 	/**
 	 * Checks for the presence of a regex on the page.
-	 * @param alias This text appears if the regex is astucally an alias key
+	 * @param alias This text appears if the regex is actually an alias key
 	 * @param regex The regex to find on the page, or the alias to the regex
 	 */
 	@Then("^(?:I verify(?: that)? )?the page contains the regex( alias)? \"(.*?)\"")
@@ -365,16 +357,16 @@ public class ValidationStepDefinitions {
 		final Pattern pattern = Pattern.compile(fixedRegex);
 
 		final String pageText =
-			webDriver.findElement(By.tagName("body")).getText();
+			webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 		if (!pattern.matcher(pageText).find()) {
-			throw new ValidationException("Could not find the regex \"" + fixedRegex + "\" on the page");
+			throw new ValidationException("Could not find the regex \"" + fixedRegex + "\" on the page with text " + pageText);
 		}
 	}
 
 	/**
 	 * Checks for the absence of some text on the page.
-	 * @param alias This text appears if the text is astucally an alias key
+	 * @param alias This text appears if the text is actually an alias key
 	 * @param text The text to find on the page, or the alias to the text
 	 */
 	@Then("^(?:I verify(?: that)? )?the page does not contain the text( alias)? \"(.*?)\"")
@@ -383,16 +375,16 @@ public class ValidationStepDefinitions {
 
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final String pageText =
-			webDriver.findElement(By.tagName("body")).getText();
+			webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 		if (pageText.contains(fixedtext)) {
-			throw new ValidationException("Found the text \"" + fixedtext + "\" on the page");
+			throw new ValidationException("Found the text \"" + fixedtext + "\" on the page with text " + pageText);
 		}
 	}
 
 	/**
 	 * Checks for the absence of a regex on the page.
-	 * @param alias This text appears if the regex is astucally an alias key
+	 * @param alias This text appears if the regex is actually an alias key
 	 * @param regex The regex to find on the page, or the alias to the regex
 	 */
 	@Then("^(?:I verify(?: that)? )?the page does not contain the regex( alias)? \"(.*?)\"")
@@ -404,10 +396,10 @@ public class ValidationStepDefinitions {
 		final Pattern pattern = Pattern.compile(fixedRegex);
 
 		final String pageText =
-			webDriver.findElement(By.tagName("body")).getText();
+			webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 		if (pattern.matcher(pageText).find()) {
-			throw new ValidationException("Found the regex \"" + fixedRegex + "\" on the page");
+			throw new ValidationException("Found the regex \"" + fixedRegex + "\" on the page with text " + pageText);
 		}
 	}
 

@@ -3,7 +3,7 @@ package au.com.agic.apptesting.utils.impl;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.FeatureFileImporter;
 import au.com.agic.apptesting.utils.StringBuilderUtils;
-import javaslang.control.Try;
+import io.vavr.control.Try;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

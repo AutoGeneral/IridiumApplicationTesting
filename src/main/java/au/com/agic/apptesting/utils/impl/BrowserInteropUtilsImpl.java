@@ -2,10 +2,7 @@ package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
-import au.com.agic.apptesting.utils.BrowserDetection;
-import au.com.agic.apptesting.utils.BrowserInteropUtils;
-import au.com.agic.apptesting.utils.GetBy;
-import au.com.agic.apptesting.utils.SystemPropertyUtils;
+import au.com.agic.apptesting.utils.*;
 import cucumber.api.java.Before;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
@@ -15,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
@@ -40,6 +38,12 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	@Autowired
 	private GetBy getBy;
 
+	@Autowired
+	private RetryService retryService;
+
+	@Autowired
+	private SleepUtils sleepUtils;
+
 	private boolean disableInterop() {
 		return systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false);
 	}
@@ -53,7 +57,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		checkNotNull(element);
 		checkNotNull(js);
 
-		if (systemPropertyUtils.getPropertyAsBoolean(Constants.DISABLE_INTEROP, false)) {
+		if (disableInterop()) {
 			return false;
 		}
 
@@ -197,6 +201,61 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		}
 	}
 
+	@Override
+	public void maximizeWindow() {
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final boolean isChrome = browserDetection.isChrome(webDriver);
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
+		final boolean isAndroid = browserDetection.isAndroid(webDriver);
+		final boolean isIPad = browserDetection.isIPad(webDriver);
+		final boolean isIPhone = browserDetection.isIPhone(webDriver);
+
+		if (!disableInterop()) {
+			if (isAndroid || isIPad || isIPhone) {
+				LOGGER.info("WEBAPPTESTER-INFO-0010: Detected an Android, iPhone or iPad browser. "
+					+ "Maximizing the window on these browsers is not supported.");
+			} else if (isChrome || isFirefox) {
+				LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Chrome or Firefox driver."
+					+ " Disabling window maximization, due to the bugs "
+					+ " https://bugs.chromium.org/p/chromedriver/issues/detail?id=1901"
+					+ " and https://github.com/mozilla/geckodriver/issues/820");
+			}
+		} else {
+			webDriver.manage().window().maximize();
+		}
+	}
+
+	@Override
+	public void setWindowSize(int width, int height) {
+		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+
+		final boolean isChrome = browserDetection.isChrome(webDriver);
+		final boolean isAndroid = browserDetection.isAndroid(webDriver);
+		final boolean isIPad = browserDetection.isIPad(webDriver);
+		final boolean isIPhone = browserDetection.isIPhone(webDriver);
+
+		if (!disableInterop()) {
+			if (isAndroid || isIPad || isIPhone) {
+				LOGGER.info("WEBAPPTESTER-INFO-0010: Detected an Android, iPhone or iPad browser. "
+					+ "Setting the window size on these browsers is not supported.");
+			} else if (isChrome) {
+				/*
+					This step will sometimes fail in Chrome, so retry a few times in the event of an error
+					because it doesn't matter if we resize a few times.
+					https://github.com/SeleniumHQ/selenium/issues/1853
+				  */
+				final RetryTemplate template = retryService.getRetryTemplate();
+				template.execute(context -> {
+					webDriver.manage().window().setPosition(new Point(0, 0));
+					webDriver.manage().window().setSize(new Dimension(width, height));
+					return null;
+				});
+			}
+		} else {
+			webDriver.manage().window().setSize(new Dimension(width, height));
+		}
+	}
+
 	/**
 	 * https://github.com/detro/ghostdriver/issues/20
 	 * Replace window.alert and window.confirm for PhantomJS
@@ -205,8 +264,10 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	public void setup() {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+		final boolean isOpera = browserDetection.isOpera(webDriver);
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 
-		if (!disableInterop() && isPhantomJS) {
+		if (!disableInterop() && (isPhantomJS || isOpera || isFirefox)) {
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript("window.confirm = function(){return true;}");
 			js.executeScript("window.alert = function(){}");
@@ -215,13 +276,17 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 	@Override
 	public void waitForAlert(@NotNull WebDriver webDriver, int waitDuration) {
-		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+		checkNotNull(webDriver);
 
-		if (!disableInterop() && isPhantomJS) {
+		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+		final boolean isOpera = browserDetection.isOpera(webDriver);
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
+
+		if (!disableInterop() && (isPhantomJS || isOpera || isFirefox)) {
 			/*
-				This kind of wait is not supported by Phantom JS
+				This kind of wait is not supported by Phantom JS or Opera
 			 */
-			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS driver."
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS, Firefox or Opera driver."
 				+ " Disabling alert wait. This step will always pass, regardless of"
 				+ " whether there is an alert or not.");
 		} else {
@@ -234,15 +299,19 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	}
 
 	@Override
-	public void acceptAlert(@NotNull WebDriver webDriver) {
-		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+	public void acceptAlert(@NotNull final WebDriver webDriver) {
+		checkNotNull(webDriver);
 
-		if (!disableInterop() && isPhantomJS) {
+		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+		final boolean isOpera = browserDetection.isOpera(webDriver);
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
+
+		if (!disableInterop() && (isOpera || isPhantomJS || isFirefox)) {
 			/*
 				Do nothing because we have already redefined the alert
 				method.
 			 */
-			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS driver."
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS, Firefox or Opera driver."
 				+ " Disabling alert accept. This step will always pass, regardless of"
 				+ " whether there is an alert or not.");
 		} else {
@@ -259,15 +328,19 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	}
 
 	@Override
-	public void cancelAlert(@NotNull WebDriver webDriver) {
-		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+	public void cancelAlert(@NotNull final WebDriver webDriver) {
+		checkNotNull(webDriver);
 
-		if (!disableInterop() && isPhantomJS) {
+		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
+		final boolean isOpera = browserDetection.isOpera(webDriver);
+		final boolean isFirefox = browserDetection.isFirefox(webDriver);
+
+		if (!disableInterop() && (isOpera || isPhantomJS || isFirefox)) {
 			/*
 				Do nothing because we have already redefined the alert
 				method.
 			 */
-			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS driver."
+			LOGGER.info("WEBAPPTESTER-INFO-0010: Detected PhantomJS, Firefox or Opera driver."
 				+ " Disabling alert dismiss. This step will always pass, regardless of"
 				+ " whether there is an alert or not.");
 		} else {
@@ -280,6 +353,30 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 			final Alert alert = webDriver.switchTo().alert();
 			alert.dismiss();
+		}
+	}
+
+	@Override
+	public void populateElement(@NotNull final WebDriver webDriver,
+								@NotNull final WebElement element,
+								@NotNull final String value) {
+		checkNotNull(webDriver);
+		checkNotNull(element);
+		checkNotNull(value);
+
+		if (State.getFeatureStateForThread().getDefaultKeyStrokeDelay() == 0) {
+			/*
+				If there is no delay, just send the text
+			 */
+			element.sendKeys(value);
+		} else {
+			/*
+				Otherwise delay each keystroke
+			 */
+			for (final Character character : value.toCharArray()) {
+				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultKeyStrokeDelay());
+				element.sendKeys(character.toString());
+			}
 		}
 	}
 

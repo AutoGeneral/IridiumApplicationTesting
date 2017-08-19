@@ -5,7 +5,7 @@ import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverFactory;
-import javaslang.control.Try;
+import io.vavr.control.Try;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Proxy;
@@ -82,6 +82,11 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		 */
 		capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 		capabilities.setCapability("acceptInsecureCerts", true);
+
+		/*
+			Don't block popups
+		 */
+		capabilities.setCapability("disable-popup-blocking", true);
 
 		/*
 			Find the proxy that the browser should point to

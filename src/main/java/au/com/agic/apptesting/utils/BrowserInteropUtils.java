@@ -76,4 +76,28 @@ public interface BrowserInteropUtils {
 	 * @return The link element
 	 */
 	WebElement getLinkByText(@NotNull final WebDriver webDriver, @NotNull final String text);
+
+	/**
+	 * Maximizes the browser window
+	 */
+	void maximizeWindow();
+
+	/**
+	 * Sets the window size
+	 *
+	 * @param width  The window width
+	 * @param height The window height
+	 */
+	void setWindowSize(final int width, final int height);
+
+	/**
+	 * Send the keys to the element
+	 *
+	 * @param webDriver The webdriver
+	 * @param element   The element to populate
+	 * @param value     The value to enter into the element
+	 */
+	void populateElement(@NotNull final WebDriver webDriver,
+						 @NotNull final WebElement element,
+						 @NotNull final String value);
 }

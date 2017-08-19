@@ -1,7 +1,7 @@
 package au.com.agic.apptesting.profiles;
 
 import au.com.agic.apptesting.exception.FileProfileAccessException;
-import javaslang.control.Try;
+import io.vavr.control.Try;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
