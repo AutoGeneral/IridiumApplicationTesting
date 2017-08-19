@@ -33,14 +33,14 @@ before_install:
 script: ./gradlew -DtestBrowsers=${TEST_SUITE} check --stacktrace
 deploy:
   - provider: script
-    script: if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PMavenVersion=${TRAVIS_TAG}' uploadArchives; fi
+    script: if [ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]; then DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PMavenVersion=${TRAVIS_TAG}' uploadArchives; fi
     skip_cleanup: true
     on:
       tags: true
   - provider: script
-    script: if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then cd ..; git clone git@github.com:mcasperson/mcasperson.github.io.git; cd mcasperson.github.io; rm -rf IridiumApplicationTesting/javadoc; cp -r ../IridiumApplicationTesting/build/docs/javadoc IridiumApplicationTesting; git add .; git commit -m "Updated docs"; git push origin master; fi
+    script: if [ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]; then cd ..; git clone git@github.com:mcasperson/mcasperson.github.io.git; cd mcasperson.github.io; rm -rf IridiumApplicationTesting/javadoc; cp -r ../IridiumApplicationTesting/build/docs/javadoc IridiumApplicationTesting; git add .; git commit -m "Updated docs"; git push origin master; fi
     skip_cleanup: true
     on:
       tags: true
 after_success:
-  - if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then bash <(curl -s https://codecov.io/bash); fi
+  - if [ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]; then bash <(curl -s https://codecov.io/bash); fi
