@@ -1,4 +1,22 @@
-# A&G Iridium Application Testing Suite
+# Iridium Application Testing Suite
+
+## Important Announcements
+
+The location of the JAR file that is referenced by the Web Start JNLP files has changed recently. It used to be https://s3-ap-southeast-2.amazonaws.com/ag-iridium/, so your JNLP files used to look like this:
+```
+<?xml version="1.0" encoding="UTF-8"?>  
+<jnlp spec="1.0+" codebase="https://s3-ap-southeast-2.amazonaws.com/ag-iridium/">  
+    ...  
+</jnlp>
+```
+The new file location is https://s3.amazonaws.com/iridium-release, so your JNLP files should look like this:
+```
+<?xml version="1.0" encoding="UTF-8"?>  
+<jnlp spec="1.0+" codebase="https://s3.amazonaws.com/iridium-release">  
+    ...  
+</jnlp>
+```
+Files from https://s3-ap-southeast-2.amazonaws.com/ag-iridium/won't be updated, and the certificate used to sign the JAR file has expired, so you will most likely receive a warning if you do not update the location.
 
 ## Chat
 
