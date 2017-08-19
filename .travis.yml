@@ -33,8 +33,7 @@ before_install:
 script: ./gradlew -DtestBrowsers=${TEST_SUITE} check --stacktrace
 deploy:
   - provider: script
-    script: |
-      if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PMavenVersion=${TRAVIS_TAG}' uploadArchives; fi
+    script: if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PMavenVersion=${TRAVIS_TAG}' uploadArchives; fi
     skip_cleanup: true
     on:
       tags: true
