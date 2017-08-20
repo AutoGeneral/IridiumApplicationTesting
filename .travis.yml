@@ -33,12 +33,12 @@ before_install:
 script: ./gradlew -DtestBrowsers=${TEST_SUITE} check --stacktrace
 deploy:
   - provider: script
-    script: travis_publish.sh
+    script: "./travis_publish.sh"
     skip_cleanup: true
     on:
       tags: true
   - provider: script
-    script: travis_publishdocs.sh
+    script: "./travis_publishdocs.sh"
     skip_cleanup: true
 after_success:
   - if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then bash <(curl -s https://codecov.io/bash); fi
