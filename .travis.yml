@@ -30,6 +30,8 @@ before_install:
 - eval `ssh-agent -s`
 - ssh-add iridium_github_pages
 - rm -f iridium_github_pages
+- chmod +x travis_publish.sh
+- chmod +x travis_publishdocs.sh
 script: ./gradlew -DtestBrowsers=${TEST_SUITE} check --stacktrace
 deploy:
   - provider: script
