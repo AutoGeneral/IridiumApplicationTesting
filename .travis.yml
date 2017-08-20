@@ -31,7 +31,7 @@ before_install:
 - ssh-add iridium_github_pages
 - rm -f iridium_github_pages
 - chmod +x travis_publish.sh
-- chmod +x travis_publishdocs.sh
+- chmod +x travis_updatedocs.sh
 script: ./gradlew -DtestBrowsers=${TEST_SUITE} check --stacktrace
 deploy:
   - provider: script
@@ -40,7 +40,7 @@ deploy:
     on:
       tags: true
   - provider: script
-    script: "./travis_publishdocs.sh"
+    script: "./travis_updatedocs.sh"
     skip_cleanup: true
 after_success:
   - if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then bash <(curl -s https://codecov.io/bash); fi
