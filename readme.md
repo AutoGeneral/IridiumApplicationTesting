@@ -29,6 +29,8 @@ Files from https://s3-ap-southeast-2.amazonaws.com/ag-iridium/won't be updated, 
 
 [![codecov](https://codecov.io/gh/mcasperson/IridiumApplicationTesting/branch/master/graph/badge.svg)](https://codecov.io/gh/mcasperson/IridiumApplicationTesting)
 
+[![Github All Releases](https://img.shields.io/github/downloads/mcasperson/IridiumApplicationTesting/total.svg)](https://github.com/mcasperson/IridiumApplicationTesting)
+
 ## Documentation
 See the [documentation](https://autogeneral.gitbooks.io/iridiumapplicationtesting-gettingstartedguide/content/)
 for more details.
