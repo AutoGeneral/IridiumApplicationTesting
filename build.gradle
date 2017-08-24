@@ -223,7 +223,7 @@ dependencies {
     compile group: 'uk.org.lidalia', name: 'sysout-over-slf4j', version: sysoutOverSLF4JVersion
 	compile group: 'org.springframework.retry', name: 'spring-retry', version: springRetryVersion
 	compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.3'
-	compile group: 'org.json', name: 'json', version: '5.0.5'
+	compile group: 'org.json', name: 'json', version: '20170516'
 
 	/*
         The following are dependencies required by ZAP
