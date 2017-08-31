@@ -30,30 +30,25 @@ before_install:
 - eval `ssh-agent -s`
 - ssh-add iridium_github_pages
 - rm -f iridium_github_pages
+- chmod +x travis_publish.sh
+- chmod +x travis_updatedocs.sh
 script: ./gradlew -DtestBrowsers=${TEST_SUITE} check --stacktrace
 deploy:
-  - provider: script
-    script: |
-      if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then
-        DisableSigning=false ./gradlew '-Psigning.keyId=${KeyID}' '-Psigning.password=${KeyPassword}' '-Psigning.secretKeyRingFile=${KeyFilename}' '-PMavenVersion=${TRAVIS_TAG}' uploadArchives
-      fi
+  - provider: releases
+    api_key:
+      secure: BlmfOcFkBguFOSEO34UkZ/X/aBZjeHiCyuMbfx3IXQjK6IbR77I917CTdP4w855zS1ShM06M3mnDhyc0yL5WDOrJJ+xxPWBHCo+JPbW4dXILBd5NS3oGu4rA51MlvLw/2z9mi5EJ7iivCuVzQBzXrMnYZbKL+LMWDKeuLtrZ9mTVIlPLLyR2yxh3n5zlrVD3xzbdxUxaV2DnAYCc9QkT6aC78qOvg69yPqSV1hXm9EWkJdjid15fM3xfuwCUfYpfOxcSFeBciOLd6zzxDnnOj6avnqbzahuY7kIUUAHaWbj5rt1RrtUq0nPEVpS4PBTF5ANclcGQcAmHgY+eErAYnc4EAzi17QE4cVzM61LDN+/BwGnsU0N71XQiDGTrZ+6zWFLW9SjpBKLl9GRmJglbewUIsSkIbVfVsM5jB6kknDb73NPT1QrHnhwegKTf10qnkWSAhN4x95fkNwecR7j0XI5P6HIbDvJixEIebcbn+G77de/2UGNhJj86nAkVbvBpj7hIB7TM0nqYMz3b0BPB+CIPxEAiGH8XMjH/tPxYzWZtz+aCXO0rno/FirjR+Iz1BUhZKq3qGQkeiEiEhb/7A5ZMUouph4x/FZLMKLgmP/K5MIC3OBy4mUCMrI7LtYunoKG2+7HldjRMbCi8umST9R/4JpYTe2Ixb8Oyv91tJzg=
+    file:
+    - build/libs/IridiumApplicationTesting.jar
     skip_cleanup: true
     on:
       tags: true
   - provider: script
-    script: |
-      if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then
-        cd ..
-        git clone git@github.com:mcasperson/mcasperson.github.io.git
-        cd mcasperson.github.io
-        rm -rf IridiumApplicationTesting/javadoc
-        cp -r ../IridiumApplicationTesting/build/docs/javadoc IridiumApplicationTesting
-        git add .
-        git commit -m "Updated docs"
-        git push origin master
-      fi
+    script: "./travis_publish.sh"
     skip_cleanup: true
     on:
       tags: true
+  - provider: script
+    script: "./travis_updatedocs.sh"
+    skip_cleanup: true
 after_success:
   - if [[ $TEST_SUITE = "{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}" ]]; then bash <(curl -s https://codecov.io/bash); fi
