@@ -78,6 +78,12 @@ public final class Constants {
 	public static final String SCREEN_ZOOM_FACTOR = "screenZoomFactor";
 
 	/**
+	 * A value to add to the vertical position of elements to account for message bars
+	 * like the one in chrome when being run as part of an automated test
+	 */
+	public static final String MOUSE_MOVE_VERTICAL_OFFSET = "mouseMoveVerticalOffset";
+
+	/**
 	 * The system property that can be used to disable the automatic webdriver extraction
 	 */
 	public static final String USE_SUPPLIED_WEBDRIVERS = "useSuppliedWebdrivers";
