@@ -32,7 +32,7 @@ before_install:
 - rm -f iridium_github_pages
 - chmod +x travis_publish.sh
 - chmod +x travis_updatedocs.sh
-script: ./gradlew -DtestBrowsers=${TEST_SUITE} check --stacktrace
+script: ./gradlew -DtestBrowsers=${TEST_SUITE} check javadoc --stacktrace
 deploy:
   - provider: releases
     api_key:
