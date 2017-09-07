@@ -9,7 +9,7 @@
 			<capability name="platform" value="ANDROID"/>
 			<capability name="browserName" value="chrome"/>
 			<capability name="device" value="Samsung Galaxy S7"/>
-			<capability name="realMobile" value="true"/>
+			<capability name="realMobile" value="false"/>
 			<capability name="os_version" value="6.0"/>
 			<capability name="browserstack.selenium_version" value="3.4.0"/>
 		</desiredCapabilities>
