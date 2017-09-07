@@ -321,3 +321,7 @@ run {
         systemProperty p, System.properties[p]
     }
 }
+
+javadoc {
+    options.addStringOption('--allow-script-in-comments')
+}
