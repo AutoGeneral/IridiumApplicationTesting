@@ -145,32 +145,33 @@ sourceSets {
 	}
 }
 
-def mysqlDriverVersion = '5.1.34'
+def mysqlDriverVersion = '5.1.44'
 def guavaVersion = '23.0'
-def seleniumVersion = '3.5.2'
-def htmlUnitDriverVersion = '2.26'
+def seleniumVersion = '3.5.3'
+def htmlUnitDriverVersion = '2.27'
 def validationVersion = '1.1.0.Final'
 def cucumberVersion = '1.2.5'
-def logbackVersion = '1.1.7'
-def slf4jVersion = '1.7.21'
+def logbackVersion = '1.2.3'
+def slf4jVersion = '1.7.25'
 def threadPoolVersion = '20030513.073905'
 def commonsIoVersion = '2.5'
 def commonsLangVersion = '3.4'
 def commonsExecVersion = '1.3'
 def operaDriverVersion = '1.5'
 def phantomJsDriverVersion = '1.4.1'        // https://github.com/detro/ghostdriver/issues/397
-def cucumberHtmlFormatterVersion = '0.2.3'
+def cucumberHtmlFormatterVersion = '0.2.6'
 def monteRepackVersion = '1.0.1'
-def vavrVersion = '0.9.0'
+def vavrVersion = '0.9.1'
 def zapAPIVersion = '1.0.0'
 def browsermobVersion = '2.1.5-SNAPSHOT'
 def compressCommonsVersion = '1.12'
 def xmlApisVersion =  '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2'
 def cucumberSpringVersion = '1.2.5'
-def springFrameworkVersion = '4.3.7.RELEASE'
-def aspectJVersion='1.8.9'
-def springRetryVersion='1.2.0.RELEASE'
+def springFrameworkVersion = '4.3.11.RELEASE'
+def aspectJVersion='1.8.10'
+def springRetryVersion='1.2.1.RELEASE'
+def cgLibVersion='3.2.5'
 
 configurations.all {
 	resolutionStrategy {
@@ -224,6 +225,8 @@ dependencies {
 	compile group: 'org.springframework.retry', name: 'spring-retry', version: springRetryVersion
 	compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.3'
 	compile group: 'org.json', name: 'json', version: '20170516'
+	compile group: 'cglib', name: 'cglib', version: cgLibVersion
+
 
 	/*
         The following are dependencies required by ZAP
