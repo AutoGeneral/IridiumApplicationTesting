@@ -60,7 +60,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 	 * (this was observed in the Gecko Driver). To allow long running systems a chance to catch this resource leak,
 	 * we return with a specific error code.
 	 *
-	 * @param proxies The list of proxies that are used when configuring the web driver
+	 * @param proxies   The list of proxies that are used when configuring the web driver
 	 * @param tempFiles maintains a list of temp files that are deleted once Iridium is closed
 	 * @return The web driver for the given browser
 	 */
@@ -129,7 +129,17 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		if (Constants.OPERA.equalsIgnoreCase(browser)) {
-			return Try.of(() -> new OperaDriver(capabilities))
+			return Try.of(() -> capabilities)
+				/*
+					IE doesn't support this option.
+
+					org.openqa.selenium.SessionNotCreatedException: Unable to match capability set 0: acceptInsecureCerts was 'true', but the IE driver does not allow bypassing insecure (self-signed) SSL certificates
+					Build info: version: 'unknown', revision: 'unknown', time: 'unknown'
+					System info: host: 'DESKTOP-JVNRAAG', ip: '172.19.255.145', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '9'
+					Driver info: driver.version: InternetExplorerDriver
+				 */
+				.andThenTry(caps -> caps.setCapability("acceptInsecureCerts", false))
+				.mapTry(caps -> new OperaDriver(caps))
 				.onFailure(ex -> exitWithError(browser, ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
@@ -234,7 +244,6 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 	}
 
 	/**
-	 *
 	 * @return The binary used to run firefox if it was set via the FIREFOX_BINARY system property,
 	 * or null if the FIREFOX_BINARY system property was not defined
 	 */
