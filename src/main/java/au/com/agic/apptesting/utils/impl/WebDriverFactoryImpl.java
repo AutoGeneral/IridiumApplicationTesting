@@ -8,6 +8,7 @@ import au.com.agic.apptesting.utils.WebDriverFactory;
 import io.vavr.control.Try;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -370,6 +371,12 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			if (StringUtils.isNotBlank(userAgent)) {
 				capabilities.setCapability("phantomjs.page.settings.userAgent", userAgent);
 			}
+
+			/*
+				Fix error
+				Unrecognized platform: linux-unknown-64bit
+			 */
+			capabilities.setPlatform(Platform.ANY);
 
 			return Try.of(() -> new PhantomJSDriver(capabilities))
 				.andThenTry(driver -> {
