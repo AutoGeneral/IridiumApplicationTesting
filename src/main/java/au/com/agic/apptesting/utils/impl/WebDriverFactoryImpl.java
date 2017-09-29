@@ -375,6 +375,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			/*
 				Fix error
 				Unrecognized platform: linux-unknown-64bit
+				https://github.com/SeleniumHQ/selenium/issues/4781
 			 */
 			capabilities.setPlatform(Platform.ANY);
 
