@@ -3,4 +3,4 @@ Chrome (https://sites.google.com/a/chromium.org/chromedriver/downloads) 2.3.2
 Opera (https://github.com/operasoftware/operachromiumdriver/releases) 2.30
 IE (http://selenium-release.storage.googleapis.com/index.html) 3.6
 GeckoDriver (https://github.com/mozilla/geckodriver/releases) 0.19.0
-Edge (https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/) Release 15063
+Edge (https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/) Insiders release as of 30th Sep 2017
