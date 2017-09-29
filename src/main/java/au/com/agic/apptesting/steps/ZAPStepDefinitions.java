@@ -378,7 +378,7 @@ public class ZAPStepDefinitions {
 			checkState(StringUtils.isNotBlank(url), "You have not defined a URL");
 
 			LOGGER.info("Scanning: {}", url);
-			clientApi.ascan.scan(Constants.ZAP_API_KEY, url, "true", "false", null, null, null);
+			clientApi.ascan.scan(Constants.ZAP_API_KEY, url, "true", "false", null, null, (Integer) null);
 
 			final String scanId = Optional.of(clientApi.ascan.scans())
 				.map(e -> CastUtils.as(ApiResponseList.class, e))
