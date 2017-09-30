@@ -7,8 +7,11 @@ codebase="https://s3.amazonaws.com/iridium-release/">
 </information>
 <resources>
 <!-- Application Resources -->
-<j2se version="1.8+"
-href="http://java.sun.com/products/autodl/j2se"/>
+	<j2se version="1.8"
+		  href="http://java.sun.com/products/autodl/j2se"/>
+	<j2se version="1.9+"
+		  href="http://java.sun.com/products/autodl/j2se"
+		  java-vm-args="--add-modules=java.se.ee --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED"/>
     <property name="jnlp.packEnabled" value="false"/>
     <property name="javaws.configuration" value="https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/examples/4.urlmappings/configuration.xml"/>
     <property name="javaws.dataset" value=""/>
