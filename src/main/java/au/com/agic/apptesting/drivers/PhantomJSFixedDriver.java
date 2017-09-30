@@ -48,9 +48,17 @@ public class PhantomJSFixedDriver extends PhantomJSDriver {
 				platform = Platform.fromString(platformString);
 			}
 		} catch (WebDriverException e) {
-			// The server probably responded with a name matching the os.name
-			// system property. Try to recover and parse this.
-			platform = Platform.extractFromSysProperty(platformString);
+			/*
+			 	Phantom JS returned a platform string that is not recognised. Try splitting
+			 	the string to get the first part of the platform, which is the OS name.
+			  */
+			try {
+				platform = Platform.fromString(platformString.split("-")[0]);
+			} catch (IllegalArgumentException e2) {
+				// The server probably responded with a name matching the os.name
+				// system property. Try to recover and parse this.
+				platform = Platform.extractFromSysProperty(platformString);
+			}
 		}
 		returnedCapabilities.setCapability(CapabilityType.PLATFORM, platform);
 		returnedCapabilities.setCapability("platformName", platform);
