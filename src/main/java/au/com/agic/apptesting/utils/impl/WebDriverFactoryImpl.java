@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.constants.Constants;
+import au.com.agic.apptesting.drivers.PhantomJSFixedDriver;
 import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
@@ -8,7 +9,6 @@ import au.com.agic.apptesting.utils.WebDriverFactory;
 import io.vavr.control.Try;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,7 +21,6 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -372,14 +371,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 				capabilities.setCapability("phantomjs.page.settings.userAgent", userAgent);
 			}
 
-			/*
-				Fix error
-				Unrecognized platform: linux-unknown-64bit
-				https://github.com/SeleniumHQ/selenium/issues/4781
-			 */
-			capabilities.setPlatform(Platform.ANY);
-
-			return Try.of(() -> new PhantomJSDriver(capabilities))
+			return Try.of(() -> new PhantomJSFixedDriver(capabilities))
 				.andThenTry(driver -> {
 					/*
 						This is required by PhantomJS
