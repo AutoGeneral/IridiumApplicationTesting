@@ -1,5 +1,11 @@
 # Iridium Application Testing Suite
 
+## BrowserStack
+
+![Browserstack](browserstack.svg)
+
+Thanks to Browserstack for their support of this project.
+
 ## Important Announcements
 
 The location of the JAR file that is referenced by the Web Start JNLP files has changed recently. It used to be https://s3-ap-southeast-2.amazonaws.com/ag-iridium/, so your JNLP files used to look like this:

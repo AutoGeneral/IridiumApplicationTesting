@@ -6,13 +6,15 @@ jdk:
 addons:
   firefox: "55.0"
 env:
-#- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'iPhone'}"
-#- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'iPad'}"
+- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'iPhone'}"
+- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'iPad'}"
 - TEST_SUITE="{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}"
 - TEST_SUITE="{'browsers':['Chrome'],'runNegTests':false,'runSimpleTests':false}"
 - TEST_SUITE="{'browsers':['Marionette'],'runNegTests':false,'runSimpleTests':false}"
 - TEST_SUITE="{'browsers':['Opera'],'runNegTests':false,'runSimpleTests':false}"
-- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Desktop'}"
+- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Edge'}"
+- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Safari'}"
+- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'IE'}"
 - TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Android'}"
 before_install:
 - export CHROME_BIN=/usr/bin/google-chrome
@@ -32,7 +34,7 @@ before_install:
 - rm -f iridium_github_pages
 - chmod +x travis_publish.sh
 - chmod +x travis_updatedocs.sh
-script: ./gradlew -DtestBrowsers=${TEST_SUITE} check --stacktrace
+script: ./gradlew -DtestBrowsers=${TEST_SUITE} check javadoc shadowJar --stacktrace
 deploy:
   - provider: releases
     api_key:

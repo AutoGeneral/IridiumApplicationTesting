@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public interface BrowserInteropUtils {
 
 	/**
-	 * PhantomJS has issues with <a href="javascript:;"></a> and <a href="#"></a> elements. This
+	 * PhantomJS has issues with links to javascript or hashes. This
 	 * check determines if we need to treat the element as hidden, which means that we'll
 	 * use javascript to click them instead of the webdriver.
 	 *

@@ -58,6 +58,10 @@ public class MouseMovementUtilsImpl implements MouseMovementUtils {
 			systemPropertyUtils.getPropertyAsBoolean(
 				Constants.MOVE_CURSOR_TO_ELEMENT, false);
 
+		final int verticalOffset =
+			systemPropertyUtils.getPropertyAsInt(
+				Constants.MOUSE_MOVE_VERTICAL_OFFSET, 0);
+
 		if (moveMouseCursor) {
 
 			final float zoom = systemPropertyUtils.getPropertyAsFloat(
@@ -70,7 +74,7 @@ public class MouseMovementUtilsImpl implements MouseMovementUtils {
 				"return arguments[0].clientWidth;", element);
 			mouseGlide(
 				(int)((viewPoint.x + width / 2) * zoom),
-				(int)((viewPoint.y + height / 2) * zoom),
+				(int)((viewPoint.y + verticalOffset + height / 2) * zoom),
 				Constants.MOUSE_MOVE_TIME,
 				Constants.MOUSE_MOVE_STEPS);
 		}

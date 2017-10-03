@@ -205,7 +205,6 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	public void maximizeWindow() {
 		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
 		final boolean isChrome = browserDetection.isChrome(webDriver);
-		final boolean isFirefox = browserDetection.isFirefox(webDriver);
 		final boolean isAndroid = browserDetection.isAndroid(webDriver);
 		final boolean isIPad = browserDetection.isIPad(webDriver);
 		final boolean isIPhone = browserDetection.isIPhone(webDriver);
@@ -214,11 +213,10 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 			if (isAndroid || isIPad || isIPhone) {
 				LOGGER.info("WEBAPPTESTER-INFO-0010: Detected an Android, iPhone or iPad browser. "
 					+ "Maximizing the window on these browsers is not supported.");
-			} else if (isChrome || isFirefox) {
-				LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Chrome or Firefox driver."
-					+ " Disabling window maximization, due to the bugs "
-					+ " https://bugs.chromium.org/p/chromedriver/issues/detail?id=1901"
-					+ " and https://github.com/mozilla/geckodriver/issues/820");
+			} else if (isChrome) {
+				LOGGER.info("WEBAPPTESTER-INFO-0010: Detected Chrome driver."
+					+ " Disabling window maximization, due to the bug"
+					+ " https://bugs.chromium.org/p/chromedriver/issues/detail?id=1901");
 			}
 		} else {
 			webDriver.manage().window().maximize();

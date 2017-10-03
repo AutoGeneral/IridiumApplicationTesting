@@ -77,6 +77,17 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 	}
 
 	@Override
+	public int getPropertyAsInt(final String name, final int defaultValue) {
+		checkArgument(StringUtils.isNotBlank(name));
+
+		return Optional.ofNullable(SYSTEM_PROPERTY_UTILS.getProperty(name))
+			.map(String::toLowerCase)
+			.map(String::trim)
+			.map(NumberUtils::toInt)
+			.orElse(defaultValue);
+	}
+
+	@Override
 	public String getPropertyEmptyAsNull(final String name) {
 		checkArgument(StringUtils.isNotBlank(name));
 
