@@ -115,11 +115,15 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		if (Constants.MARIONETTE.equalsIgnoreCase(browser)) {
-			return buildFirefox(browser, mainProxy, capabilities, false);
+			return buildFirefox(browser, mainProxy, capabilities, false, false);
 		}
 
 		if (Constants.FIREFOX.equalsIgnoreCase(browser)) {
-			return buildFirefox(browser, mainProxy, capabilities, true);
+			return buildFirefox(browser, mainProxy, capabilities, true, false);
+		}
+
+		if (Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser)) {
+			return buildFirefox(browser, mainProxy, capabilities, true, true);
 		}
 
 		if (Constants.SAFARI.equalsIgnoreCase(browser)) {
@@ -254,14 +258,15 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			return new FirefoxBinary(new File(firefoxBinary));
 		}
 
-		return null;
+		return new FirefoxBinary();
 	}
 
 	private WebDriver buildFirefox(
 		final String browser,
 		final Optional<ProxyDetails<?>> mainProxy,
 		final DesiredCapabilities capabilities,
-		final boolean setProfile) {
+		final boolean setProfile,
+		final boolean headless) {
 
 		final FirefoxOptions options = new FirefoxOptions().addCapabilities(capabilities);
 
@@ -279,9 +284,10 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			Override the firefox binary
 		 */
 		final FirefoxBinary firefoxBinary = getFirefoxBinary();
-		if (firefoxBinary != null) {
-			options.setBinary(firefoxBinary);
+		if (headless) {
+			firefoxBinary.addCommandLineOptions("--headless");
 		}
+		options.setBinary(firefoxBinary);
 
 		final String firefoxProfile = SYSTEM_PROPERTY_UTILS.getProperty(
 			Constants.FIREFOX_PROFILE_SYSTEM_PROPERTY);
