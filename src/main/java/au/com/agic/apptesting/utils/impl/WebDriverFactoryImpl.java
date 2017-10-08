@@ -119,11 +119,11 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		if (Constants.FIREFOX.equalsIgnoreCase(browser)) {
-			return buildFirefox(browser, mainProxy, capabilities, true, false);
+			return buildFirefox(browser, mainProxy, capabilities, false, false);
 		}
 
 		if (Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser)) {
-			return buildFirefox(browser, mainProxy, capabilities, true, true);
+			return buildFirefox(browser, mainProxy, capabilities, false, true);
 		}
 
 		if (Constants.SAFARI.equalsIgnoreCase(browser)) {
