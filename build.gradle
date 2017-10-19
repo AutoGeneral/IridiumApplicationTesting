@@ -228,6 +228,7 @@ dependencies {
 	compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.3'
 	compile group: 'org.json', name: 'json', version: '20170516'
 	compile group: 'cglib', name: 'cglib', version: cgLibVersion
+	compile group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.1.0'
 
 	/*
         The following are dependencies required by ZAP
