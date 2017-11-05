@@ -4,9 +4,6 @@ import org.apache.tools.ant.filters.ReplaceTokens
 buildscript {
 	repositories {
 		maven {
-			url 'http://prod-vm-fv-ag-snx-x1.budgetdirect.com.au:8081/nexus/content/groups/public'
-		}
-		maven {
 			url "https://plugins.gradle.org/m2/"
 		}
 		maven {
