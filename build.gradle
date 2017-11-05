@@ -24,8 +24,8 @@ buildscript {
 }
 
 plugins {
-	id 'com.gradle.build-scan' version '1.8'
-	id 'com.github.ben-manes.versions' version '0.15.0'
+	id 'com.gradle.build-scan' version '1.10.1'
+	id 'com.github.ben-manes.versions' version '0.17.0'
 }
 
 buildScan {
@@ -145,7 +145,7 @@ sourceSets {
 
 def mysqlDriverVersion = '5.1.44'
 def guavaVersion = '23.1-jre'
-def seleniumVersion = '3.6.0'
+def seleniumVersion = '3.7.0'
 def htmlUnitDriverVersion = '2.27'
 def validationVersion = '2.0.0.Final'
 def cucumberVersion = '1.2.5'
