@@ -328,7 +328,7 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 			The driver may not be bundled
 		 */
 		if (driverURL == null) {
-			throw new DriverException("The driver resource does not exist.");
+			throw new DriverException("The driver " + driver + " resource does not exist.");
 		}
 
 		final CompressorInputStream input = new CompressorStreamFactory()

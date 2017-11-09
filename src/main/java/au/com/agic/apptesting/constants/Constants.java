@@ -257,9 +257,15 @@ public final class Constants {
 	public static final String MARIONETTE = "Marionette";
 	/**
 	 * The value assigned to the system property to indicate that the tests should
-	 * be run in Firefox. This is only valid for versions of Firefox up to 47.0.1
+	 * be run in Firefox.
 	 */
 	public static final String FIREFOX = "Firefox";
+	/**
+	 * The value assigned to the system property to indicate that the tests should
+	 * be run in Firefox in headless mode. This is only valid for versions of Firefox
+	 * 56 and above.
+	 */
+	public static final String FIREFOXHEADLESS = "FirefoxHeadless";
 	/**
 	 * The value assigned to the TEST_DESTINATION_SYSTEM_PROPERTY to indicate that the tests should
 	 * be run in Safari.
