@@ -167,7 +167,7 @@ def xmlApisVersion = '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2'
 def cucumberSpringVersion = '1.2.5'
 def springFrameworkVersion = '5.0.2.RELEASE'
-def aspectJVersion = '1.8.11'
+def aspectJVersion = '1.8.13'
 def springRetryVersion = '1.2.1.RELEASE'
 def cgLibVersion = '3.2.5'
 
