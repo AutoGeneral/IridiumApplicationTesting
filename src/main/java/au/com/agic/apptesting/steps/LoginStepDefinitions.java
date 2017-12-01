@@ -20,6 +20,6 @@ public class LoginStepDefinitions {
 	 */
 	@When("I log in with username \"([^\"]*)\" and password \"([^\"]*)\"( if it exists)?$")
 	public void login(final String username, final String password, final String exists) {
-		throw new NotImplementedException("Authentication was removed in Selenium 3.8.0")l
+		throw new NotImplementedException("Authentication was removed in Selenium 3.8.0");
 	}
 }
