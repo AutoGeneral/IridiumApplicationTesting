@@ -4,6 +4,7 @@ import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.*;
 import cucumber.api.java.Before;
+import io.vavr.control.Try;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -34,9 +35,6 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 	@Autowired
 	private SystemPropertyUtils systemPropertyUtils;
-
-	@Autowired
-	private GetBy getBy;
 
 	@Autowired
 	private RetryService retryService;
@@ -79,13 +77,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 			they can be clicked.
 		 */
 		if (isHiddenElement) {
-			try {
-				Thread.sleep(SLEEP_TIME);
-			} catch (InterruptedException ignored) {
-				/*
-					Nothing to do here
-				 */
-			}
+			Try.run(() -> Thread.sleep(SLEEP_TIME));
 		}
 
 		return isHiddenElement;

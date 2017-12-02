@@ -57,7 +57,6 @@ public class DesiredCapabilitiesLoaderImpl implements DesiredCapabilitiesLoader 
 		return configuration
 			.map(Configuration::getSettings)
 			.map(Settings::getDesiredCapabilities)
-
 			.map(x -> x.stream()
 				.filter(y -> BooleanUtils.toBooleanDefaultIfNull(BooleanUtils.toBooleanObject(y.getEnabled()), true))
 				.filter(y -> StringUtils.isBlank(groupName) || Lists.newArrayList(Splitter.on(',')

@@ -37,10 +37,6 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 	private static final RemoteTestsUtils REMOTE_TESTS_UTILS = new RemoteTestsUtilsImpl();
 
-	private final FileProfileAccess<Configuration> profileAccess = new FileProfileAccess<>(
-		SYSTEM_PROPERTY_UTILS.getProperty(Constants.CONFIGURATION),
-		Configuration.class);
-
 	/**
 	 * The mapping between thread ids and the webdrivers that they use for the tests
 	 */

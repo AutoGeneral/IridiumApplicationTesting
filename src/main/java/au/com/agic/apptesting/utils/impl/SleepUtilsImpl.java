@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import au.com.agic.apptesting.utils.SleepUtils;
 
+import io.vavr.control.Try;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,12 +16,6 @@ public class SleepUtilsImpl implements SleepUtils {
 	public void sleep(final long sleep) {
 		checkArgument(sleep >= 0);
 
-		try {
-			Thread.sleep(sleep);
-		} catch (final InterruptedException ignored) {
-			/*
-				We don't actually care about this exception
-			 */
-		}
+		Try.run(() -> Thread.sleep(sleep));
 	}
 }

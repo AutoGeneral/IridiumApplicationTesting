@@ -45,8 +45,6 @@ public class EnableDisableListUtilsImpl implements EnableDisableListUtils {
 			.omitEmptyStrings()
 			.split(fixedList));
 
-
-
 		if (options.contains(fixedOption) || options.contains("+" + fixedOption)) {
 			return true;
 		}
