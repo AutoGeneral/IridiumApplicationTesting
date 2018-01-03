@@ -117,7 +117,6 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 		copyVariableToDefaultLocation(Constants.PHANTOM_JS_BINARY_PATH_SYSTEM_PROPERTY);
 		copyVariableToDefaultLocation(Constants.IE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY);
 
-
 		/*
 			Firefox driver system properties
 		 */

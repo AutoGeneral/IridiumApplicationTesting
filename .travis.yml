@@ -10,9 +10,9 @@ env:
 - TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'iPad'}"
 - TEST_SUITE="{'browsers':['PhantomJS'],'runNegTests':true,'runSimpleTests':true}"
 - TEST_SUITE="{'browsers':['Chrome'],'runNegTests':false,'runSimpleTests':false}"
-- TEST_SUITE="{'browsers':['ChromeHeadless'],'runNegTests':false,'runSimpleTests':false}"
+#- TEST_SUITE="{'browsers':['ChromeHeadless'],'runNegTests':false,'runSimpleTests':false}"
 - TEST_SUITE="{'browsers':['Marionette'],'runNegTests':false,'runSimpleTests':false}"
-- TEST_SUITE="{'browsers':['FirefoxHeadless'],'runNegTests':false,'runSimpleTests':false}"
+#- TEST_SUITE="{'browsers':['FirefoxHeadless'],'runNegTests':false,'runSimpleTests':false}"
 - TEST_SUITE="{'browsers':['Opera'],'runNegTests':false,'runSimpleTests':false}"
 - TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Edge'}"
 - TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Safari'}"
@@ -38,7 +38,7 @@ before_install:
 - rm -f iridium_github_pages
 - chmod +x travis_publish.sh
 - chmod +x travis_updatedocs.sh
-script: ./gradlew -DtestBrowsers=${TEST_SUITE} check javadoc shadowJar --stacktrace
+script: travis_retry ./gradlew -DtestBrowsers=${TEST_SUITE} check javadoc shadowJar --stacktrace
 deploy:
   - provider: releases
     api_key:
