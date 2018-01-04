@@ -73,7 +73,7 @@ public class DropDownStepDefinitions {
 		final String exists) {
 
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final String selection = autoAliasUtils.getValue(
 				itemName, StringUtils.isNotBlank(itemAlias), State.getFeatureStateForThread());
 
@@ -135,7 +135,7 @@ public class DropDownStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
 				State.getFeatureStateForThread().getDefaultWait(),
@@ -185,7 +185,7 @@ public class DropDownStepDefinitions {
 
 			checkState(selection != null, "the aliased item index does not exist");
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -242,7 +242,7 @@ public class DropDownStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
 				State.getFeatureStateForThread().getDefaultWait(),

@@ -75,7 +75,7 @@ public class ClickingStepDefinitions {
 		try {
 			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
@@ -138,7 +138,7 @@ public class ClickingStepDefinitions {
 		try {
 			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
@@ -206,7 +206,7 @@ public class ClickingStepDefinitions {
 		try {
 			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
@@ -262,7 +262,7 @@ public class ClickingStepDefinitions {
 		try {
 			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
@@ -325,7 +325,7 @@ public class ClickingStepDefinitions {
 
 			checkState(text != null, "the aliased link content does not exist");
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			for (int i = 0; i < fixedTimes; ++i) {
 				final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
@@ -384,7 +384,7 @@ public class ClickingStepDefinitions {
 
 			checkState(text != null, "the aliased link content does not exist");
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			for (int i = 0; i < fixedTimes; ++i) {
 				final RetryTemplate template = new RetryTemplate();
@@ -467,7 +467,7 @@ public class ClickingStepDefinitions {
 				final Integer random = SecureRandom.getInstance("SHA1PRNG").nextInt(
 					Math.abs(int2 - int1)) + Math.min(int1, int2);
 
-				final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+				final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 				final WebDriverWait wait = new WebDriverWait(
 					webDriver,
 					State.getFeatureStateForThread().getDefaultWait(),
@@ -532,7 +532,7 @@ public class ClickingStepDefinitions {
 			final String value = autoAliasUtils.getValue(
 				attributeValue, StringUtils.isNotBlank(attributeValueAlias), State.getFeatureStateForThread());
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			for (int i = 0; i < fixedTimes; ++i) {
 				final WebDriverWait wait = new WebDriverWait(
@@ -578,7 +578,7 @@ public class ClickingStepDefinitions {
 		try {
 			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			for (int i = 0; i < fixedTimes; ++i) {
 				browserInteropUtils.acceptAlert(webDriver);
@@ -609,7 +609,7 @@ public class ClickingStepDefinitions {
 		try {
 			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			for (int i = 0; i < fixedTimes; ++i) {
 				browserInteropUtils.cancelAlert(webDriver);
@@ -649,7 +649,7 @@ public class ClickingStepDefinitions {
 		try {
 			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			for (int i = 0; i < fixedTimes; ++i) {
@@ -731,7 +731,7 @@ public class ClickingStepDefinitions {
 
 			checkState(text != null, "the aliased link content does not exist");
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			for (int i = 0; i < fixedTimes; ++i) {
 				final WebDriverWait wait = new WebDriverWait(

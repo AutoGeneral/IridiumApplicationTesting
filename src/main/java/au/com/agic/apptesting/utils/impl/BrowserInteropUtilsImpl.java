@@ -195,7 +195,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 	@Override
 	public void maximizeWindow() {
-		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 		final boolean isChrome = browserDetection.isChrome(webDriver);
 		final boolean isAndroid = browserDetection.isAndroid(webDriver);
 		final boolean isIPad = browserDetection.isIPad(webDriver);
@@ -217,7 +217,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 	@Override
 	public void setWindowSize(final int width, final int height) {
-		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 		final boolean isChrome = browserDetection.isChrome(webDriver);
 		final boolean isAndroid = browserDetection.isAndroid(webDriver);
@@ -252,7 +252,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	 */
 	@Before
 	public void setup() {
-		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
 		final boolean isOpera = browserDetection.isOpera(webDriver);
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);

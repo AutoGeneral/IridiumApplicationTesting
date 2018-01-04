@@ -60,7 +60,7 @@ public class TextEntryStepDefinitions {
 		final String alias,
 		final String selectorValue) {
 
-		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 		final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
@@ -89,7 +89,7 @@ public class TextEntryStepDefinitions {
 	@When("^I clear (?:a|an|the) element with (?:a|an|the) "
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
 	public void clearElement(final String selector, final String alias, final String selectorValue) {
-		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
@@ -120,7 +120,7 @@ public class TextEntryStepDefinitions {
 		final String alias,
 		final String selectorValue) {
 
-		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 		final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
 			StringUtils.isNotBlank(alias),
 			selectorValue,
@@ -149,7 +149,7 @@ public class TextEntryStepDefinitions {
 	@When("^I clear (?:a|an|the) hidden element with (?:a|an|the) "
 		+ "(ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
 	public void clearHiddenElement(final String selector, final String alias, final String selectorValue) {
-		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 		final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 		final WebDriverWait wait = new WebDriverWait(
 			webDriver,
@@ -193,7 +193,7 @@ public class TextEntryStepDefinitions {
 		final String content,
 		final String exists) {
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -247,7 +247,7 @@ public class TextEntryStepDefinitions {
 		final String content,
 		final String exists) {
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
@@ -312,7 +312,7 @@ public class TextEntryStepDefinitions {
 		final String empty,
 		final Integer delay) {
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			final Integer fixedDelay = delay == null
 				? State.getFeatureStateForThread().getDefaultKeyStrokeDelay()
@@ -398,7 +398,7 @@ public class TextEntryStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
 				State.getFeatureStateForThread().getDefaultWait(),
@@ -469,7 +469,7 @@ public class TextEntryStepDefinitions {
 		final String randomEnd,
 		final String exists) {
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -550,7 +550,7 @@ public class TextEntryStepDefinitions {
 				selectorValue,
 				State.getFeatureStateForThread());
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
 				State.getFeatureStateForThread().getDefaultWait(),
@@ -613,7 +613,7 @@ public class TextEntryStepDefinitions {
 		final String content,
 		final String exists) {
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
@@ -673,7 +673,7 @@ public class TextEntryStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
 				State.getFeatureStateForThread().getDefaultWait(),
@@ -742,7 +742,7 @@ public class TextEntryStepDefinitions {
 			final String value = autoAliasUtils.getValue(
 				attributeValue, StringUtils.isNotBlank(attributeValueAlias), State.getFeatureStateForThread());
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,
 				State.getFeatureStateForThread().getDefaultWait(),

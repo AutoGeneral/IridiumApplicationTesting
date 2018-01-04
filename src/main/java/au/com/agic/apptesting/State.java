@@ -14,7 +14,7 @@ import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
  */
 public final class State {
 
-	public static ThreadWebDriverMap threadDesiredCapabilityMap;
+	private static ThreadWebDriverMap threadDesiredCapabilityMap;
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
 	public static void initialise() {
@@ -28,7 +28,11 @@ public final class State {
 	}
 
 	public static FeatureState getFeatureStateForThread() {
-		return threadDesiredCapabilityMap.getDesiredCapabilitiesForThread(
+		return getThreadDesiredCapabilityMap().getDesiredCapabilitiesForThread(
 			Thread.currentThread().getName());
+	}
+
+	public static ThreadWebDriverMap getThreadDesiredCapabilityMap() {
+		return threadDesiredCapabilityMap;
 	}
 }

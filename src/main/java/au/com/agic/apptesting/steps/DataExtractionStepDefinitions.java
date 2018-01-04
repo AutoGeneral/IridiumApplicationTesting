@@ -154,7 +154,7 @@ public class DataExtractionStepDefinitions {
 		final String destinationAlias,
 		final String exists) {
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
@@ -236,7 +236,7 @@ public class DataExtractionStepDefinitions {
 		final String destinationAlias,
 		final String exists) {
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
@@ -285,7 +285,7 @@ public class DataExtractionStepDefinitions {
 				selectorValue,
 				State.getFeatureStateForThread());
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			final String text = js.executeScript(
 				"return arguments[0].textContent.trim();",
@@ -326,7 +326,7 @@ public class DataExtractionStepDefinitions {
 		final String destinationAlias,
 		final String exists) {
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final By by = getBy.getBy(
 				selector,
 				StringUtils.isNotBlank(alias),
@@ -365,7 +365,7 @@ public class DataExtractionStepDefinitions {
 		final String exists) {
 
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			final By by = getBy.getBy(
 				selector,

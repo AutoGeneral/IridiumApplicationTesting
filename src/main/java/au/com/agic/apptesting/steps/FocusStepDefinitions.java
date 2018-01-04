@@ -63,7 +63,7 @@ public class FocusStepDefinitions {
 				selectorValue,
 				State.getFeatureStateForThread());
 
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			mouseMovementUtils.mouseGlide(
 				(JavascriptExecutor) webDriver,
@@ -105,7 +105,7 @@ public class FocusStepDefinitions {
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = webDriver.findElement(by);
 
 			mouseMovementUtils.mouseGlide(

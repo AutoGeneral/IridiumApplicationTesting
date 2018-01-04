@@ -52,7 +52,7 @@ public class OpenStepDefinitions {
 	@When("^I open the page( alias)? \"([^\"]*)\"(,? ignoring timeouts)?$")
 	public void openPage(final String alias, final String url, final String timeout) {
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final String urlValue = autoAliasUtils.getValue(url, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 			webDriver.get(urlValue);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
@@ -77,7 +77,7 @@ public class OpenStepDefinitions {
 	@When("^I open the application(?: \"([^\"]*)\")?(,? ignoring timeouts)?$")
 	public void openApplication(final String urlName, final String timeout) {
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			if (StringUtils.isNotBlank(urlName)) {
 
@@ -124,7 +124,7 @@ public class OpenStepDefinitions {
 	 */
 	@When("^I open all links in new tabs and then close the tabs$")
 	public void openAllLinks() throws InterruptedException {
-		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 		final JavascriptExecutor js = JavascriptExecutor.class.cast(webDriver);
 		final List<WebElement> links = webDriver.findElements(By.tagName("a"));
 		final ExecutorService executor = Executors.newFixedThreadPool(LINK_OPEN_POOL_COUNT);

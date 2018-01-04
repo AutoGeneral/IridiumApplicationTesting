@@ -220,7 +220,7 @@ public class ProxyStepDefinitions {
 							 */
 								final WebDriver webDriver =
 									State
-										.threadDesiredCapabilityMap
+										.getThreadDesiredCapabilityMap()
 										.getWebDriverForThread(threadName, true);
 
 								final Optional<Cookie> awselb =

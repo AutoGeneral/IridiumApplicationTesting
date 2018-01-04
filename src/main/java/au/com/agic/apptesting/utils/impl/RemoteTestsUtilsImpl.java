@@ -44,7 +44,7 @@ public class RemoteTestsUtilsImpl implements RemoteTestsUtils {
 		Configuration.class);
 
 	private boolean shouldDownloadVideoFile() {
-		return Option.of(State.threadDesiredCapabilityMap.getWebDriverForThread())
+		return Option.of(State.getThreadDesiredCapabilityMap().getWebDriverForThread())
 			.map(browserDetection::isRemote)
 			.filter(isRemote -> isRemote && systemPropertyUtils.getPropertyAsBoolean(
 				Constants.DOWNLOAD_BROWSERSTACK_VIDEO_ON_COMPLETION,
@@ -112,7 +112,7 @@ public class RemoteTestsUtilsImpl implements RemoteTestsUtils {
 
 	@Override
 	public Option<String> getSessionID() {
-		return Try.of(() -> State.threadDesiredCapabilityMap.getWebDriverForThread())
+		return Try.of(() -> State.getThreadDesiredCapabilityMap().getWebDriverForThread())
 			.mapTry(RemoteWebDriver.class::cast)
 			.map(RemoteWebDriver::toString)
 			.map(SESSION_ID_REGEX::matcher)

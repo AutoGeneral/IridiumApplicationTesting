@@ -58,7 +58,7 @@ public class ModifyAttributeDefinitions {
 		final String exists) {
 
 		try {
-			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
