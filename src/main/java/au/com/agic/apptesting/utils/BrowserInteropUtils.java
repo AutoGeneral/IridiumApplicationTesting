@@ -18,8 +18,8 @@ public interface BrowserInteropUtils {
 	 * use javascript to click them instead of the webdriver.
 	 *
 	 * @param webDriver The selenium webdriver
-	 * @param element The element to check
-	 * @param js The javascript executor (which may or may not be the same object as webDriver)
+	 * @param element   The element to check
+	 * @param js        The javascript executor (which may or may not be the same object as webDriver)
 	 * @return true if we need to treat this element as hidden, and false otherwise
 	 */
 	boolean treatElementAsHidden(
@@ -29,8 +29,9 @@ public interface BrowserInteropUtils {
 
 	/**
 	 * Deals with inconsistencies between browsers in how they select items from a drop down list
-	 * @param webDriver The selenium webdriver
-	 * @param element The drop down list
+	 *
+	 * @param webDriver     The selenium webdriver
+	 * @param element       The drop down list
 	 * @param selectElement The item that we want to select
 	 */
 	void selectFromDropDownList(
@@ -40,8 +41,9 @@ public interface BrowserInteropUtils {
 
 	/**
 	 * Deals with inconsistencies between browsers in how they focus on items
+	 *
 	 * @param webDriver The selenium webdriver
-	 * @param element The element to focus on
+	 * @param element   The element to focus on
 	 */
 	void focusOnElement(
 		@NotNull WebDriver webDriver,
@@ -70,9 +72,8 @@ public interface BrowserInteropUtils {
 	void cancelAlert(@NotNull WebDriver webDriver);
 
 	/**
-	 *
 	 * @param webDriver The selenium webdriver
-	 * @param text The text content of the link
+	 * @param text      The text content of the link
 	 * @return The link element
 	 */
 	WebElement getLinkByText(@NotNull final WebDriver webDriver, @NotNull final String text);
@@ -97,7 +98,8 @@ public interface BrowserInteropUtils {
 	 * @param element   The element to populate
 	 * @param value     The value to enter into the element
 	 */
-	void populateElement(@NotNull final WebDriver webDriver,
-						 @NotNull final WebElement element,
-						 @NotNull final String value);
+	void populateElement(
+		@NotNull final WebDriver webDriver,
+		@NotNull final WebElement element,
+		@NotNull final String value);
 }

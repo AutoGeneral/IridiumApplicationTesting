@@ -24,7 +24,6 @@ public final class Main {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
-	private static final int MILLIS_PER_SECOND = 1000;
 	private static final int MAX_EXECUTION_TIME_CODE = -2;
 	/**
 	 * Used to name threads that might be reused
@@ -97,7 +96,7 @@ public final class Main {
 					break;
 				}
 
-				Try.run(() -> Thread.sleep(retryDelay * MILLIS_PER_SECOND));
+				Try.run(() -> Thread.sleep(retryDelay * Constants.MILLISECONDS_PER_SECOND));
 			}
 
 			return lastFailures;

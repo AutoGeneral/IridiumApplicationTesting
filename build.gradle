@@ -112,7 +112,7 @@ repositories {
 	mavenLocal()
 }
 
-def slimBuild = hasProperty('slimBuild') && 'true'.equalsIgnoreCase(getProperty('slimBuild').toString());
+def slimBuild = hasProperty('slimBuild') && 'true'.equalsIgnoreCase(getProperty('slimBuild').toString())
 if (slimBuild) {
 	System.out.println("Slim Build Enabled")
 }

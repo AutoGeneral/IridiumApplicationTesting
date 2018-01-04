@@ -129,10 +129,12 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 			http://stackoverflow.com/questions/25569836/equivalent-of-scala-dropwhile
 			Make up for the last of a dropWhile
 		 */
+		//CHECKSTYLE.OFF: VisibilityModifier
 		class MutableBoolean {
 			boolean foundFeature;
 			boolean foundScenarioOrTag;
 		}
+		//CHECKSTYLE.ON: VisibilityModifier
 
 		final MutableBoolean inTail = new MutableBoolean();
 

@@ -241,7 +241,7 @@ public class WaitStepDefinitions {
 	 */
 	@When("^I wait \"(\\d+)\" seconds for (?:a|an|the)(?: element found by)?"
 		+ "( alias)? \"([^\"]*)\"(?: \\w+)*? to be clickable(,? ignoring timeouts?)?")
-	public void clickWaitStep(
+	public void clickWaitStepFoundBy(
 		final String waitDuration,
 		final String alias,
 		final String selectorValue,

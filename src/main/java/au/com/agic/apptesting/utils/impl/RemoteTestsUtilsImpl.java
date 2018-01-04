@@ -43,6 +43,13 @@ public class RemoteTestsUtilsImpl implements RemoteTestsUtils {
 		systemPropertyUtils.getProperty(Constants.CONFIGURATION),
 		Configuration.class);
 
+	private Option<Executor> getExecutor() {
+		return getCredentials()
+			.map(creds -> Executor.newInstance()
+				.auth(new HttpHost("www.browserstack.com"), creds._1(), creds._2())
+				.authPreemptive(new HttpHost("www.browserstack.com")));
+	}
+
 	private boolean shouldDownloadVideoFile() {
 		return Option.of(State.getThreadDesiredCapabilityMap().getWebDriverForThread())
 			.map(browserDetection::isRemote)
@@ -50,13 +57,6 @@ public class RemoteTestsUtilsImpl implements RemoteTestsUtils {
 				Constants.DOWNLOAD_BROWSERSTACK_VIDEO_ON_COMPLETION,
 				false))
 			.isDefined();
-	}
-
-	private Option<Executor> getExecutor() {
-		return getCredentials()
-			.map(creds -> Executor.newInstance()
-				.auth(new HttpHost("www.browserstack.com"), creds._1(), creds._2())
-				.authPreemptive(new HttpHost("www.browserstack.com")));
 	}
 
 	private File shouldDownloadVideoFile(

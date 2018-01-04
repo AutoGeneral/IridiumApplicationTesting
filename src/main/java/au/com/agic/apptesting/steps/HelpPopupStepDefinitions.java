@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
+import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import cucumber.api.java.en.Then;
 import io.vavr.control.Try;
@@ -103,7 +104,7 @@ public class HelpPopupStepDefinitions {
 				Display the message
 			 */
 			frame.setVisible(true);
-			Try.run(() -> Thread.sleep(fixedTime * 1000));
+			Try.run(() -> Thread.sleep(fixedTime * Constants.MILLISECONDS_PER_SECOND));
 
 			/*
 				Close the window

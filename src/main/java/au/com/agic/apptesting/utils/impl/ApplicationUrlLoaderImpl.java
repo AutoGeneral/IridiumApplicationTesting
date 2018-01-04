@@ -178,7 +178,7 @@ public class ApplicationUrlLoaderImpl implements ApplicationUrlLoader {
 	private List<UrlMapping> getUrlMappings(@NotNull final Configuration configuration, final String app) {
 		checkNotNull(configuration);
 
-		 return Optional.ofNullable(configuration)
+		return Optional.ofNullable(configuration)
 			.map(Configuration::getUrlMappings)
 			.map(URLMappings::getFeatureGroups)
 			.map(featureGroups ->

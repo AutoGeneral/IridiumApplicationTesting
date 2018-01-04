@@ -173,7 +173,9 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 				create the equivalent xpath and find it via JavaScript.
 			 */
 			final String xpath = "//a[text()[normalize-space(.)='" + text.replaceAll("'", "''") + "']]";
-			final String clickLink = "return document.evaluate(\"" + xpath.replace("\"", "\\\"") + "\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;";
+			final String clickLink = "return document.evaluate(\""
+				+ xpath.replace("\"", "\\\"")
+				+ "\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;";
 			final WebElement element = (WebElement) ((JavascriptExecutor) webDriver).executeScript(clickLink);
 			if (element == null) {
 				throw new NoSuchElementException("Cannot locate an element using xpath " + xpath);
