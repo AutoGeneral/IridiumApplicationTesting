@@ -18,7 +18,7 @@ buildscript {
 	}
 
 	dependencies {
-		classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+		classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
 		classpath 'com.matthewcasperson:build:0.+'
 	}
 }
@@ -144,10 +144,10 @@ sourceSets {
 }
 
 def mysqlDriverVersion = '5.1.44'
-def guavaVersion = '23.5-jre'
+def guavaVersion = '23.6-jre'
 def seleniumVersion = '3.8.1'
-def htmlUnitDriverVersion = '2.28.2'
-def validationVersion = '2.0.0.Final'
+def htmlUnitDriverVersion = '2.29.0'
+def validationVersion = '2.0.1.Final'
 def cucumberVersion = '1.2.5'
 def logbackVersion = '1.2.3'
 def slf4jVersion = '1.7.25'
