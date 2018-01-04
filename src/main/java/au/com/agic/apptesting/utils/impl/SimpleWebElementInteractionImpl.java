@@ -66,7 +66,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		checkArgument(StringUtils.isNotBlank(value));
 		checkNotNull(featureState);
 
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 		long time = 0;
 
 		while (time < waitTime * Constants.MILLISECONDS_PER_SECOND) {
@@ -111,7 +111,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		checkArgument(StringUtils.isNotBlank(value));
 		checkNotNull(featureState);
 
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 		long time = 0;
 
 		mainloop:
@@ -176,7 +176,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		checkNotNull(featureState);
 		checkArgument(waitTime >= 0);
 
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 		long time = 0;
 
 		do {
@@ -227,7 +227,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		checkArgument(StringUtils.isNotBlank(value));
 		checkNotNull(featureState);
 
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 		long time = 0;
 
 		mainloop:
@@ -291,7 +291,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		checkArgument(StringUtils.isNotBlank(value));
 		checkNotNull(featureState);
 
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 		long time = 0;
 
 		while (time < waitTime * Constants.MILLISECONDS_PER_SECOND) {
@@ -341,7 +341,7 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 		checkArgument(StringUtils.isNotBlank(value));
 		checkNotNull(featureState);
 
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 		long time = 0;
 
 		mainloop:

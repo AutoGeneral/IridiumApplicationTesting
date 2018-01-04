@@ -71,9 +71,11 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 				System.getProperty(x)));
 	}
 
-	private void configureWindows(@NotNull final List<File> tempFiles,
-								  final boolean is64BitOS,
-								  final boolean useSuppliedWebDrivers) {
+	private void configureWindows(
+		@NotNull final List<File> tempFiles,
+		final boolean is64BitOS,
+		final boolean useSuppliedWebDrivers) {
+
 		try {
 			final boolean marionetteWebDriverSet =
 				StringUtils.isNotBlank(
@@ -164,9 +166,10 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 		}
 	}
 
-	private void configureMac(@NotNull final List<File> tempFiles,
-							  final boolean is64BitOS,
-							  final boolean useSuppliedWebDrivers) {
+	private void configureMac(
+		@NotNull final List<File> tempFiles,
+		final boolean is64BitOS,
+		final boolean useSuppliedWebDrivers) {
 		try {
 			final boolean marionetteWebDriverSet =
 				StringUtils.isNotBlank(
@@ -297,9 +300,9 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 	}
 
 	private String extractDriver(
-			@NotNull final String driver,
-			@NotNull final String name,
-			@NotNull final List<File> tempFiles) throws IOException {
+		@NotNull final String driver,
+		@NotNull final String name,
+		@NotNull final List<File> tempFiles) throws IOException {
 		checkNotNull(driver);
 		checkArgument(StringUtils.isNotBlank(name));
 
@@ -316,9 +319,9 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 	}
 
 	private String extractZipDriver(
-			@NotNull final String driver,
-			@NotNull final String name,
-			@NotNull final List<File> tempFiles) throws IOException, CompressorException {
+		@NotNull final String driver,
+		@NotNull final String name,
+		@NotNull final List<File> tempFiles) throws IOException, CompressorException {
 		checkNotNull(driver);
 		checkArgument(StringUtils.isNotBlank(name));
 
@@ -349,9 +352,9 @@ public class WebDriverHandlerImpl implements WebDriverHandler {
 	}
 
 	private String copyDriver(
-			@NotNull final InputStream stream,
-			@NotNull final String name,
-			@NotNull final List<File> tempFiles) throws IOException {
+		@NotNull final InputStream stream,
+		@NotNull final String name,
+		@NotNull final List<File> tempFiles) throws IOException {
 		checkNotNull(stream);
 		checkArgument(StringUtils.isNotBlank(name));
 

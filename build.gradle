@@ -87,8 +87,8 @@ jar {
                 ZAP makes some assumptions about the availability of these settings. We copy them
                 from the ZAP MAINIFEST.MF file.
              */
-			"Create-Date": "2016-06-03",
-			"Implementation-Version": "2.5.0"
+			"Create-Date": "2018-01-04",
+			"Implementation-Version": "2.7.0"
 		)
 	}
 }

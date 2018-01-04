@@ -130,7 +130,6 @@ public class FeatureFileImporterImpl implements FeatureFileImporter {
 			Make up for the last of a dropWhile
 		 */
 		class MutableBoolean {
-
 			boolean foundFeature;
 			boolean foundScenarioOrTag;
 		}

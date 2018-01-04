@@ -12,7 +12,7 @@ import java.util.Optional;
 public class CsvFileAccess {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CsvFileAccess.class);
-	private static final FileContentRetrieval fileContentRetrieval = new FileContentRetrieval();
+	private static final FileContentRetrieval FILE_CONTENT_RETRIEVAL = new FileContentRetrieval();
 	private static final String NULL_STRING = "UNDEFINED";
 	private static final char COMMENT_CHARACTER = '#';
 
@@ -24,7 +24,7 @@ public class CsvFileAccess {
 
 	public Optional<CSVParser> getCsvRecords() {
 		if (StringUtils.isNotBlank(filename)) {
-			Optional<String> fileContentOptional = fileContentRetrieval.retrieveStringFromFile(filename);
+			Optional<String> fileContentOptional = FILE_CONTENT_RETRIEVAL.retrieveStringFromFile(filename);
 
 			if (fileContentOptional.isPresent()) {
 				try {

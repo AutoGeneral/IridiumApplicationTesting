@@ -2,7 +2,7 @@ package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.ScreenshotUtils;
-
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
@@ -12,11 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps used to debug a test script.
@@ -49,7 +46,7 @@ public class DebuggingStepDefinitions {
 	 */
 	@When("^I dump the value of the cookie called \"(.*?)\"$")
 	public void dumpCookieName(final String cookieName) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 		webDriver.manage().getCookies().stream()
 			.filter(e -> StringUtils.equals(cookieName, e.getName()))
 			.forEach(e -> LOGGER.info("Dumping cookie {}", e));
@@ -64,7 +61,7 @@ public class DebuggingStepDefinitions {
 	 */
 	@When("^I delete cookies called \"(.*?)\"(?: with the path \"(.*?)\")?$")
 	public void deleteCookie(final String cookieName, final String path) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 		final List<Cookie> deleteCookies = webDriver.manage().getCookies().stream()
 			.filter(e -> StringUtils.equals(cookieName, e.getName()))
 			.filter(e -> StringUtils.isBlank(path) || StringUtils.equals(path, e.getPath()))
@@ -82,7 +79,7 @@ public class DebuggingStepDefinitions {
 	 */
 	@When("^I delete all cookies$")
 	public void deleteAllCookie() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 		webDriver.manage().deleteAllCookies();
 	}
 
@@ -114,7 +111,7 @@ public class DebuggingStepDefinitions {
 	 */
 	@When("I display a starting marker$")
 	public void displayStartingMarker() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 		final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 		js.executeScript("javascript:window.document.body.innerHTML = "
 			+ "'<div style=\"margin: 50px; font-size: 20px\">Starting</div>'");

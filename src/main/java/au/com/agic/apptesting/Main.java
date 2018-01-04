@@ -24,6 +24,7 @@ public final class Main {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
+	private static final int MILLIS_PER_SECOND = 1000;
 	/**
 	 * Used to name threads that might be reused
 	 */
@@ -95,7 +96,7 @@ public final class Main {
 					break;
 				}
 
-				Try.run(() -> Thread.sleep(retryDelay * 1000));
+				Try.run(() -> Thread.sleep(retryDelay * MILLIS_PER_SECOND));
 			}
 
 			return lastFailures;

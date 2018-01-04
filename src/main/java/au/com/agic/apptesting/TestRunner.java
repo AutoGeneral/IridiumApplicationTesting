@@ -168,7 +168,7 @@ public class TestRunner {
 
 		State.initialise();
 
-		State.THREAD_DESIRED_CAPABILITY_MAP.initialise(
+		State.threadDesiredCapabilityMap.initialise(
 			DESIRED_CAPABILITIES_LOADER.getCapabilities(),
 			APPLICATION_URL_LOADER.getAppUrls(appName),
 			APPLICATION_URL_LOADER.getDatasets(),
@@ -224,8 +224,8 @@ public class TestRunner {
 			/*
 				For each combination of browser and url run a test
 			*/
-			LOGGER.info("Running " + State.THREAD_DESIRED_CAPABILITY_MAP.getNumberCapabilities() + " test combinations");
-			for (int i = 0; i < State.THREAD_DESIRED_CAPABILITY_MAP.getNumberCapabilities(); ++i) {
+			LOGGER.info("Running " + State.threadDesiredCapabilityMap.getNumberCapabilities() + " test combinations");
+			for (int i = 0; i < State.threadDesiredCapabilityMap.getNumberCapabilities(); ++i) {
 				/*
 					For those first few threads that are execute immediately, add a small offset.
 					Obviously this doesn't have any impact as the thread pool is used up,
@@ -246,7 +246,7 @@ public class TestRunner {
 			/*
 				Wait for the thread to finish
 			*/
-			while (completed != State.THREAD_DESIRED_CAPABILITY_MAP.getNumberCapabilities()) {
+			while (completed != State.threadDesiredCapabilityMap.getNumberCapabilities()) {
 				try {
 					Thread.sleep(THREAD_COMPLETE_SLEEP);
 				} catch (final Exception ignored) {
@@ -265,7 +265,7 @@ public class TestRunner {
 
 			LOGGER.info("Report files can be found in {}", reportDirectory);
 		} finally {
-			State.THREAD_DESIRED_CAPABILITY_MAP.shutdown();
+			State.threadDesiredCapabilityMap.shutdown();
 			FileUtils.deleteQuietly(testPath);
 			SCREEN_CAPTURE.stop();
 		}
@@ -335,7 +335,7 @@ public class TestRunner {
 					Get the details for this thread
 				*/
 				final FeatureState featureState =
-					State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
+					State.threadDesiredCapabilityMap.getDesiredCapabilitiesForThread(
 						Thread.currentThread().getName());
 
 				/*
@@ -431,7 +431,7 @@ public class TestRunner {
 				/*
 					Clean up this web driver so we don't hold windows open
 				*/
-				State.THREAD_DESIRED_CAPABILITY_MAP.shutdown(Thread.currentThread().getName());
+				State.threadDesiredCapabilityMap.shutdown(Thread.currentThread().getName());
 
 				++completed;
 			}

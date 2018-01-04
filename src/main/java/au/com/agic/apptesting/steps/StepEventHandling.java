@@ -95,9 +95,9 @@ public class StepEventHandling {
 		 */
 		if (newDriverPerScenario) {
 			if (webDriverFactory.leaveWindowsOpen()) {
-				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(false);
+				State.threadDesiredCapabilityMap.clearWebDriverForThread(false);
 			} else {
-				State.THREAD_DESIRED_CAPABILITY_MAP.clearWebDriverForThread(true);
+				State.threadDesiredCapabilityMap.clearWebDriverForThread(true);
 			}
 		}
 

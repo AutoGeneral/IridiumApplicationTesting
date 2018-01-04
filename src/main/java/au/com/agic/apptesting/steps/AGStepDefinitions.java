@@ -45,7 +45,7 @@ public class AGStepDefinitions {
 	 */
 	@When("I autoselect the post code of( alias)? \"([^\"]*)\"")
 	public void autoselectPostcode(final String alias, final String postcode) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 		final String postcodeValue = autoAliasUtils.getValue(
 			postcode, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
@@ -91,7 +91,7 @@ public class AGStepDefinitions {
 			final String value = autoAliasUtils.getValue(
 				attributeValue, StringUtils.isNotBlank(attributeValueAlias), State.getFeatureStateForThread());
 
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 
 			LocalDate theDate = LocalDate.now();
 			int today = theDate.getDayOfMonth();

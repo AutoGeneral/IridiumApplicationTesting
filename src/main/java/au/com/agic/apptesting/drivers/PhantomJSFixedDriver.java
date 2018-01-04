@@ -21,11 +21,11 @@ import static org.openqa.selenium.remote.CapabilityType.SUPPORTS_JAVASCRIPT;
  * https://github.com/SeleniumHQ/selenium/issues/4781
  */
 public class PhantomJSFixedDriver extends PhantomJSDriver {
-	public PhantomJSFixedDriver(Capabilities desiredCapabilities) {
+	public PhantomJSFixedDriver(final Capabilities desiredCapabilities) {
 		super(desiredCapabilities);
 	}
 
-	protected void startSession(Capabilities desiredCapabilities) {
+	protected void startSession(final Capabilities desiredCapabilities) {
 		Map<String, ?> parameters = ImmutableMap.of("desiredCapabilities", desiredCapabilities);
 
 		Response response = execute(DriverCommand.NEW_SESSION, parameters);
@@ -47,7 +47,7 @@ public class PhantomJSFixedDriver extends PhantomJSDriver {
 			} else {
 				platform = Platform.fromString(platformString);
 			}
-		} catch (WebDriverException e) {
+		} catch (WebDriverException ex) {
 			/*
 			 	Phantom JS returned a platform string that is not recognised. Try splitting
 			 	the string to get the first part of the platform, which is the OS name.
@@ -78,8 +78,8 @@ public class PhantomJSFixedDriver extends PhantomJSDriver {
 			Field field = RemoteWebDriver.class.getDeclaredField("capabilities");
 			field.setAccessible(true);
 			field.set(this, returnedCapabilities);
-		} catch (IllegalAccessException | NoSuchFieldException e) {
-			throw new RuntimeException(e);
+		} catch (IllegalAccessException | NoSuchFieldException ex) {
+			throw new RuntimeException(ex);
 		}
 
 		setSessionId(response.getSessionId());

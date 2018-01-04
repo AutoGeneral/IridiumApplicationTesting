@@ -44,7 +44,7 @@ public class RemoteTestsUtilsImpl implements RemoteTestsUtils {
 		Configuration.class);
 
 	private boolean shouldDownloadVideoFile() {
-		return Option.of(State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread())
+		return Option.of(State.threadDesiredCapabilityMap.getWebDriverForThread())
 			.map(browserDetection::isRemote)
 			.filter(isRemote -> isRemote && systemPropertyUtils.getPropertyAsBoolean(
 				Constants.DOWNLOAD_BROWSERSTACK_VIDEO_ON_COMPLETION,
@@ -59,9 +59,11 @@ public class RemoteTestsUtilsImpl implements RemoteTestsUtils {
 				.authPreemptive(new HttpHost("www.browserstack.com")));
 	}
 
-	private File shouldDownloadVideoFile(@NotNull final Executor executor,
-										 @NotNull final String sessionID,
-										 @NotNull final String destination) {
+	private File shouldDownloadVideoFile(
+		@NotNull final Executor executor,
+		@NotNull final String sessionID,
+		@NotNull final String destination) {
+
 		checkNotNull(executor);
 		checkArgument(StringUtils.isNotBlank(sessionID));
 		checkArgument(StringUtils.isNotBlank(destination));
@@ -80,8 +82,8 @@ public class RemoteTestsUtilsImpl implements RemoteTestsUtils {
 					.socketTimeout(Constants.HTTP_TIMEOUTS)
 					.execute().returnContent().asStream())
 				.mapTry(stream -> {
-					final File file = new File(destination + File.separator +
-						Constants.BROWSERSTACK_VIDEO_FILE_NAME + ".mp4");
+					final File file = new File(destination + File.separator
+						+ Constants.BROWSERSTACK_VIDEO_FILE_NAME + ".mp4");
 					FileUtils.copyInputStreamToFile(stream, file);
 					return file;
 				})
@@ -110,7 +112,7 @@ public class RemoteTestsUtilsImpl implements RemoteTestsUtils {
 
 	@Override
 	public Option<String> getSessionID() {
-		return Try.of(() -> State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread())
+		return Try.of(() -> State.threadDesiredCapabilityMap.getWebDriverForThread())
 			.mapTry(RemoteWebDriver.class::cast)
 			.map(RemoteWebDriver::toString)
 			.map(SESSION_ID_REGEX::matcher)

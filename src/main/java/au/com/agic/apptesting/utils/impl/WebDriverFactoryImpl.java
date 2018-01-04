@@ -144,7 +144,8 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 				/*
 					IE doesn't support this option.
 
-					org.openqa.selenium.SessionNotCreatedException: Unable to match capability set 0: acceptInsecureCerts was 'true', but the IE driver does not allow bypassing insecure (self-signed) SSL certificates
+					org.openqa.selenium.SessionNotCreatedException: Unable to match capability set 0: acceptInsecureCerts was 'true',
+					but the IE driver does not allow bypassing insecure (self-signed) SSL certificates
 					Build info: version: 'unknown', revision: 'unknown', time: 'unknown'
 					System info: host: 'DESKTOP-JVNRAAG', ip: '172.19.255.145', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '9'
 					Driver info: driver.version: InternetExplorerDriver
@@ -216,12 +217,13 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		options.addArguments("disable-wake-on-wifi");
 	}
 
-	private WebDriver buildChrome(final String browser,
-								  final Optional<ProxyDetails<?>> mainProxy,
-								  final DesiredCapabilities capabilities,
-								  final boolean secure,
-								  final boolean headless,
-								  final boolean fullscreen) {
+	private WebDriver buildChrome(
+		final String browser,
+		final Optional<ProxyDetails<?>> mainProxy,
+		final DesiredCapabilities capabilities,
+		final boolean secure,
+		final boolean headless,
+		final boolean fullscreen) {
 
 		/*
 			These options are documented at:
@@ -331,9 +333,11 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			.getOrElseThrow(ex -> new RuntimeException(ex));
 	}
 
-	private WebDriver buildPhantomJS(final String browser,
-									 final DesiredCapabilities capabilities,
-									 final List<File> tempFiles) {
+	private WebDriver buildPhantomJS(
+		final String browser,
+		final DesiredCapabilities capabilities,
+		final List<File> tempFiles) {
+
 		try {
 			/*
 				PhantomJS will often report a lot of unnecessary errors, so by default

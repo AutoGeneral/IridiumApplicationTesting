@@ -39,7 +39,7 @@ public class ScreenshotUtilsImpl implements ScreenshotUtils {
 		checkNotNull(featureState);
 
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 			if (webDriver instanceof TakesScreenshot) {
 				final File screenshot =
 					((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);

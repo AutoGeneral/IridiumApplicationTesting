@@ -19,12 +19,12 @@
 //					returned by the getCredentialsParamsNames() below
 
 function authenticate(helper, paramsValues, credentials) {
-	println("Authenticating via JavaScript script...");
+	print("Authenticating via JavaScript script...");
 
 	// Make sure any Java classes used explicitly are imported
-	importClass(org.parosproxy.paros.network.HttpRequestHeader)
-	importClass(org.parosproxy.paros.network.HttpHeader)
-	importClass(org.apache.commons.httpclient.URI)
+	var HttpRequestHeader = Java.type("org.parosproxy.paros.network.HttpRequestHeader")
+	var HttpHeader = Java.type("org.parosproxy.paros.network.HttpHeader")
+	var URI = Java.type("org.apache.commons.httpclient.URI")
 
 	// Prepare the login request details
 	requestUri = new URI(paramsValues.get("Target URL"), false);
@@ -38,14 +38,14 @@ function authenticate(helper, paramsValues, credentials) {
 		requestBody += "&" + extraPostData.trim();
 
 	// Build the actual message to be sent
-	println("Sending " + requestMethod + " request to " + requestUri + " with body: " + requestBody);
+	print("Sending " + requestMethod + " request to " + requestUri + " with body: " + requestBody);
 	msg = helper.prepareMessage();
 	msg.setRequestHeader(new HttpRequestHeader(requestMethod, requestUri, HttpHeader.HTTP10));
 	msg.setRequestBody(requestBody);
 
 	// Send the authentication message and return it
 	helper.sendAndReceive(msg);
-	println("Received response status code: " + msg.getResponseHeader().getStatusCode());
+	print("Received response status code: " + msg.getResponseHeader().getStatusCode());
 
 	return msg;
 }

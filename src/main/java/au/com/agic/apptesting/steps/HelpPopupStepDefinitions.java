@@ -15,7 +15,6 @@ import javax.swing.*;
 import java.awt.*;
 
 
-
 /**
  * This class contains steps that can be used to display help information
  * above the browser
@@ -39,9 +38,9 @@ public class HelpPopupStepDefinitions {
 	 * where Java is able to create a UI.
 	 *
 	 * @param message      The message to display
-	 * @param width			The width of the help popup
-	 * @param height		The height of the help popup
-	 * @param fontSize		The font size
+	 * @param width        The width of the help popup
+	 * @param height       The height of the help popup
+	 * @param fontSize     The font size
 	 * @param timeAlias    indicates that the time value is aliased
 	 * @param time         The time to show the message for
 	 * @param ignoreErrors Add this text to ignore any errors
@@ -50,13 +49,14 @@ public class HelpPopupStepDefinitions {
 		+ "(?: in a window sized \"(.*?)x(.*?)\")?"
 		+ "(?: with font size \"(.*?)\")?"
 		+ "(?: for( alias)? \"(.*?)\" seconds)?( ignoring errors)?")
-	public void displayMessage(final String message,
-							   final String width,
-							   final String height,
-							   final String fontSize,
-							   final String timeAlias,
-							   final String time,
-							   final String ignoreErrors) {
+	public void displayMessage(
+		final String message,
+		final String width,
+		final String height,
+		final String fontSize,
+		final String timeAlias,
+		final String time,
+		final String ignoreErrors) {
 
 		try {
 

@@ -9,13 +9,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RetryServiceImpl implements RetryService {
+	private static final int RETRY_INTERVAL = 5000;
+
 	@Override
 	public RetryTemplate getRetryTemplate() {
 		final SimpleRetryPolicy policy = new SimpleRetryPolicy();
 		policy.setMaxAttempts(Constants.WEBDRIVER_ACTION_RETRIES);
 
 		final ExponentialBackOffPolicy backoff = new ExponentialBackOffPolicy();
-		backoff.setInitialInterval(5000);
+		backoff.setInitialInterval(RETRY_INTERVAL);
 
 		final RetryTemplate template = new RetryTemplate();
 		template.setRetryPolicy(policy);

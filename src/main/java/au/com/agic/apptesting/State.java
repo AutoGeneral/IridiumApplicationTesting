@@ -14,11 +14,11 @@ import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
  */
 public final class State {
 
-	public static ThreadWebDriverMap THREAD_DESIRED_CAPABILITY_MAP;
+	public static ThreadWebDriverMap threadDesiredCapabilityMap;
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
 
 	public static void initialise() {
-		THREAD_DESIRED_CAPABILITY_MAP = Constants.REMOTE_TESTS.equalsIgnoreCase(
+		threadDesiredCapabilityMap = Constants.REMOTE_TESTS.equalsIgnoreCase(
 			SYSTEM_PROPERTY_UTILS.getProperty(Constants.TEST_DESTINATION_SYSTEM_PROPERTY))
 			? new RemoteThreadWebDriverMapImpl()
 			: new LocalThreadWebDriverMapImpl();
@@ -28,7 +28,7 @@ public final class State {
 	}
 
 	public static FeatureState getFeatureStateForThread() {
-		return THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
+		return threadDesiredCapabilityMap.getDesiredCapabilitiesForThread(
 			Thread.currentThread().getName());
 	}
 }

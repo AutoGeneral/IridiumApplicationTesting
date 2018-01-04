@@ -32,7 +32,7 @@ public class JavaScriptStepDefinitions {
 	@When("^I run the following JavaScript( ignoring errors)?$")
 	public void runJavaScript(final String ignoreErrors, final String javaScript) throws Exception {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			final List<String> aliases = State.getFeatureStateForThread().getDataSet().entrySet().stream()
 				.flatMap(it -> Stream.of(it.getKey(), it.getValue()))
@@ -55,7 +55,7 @@ public class JavaScriptStepDefinitions {
 	@When("^I run the following JavaScript and save the result to alias \"(.*?)\"( ignoring errors)?$")
 	public void runJavaScript(final String alias, final String ignoreErrors, final String javaScript) throws Exception {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
 			final List<String> aliases = State.getFeatureStateForThread().getDataSet().entrySet().stream()

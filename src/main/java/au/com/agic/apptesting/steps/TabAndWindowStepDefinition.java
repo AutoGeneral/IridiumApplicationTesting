@@ -33,7 +33,7 @@ public class TabAndWindowStepDefinition {
 	 */
 	@When("I switch to tab \"(\\d+)\"$")
 	public void switchTabs(final String tabIndex) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 		final List<String> tabs2 = new ArrayList<>(webDriver.getWindowHandles());
 		webDriver.switchTo().window(tabs2.get(Integer.parseInt(tabIndex)));
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
@@ -45,7 +45,7 @@ public class TabAndWindowStepDefinition {
 	@When("I switch to the new window( ignoring errors)?")
 	public void switchWindows(final String ignoreErrors) throws Exception {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 			webDriver.getWindowHandles().stream()
 				.filter(e -> !e.equals(webDriver.getWindowHandle()))
 				.forEach(e -> webDriver.switchTo().window(e));
@@ -65,7 +65,7 @@ public class TabAndWindowStepDefinition {
 	@When("I close the current window( ignoring errors)?")
 	public void closeWindow(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.threadDesiredCapabilityMap.getWebDriverForThread();
 			/*
 				Close the current window
 			 */
