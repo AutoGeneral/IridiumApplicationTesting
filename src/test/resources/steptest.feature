@@ -55,7 +55,6 @@ Feature: Test of the steps provided by Iridium
 
 	@test
 	Scenario: Click SVG Image
-		Given I open the page "https://mcasperson.github.io/iridium/examples/test.html"
 		And I scroll to the bottom of the page
 		And I click the hidden "Circle" SVG element
 		Then I verify that the page contains the text "SVG Clicked!"
