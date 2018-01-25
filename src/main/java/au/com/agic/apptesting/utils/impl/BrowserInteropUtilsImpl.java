@@ -66,11 +66,11 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 		 */
 		final boolean isHiddenElement = browserDetection.isPhantomJS(webDriver)
 			&& Optional.of(element)
-				.filter(e -> "a".equalsIgnoreCase(e.getTagName()))
-				.filter(e -> StringUtils.isNotBlank(e.getAttribute("href")))
-				.map(e -> StringUtils.trim(e.getAttribute("href")))
-				.filter(e -> e.contains("#") || e.startsWith("javascript:"))
-				.isPresent();
+			.filter(e -> "a".equalsIgnoreCase(e.getTagName()))
+			.filter(e -> StringUtils.isNotBlank(e.getAttribute("href")))
+			.map(e -> StringUtils.trim(e.getAttribute("href")))
+			.filter(e -> e.contains("#") || e.startsWith("javascript:"))
+			.isPresent();
 
 		/*
 			I have noticed that these elements need some additional time before
@@ -107,20 +107,20 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript(
-			"for (var i = 0; i < arguments[0].options.length; i++) {"
-				+ "    if (arguments[0].options[i].text === '" + selectElement.replaceAll("'", "\\'") + "') {"
-				+ "        arguments[0].selectedIndex = i;"
-				+ "        break;"
-				+ "    }"
-				+ "}"
-				+ "if ('createEvent' in document) {"
-				+ "    var evt = document.createEvent('HTMLEvents');"
-				+ "    evt.initEvent('change', true, true);"
-				+ "    arguments[0].dispatchEvent(evt);"
-				+ "}"
-				+ "else {"
-				+ "    arguments[0].fireEvent('onchange');"
-				+ "}", element);
+				"for (var i = 0; i < arguments[0].options.length; i++) {"
+					+ "    if (arguments[0].options[i].text === '" + selectElement.replaceAll("'", "\\'") + "') {"
+					+ "        arguments[0].selectedIndex = i;"
+					+ "        break;"
+					+ "    }"
+					+ "}"
+					+ "if ('createEvent' in document) {"
+					+ "    var evt = document.createEvent('HTMLEvents');"
+					+ "    evt.initEvent('change', true, true);"
+					+ "    arguments[0].dispatchEvent(evt);"
+					+ "}"
+					+ "else {"
+					+ "    arguments[0].fireEvent('onchange');"
+					+ "}", element);
 
 		} else {
 			final Select select = new Select(element);
@@ -173,8 +173,10 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 				create the equivalent xpath and find it via JavaScript.
 			 */
 			final String xpath = "//a[text()[normalize-space(.)='" + text.replaceAll("'", "''") + "']]";
-			final String clickLink = "return document.evaluate(\"" + xpath.replace("\"", "\\\"") + "\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;";
-			final WebElement element = (WebElement)((JavascriptExecutor)webDriver).executeScript(clickLink);
+			final String clickLink = "return document.evaluate(\""
+				+ xpath.replace("\"", "\\\"")
+				+ "\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;";
+			final WebElement element = (WebElement) ((JavascriptExecutor) webDriver).executeScript(clickLink);
 			if (element == null) {
 				throw new NoSuchElementException("Cannot locate an element using xpath " + xpath);
 			}
@@ -195,7 +197,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 
 	@Override
 	public void maximizeWindow() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 		final boolean isChrome = browserDetection.isChrome(webDriver);
 		final boolean isAndroid = browserDetection.isAndroid(webDriver);
 		final boolean isIPad = browserDetection.isIPad(webDriver);
@@ -216,8 +218,8 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	}
 
 	@Override
-	public void setWindowSize(int width, int height) {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+	public void setWindowSize(final int width, final int height) {
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 		final boolean isChrome = browserDetection.isChrome(webDriver);
 		final boolean isAndroid = browserDetection.isAndroid(webDriver);
@@ -252,7 +254,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	 */
 	@Before
 	public void setup() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
 		final boolean isOpera = browserDetection.isOpera(webDriver);
 		final boolean isFirefox = browserDetection.isFirefox(webDriver);
@@ -265,7 +267,7 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	}
 
 	@Override
-	public void waitForAlert(@NotNull WebDriver webDriver, int waitDuration) {
+	public void waitForAlert(@NotNull final WebDriver webDriver, final int waitDuration) {
 		checkNotNull(webDriver);
 
 		final boolean isPhantomJS = browserDetection.isPhantomJS(webDriver);
@@ -347,9 +349,11 @@ public class BrowserInteropUtilsImpl implements BrowserInteropUtils {
 	}
 
 	@Override
-	public void populateElement(@NotNull final WebDriver webDriver,
-								@NotNull final WebElement element,
-								@NotNull final String value) {
+	public void populateElement(
+		@NotNull final WebDriver webDriver,
+		@NotNull final WebElement element,
+		@NotNull final String value) {
+
 		checkNotNull(webDriver);
 		checkNotNull(element);
 		checkNotNull(value);

@@ -6,15 +6,25 @@
 // Note that new proxy scripts will initially be disabled
 // Right click the script in the Scripts tree and select "enable"  
 
+/**
+ * This function allows interaction with proxy requests (i.e.: outbound from the browser/client to the server).
+ * 
+ * @param msg - the HTTP request being proxied. This is an HttpMessage object.
+ */
 function proxyRequest(msg) {
 	// Debugging can be done using println like this
-	println('proxyRequest called for url=' + msg.getRequestHeader().getURI().toString())
+	print('proxyRequest called for url=' + msg.getRequestHeader().getURI().toString())
 	
 	return true
 }
 
+/**
+ * This function allows interaction with proxy responses (i.e.: inbound from the server to the browser/client).
+ * 
+ * @param msg - the HTTP response being proxied. This is an HttpMessage object.
+ */
 function proxyResponse(msg) {
 	// Debugging can be done using println like this
-	println('proxyResponse called for url=' + msg.getRequestHeader().getURI().toString())
+	print('proxyResponse called for url=' + msg.getRequestHeader().getURI().toString())
 	return true
 }

@@ -25,7 +25,7 @@ public class MouseMovementUtilsImpl implements MouseMovementUtils {
 	private SystemPropertyUtils systemPropertyUtils;
 
 	@Override
-	public void mouseGlide(int x1, int y1, int x2, int y2, int time, int steps) {
+	public void mouseGlide(final int x1, final int y1, final int x2, final int y2, final int time, final int steps) {
 		try {
 			final Robot r = new Robot();
 
@@ -42,16 +42,18 @@ public class MouseMovementUtilsImpl implements MouseMovementUtils {
 	}
 
 	@Override
-	public void mouseGlide(int x2, int y2, int time, int steps) {
+	public void mouseGlide(final int x2, final int y2, final int time, final int steps) {
 		final Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
 		mouseGlide(mouseLocation.x, mouseLocation.y, x2, y2, time, steps);
 	}
 
 	@Override
-	public void mouseGlide(@NotNull final JavascriptExecutor javascriptExecutor,
-						   @NotNull final WebElement element,
-						   int time,
-						   int steps) {
+	public void mouseGlide(
+		@NotNull final JavascriptExecutor javascriptExecutor,
+		@NotNull final WebElement element,
+		final int time,
+		final int steps) {
+
 		checkNotNull(element);
 
 		final boolean moveMouseCursor =
@@ -68,13 +70,13 @@ public class MouseMovementUtilsImpl implements MouseMovementUtils {
 				Constants.SCREEN_ZOOM_FACTOR, 1.0f);
 
 			final org.openqa.selenium.Point viewPoint = element.getLocation();
-			final Long height = (Long)javascriptExecutor.executeScript(
+			final Long height = (Long) javascriptExecutor.executeScript(
 				"return arguments[0].clientHeight;", element);
-			final Long width = (Long)javascriptExecutor.executeScript(
+			final Long width = (Long) javascriptExecutor.executeScript(
 				"return arguments[0].clientWidth;", element);
 			mouseGlide(
-				(int)((viewPoint.x + width / 2) * zoom),
-				(int)((viewPoint.y + verticalOffset + height / 2) * zoom),
+				(int) ((viewPoint.x + width / 2) * zoom),
+				(int) ((viewPoint.y + verticalOffset + height / 2) * zoom),
 				Constants.MOUSE_MOVE_TIME,
 				Constants.MOUSE_MOVE_STEPS);
 		}

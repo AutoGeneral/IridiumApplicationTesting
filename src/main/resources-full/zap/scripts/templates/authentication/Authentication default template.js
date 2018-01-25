@@ -15,7 +15,7 @@
 //					The credential values can be obtained via calls to the getParam(paramName) method. The param names are the ones
 //					returned by the getCredentialsParamsNames() below
 function authenticate(helper, paramsValues, credentials) {
-	println("Authenticating via JavaScript script...");
+	print("Authenticating via JavaScript script...");
 	msg = helper.prepareMessage();
 	
 	// TODO: Process message to match the authentication needs

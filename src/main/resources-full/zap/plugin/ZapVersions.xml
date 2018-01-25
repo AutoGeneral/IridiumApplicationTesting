@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ZAP>
+    <addon>ascanrules</addon>
+    <addon_ascanrules>
+        <name>Active scanner rules</name>
+        <description>The release quality Active Scanner rules</description>
+        <author>ZAP Dev Team</author>
+        <version>29</version>
+        <file>ascanrules-release-29.zap</file>
+        <status>release</status>
+        <changes>Issue 3979: Fix reflected XSS in PUT response.&lt;br&gt;
+	Issue 3978: Handle relfected XSS in JSON response.&lt;br&gt;</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/ascanrules-release-29.zap</url>
+        <hash>SHA1:b2f3fc6e2619206b2a306f802356a2bdd3015f84</hash>
+        <date>2018-01-04</date>
+        <size>595132</size>
+        <not-before-version>2.7.0</not-before-version>
+    </addon_ascanrules>
+    <addon>coreLang</addon>
+    <addon_coreLang>
+        <name>Core Language Files</name>
+        <description>Translations of the core language files</description>
+        <author>ZAP Dev Team</author>
+        <version>12</version>
+        <file>coreLang-release-12.zap</file>
+        <status>release</status>
+        <changes>Updated for 2.7.0</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/coreLang-release-12.zap</url>
+        <hash>SHA1:7dcd0b03eb9bc9cae81325dd6d89255080504402</hash>
+        <info>https://crowdin.com/project/owasp-zap</info>
+        <date>2018-01-04</date>
+        <size>3131811</size>
+        <not-before-version>2.7.0</not-before-version>
+    </addon_coreLang>
+    <addon>directorylistv1</addon>
+    <addon_directorylistv1>
+        <name>Directory List v1.0</name>
+        <description>List of directory names to be used with "Forced Browse" add-on.</description>
+        <author>ZAP Dev Team</author>
+        <version>3</version>
+        <file>directorylistv1-release-3.zap</file>
+        <status>release</status>
+        <changes>Removed repeated files.&lt;br&gt;
+	Added strings for version control directories of Git, Mercurial, SVN, CVS, Bazaar.&lt;br&gt;</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/directorylistv1-release-3.zap</url>
+        <hash>SHA1:af01ec8e2939f97c61b142286c24fd5e04d0d065</hash>
+        <info>https://owasp.org/index.php/DirBuster</info>
+        <date>2018-01-04</date>
+        <size>847645</size>
+        <not-before-version>2.4.0</not-before-version>
+    </addon_directorylistv1>
+    <addon>directorylistv2_3</addon>
+    <addon_directorylistv2_3>
+        <name>Directory List v2.3</name>
+        <description>Lists of directory names to be used with "Forced Browse" add-on.</description>
+        <author>ZAP Dev Team</author>
+        <version>3</version>
+        <file>directorylistv2_3-release-3.zap</file>
+        <status>release</status>
+        <changes>Removed repeated files.&lt;br&gt;
+	Added strings for version control directories of Git, Mercurial, SVN, Bazaar.&lt;br&gt;</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/directorylistv2_3-release-3.zap</url>
+        <hash>SHA1:5ba75a84199872084a9895e35c4713e4ba968f21</hash>
+        <info>https://owasp.org/index.php/DirBuster</info>
+        <date>2018-01-04</date>
+        <size>8608760</size>
+        <not-before-version>2.4.0</not-before-version>
+    </addon_directorylistv2_3>
+    <addon>directorylistv2_3_lc</addon>
+    <addon_directorylistv2_3_lc>
+        <name>Directory List v2.3 LC</name>
+        <description>Lists of lower case directory names to be used with "Forced Browse" add-on.</description>
+        <author>ZAP Dev Team</author>
+        <version>3</version>
+        <file>directorylistv2_3_lc-release-3.zap</file>
+        <status>release</status>
+        <changes>Added strings for version control directories of Git, Mercurial, SVN, Bazaar.&lt;br&gt;</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/directorylistv2_3_lc-release-3.zap</url>
+        <hash>SHA1:126ff9cb4a36fa0f36fc1a847e1b4d9f922b8983</hash>
+        <info>https://owasp.org/index.php/DirBuster</info>
+        <date>2018-01-04</date>
+        <size>7454793</size>
+        <not-before-version>2.4.0</not-before-version>
+    </addon_directorylistv2_3_lc>
+    <addon>gettingStarted</addon>
+    <addon_gettingStarted>
+        <name>Getting Started with ZAP Guide</name>
+        <description>A short Getting Started with ZAP Guide</description>
+        <author>ZAP Dev Team</author>
+        <version>8</version>
+        <file>gettingStarted-release-8.zap</file>
+        <status>release</status>
+        <changes>Updated for 2.7.0</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/gettingStarted-release-8.zap</url>
+        <hash>SHA1:12dbbb7a75ccea8a4f24bb847c1a7a444b5fe571</hash>
+        <date>2018-01-04</date>
+        <size>495582</size>
+        <not-before-version>2.7.0</not-before-version>
+    </addon_gettingStarted>
+    <addon>help</addon>
+    <addon_help>
+        <name>Help - English</name>
+        <description>English (master) version of the ZAP help file.</description>
+        <author>ZAP Crowdin Team</author>
+        <version>8</version>
+        <file>help-release-8.zap</file>
+        <status>release</status>
+        <changes>Updated for 2.7.0</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/help-release-8.zap</url>
+        <hash>SHA1:43b04a88fc9960934f4f073ebbff545d89a8d5be</hash>
+        <info>https://github.com/zaproxy/zap-core-help/wiki/HelpIntro</info>
+        <date>2018-01-04</date>
+        <size>725260</size>
+        <not-before-version>2.7.0</not-before-version>
+    </addon_help>
+    <addon>help_pt_BR</addon>
+    <addon_help_pt_BR>
+        <name>Help - Portuguese, Brazilian</name>
+        <description>Portuguese, Brazilian version of the ZAP help file.</description>
+        <author>ZAP Crowdin Team</author>
+        <version>8</version>
+        <file>help_pt_BR-release-8.zap</file>
+        <status>release</status>
+        <changes>Updated for 2.7.0</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/help_pt_BR-release-8.zap</url>
+        <hash>SHA1:6a25845203f3c83fe0af9ad97564bfd43da8ccf7</hash>
+        <info>https://crowdin.com/project/owasp-zap-help</info>
+        <date>2018-01-04</date>
+        <size>791124</size>
+        <not-before-version>2.7.0</not-before-version>
+    </addon_help_pt_BR>
+    <addon>onlineMenu</addon>
+    <addon_onlineMenu>
+        <name>Online menus</name>
+        <description>ZAP Online menu items</description>
+        <author>ZAP Dev Team</author>
+        <version>6</version>
+        <file>onlineMenu-release-6.zap</file>
+        <status>release</status>
+        <changes>Updated for 2.7.0.&lt;br&gt;</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/onlineMenu-release-6.zap</url>
+        <hash>SHA1:11a0e8a655afa83c614697b344e913e0fd71ffe3</hash>
+        <info>https://github.com/zaproxy/zap-core-help/wiki/HelpAddonsOnlineMenuOnlineMenu</info>
+        <date>2018-01-04</date>
+        <size>206328</size>
+        <not-before-version>2.7.0</not-before-version>
+    </addon_onlineMenu>
+    <addon>pscanrules</addon>
+    <addon_pscanrules>
+        <name>Passive scanner rules</name>
+        <description>The release quality Passive Scanner rules</description>
+        <author>ZAP Dev Team</author>
+        <version>21</version>
+        <file>pscanrules-release-21.zap</file>
+        <status>release</status>
+        <changes>Update for 2.7.0, Minor code changes to address deprecation.&lt;br&gt;</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/pscanrules-release-21.zap</url>
+        <hash>SHA1:7336330981de386a18a5ebb2f59e7a7b7e802766</hash>
+        <date>2018-01-04</date>
+        <size>519040</size>
+        <not-before-version>2.7.0</not-before-version>
+    </addon_pscanrules>
+    <addon>quickstart</addon>
+    <addon_quickstart>
+        <name>Quick Start</name>
+        <description>Provides a tab which allows you to quickly test a target application</description>
+        <author>ZAP Dev Team</author>
+        <version>23</version>
+        <file>quickstart-release-23.zap</file>
+        <status>release</status>
+        <changes>Update for 2.7.0.&lt;br&gt;
+	Stop the quick scan if the session is changed.&lt;br&gt;</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/quickstart-release-23.zap</url>
+        <hash>SHA1:27d9a1628fe824b5a7373649c8fbbc04274a6776</hash>
+        <date>2018-01-04</date>
+        <size>428219</size>
+        <not-before-version>2.7.0</not-before-version>
+    </addon_quickstart>
+    <addon>reveal</addon>
+    <addon_reveal>
+        <name>Reveal</name>
+        <description>Show hidden fields and enable disabled fields</description>
+        <author>ZAP Dev Team</author>
+        <version>2</version>
+        <file>reveal-release-2.zap</file>
+        <status>release</status>
+        <changes>Code changes and API documentation.</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/reveal-release-2.zap</url>
+        <hash>SHA1:d4d31b4f0ea55315f86a28d81e4376710c017cc8</hash>
+        <date>2018-01-04</date>
+        <size>230248</size>
+        <not-before-version>2.4.0</not-before-version>
+    </addon_reveal>
+    <addon>saverawmessage</addon>
+    <addon_saverawmessage>
+        <name>Save Raw Message</name>
+        <description>Allows to save content of HTTP messages as binary</description>
+        <author>ZAP Dev Team</author>
+        <version>4</version>
+        <file>saverawmessage-release-4.zap</file>
+        <status>release</status>
+        <changes>Updated for 2.7.0.&lt;br&gt;</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/saverawmessage-release-4.zap</url>
+        <hash>SHA1:7a75be5cae833e8ee5e59afe527942f44a23a40b</hash>
+        <date>2018-01-04</date>
+        <size>27764</size>
+        <not-before-version>2.7.0</not-before-version>
+    </addon_saverawmessage>
+    <addon>selenium</addon>
+    <addon_selenium>
+        <name>Selenium</name>
+        <description>WebDriver provider and includes HtmlUnit browser</description>
+        <author>ZAP Dev Team</author>
+        <version>13</version>
+        <semver>2.0.0</semver>
+        <file>selenium-release-13.zap</file>
+        <status>release</status>
+        <changes>Updated for 2.7.0.&lt;br&gt;</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/selenium-release-13.zap</url>
+        <hash>SHA1:421800efb77a480962e6cd0107e76ef1e54cba85</hash>
+        <date>2018-01-04</date>
+        <size>22797259</size>
+        <not-before-version>2.7.0</not-before-version>
+    </addon_selenium>
+    <addon>spiderAjax</addon>
+    <addon_spiderAjax>
+        <name>Ajax Spider</name>
+        <description>Allows you to spider sites that make heavy use of JavaScript using Crawljax</description>
+        <author>ZAP Dev Team</author>
+        <version>21</version>
+        <file>spiderAjax-release-21.zap</file>
+        <status>release</status>
+        <changes>Reset API scan also when in daemon mode (Issue 4163).&lt;br&gt;</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/spiderAjax-release-21.zap</url>
+        <hash>SHA1:c9a2d178a8a4daef3693709daf68f32cfaff10bb</hash>
+        <info>https://github.com/zaproxy/zap-core-help/wiki/HelpAddonsSpiderAjaxConcepts</info>
+        <date>2018-01-04</date>
+        <size>2594452</size>
+        <not-before-version>2.7.0</not-before-version>
+        <dependencies>
+            <addons>
+                <addon>
+                    <id>selenium</id>
+                    <semver>2.*</semver>
+                </addon>
+            </addons>
+        </dependencies>
+    </addon_spiderAjax>
+    <addon>websocket</addon>
+    <addon_websocket>
+        <name>WebSockets</name>
+        <description>Allows you to inspect WebSocket communication.</description>
+        <author>ZAP Dev Team</author>
+        <version>15</version>
+        <file>websocket-release-15.zap</file>
+        <status>release</status>
+        <changes>Remove usage of core filter functionality.&lt;br&gt;
+	Do not set messages when switching views if text view shows an error message (Issue 4108)&lt;br&gt;</changes>
+        <url>https://github.com/zaproxy/zap-extensions/releases/download/2.7/websocket-release-15.zap</url>
+        <hash>SHA1:eeda5ee1793015b6b8a7c39b9b04eb14e8c0a3a2</hash>
+        <date>2018-01-04</date>
+        <size>861324</size>
+        <not-before-version>2.7.0</not-before-version>
+    </addon_websocket>
+</ZAP>

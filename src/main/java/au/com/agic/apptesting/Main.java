@@ -24,6 +24,7 @@ public final class Main {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 	private static final SystemPropertyUtils SYSTEM_PROPERTY_UTILS = new SystemPropertyUtilsImpl();
+	private static final int MAX_EXECUTION_TIME_CODE = -2;
 	/**
 	 * Used to name threads that might be reused
 	 */
@@ -95,7 +96,7 @@ public final class Main {
 					break;
 				}
 
-				Try.run(() -> Thread.sleep(retryDelay * 1000));
+				Try.run(() -> Thread.sleep(retryDelay * Constants.MILLISECONDS_PER_SECOND));
 			}
 
 			return lastFailures;
@@ -137,7 +138,7 @@ public final class Main {
 					LOGGER.error(
 						"WEBAPPTESTER-INFO-0011: "
 							+ "Iridium was shut down because it ran longer than the maximum execution time of " + maxExecutionTime + " seconds");
-					System.exit(-2);
+					System.exit(MAX_EXECUTION_TIME_CODE);
 				} catch (final Exception ex) {
 					LOGGER.error(
 						"WEBAPPTESTER-BUG-0009: The shutdown timer threw an exception", ex);

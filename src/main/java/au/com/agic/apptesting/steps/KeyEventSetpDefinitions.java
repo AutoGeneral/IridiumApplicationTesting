@@ -45,7 +45,7 @@ public class KeyEventSetpDefinitions {
 	@When("^I press CTRL-A on the active element( ignoring errors)?$")
 	public void pressCtrlAStep(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
@@ -64,7 +64,7 @@ public class KeyEventSetpDefinitions {
 	@When("^I press CMD-A on the active element( ignoring errors)?$")
 	public void pressCmdAStep(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.chord(Keys.COMMAND, "a"));
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
@@ -83,7 +83,7 @@ public class KeyEventSetpDefinitions {
 	@When("^I select all the text in the active element( ignoring errors)?$")
 	public void pressCmdOrCtrlAStep(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 
 			if (SystemUtils.IS_OS_MAC) {
@@ -108,7 +108,7 @@ public class KeyEventSetpDefinitions {
 	@When("^I press(?: the)? Delete(?: key)? on the active element(?: \"(\\d+)\" times)?( ignoring errors)?$")
 	public void pressDeleteStep(final Integer times, final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 
 			for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
@@ -132,7 +132,7 @@ public class KeyEventSetpDefinitions {
 	@When("^I press(?: the)? tab(?: key)? on the active element( ignoring errors)?$")
 	public void pressTabStep(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.TAB);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
@@ -151,7 +151,7 @@ public class KeyEventSetpDefinitions {
 	@When("^I press(?: the)? down arrow(?: key)? on the active element( ignoring errors)?$")
 	public void pressDownArrowStep(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.ARROW_DOWN);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
@@ -170,7 +170,7 @@ public class KeyEventSetpDefinitions {
 	@When("^I press(?: the)? up arrow(?: key)? on the active element( ignoring errors)?$")
 	public void pressUpArrowStep(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.ARROW_UP);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
@@ -189,7 +189,7 @@ public class KeyEventSetpDefinitions {
 	@When("^I press(?: the)? left arrow(?: key)? on the active element( ignoring errors)?$")
 	public void pressLeftArrowStep(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.ARROW_LEFT);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
@@ -208,7 +208,7 @@ public class KeyEventSetpDefinitions {
 	@When("^I press(?: the)? right arrow(?: key)? on the active element( ignoring errors)?$")
 	public void pressRightArrowStep(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.ARROW_RIGHT);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
@@ -228,7 +228,7 @@ public class KeyEventSetpDefinitions {
 	@When("^I press(?: the)? backspace(?: key)? on the active element(?: \"(\\d+)\" times)?( ignoring errors)?$")
 	public void pressBackspaceStep(final Integer times, final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			for (int i = 0; i < ObjectUtils.defaultIfNull(times, 1); ++i) {
 				element.sendKeys(Keys.BACK_SPACE);
@@ -251,7 +251,7 @@ public class KeyEventSetpDefinitions {
 	@When("^I press(?: the)? enter(?: key)? on the active element( ignoring errors)?$")
 	public void pressEnterStep(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final WebElement element = webDriver.switchTo().activeElement();
 			element.sendKeys(Keys.ENTER);
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());

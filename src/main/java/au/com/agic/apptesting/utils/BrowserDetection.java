@@ -15,6 +15,7 @@ public interface BrowserDetection {
 	 * @return true if the webdriver is controlling the Edge browser
 	 */
 	boolean isEdge(@NotNull WebDriver webDriver);
+
 	/**
 	 *
 	 * @param webDriver The current web driver

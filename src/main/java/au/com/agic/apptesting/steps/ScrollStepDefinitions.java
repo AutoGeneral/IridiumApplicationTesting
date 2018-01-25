@@ -34,7 +34,7 @@ public class ScrollStepDefinitions {
 	 */
 	@When("^I scroll to the bottom of the page$")
 	public void scrollToBottom() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 		final JavascriptExecutor js = JavascriptExecutor.class.cast(webDriver);
 		js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 	}
@@ -44,7 +44,7 @@ public class ScrollStepDefinitions {
 	 */
 	@When("^I scroll to the top of the page$")
 	public void scrollToTop() {
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 		final JavascriptExecutor js = JavascriptExecutor.class.cast(webDriver);
 		js.executeScript("window.scrollTo(0, 0)");
 	}

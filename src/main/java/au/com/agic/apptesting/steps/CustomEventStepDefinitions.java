@@ -68,7 +68,7 @@ public class CustomEventStepDefinitions {
 				selectorValue,
 				State.getFeatureStateForThread());
 
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
 			js.executeScript("var ev = document.createEvent('HTMLEvents');"
 				+ "    ev.initEvent("
@@ -106,7 +106,7 @@ public class CustomEventStepDefinitions {
 		final String selectorValue,
 		final String exists) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final By by = getBy.getBy(selector, StringUtils.isNotBlank(alias), selectorValue, State.getFeatureStateForThread());
 			final WebDriverWait wait = new WebDriverWait(
 				webDriver,

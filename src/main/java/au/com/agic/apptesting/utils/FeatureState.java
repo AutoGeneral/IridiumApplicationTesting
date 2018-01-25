@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public interface FeatureState {
 
 	default FeatureState getFeatureStateForThread() {
-		return State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread(
+		return State.getThreadDesiredCapabilityMap().getDesiredCapabilitiesForThread(
 			Thread.currentThread().getName());
 	}
 

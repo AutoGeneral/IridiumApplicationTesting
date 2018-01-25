@@ -33,7 +33,7 @@ public class NavigationStepDefinitions {
 	@When("I go back( ignoring errors)?")
 	public void goBack(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			webDriver.navigate().back();
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
@@ -55,7 +55,7 @@ public class NavigationStepDefinitions {
 	@When("I go forward( ignoring errors)?")
 	public void goForward(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			webDriver.navigate().forward();
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
@@ -77,7 +77,7 @@ public class NavigationStepDefinitions {
 	@When("I refresh the page( ignoring errors)?")
 	public void refresh(final String ignoreErrors) {
 		try {
-			final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			webDriver.navigate().refresh();
 			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 		} catch (final Exception ex) {
@@ -102,7 +102,7 @@ public class NavigationStepDefinitions {
 	public void openHash(final String alias, final String hash) {
 		final String hashValue = autoAliasUtils.getValue(hash, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
-		final WebDriver webDriver = State.THREAD_DESIRED_CAPABILITY_MAP.getWebDriverForThread();
+		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 		((JavascriptExecutor) webDriver).executeScript("window.location.hash='#" + hashValue + "'");
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}

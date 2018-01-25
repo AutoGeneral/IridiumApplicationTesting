@@ -22,7 +22,7 @@ public class EarlyExitAspect {
 	@Around("execution(public void au.com.agic.apptesting.steps..*(..))")
 	public void aroundStep(final ProceedingJoinPoint joinPoint) throws Throwable {
 		final FeatureState featureState =
-			State.THREAD_DESIRED_CAPABILITY_MAP.getDesiredCapabilitiesForThread();
+			State.getThreadDesiredCapabilityMap().getDesiredCapabilitiesForThread();
 
 		if (!featureState.getSkipSteps()) {
 			joinPoint.proceed();

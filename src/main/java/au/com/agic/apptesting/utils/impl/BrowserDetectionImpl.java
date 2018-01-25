@@ -108,12 +108,12 @@ public class BrowserDetectionImpl implements BrowserDetection {
 	}
 
 	@Override
-	public boolean isAndroid(WebDriver webDriver) {
+	public boolean isAndroid(@NotNull final WebDriver webDriver) {
 		return ((RemoteWebDriver) webDriver).getCapabilities().getPlatform().is(Platform.ANDROID);
 	}
 
 	@Override
-	public boolean isIPad(WebDriver webDriver) {
+	public boolean isIPad(@NotNull final WebDriver webDriver) {
 		return webDriver instanceof RemoteWebDriver
 			&& ((RemoteWebDriver) webDriver).getCapabilities()
 			.getBrowserName()
@@ -121,7 +121,7 @@ public class BrowserDetectionImpl implements BrowserDetection {
 	}
 
 	@Override
-	public boolean isIPhone(WebDriver webDriver) {
+	public boolean isIPhone(@NotNull final WebDriver webDriver) {
 		return webDriver instanceof RemoteWebDriver
 			&& ((RemoteWebDriver) webDriver).getCapabilities()
 			.getBrowserName()
