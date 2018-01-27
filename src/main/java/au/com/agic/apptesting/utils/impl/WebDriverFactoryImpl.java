@@ -6,6 +6,7 @@ import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverFactory;
+import com.google.gson.JsonObject;
 import io.vavr.control.Try;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
@@ -319,13 +320,15 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 					Set the proxy
 				 */
 				if (mainProxy.isPresent()) {
-
-					profile.setPreference("network.proxy.type", 1);
-					profile.setPreference("network.proxy.http", "localhost");
-					profile.setPreference("network.proxy.http_port", mainProxy.get().getPort());
-					profile.setPreference("network.proxy.ssl", "localhost");
-					profile.setPreference("network.proxy.ssl_port", mainProxy.get().getPort());
-					profile.setPreference("network.proxy.no_proxies_on", "");
+					JsonObject json = new JsonObject();
+					json.addProperty("proxyType", "manual");
+					json.addProperty("httpProxy", "localhost");
+					json.addProperty("httpProxyPort", mainProxy.get().getPort());
+					json.addProperty("ftpProxy", "localhost");
+					json.addProperty("ftpProxyPort", mainProxy.get().getPort());
+					json.addProperty("sslProxy", "localhost");
+					json.addProperty("sslProxyPort", mainProxy.get().getPort());
+					capabilities.setCapability(CapabilityType.PROXY, json);
 				}
 
 				options.setProfile(profile);
