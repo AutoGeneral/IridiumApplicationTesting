@@ -102,7 +102,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			the proxy: https://github.com/mozilla/geckodriver/issues/669
 		 */
 		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) &&
-			!Constants.FIREFOX.equalsIgnoreCase(browser)) {
+			!Constants.FIREFOX.equalsIgnoreCase(browser) &&
 			!Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser)) {
 			mainProxy
 				.map(myMainProxy -> {
