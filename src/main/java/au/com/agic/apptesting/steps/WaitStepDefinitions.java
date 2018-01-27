@@ -787,7 +787,7 @@ public class WaitStepDefinitions {
 	 */
 	@Then("^I wait \"(\\d+)\" seconds for the page to contain the text( alias)? \"(.*?)\"(,? ignoring timeouts?)?")
 	public void verifyPageContent(final Integer wait, final String alias, final String text, final String ignoreTimeout) throws InterruptedException {
-		final String fixedtext = autoAliasUtils.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
+		final String fixedText = autoAliasUtils.getValue(text, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
 
 		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
@@ -802,7 +802,7 @@ public class WaitStepDefinitions {
 			 */
 			 pageText = webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
-			if (pageText.contains(fixedtext)) {
+			if (pageText != null && pageText.contains(fixedText)) {
 				return;
 			}
 
@@ -812,7 +812,7 @@ public class WaitStepDefinitions {
 		while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
 
 		if (StringUtils.isBlank(ignoreTimeout)) {
-			throw new ValidationException("Could not find the text \"" + fixedtext + "\" on the page with the text " + pageText);
+			throw new ValidationException("Could not find the text \"" + fixedText + "\" on the page with the text " + pageText);
 		}
 	}
 
