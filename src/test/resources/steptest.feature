@@ -44,7 +44,7 @@ Feature: Test of the steps provided by Iridium
 			| CaseChange           | abcdefg                                                   |
 			| DropDownListIndex    | 2                                                         |
 			| ArithmeticTest       | 1                                                         |
-			| Circle               | //*[local-name()='svg']/*[local-name()='circle']                      |
+			| Circle               | //*[local-name()='svg']/*[local-disablename()='circle']                      |
 		And I dump the alias map to the console
 		And I dump the value of the alias "Non Existant Element" to the console
 		And I verify that the alias "this alias does not exist" is empty

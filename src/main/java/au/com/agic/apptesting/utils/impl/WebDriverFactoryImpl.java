@@ -237,6 +237,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		if (headless) {
 			options.addArguments("headless");
 			options.addArguments("disable-gpu");
+			options.addArguments("no-sandbox");
 		}
 
 		if (fullscreen) {
