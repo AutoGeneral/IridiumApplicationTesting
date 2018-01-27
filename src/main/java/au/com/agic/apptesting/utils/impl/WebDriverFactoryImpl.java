@@ -275,7 +275,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		final FirefoxOptions options = new FirefoxOptions().merge(capabilities);
 
 		/*
-			https://github.com/mozilla/geckodriver/issues/669
+			https://github.com/lightbody/browsermob-proxy/issues/676
 		 */
 		mainProxy.ifPresent(proxy -> {
 			JsonObject json = new JsonObject();
@@ -286,6 +286,8 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			json.addProperty("ftpProxyPort", proxy.getPort());
 			json.addProperty("sslProxy", "localhost");
 			json.addProperty("sslProxyPort", proxy.getPort());
+			json.addProperty("socksProxy", "localhost");
+			json.addProperty("socksProxyPort", proxy.getPort());
 			capabilities.setCapability(CapabilityType.PROXY, json);
 		});
 
