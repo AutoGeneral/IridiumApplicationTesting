@@ -62,7 +62,7 @@ public interface SystemPropertyUtils {
 	 * @param name The name of the system property
 	 * @return The value of the system property
 	 */
-	Optional<String> getPropertyEmptyAsOptional(String name);
+	Optional<String> getPropertyAsOptional(String name);
 
 	/**
 	 * Copies system properties from the javaws prefixed namespace into the default namespace
