@@ -27,7 +27,8 @@ before_install:
 - sudo apt-get update
 - sudo apt-get install -y libappindicator1 fonts-liberation
 #- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-- wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
+- wget https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
+#- wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
 - sudo dpkg -i google-chrome*.deb
 - wget https://s3.amazonaws.com/iridium-cloud-support/opera-developer_48.0.2670.0_amd64.deb
 - sudo dpkg -i opera-developer*.deb
