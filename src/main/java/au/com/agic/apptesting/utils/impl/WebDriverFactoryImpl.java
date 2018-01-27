@@ -288,6 +288,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			json.addProperty("sslProxyPort", proxy.getPort());
 			json.addProperty("socksProxy", "localhost");
 			json.addProperty("socksProxyPort", proxy.getPort());
+			json.addProperty("socksVersion", 5);
 			capabilities.setCapability(CapabilityType.PROXY, json);
 		});
 
