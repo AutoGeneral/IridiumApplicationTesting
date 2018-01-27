@@ -812,7 +812,10 @@ public class WaitStepDefinitions {
 		while (System.currentTimeMillis() - start < wait * Constants.MILLISECONDS_PER_SECOND);
 
 		if (StringUtils.isBlank(ignoreTimeout)) {
-			throw new ValidationException("Could not find the text \"" + fixedText + "\" on the page with the text " + pageText);
+			throw new ValidationException("Could not find the text \"" + fixedText + "\" on the page with the text:\n"
+				+ pageText + "\n"
+				+ "and page source:\n"
+				+ webDriver.getPageSource());
 		}
 	}
 
