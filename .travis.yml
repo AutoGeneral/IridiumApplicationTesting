@@ -22,6 +22,7 @@ before_install:
 # https://github.com/travis-ci/travis-ci/issues/8520
 - sudo apt-get install dbus-x11
 - export CHROME_BIN=/usr/bin/google-chrome
+- export OPERA_PATH=/usr/bin/opera
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 - sudo apt-get update
