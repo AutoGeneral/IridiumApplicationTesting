@@ -101,7 +101,9 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			There is a bug in the geckodriver that prevents us from using capabilities for
 			the proxy: https://github.com/mozilla/geckodriver/issues/669
 		 */
-		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) && !Constants.FIREFOX.equalsIgnoreCase(browser)) {
+		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) &&
+			!Constants.FIREFOX.equalsIgnoreCase(browser)) {
+			!Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser)) {
 			mainProxy
 				.map(myMainProxy -> {
 					final Proxy proxy = new Proxy();
