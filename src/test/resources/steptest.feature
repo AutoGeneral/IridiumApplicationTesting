@@ -44,7 +44,7 @@ Feature: Test of the steps provided by Iridium
 			| CaseChange           | abcdefg                                                   |
 			| DropDownListIndex    | 2                                                         |
 			| ArithmeticTest       | 1                                                         |
-			| Circle               | //*[local-name()='svg']/*[local-disablename()='circle']                      |
+			| Trunk SVG            | //*[@id="CNR"]/*[name()="path"][1]                        |
 		And I dump the alias map to the console
 		And I dump the value of the alias "Non Existant Element" to the console
 		And I verify that the alias "this alias does not exist" is empty
@@ -56,7 +56,7 @@ Feature: Test of the steps provided by Iridium
 	#@test
 	#Scenario: Click SVG Image
 #		And I scroll to the bottom of the page
-#		And I click the hidden "Circle" SVG element
+#		And I click the hidden "Trunk SVG" element
 #		Then I verify that the page contains the text "SVG Clicked!"
 
 	@test
