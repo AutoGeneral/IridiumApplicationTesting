@@ -22,6 +22,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -136,7 +137,11 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		if (Constants.OPERA.equalsIgnoreCase(browser)) {
-			return Try.of(() -> capabilities)
+
+			Try.of(() -> new OperaOptions())
+				.peek(opts -> SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsOptional(Constants.OPERA_BIN_LOCATION_SYSTEM_PROPERTY)
+					.ifPresent(val -> opts.setBinary(val)))
+				.peek(opts -> opts.merge(capabilities))
 				.mapTry(caps -> new OperaDriver(caps))
 				.onFailure(ex -> exitWithError(browser, ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
