@@ -241,7 +241,6 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			options.addArguments("headless");
 			options.addArguments("disable-gpu");
 			options.addArguments("no-sandbox");
-			options.addArguments("remote-debugging-port=9222");
 		}
 
 		if (fullscreen) {
