@@ -794,8 +794,12 @@ public class WaitStepDefinitions {
 		final long start = System.currentTimeMillis();
 
 		do {
+			/*
+				getText() can fail here, we we use the innerText attribute instead.
+				https://github.com/AutoGeneral/IridiumApplicationTesting/issues/109
+			 */
 			final String pageText =
-				webDriver.findElement(By.tagName("body")).getText();
+				webDriver.findElement(By.tagName("body")).getAttribute("innerText");
 
 			if (pageText.contains(fixedtext)) {
 				return;
