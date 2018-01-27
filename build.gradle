@@ -273,6 +273,7 @@ def passThroughProperties = [
 	"webdriver.chrome.driver",
 	"webdriver.ie.driver",
 	"webdriver.opera.driver",
+	"opera.binary",
 	"phantomjs.binary.path",
 	"testDestination",
 	"testSource",

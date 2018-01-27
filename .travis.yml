@@ -22,7 +22,6 @@ before_install:
 # https://github.com/travis-ci/travis-ci/issues/8520
 - sudo apt-get install dbus-x11
 - export CHROME_BIN=/usr/bin/google-chrome
-- export OPERA_PATH=/usr/bin/opera
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 - sudo apt-get update
@@ -41,7 +40,7 @@ before_install:
 - rm -f iridium_github_pages
 - chmod +x travis_publish.sh
 - chmod +x travis_updatedocs.sh
-script: travis_retry ./gradlew -DtestBrowsers=${TEST_SUITE} check javadoc shadowJar --stacktrace
+script: travis_retry ./gradlew -Dopera.binary=/usr/bin/opera -DtestBrowsers=${TEST_SUITE} check javadoc shadowJar --stacktrace
 deploy:
   - provider: releases
     api_key:
