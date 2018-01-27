@@ -272,23 +272,21 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		final boolean setProfile,
 		final boolean headless) {
 
-		final FirefoxOptions options = new FirefoxOptions().addCapabilities(capabilities);
+		final FirefoxOptions options = new FirefoxOptions().merge(capabilities);
 
 		/*
 			https://github.com/mozilla/geckodriver/issues/669
 		 */
 		mainProxy.ifPresent(proxy -> {
-			options.addPreference("network.proxy.type", "1");
-			options.addPreference("network.proxy.http", "localhost");
-			options.addPreference("network.proxy.http_port", proxy.getPort());
-			options.addPreference("network.proxy.https", "localhost");
-			options.addPreference("network.proxy.https_port", proxy.getPort());
-			options.addPreference("network.proxy.ssl", "localhost");
-			options.addPreference("network.proxy.ssl_port", proxy.getPort());
-			options.addPreference("network.proxy.ftp", "localhost");
-			options.addPreference("network.proxy.ftp_port", proxy.getPort());
-			options.addPreference("network.proxy.socks", "localhost");
-			options.addPreference("network.proxy.socks_port", proxy.getPort());
+			JsonObject json = new JsonObject();
+			json.addProperty("proxyType", "manual");
+			json.addProperty("httpProxy", "localhost");
+			json.addProperty("httpProxyPort", proxy.getPort());
+			json.addProperty("ftpProxy", "localhost");
+			json.addProperty("ftpProxyPort", proxy.getPort());
+			json.addProperty("sslProxy", "localhost");
+			json.addProperty("sslProxyPort", proxy.getPort());
+			capabilities.setCapability(CapabilityType.PROXY, json);
 		});
 
 		/*
@@ -320,15 +318,13 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 					Set the proxy
 				 */
 				if (mainProxy.isPresent()) {
-					JsonObject json = new JsonObject();
-					json.addProperty("proxyType", "manual");
-					json.addProperty("httpProxy", "localhost");
-					json.addProperty("httpProxyPort", mainProxy.get().getPort());
-					json.addProperty("ftpProxy", "localhost");
-					json.addProperty("ftpProxyPort", mainProxy.get().getPort());
-					json.addProperty("sslProxy", "localhost");
-					json.addProperty("sslProxyPort", mainProxy.get().getPort());
-					capabilities.setCapability(CapabilityType.PROXY, json);
+
+					profile.setPreference("network.proxy.type", 1);
+					profile.setPreference("network.proxy.http", "localhost");
+					profile.setPreference("network.proxy.http_port", mainProxy.get().getPort());
+					profile.setPreference("network.proxy.ssl", "localhost");
+					profile.setPreference("network.proxy.ssl_port", mainProxy.get().getPort());
+					profile.setPreference("network.proxy.no_proxies_on", "");
 				}
 
 				options.setProfile(profile);
