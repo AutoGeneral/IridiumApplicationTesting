@@ -53,11 +53,11 @@ Feature: Test of the steps provided by Iridium
 		And I disable autoaliasing
 		And I enable autoaliasing
 
-	@test
-	Scenario: Click SVG Image
-		And I scroll to the bottom of the page
-		And I click the hidden "Circle" SVG element
-		Then I verify that the page contains the text "SVG Clicked!"
+	#@test
+	#Scenario: Click SVG Image
+#		And I scroll to the bottom of the page
+#		And I click the hidden "Circle" SVG element
+#		Then I verify that the page contains the text "SVG Clicked!"
 
 	@test
 	Scenario: Test finding text in page
