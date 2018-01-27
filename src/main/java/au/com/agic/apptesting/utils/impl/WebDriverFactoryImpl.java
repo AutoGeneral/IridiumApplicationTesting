@@ -100,7 +100,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			There is a bug in the geckodriver that prevents us from using capabilities for
 			the proxy: https://github.com/mozilla/geckodriver/issues/669
 		 */
-		//if (!Constants.MARIONETTE.equalsIgnoreCase(browser) && !Constants.FIREFOX.equalsIgnoreCase(browser)) {
+		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) && !Constants.FIREFOX.equalsIgnoreCase(browser)) {
 			mainProxy
 				.map(myMainProxy -> {
 					final Proxy proxy = new Proxy();
@@ -112,7 +112,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 					return proxy;
 				})
 				.ifPresent(proxy -> capabilities.setCapability("proxy", proxy));
-		//}
+		}
 
 		if (Constants.MARIONETTE.equalsIgnoreCase(browser)) {
 			return buildFirefox(browser, mainProxy, capabilities, false, false);
@@ -276,12 +276,19 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		/*
 			https://github.com/mozilla/geckodriver/issues/669
 		 */
-		/*mainProxy.ifPresent(proxy -> {
+		mainProxy.ifPresent(proxy -> {
+			options.addPreference("network.proxy.type", "1");
 			options.addPreference("network.proxy.http", "localhost");
 			options.addPreference("network.proxy.http_port", proxy.getPort());
 			options.addPreference("network.proxy.https", "localhost");
 			options.addPreference("network.proxy.https_port", proxy.getPort());
-		});*/
+			options.addPreference("network.proxy.ssl", "localhost");
+			options.addPreference("network.proxy.ssl_port", proxy.getPort());
+			options.addPreference("network.proxy.ftp", "localhost");
+			options.addPreference("network.proxy.ftp_port", proxy.getPort());
+			options.addPreference("network.proxy.socks", "localhost");
+			options.addPreference("network.proxy.socks_port", proxy.getPort());
+		});
 
 		/*
 			Override the firefox binary
