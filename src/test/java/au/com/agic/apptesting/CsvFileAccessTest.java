@@ -31,12 +31,14 @@ public class CsvFileAccessTest {
 
 		checkRow(records.get(0), is(""), is(nullValue()), is("hello"));
 		checkRow(records.get(1), is("not empty"), is("not null"), is("trimmed"));
-		checkRow(records.get(2), is(""), is(nullValue()), is("comma, here" ));
-		checkRow(records.get(3), is(""), is(nullValue()), is("  not trimmed  " ));
+		checkRow(records.get(2), is(""), is(nullValue()), is("comma, here"));
+		checkRow(records.get(3), is(""), is(nullValue()), is("  not trimmed  "));
 	}
 
-	private void checkRow(CSVRecord row, Matcher<Object> expectedColumn1, Matcher<Object> expectedColumn2,
-						  Matcher<Object> expectedColumn3) {
+	private void checkRow(final CSVRecord row,
+						  final Matcher<Object> expectedColumn1,
+						  final Matcher<Object> expectedColumn2,
+						  final Matcher<Object> expectedColumn3) {
 		assertThat(row.get("Sometimes empty"), expectedColumn1);
 		assertThat(row.get("Sometimes null"), expectedColumn2);
 		assertThat(row.get("Surrounded in spaces"), expectedColumn3);

@@ -50,7 +50,7 @@ public class LiveTests {
 		return new File(".").listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(final File dir, final String name) {
-				if(name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png")) {
+				if (name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png")) {
 					LOGGER.info("Found screenshot file file: " + name);
 					return true;
 				}
@@ -64,7 +64,7 @@ public class LiveTests {
 		return new File(".").listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(final File dir, final String name) {
-				if(name.endsWith(".png")) {
+				if (name.endsWith(".png")) {
 					LOGGER.info("Found screenshot file file: " + name);
 					return true;
 				}
@@ -78,7 +78,7 @@ public class LiveTests {
 		return new File(".").listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(final File dir, final String name) {
-				if(name.endsWith(".har")) {
+				if (name.endsWith(".har")) {
 					LOGGER.info("Found HAR file: " + name);
 					return true;
 				}
@@ -132,7 +132,7 @@ public class LiveTests {
 		globalTempFiles.forEach(FileUtils::deleteQuietly);
 	}
 
-	@Test(expected=Exception.class)
+	@Test(expected = Exception.class)
 	public void testInvalidURL() {
 		Assume.assumeTrue(runSimpleTests());
 		setCommonProperties();
