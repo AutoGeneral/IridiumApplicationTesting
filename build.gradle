@@ -307,7 +307,8 @@ def passThroughProperties = [
 	"testBrowsers",
 	"testRetryCount",
 	"dryRun",
-	"monochromeOutput"
+	"monochromeOutput",
+	"disableInterop"
 ]
 
 test {

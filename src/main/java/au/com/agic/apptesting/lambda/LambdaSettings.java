@@ -45,6 +45,7 @@ public class LambdaSettings {
 		"testBrowsers",
 		"testRetryCount",
 		"dryRun",
-		"monochromeOutput"
+		"monochromeOutput",
+		"disableInterop"
 	);
 }
