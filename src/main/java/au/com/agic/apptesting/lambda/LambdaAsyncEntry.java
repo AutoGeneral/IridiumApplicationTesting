@@ -4,23 +4,22 @@ import au.com.agic.apptesting.Main;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 /**
- * An entry point for the app when called from AWS lambda
+ * An entry point for the app when called from AWS lambda. The function returns immediately,
+ * running the test asynchronously. This makes is suitable to be called from API Gateway.
  */
-public class LambdaEntry implements RequestHandler<Map<String, String>, Integer> {
+public class LambdaAsyncEntry implements RequestHandler<Map<String, String>, String> {
 
 	@Override
-	public Integer handleRequest(final Map<String, String> input, final Context context) {
+	public String handleRequest(final Map<String, String> input, final Context context) {
 
 		input.entrySet().stream()
 			.filter(entry -> LambdaSettings.ACCEPTED_SETTINGS.contains(entry.getKey()))
 			.forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
 
-		final int failures = Main.run();
-		return failures;
+		new Thread(() -> Main.run()).start();
+		return "";
 	}
 }
