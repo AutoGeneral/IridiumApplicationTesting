@@ -1,37 +1,38 @@
 var AWS = require('aws-sdk');
 // Set the region
-AWS.config.update({region: 'us-east1'});
+AWS.config.update({region: 'us-east-1'});
 var lambda = new AWS.Lambda();
 
-exports.handler = function(event, context) {
+exports.handler = function(event, context, callback) {
 	var iridiumParams = {
 		FunctionName: 'Iridium',
 		InvocationType: 'RequestResponse',
 		LogType: 'Tail',
-		Payload: event.iridiumSettings
+		Payload: JSON.stringify(event.iridiumSettings)
 	};
 
 	lambda.invoke(iridiumParams, function(err, data) {
 		if (err) {
-			context.fail(err);
+			callback(err);
 		} else {
 			var dynamoDBParams = {
 				FunctionName: 'IridiumResults',
 				InvocationType: 'RequestResponse',
 				LogType: 'Tail',
-				Payload: {
+				Payload: JSON.stringify({
+					table: "IridiumResults",
 					testName: event.testName,
 					result: data.Payload
-				}
+				})
 			};
 
 			lambda.invoke(dynamoDBParams, function(err, data) {
 				if (err) {
-					context.fail(err);
+					callback(err);
 				} else {
-					context.success("Ran Iridium and saved results");
+					callback(null, "Ran Iridium and saved results");
 				}
-			};
+			});
 		}
 	})
 };
