@@ -270,6 +270,8 @@ dependencies {
     System properties need to be passed into the JVM running the tests
  */
 def passThroughProperties = [
+	"browserStackUsername",
+	"browserStackAccessToken",
 	"webdriver.chrome.driver",
 	"webdriver.ie.driver",
 	"webdriver.opera.driver",
