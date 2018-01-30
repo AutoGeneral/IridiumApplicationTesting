@@ -57,7 +57,6 @@ public interface SimpleWebElementInteraction {
 	 * @param valueAlias   True if the value an alias, false otherwise
 	 * @param value        The string used to find the element
 	 * @param featureState The current thread's state object
-	 * @return The element, or throw an exception
 	 */
 	void getNotClickableElementFoundBy(
 		boolean valueAlias,
@@ -70,13 +69,12 @@ public interface SimpleWebElementInteraction {
 	 * <p>
 	 * If the value matches more than one of these selection techniques, the returned element
 	 * is undefined. Only use this method when you are sure the value is unique, or at the very
-	 * least will return the same element regradless of which selection returns first.
+	 * least will return the same element regardless of which selection returns first.
 	 *
 	 * @param valueAlias   True if the value an alias, false otherwise
 	 * @param value        The string used to find the element
 	 * @param featureState The current thread's state object
 	 * @param wait         How long to wait for
-	 * @return The element, or throw an exception
 	 */
 	void getNotClickableElementFoundBy(
 		boolean valueAlias,

@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.utils;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Defines a service for working with system properties
@@ -53,6 +54,15 @@ public interface SystemPropertyUtils {
 	 * @return The value of the system property
 	 */
 	String getPropertyEmptyAsNull(String name);
+
+	/**
+	 * Extracts system properties, either from their default name, or with the javaws prefix.
+	 * Treats empty strings as empty optional.
+	 *
+	 * @param name The name of the system property
+	 * @return The value of the system property
+	 */
+	Optional<String> getPropertyAsOptional(String name);
 
 	/**
 	 * Copies system properties from the javaws prefixed namespace into the default namespace

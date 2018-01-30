@@ -20,7 +20,7 @@ public class XmlToCsvDatasetConverter {
 	private static final DatasetsFactory DATASETS_FACTORY = new DatasetsFactory();
 	private static final String DELIMITER = ",";
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		Assert.assertEquals(1, args.length);
 		String xmlDatasetsFile = args[0];
 		URL datasetResource = XmlToCsvDatasetConverter.class.getResource(xmlDatasetsFile);
@@ -30,10 +30,10 @@ public class XmlToCsvDatasetConverter {
 		new XmlToCsvDatasetConverter().run(datasetResource.toString());
 	}
 
-	private void run(String xmlDatasetsFileUrl) {
+	private void run(final String xmlDatasetsFileUrl) {
 		Optional<DatasetsRootElement> datasets = DATASETS_FACTORY.getDatasets(xmlDatasetsFileUrl);
 
-		if(datasets.isPresent()) {
+		if (datasets.isPresent()) {
 			Map<Integer, Map<String, String>> datasetsMap = getDatasets(datasets.get());
 
 			List<String> allKeys = datasetsMap.values().stream()
@@ -46,11 +46,11 @@ public class XmlToCsvDatasetConverter {
 
 			System.out.println(heading);
 
-			for(int dataSetIndex = 0; dataSetIndex < datasetsMap.keySet().size(); dataSetIndex++) {
+			for (int dataSetIndex = 0; dataSetIndex < datasetsMap.keySet().size(); dataSetIndex++) {
 				Map<String, String> thisDataSet = datasetsMap.get(dataSetIndex);
 
 				String row = allKeys.stream()
-					.map(key -> String.format("\"%s\"",thisDataSet.get(key)))
+					.map(key -> String.format("\"%s\"", thisDataSet.get(key)))
 					.collect(Collectors.joining(DELIMITER));
 
 				System.out.println(row);
