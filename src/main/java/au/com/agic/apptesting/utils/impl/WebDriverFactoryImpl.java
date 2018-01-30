@@ -6,6 +6,7 @@ import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import au.com.agic.apptesting.utils.WebDriverFactory;
+import com.google.gson.JsonObject;
 import io.vavr.control.Try;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
@@ -21,6 +22,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -100,7 +102,9 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			There is a bug in the geckodriver that prevents us from using capabilities for
 			the proxy: https://github.com/mozilla/geckodriver/issues/669
 		 */
-		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) && !Constants.FIREFOX.equalsIgnoreCase(browser)) {
+		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) &&
+			!Constants.FIREFOX.equalsIgnoreCase(browser) &&
+			!Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser)) {
 			mainProxy
 				.map(myMainProxy -> {
 					final Proxy proxy = new Proxy();
@@ -133,8 +137,12 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		}
 
 		if (Constants.OPERA.equalsIgnoreCase(browser)) {
-			return Try.of(() -> capabilities)
-				.mapTry(caps -> new OperaDriver(caps))
+
+			Try.of(() -> new OperaOptions())
+				.peek(opts -> SYSTEM_PROPERTY_UTILS.getPropertyAsOptional(Constants.OPERA_BIN_LOCATION_SYSTEM_PROPERTY)
+					.ifPresent(val -> opts.setBinary(val)))
+				.peek(opts -> opts.merge(capabilities))
+				.mapTry(opts -> new OperaDriver(opts))
 				.onFailure(ex -> exitWithError(browser, ex))
 				.getOrElseThrow(ex -> new RuntimeException(ex));
 		}
@@ -238,6 +246,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			options.addArguments("headless");
 			options.addArguments("disable-gpu");
 			options.addArguments("no-sandbox");
+			options.addArguments("window-size=1920,1080");
 		}
 
 		if (fullscreen) {
@@ -271,16 +280,24 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		final boolean setProfile,
 		final boolean headless) {
 
-		final FirefoxOptions options = new FirefoxOptions().addCapabilities(capabilities);
+		final FirefoxOptions options = new FirefoxOptions().merge(capabilities);
 
 		/*
-			https://github.com/mozilla/geckodriver/issues/669
+			https://github.com/lightbody/browsermob-proxy/issues/676
 		 */
 		mainProxy.ifPresent(proxy -> {
-			options.addPreference("network.proxy.http", "localhost");
-			options.addPreference("network.proxy.http_port", proxy.getPort());
-			options.addPreference("network.proxy.https", "localhost");
-			options.addPreference("network.proxy.https_port", proxy.getPort());
+			JsonObject json = new JsonObject();
+			json.addProperty("proxyType", "manual");
+			json.addProperty("httpProxy", "localhost");
+			json.addProperty("httpProxyPort", proxy.getPort());
+			json.addProperty("ftpProxy", "localhost");
+			json.addProperty("ftpProxyPort", proxy.getPort());
+			json.addProperty("sslProxy", "localhost");
+			json.addProperty("sslProxyPort", proxy.getPort());
+			json.addProperty("socksProxy", "localhost");
+			json.addProperty("socksProxyPort", proxy.getPort());
+			json.addProperty("socksVersion", 5);
+			capabilities.setCapability(CapabilityType.PROXY, json);
 		});
 
 		/*

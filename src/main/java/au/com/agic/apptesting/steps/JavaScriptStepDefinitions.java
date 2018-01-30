@@ -27,7 +27,8 @@ public class JavaScriptStepDefinitions {
 	/**
 	 * Runs arbitrary JavaScript
 	 *
-	 * @param javaScript         The JavaScript to run
+	 * @param ignoreErrors	Set this text to ignore an JavaScript errors
+	 * @param javaScript    The JavaScript to run
 	 */
 	@When("^I run the following JavaScript( ignoring errors)?$")
 	public void runJavaScript(final String ignoreErrors, final String javaScript) throws Exception {

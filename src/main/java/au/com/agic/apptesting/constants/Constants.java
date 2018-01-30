@@ -320,6 +320,10 @@ public final class Constants {
 	 */
 	public static final String OPERA_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY = "webdriver.opera.driver";
 	/**
+	 * The location of the opera binary
+	 */
+	public static final String OPERA_BIN_LOCATION_SYSTEM_PROPERTY = "opera.binary";
+	/**
 	 * The location of the Edge webdriver executable
      */
 	public static final String EDGE_WEB_DRIVER_LOCATION_SYSTEM_PROPERTY = "webdriver.edge.driver";

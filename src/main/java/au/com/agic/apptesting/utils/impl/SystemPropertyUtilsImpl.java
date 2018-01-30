@@ -99,6 +99,16 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 	}
 
 	@Override
+	public Optional<String> getPropertyAsOptional(String name) {
+		checkArgument(StringUtils.isNotBlank(name));
+
+		return SYSTEM_PROPERTY_PREFIXES.stream()
+			.map(e -> System.getProperty(e + name))
+			.filter(StringUtils::isNotBlank)
+			.findFirst();
+	}
+
+	@Override
 	public void copyVariableToDefaultLocation(final String name) {
 
 		SYSTEM_PROPERTY_PREFIXES.stream()
