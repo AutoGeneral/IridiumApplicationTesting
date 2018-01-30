@@ -2,7 +2,7 @@
 
 ## BrowserStack
 
-![Browserstack](browserstack.svg?raw=true "Browserstack")
+![Browserstack](browserstack.svg)
 
 Thanks to Browserstack for their support of this project.
 
