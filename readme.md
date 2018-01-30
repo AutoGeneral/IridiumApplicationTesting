@@ -2,7 +2,7 @@
 
 ## BrowserStack
 
-![Browserstack](https://raw.githubusercontent.com/AutoGeneral/IridiumApplicationTesting/master/browserstack.svg)
+![Browserstack](browserstack.svg?raw=true "Browserstack")
 
 Thanks to Browserstack for their support of this project.
 
