@@ -2,7 +2,7 @@
 
 ## BrowserStack
 
-![Browserstack](browserstack.svg)
+![Browserstack](browserstack.png)
 
 Thanks to Browserstack for their support of this project.
 
