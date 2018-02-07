@@ -5,12 +5,15 @@ import au.com.agic.apptesting.exception.ConfigurationException;
 import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 import au.com.agic.apptesting.utils.*;
+import com.google.common.collect.ImmutableMap;
 import io.vavr.Tuple2;
 import io.vavr.control.Option;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.internal.ApacheHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -179,7 +182,12 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 			final String remoteAddress =
 				"http://" + browserStackUsername + ":" + browserStackAccessToken + URL;
 
-			final WebDriver webDriver = new RemoteWebDriver(new URL(remoteAddress), desiredCapabilities);
+			final HttpCommandExecutor executor = new HttpCommandExecutor(
+				ImmutableMap.of(),
+				new URL(remoteAddress),
+				new ApacheHttpClient.Factory());
+
+			final WebDriver webDriver = new RemoteWebDriver(executor, desiredCapabilities);
 
 			threadIdToDriverMap.put(name, webDriver);
 
