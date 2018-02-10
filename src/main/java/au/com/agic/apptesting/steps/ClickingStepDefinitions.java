@@ -66,11 +66,12 @@ public class ClickingStepDefinitions {
 	}
 
 	private WebElement clickObjectElementByXPath(final WebElement object, final JavascriptExecutor js, final String xpath, boolean ignoreMissing) {
+		// https://stackoverflow.com/questions/17720431/javascript-dispatchevent-click-is-not-working-in-ie9-and-ie10
 		return (WebElement) js.executeScript(
-			 "function getElementByXpath(path, svgDocument) {"
-				+ "  return svgDocument.evaluate(path, svgDocument, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;"
-				+ "}"
-				+ "element = getElementByXpath(\"" + xpath.replaceAll("\"", "\\\"") + "\", arguments[0].contentDocument);"
+			 "function getElementByXpath(path, svgDocument) {\n"
+				+ "  return svgDocument.evaluate(path, svgDocument, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;\n"
+				+ "}\n"
+				+ "element = getElementByXpath(\"" + xpath.replaceAll("\"", "\\\"") + "\", arguments[0].contentDocument);\n"
 				+ "function triggerEvent(el,eventName){\n"
 				+ "    var event;\n"
 				+ "    if(document.createEvent){\n"
@@ -108,12 +109,12 @@ public class ClickingStepDefinitions {
 				+ "    }else{\n"
 				+ "        el['on'+type]=null;\n"
 				+ "    }\n"
-				+ "}"
-				+ "if (!" + ignoreMissing + " && !element) throw \"Element was not found\";"
-				+ "if (element) {"
-				+ "		triggerEvent(element, 'click');"
-				+ "}"
-				+ "return element;",
+				+ "}\n"
+				+ "if (!" + ignoreMissing + " && !element) throw \"Element was not found\";\n"
+				+ "if (element) {\n"
+				+ "		triggerEvent(element, 'click');\n"
+				+ "}\n"
+				+ "return element;\n",
 			object);
 	}
 
