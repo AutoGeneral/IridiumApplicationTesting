@@ -87,9 +87,10 @@ public class LiveTests {
 	public void getBrowserList() throws JSONException {
 		final String browsersSysProp = SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(TEST_BROWSERS_SYSTEM_PROPERTY);
 		if (StringUtils.isBlank(browsersSysProp)) {
+			//browsers.add("IE");
 			browsers.add("ChromeSecure");
-			//browsers.add("Marionette");
-			//browsers.add("PhantomJS");
+			browsers.add("Marionette");
+			browsers.add("PhantomJS");
 		} else {
 			try {
 				final JSONObject settings = new JSONObject(browsersSysProp);
