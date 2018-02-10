@@ -53,11 +53,13 @@ Feature: Test of the steps provided by Iridium
 		And I disable autoaliasing
 		And I enable autoaliasing
 
-	#@test
-	#Scenario: Click SVG Image
-#		And I scroll to the bottom of the page
-#		And I click the hidden "Trunk SVG" element
-#		Then I verify that the page contains the text "SVG Clicked!"
+	@test
+	Scenario: Click SVG Image in Object
+		And I scroll to the bottom of the page
+		# Note that the selector to the element in the SVG must be an XPath.
+		# The selector to the <obect> element can be any of the standard selectors (xpath, css path, id etc).
+		And I click the "//*[@id='CNR']/*[name()='path'][1]" element in the object element "/html/body/object"
+		Then I verify that the page contains the text "SVG Clicked!"
 
 	@test
 	Scenario: Test finding text in page

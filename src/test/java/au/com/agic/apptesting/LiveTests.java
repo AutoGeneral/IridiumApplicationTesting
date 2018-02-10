@@ -47,44 +47,35 @@ public class LiveTests {
 	}
 
 	private File[] getFailureScreenshots() {
-		return new File(".").listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(final File dir, final String name) {
-				if (name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png")) {
-					LOGGER.info("Found screenshot file file: " + name);
-					return true;
-				}
-
-				return false;
+		return new File(".").listFiles((dir, name) -> {
+			if (name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png")) {
+				LOGGER.info("Found screenshot file file: " + name);
+				return true;
 			}
+
+			return false;
 		});
 	}
 
 	private File[] getScreenshots() {
-		return new File(".").listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(final File dir, final String name) {
-				if (name.endsWith(".png")) {
-					LOGGER.info("Found screenshot file file: " + name);
-					return true;
-				}
-
-				return false;
+		return new File(".").listFiles((dir, name) -> {
+			if (name.endsWith(".png")) {
+				LOGGER.info("Found screenshot file file: " + name);
+				return true;
 			}
+
+			return false;
 		});
 	}
 
 	private File[] getHarFiles() {
-		return new File(".").listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(final File dir, final String name) {
-				if (name.endsWith(".har")) {
-					LOGGER.info("Found HAR file: " + name);
-					return true;
-				}
-
-				return false;
+		return new File(".").listFiles((dir, name) -> {
+			if (name.endsWith(".har")) {
+				LOGGER.info("Found HAR file: " + name);
+				return true;
 			}
+
+			return false;
 		});
 	}
 
@@ -97,8 +88,8 @@ public class LiveTests {
 		final String browsersSysProp = SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(TEST_BROWSERS_SYSTEM_PROPERTY);
 		if (StringUtils.isBlank(browsersSysProp)) {
 			browsers.add("ChromeSecure");
-			browsers.add("Marionette");
-			browsers.add("PhantomJS");
+			//browsers.add("Marionette");
+			//browsers.add("PhantomJS");
 		} else {
 			try {
 				final JSONObject settings = new JSONObject(browsersSysProp);
@@ -285,8 +276,12 @@ public class LiveTests {
 					System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
 					System.setProperty("testDestination", browser);
 					System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
-					System.setProperty("browserStackUsername", System.getenv("browserStackUsername"));
-					System.setProperty("browserStackAccessToken", System.getenv("browserStackAccessToken"));
+					if (System.getenv("browserStackUsername") != null) {
+						System.setProperty("browserStackUsername", System.getenv("browserStackUsername"));
+					}
+					if (System.getenv("browserStackAccessToken") != null) {
+						System.setProperty("browserStackAccessToken", System.getenv("browserStackAccessToken"));
+					}
 					System.setProperty("tagsOverride", "@tag1,@tag2,@tag3,@tag5,@test;~@tag4,@test");
 					final int failures = new TestRunner().run(globalTempFiles);
 

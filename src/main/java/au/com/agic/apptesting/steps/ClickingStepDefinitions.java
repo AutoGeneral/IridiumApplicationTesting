@@ -25,7 +25,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Gherkin steps used to click elements.
- *
+ * <p>
  * These steps have Atom snipptets that start with the prefix "click".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
@@ -49,8 +49,104 @@ public class ClickingStepDefinitions {
 	@Autowired
 	private MouseMovementUtilsImpl mouseMovementUtils;
 
+	private void clickElementMultipleTimes(
+		Integer fixedTimes,
+		WebElement element,
+		boolean treatAsHiddenElement,
+		JavascriptExecutor js) {
+		for (int i = 0; i < fixedTimes; ++i) {
+			if (treatAsHiddenElement) {
+				javaScriptRunner.interactHiddenElementMouseEvent(element, "click", js);
+			} else {
+				element.click();
+			}
+
+			sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
+		}
+	}
+
+	private WebElement clickObjectElementByXPath(final WebElement object, final JavascriptExecutor js, final String xpath, boolean ignoreMissing) {
+		return (WebElement) js.executeScript(
+			"function getElementByXpath(path, svgDocument) {"
+				+ "  return svgDocument.evaluate(path, svgDocument, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;"
+				+ "}"
+				+ "element = getElementByXpath(\"" + xpath + "\", arguments[0].contentDocument);"
+				+ "var ev = document.createEvent('MouseEvent');"
+				+ "    ev.initMouseEvent("
+				+ "        'click',"
+				+ "        true /* bubble */, true /* cancelable */,"
+				+ "        window, null,"
+				+ "        0, 0, 0, 0, /* coordinates */"
+				+ "        false, false, false, false, /* modifier keys */"
+				+ "        0 /*left*/, null"
+				+ "    );"
+				+ "if (!" + ignoreMissing + " && !element) throw \"Element was not found\";"
+				+ "if (element) {"
+				+ "		element.dispatchEvent(ev);"
+				+ "}"
+				+ "return element;",
+			object);
+	}
+
 	/**
-	 * A simplified step that will click on an element found by ID attribute, name attribue,
+	 * A simplified step that will click on an element found by ID attribute, name attribute,
+	 * class attribute, xpath or CSS selector. The first element to satisfy any of those
+	 * conditions will be the one that the step interacts with. It is up to the caller
+	 * to ensure that the selection is unique.
+	 *
+	 * @param alias               If this word is found in the step, it means the selectorValue is found from the
+	 *                            data set.
+	 * @param selectorValue       The value used in conjunction with the selector to match the element. If alias was
+	 *                            set, this value is found from the data set. Otherwise it is a literal value. This has
+	 *                            to resolve to an XPath.
+	 * @param objectAlias         If this word is found in the step, it means the objectSelectorValue is found from the
+	 *                            data set.
+	 * @param objectSelectorValue The value used to find the <object> element holding the svg element.
+	 * @param exists              If this text is set, an error that would be thrown because the element was not
+	 *                            found is ignored. Essentially setting this text makes this an optional statement.
+	 */
+	@When("^I click (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*?"
+		+ " in the object element( alias)? \"([^\"]*)\""
+		+ "( if it exists)?$")
+	public void clickInObjElementSimpleStep(
+		final String alias,
+		final String selectorValue,
+		final String objectAlias,
+		final String objectSelectorValue,
+		final String exists) {
+		try {
+			final WebElement objectElement = simpleWebElementInteraction.getClickableElementFoundBy(
+				StringUtils.isNotBlank(objectAlias),
+				objectSelectorValue,
+				State.getFeatureStateForThread());
+
+			final String svgElement = autoAliasUtils.getValue(
+				selectorValue, StringUtils.isNotBlank(alias), State.getFeatureStateForThread());
+
+			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
+			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
+
+			final WebElement svgWebElement = clickObjectElementByXPath(
+				objectElement,
+				js,
+				svgElement,
+				StringUtils.isNotBlank(exists));
+
+			mouseMovementUtils.mouseGlide(
+				(JavascriptExecutor) webDriver,
+				svgWebElement,
+				Constants.MOUSE_MOVE_TIME,
+				Constants.MOUSE_MOVE_STEPS);
+
+		} catch (final WebElementException ex) {
+			if (StringUtils.isBlank(exists)) {
+				throw ex;
+			}
+		}
+	}
+
+	/**
+	 * A simplified step that will click on an element found by ID attribute, name attribute,
 	 * class attribute, xpath or CSS selector. The first element to satisfy any of those
 	 * conditions will be the one that the step interacts with. It is up to the caller
 	 * to ensure that the selection is unique.
@@ -65,7 +161,8 @@ public class ClickingStepDefinitions {
 	 * @param exists        If this text is set, an error that would be thrown because the element was not
 	 *                      found is ignored. Essentially setting this text makes this an optional statement.
 	 */
-	@When("^I click (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*?(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
+	@When("^I click (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*?(?:( alias)? \"(.*?)\" times)?"
+		+ "( if it exists)?$")
 	public void clickElementSimpleStep(
 		final String alias,
 		final String selectorValue,
@@ -95,15 +192,7 @@ public class ClickingStepDefinitions {
 			final boolean treatAsHiddenElement = browserInteropUtils.treatElementAsHidden(
 				webDriver, element, js);
 
-			for (int i = 0; i < fixedTimes; ++i) {
-				if (treatAsHiddenElement) {
-					javaScriptRunner.interactHiddenElementMouseEvent(element, "click", js);
-				} else {
-					element.click();
-				}
-
-				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-			}
+			clickElementMultipleTimes(fixedTimes, element, treatAsHiddenElement, js);
 
 		} catch (final WebElementException ex) {
 			if (StringUtils.isBlank(exists)) {
@@ -164,15 +253,7 @@ public class ClickingStepDefinitions {
 			final boolean treatAsHiddenElement = browserInteropUtils.treatElementAsHidden(
 				webDriver, element, js);
 
-			for (int i = 0; i < fixedTimes; ++i) {
-				if (treatAsHiddenElement) {
-					javaScriptRunner.interactHiddenElementMouseEvent(element, "click", js);
-				} else {
-					element.click();
-				}
-
-				sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-			}
+			clickElementMultipleTimes(fixedTimes, element, treatAsHiddenElement, js);
 		} catch (final TimeoutException ex) {
 			if (StringUtils.isBlank(exists)) {
 				throw ex;
@@ -181,7 +262,7 @@ public class ClickingStepDefinitions {
 	}
 
 	/**
-	 * Selects an element with simplified selection and clicks on an it regardless of wether is
+	 * Selects an element with simplified selection and clicks on an it regardless of whether is
 	 * is or is not be visible on the page
 	 *
 	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
@@ -303,9 +384,9 @@ public class ClickingStepDefinitions {
 	 * @param alias       If this word is found in the step, it means the linkContent is found from the data
 	 *                    set.
 	 * @param linkContent The text content of the link we are clicking
-	 * @param timesAlias    If this word is found in the step, it means the times is found from the
-	 *                      data set.
-	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
+	 * @param timesAlias  If this word is found in the step, it means the times is found from the
+	 *                    data set.
+	 * @param times       If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists      If this text is set, an error that would be thrown because the element was not found
 	 *                    is ignored. Essentially setting this text makes this an optional statement.
 	 */
@@ -362,9 +443,9 @@ public class ClickingStepDefinitions {
 	 * @param alias       If this word is found in the step, it means the linkContent is found from the data
 	 *                    set.
 	 * @param linkContent The text content of the link we are clicking
-	 * @param timesAlias    If this word is found in the step, it means the times is found from the
-	 *                      data set.
-	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
+	 * @param timesAlias  If this word is found in the step, it means the times is found from the
+	 *                    data set.
+	 * @param times       If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists      If this text is set, an error that would be thrown because the element was not found
 	 *                    is ignored. Essentially setting this text makes this an optional statement.
 	 */
@@ -421,19 +502,19 @@ public class ClickingStepDefinitions {
 	 *
 	 * @param attributeName      Either ID, class, xpath, name or css selector
 	 * @param attributeNameAlias If this word is found in the step, it means the selectorValue is found
-	 *                              from the data set.
+	 *                           from the data set.
 	 * @param randomStartAlias   If this word is found in the step, it means the randomStart is found from the data
 	 *                           set.
 	 * @param randomStart        The start of the range of random numbers to select from
 	 * @param randomEndAlias     If this word is found in the step, it means the randomEnd is found from
-	 *                              the data set.
+	 *                           the data set.
 	 * @param randomEnd          The end of the range of random numbers to select from
-	 * @param timesAlias    If this word is found in the step, it means the times is found from the
-	 *                      data set.
-	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
+	 * @param timesAlias         If this word is found in the step, it means the times is found from the
+	 *                           data set.
+	 * @param times              If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists             If this text is set, an error that would be thrown because the element
-	 *                              was not found is ignored. Essentially setting this text makes this
-	 *                              an optional statement.
+	 *                           was not found is ignored. Essentially setting this text makes this
+	 *                           an optional statement.
 	 */
 	@When("^I click (?:a|an|the) element with (?:a|an|the) attribute( alias)? of \"([^\"]*)\" "
 		+ "with a random number between( alias)? \"([^\"]*)\" and( alias)? \"([^\"]*)\""
@@ -500,17 +581,17 @@ public class ClickingStepDefinitions {
 	 * Clicks an element on the page selected via its attributes
 	 *
 	 * @param attributeNameAlias  If this word is found in the step, it means the attributeName is found
-	 *                               from the data set.
+	 *                            from the data set.
 	 * @param attributeName       The name of the attribute to match.
 	 * @param attributeValueAlias If this word is found in the step, it means the attributeValue is found
-	 *                               from the data set.
+	 *                            from the data set.
 	 * @param attributeValue      The value of the attribute to match
-	 * @param timesAlias    If this word is found in the step, it means the times is found from the
-	 *                      data set.
-	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
+	 * @param timesAlias          If this word is found in the step, it means the times is found from the
+	 *                            data set.
+	 * @param times               If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists              If this text is set, an error that would be thrown because the element
-	 *                               was not found is ignored. Essentially setting this text makes this an
-	 *                               optional statement.
+	 *                            was not found is ignored. Essentially setting this text makes this an
+	 *                            optional statement.
 	 */
 	@When("^I click (?:a|an|the) element with (?:a|an|the) attribute( alias)? of \"([^\"]*)\" equal to( alias)? "
 		+ "\"([^\"]*)\"(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
@@ -562,12 +643,11 @@ public class ClickingStepDefinitions {
 	/**
 	 * Clicks ok on the alert
 	 *
-	 * @param timesAlias    If this word is found in the step, it means the times is found from the
-	 *                      data set.
-	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
-
-	 * @param exists      If this text is set, an error that would be thrown because the element was not found
-	 *                    is ignored. Essentially setting this text makes this an optional statement.
+	 * @param timesAlias If this word is found in the step, it means the times is found from the
+	 *                   data set.
+	 * @param times      If this text is set, the click operation will be repeated the specified number of times.
+	 * @param exists     If this text is set, an error that would be thrown because the element was not found
+	 *                   is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@When("^I click \"OK\" on the alert(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickOKOnAlert(
@@ -594,11 +674,11 @@ public class ClickingStepDefinitions {
 	/**
 	 * Clicks cancel on the alert
 	 *
-	 * @param timesAlias    If this word is found in the step, it means the times is found from the
-	 *                      data set.
-	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
-	 * @param exists      If this text is set, an error that would be thrown because the element was not found
-	 *                    is ignored. Essentially setting this text makes this an optional statement.
+	 * @param timesAlias If this word is found in the step, it means the times is found from the
+	 *                   data set.
+	 * @param times      If this text is set, the click operation will be repeated the specified number of times.
+	 * @param exists     If this text is set, an error that would be thrown because the element was not found
+	 *                   is ignored. Essentially setting this text makes this an optional statement.
 	 */
 	@When("^I click \"Cancel\" on the alert(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickCancelOnAlert(
@@ -624,27 +704,28 @@ public class ClickingStepDefinitions {
 
 	/**
 	 * Clicks within the area of an element. This is useful for UI widgets like sliders.
-	 * @param event The kind of mouse event to trigger
-	 * @param xAxis The horizontal percentage within the element area to click
-	 * @param yAxis The vertical percentage within the element area to click
-	 * @param alias Include this to force the selector to reference an alias
+	 *
+	 * @param event         The kind of mouse event to trigger
+	 * @param xAxis         The horizontal percentage within the element area to click
+	 * @param yAxis         The vertical percentage within the element area to click
+	 * @param alias         Include this to force the selector to reference an alias
 	 * @param selectorValue The selector
 	 * @param timesAlias    If this word is found in the step, it means the times is found from the
 	 *                      data set.
 	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
-	 * @param exists Include this to ignore errors caused by missing elements
+	 * @param exists        Include this to ignore errors caused by missing elements
 	 */
 	@When("^I \"(click|mousedown|mouseup|mouseover|mouseout|mousemove|dblclick)\" \"(\\d+(?:\\.\\d+)?)%\" horizontally and \"(\\d+(?:\\.\\d+)?)%\" vertically within"
 		+ " the area of (?:a|an|the)(?: element found by)?( alias)? \"([^\"]*)\"(?: \\w+)*?(?:( alias)? \"(.*?)\" times)?( if it exists)?$")
 	public void clickInElement(
-			final String event,
-			final Float xAxis,
-			final Float yAxis,
-			final String alias,
-			final String selectorValue,
-			final String timesAlias,
-			final String times,
-			final String exists) {
+		final String event,
+		final Float xAxis,
+		final Float yAxis,
+		final String alias,
+		final String selectorValue,
+		final String timesAlias,
+		final String times,
+		final String exists) {
 
 		try {
 			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
@@ -708,9 +789,9 @@ public class ClickingStepDefinitions {
 	 * @param alias       If this word is found in the step, it means the linkContent is found from
 	 *                    the data set.
 	 * @param linkContent The text content of the link we are clicking
-	 * @param timesAlias    If this word is found in the step, it means the times is found from the
-	 *                      data set.
-	 * @param times         If this text is set, the click operation will be repeated the specified number of times.
+	 * @param timesAlias  If this word is found in the step, it means the times is found from the
+	 *                    data set.
+	 * @param times       If this text is set, the click operation will be repeated the specified number of times.
 	 * @param exists      If this text is set, an error that would be thrown because the element was
 	 *                    not found is ignored. Essentially setting this text makes this an optional
 	 *                    statement.
