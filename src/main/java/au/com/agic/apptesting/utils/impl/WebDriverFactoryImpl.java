@@ -246,6 +246,8 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			options.addArguments("headless");
 			options.addArguments("disable-gpu");
 			options.addArguments("no-sandbox");
+			options.addArguments("allow-running-insecure-content");
+			options.addArguments("ignore-certificate-errors");
 			options.addArguments("window-size=1920,1080");
 		}
 
