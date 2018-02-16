@@ -242,6 +242,10 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			buildSecureChromeOptions(options);
 		}
 
+		/*
+			There are some issues using Chrome headless
+			https://bugs.chromium.org/p/chromium/issues/detail?id=721739
+		 */
 		if (headless) {
 			options.addArguments("headless");
 			options.addArguments("disable-gpu");
