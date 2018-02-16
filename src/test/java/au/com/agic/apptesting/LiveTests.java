@@ -37,6 +37,7 @@ public class LiveTests {
 	private final List<String> browsers = new ArrayList<String>();
 	private boolean runNegTests = true;
 	private boolean runSimpleTests = true;
+	private String additionalTags = "";
 
 	public boolean runNegTests() {
 		return runNegTests;
@@ -108,6 +109,10 @@ public class LiveTests {
 
 				if (settings.has("runSimpleTests")) {
 					runSimpleTests = settings.getBoolean("runSimpleTests");
+				}
+
+				if (settings.has("additionalTags")) {
+					additionalTags = settings.getString("additionalTags");
 				}
 
 				if (settings.has("groupName")) {
@@ -283,7 +288,7 @@ public class LiveTests {
 					if (System.getenv("browserStackAccessToken") != null) {
 						System.setProperty("browserStackAccessToken", System.getenv("browserStackAccessToken"));
 					}
-					System.setProperty("tagsOverride", "@tag1,@tag2,@tag3,@tag5,@test;~@tag4,@test");
+					System.setProperty("tagsOverride", "@tag1,@tag2,@tag3,@tag5,@test;~@tag4,@test;" + additionalTags);
 					final int failures = new TestRunner().run(globalTempFiles);
 
 					if (!Constants.REMOTE_TESTS.equals(System.getProperty("testDestination"))) {

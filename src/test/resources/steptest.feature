@@ -54,14 +54,6 @@ Feature: Test of the steps provided by Iridium
 		And I enable autoaliasing
 
 	@test
-	Scenario: Click SVG Image in Object
-		And I scroll to the bottom of the page
-		# Note that the selector to the element in the SVG must be an XPath.
-		# The selector to the <object> element can be any of the standard selectors (xpath, css path, id etc).
-		And I click the "//*[@id='CNR']/*[name()='path'][1]" element in the object element "/html/body/object"
-		Then I verify that the page contains the text "SVG Clicked!"
-
-	@test
 	Scenario: Test finding text in page
 		And I wait "30" seconds for the page to contain the text "Some text with styles"
 		And I scroll to the bottom of the page
@@ -74,6 +66,14 @@ Feature: Test of the steps provided by Iridium
 		And I verify that the page contains the text "Some text with UTF characters like Є and ϼ"
 	 # The whitespace between table cells can be tabs, spaces or newlines depending on the browser
 		And I verify that the page contains the regex "Some(\s)+text(\s)+in(\s)+a(\s)+table"
+
+	@test @iefail
+	Scenario: Click SVG Image in Object
+		And I scroll to the bottom of the page
+		# Note that the selector to the element in the SVG must be an XPath.
+		# The selector to the <object> element can be any of the standard selectors (xpath, css path, id etc).
+		And I click the "//*[@id='CNR']/*[name()='path'][1]" element in the object element "/html/body/object"
+		Then I verify that the page contains the text "SVG Clicked!"
 
 	@test
 	Scenario: Test cookie steps
