@@ -101,23 +101,27 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			Add that proxy as a capability for browsers other than Firefox and Marionette.
 			There is a bug in the geckodriver that prevents us from using capabilities for
 			the proxy: https://github.com/mozilla/geckodriver/issues/669
-
-			Also disable the proxy for Chrome headless:
-			https://bugs.chromium.org/p/chromium/issues/detail?id=721739
 		 */
 		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) &&
 			!Constants.FIREFOX.equalsIgnoreCase(browser) &&
-			!Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser) &&
-			!Constants.CHROME_HEADLESS.equalsIgnoreCase(browser) &&
-			!Constants.CHROME_HEADLESS_SECURE.equalsIgnoreCase(browser)) {
+			!Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser) {
 			mainProxy
 				.map(myMainProxy -> {
 					final Proxy proxy = new Proxy();
 					proxy.setProxyType(Proxy.ProxyType.MANUAL);
 					proxy.setHttpProxy("localhost:" + myMainProxy.getPort());
-					proxy.setSslProxy("localhost:" + myMainProxy.getPort());
 					proxy.setSocksProxy("localhost:" + myMainProxy.getPort());
 					proxy.setFtpProxy("localhost:" + myMainProxy.getPort());
+
+					/*
+						Also disable the proxy for Chrome headless HTTPS:
+						https://bugs.chromium.org/p/chromium/issues/detail?id=721739
+					 */
+					if (!Constants.CHROME_HEADLESS.equalsIgnoreCase(browser) &&
+						!Constants.CHROME_HEADLESS_SECURE.equalsIgnoreCase(browser)) {
+						proxy.setSslProxy("localhost:" + myMainProxy.getPort());
+					}
+
 					return proxy;
 				})
 				.ifPresent(proxy -> capabilities.setCapability("proxy", proxy));
