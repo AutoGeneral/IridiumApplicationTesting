@@ -1,9 +1,8 @@
 package au.com.agic.apptesting.utils;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * A service that merges individual junit reports

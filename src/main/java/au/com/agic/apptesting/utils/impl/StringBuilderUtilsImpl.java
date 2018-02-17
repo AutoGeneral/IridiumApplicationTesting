@@ -1,8 +1,8 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import au.com.agic.apptesting.utils.StringBuilderUtils;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Implementation of StringBuilderUtils

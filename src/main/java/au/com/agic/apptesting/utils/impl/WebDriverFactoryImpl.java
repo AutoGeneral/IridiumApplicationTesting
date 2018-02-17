@@ -102,9 +102,9 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			There is a bug in the geckodriver that prevents us from using capabilities for
 			the proxy: https://github.com/mozilla/geckodriver/issues/669
 		 */
-		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) &&
-			!Constants.FIREFOX.equalsIgnoreCase(browser) &&
-			!Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser)) {
+		if (!Constants.MARIONETTE.equalsIgnoreCase(browser)
+			&& !Constants.FIREFOX.equalsIgnoreCase(browser)
+			&& !Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser)) {
 			mainProxy
 				.map(myMainProxy -> {
 					final Proxy proxy = new Proxy();
@@ -117,8 +117,8 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 						Also disable the proxy for Chrome headless HTTPS:
 						https://bugs.chromium.org/p/chromium/issues/detail?id=721739
 					 */
-					if (!Constants.CHROME_HEADLESS.equalsIgnoreCase(browser) &&
-						!Constants.CHROME_HEADLESS_SECURE.equalsIgnoreCase(browser)) {
+					if (!Constants.CHROME_HEADLESS.equalsIgnoreCase(browser)
+						&& !Constants.CHROME_HEADLESS_SECURE.equalsIgnoreCase(browser)) {
 						proxy.setSslProxy("localhost:" + myMainProxy.getPort());
 					}
 

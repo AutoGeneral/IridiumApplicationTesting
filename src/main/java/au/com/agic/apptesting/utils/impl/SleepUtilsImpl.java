@@ -1,11 +1,10 @@
 package au.com.agic.apptesting.utils.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import au.com.agic.apptesting.utils.SleepUtils;
-
 import io.vavr.control.Try;
 import org.springframework.stereotype.Component;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Implementation of the sleep service

@@ -3,7 +3,6 @@ package au.com.agic.apptesting.utils.impl;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.CountConverter;
-
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

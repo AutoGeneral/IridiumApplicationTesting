@@ -50,10 +50,10 @@ public class ClickingStepDefinitions {
 	private MouseMovementUtilsImpl mouseMovementUtils;
 
 	private void clickElementMultipleTimes(
-		Integer fixedTimes,
-		WebElement element,
-		boolean treatAsHiddenElement,
-		JavascriptExecutor js) {
+		final Integer fixedTimes,
+		final WebElement element,
+		final boolean treatAsHiddenElement,
+		final JavascriptExecutor js) {
 		for (int i = 0; i < fixedTimes; ++i) {
 			if (treatAsHiddenElement) {
 				javaScriptRunner.interactHiddenElementMouseEvent(element, "click", js);

@@ -11,7 +11,7 @@
 	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
 	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
 ]>
-<svg version="1.0" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+<svg xmlns:i="&ns_ai;" version="1.0"  id="Layer_1"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
 	 x="0px" y="0px" viewBox="0 0 428.5 92.3" enable-background="new 0 0 428.5 92.3" xml:space="preserve">
 <switch>
@@ -39,7 +39,7 @@
 			</radialGradient>
 			<circle fill="url(#SVGID_1_)" cx="46.7" cy="37.6" r="16.2"/>
 			<circle fill="#231F20" cx="46.7" cy="37.6" r="16.2"/>
-			
+
 				<ellipse transform="matrix(0.9124 0.4094 -0.4094 0.9124 17.6285 -19.0074)" fill="#FFFFFF" cx="53.2" cy="31.7" rx="3.2" ry="5"/>
 		</g>
 		<path fill="#382F27" d="M107.1,28.5c0-0.3,0.2-0.5,0.6-0.5h14.5c8.3,0,12.2,3.8,12.2,9.6c0,4.1-2.1,6.4-4.5,7.6v0.1

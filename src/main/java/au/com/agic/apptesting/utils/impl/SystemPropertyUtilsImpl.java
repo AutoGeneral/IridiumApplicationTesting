@@ -99,7 +99,7 @@ public class SystemPropertyUtilsImpl implements SystemPropertyUtils {
 	}
 
 	@Override
-	public Optional<String> getPropertyAsOptional(String name) {
+	public Optional<String> getPropertyAsOptional(final String name) {
 		checkArgument(StringUtils.isNotBlank(name));
 
 		return SYSTEM_PROPERTY_PREFIXES.stream()

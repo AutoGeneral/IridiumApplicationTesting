@@ -1,8 +1,7 @@
 package au.com.agic.apptesting.utils;
 
-import java.time.temporal.ChronoUnit;
-
 import javax.validation.constraints.NotNull;
+import java.time.temporal.ChronoUnit;
 
 /**
  * A service for converting strings to chrono units

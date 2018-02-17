@@ -1,8 +1,7 @@
 package au.com.agic.apptesting.steps;
 
-import org.springframework.stereotype.Component;
-
 import cucumber.api.java.en.When;
+import org.springframework.stereotype.Component;
 
 /**
  * Steps that cause a scenario to fail. Useful for testing.

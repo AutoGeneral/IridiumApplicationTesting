@@ -2,7 +2,6 @@ package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.CleanupUtils;
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

@@ -5,7 +5,8 @@ import au.com.agic.apptesting.exception.InvalidInputException;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.ChronoConverterUtils;
 import au.com.agic.apptesting.utils.SleepUtils;
-
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +18,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
-
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 /**
  * Contains Gherkin step definitions for modifying aliased values.
