@@ -10,8 +10,8 @@
 	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
 	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
 	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
-]>
-<svg xmlns:i="&ns_ai;" version="1.0"  id="Layer_1"
+	]>
+<svg xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;" version="1.0" id="Layer_1"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
 	 x="0px" y="0px" viewBox="0 0 428.5 92.3" enable-background="new 0 0 428.5 92.3" xml:space="preserve">
 <switch>
