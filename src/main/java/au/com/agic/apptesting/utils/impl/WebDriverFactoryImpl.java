@@ -83,7 +83,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			Don't worry about ssl issues
 		 */
 		capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-		capabilities.setCapability("acceptInsecureCerts", true);
+		capabilities.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 
 		/*
 			Don't block popups
@@ -101,10 +101,15 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			Add that proxy as a capability for browsers other than Firefox and Marionette.
 			There is a bug in the geckodriver that prevents us from using capabilities for
 			the proxy: https://github.com/mozilla/geckodriver/issues/669
+
+			Also disable the proxy for Chrome headless:
+			https://bugs.chromium.org/p/chromium/issues/detail?id=721739
 		 */
 		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) &&
 			!Constants.FIREFOX.equalsIgnoreCase(browser) &&
-			!Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser)) {
+			!Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser) &&
+			!Constants.CHROME_HEADLESS.equalsIgnoreCase(browser) &&
+			!Constants.CHROME_HEADLESS_SECURE.equalsIgnoreCase(browser)) {
 			mainProxy
 				.map(myMainProxy -> {
 					final Proxy proxy = new Proxy();
