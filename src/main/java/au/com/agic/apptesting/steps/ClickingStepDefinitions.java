@@ -128,7 +128,7 @@ public class ClickingStepDefinitions {
 	 *                            to resolve to an XPath.
 	 * @param objectAlias         If this word is found in the step, it means the objectSelectorValue is found from the
 	 *                            data set.
-	 * @param objectSelectorValue The value used to find the <object> element holding the svg element.
+	 * @param objectSelectorValue The value used to find the object element holding the svg element.
 	 * @param exists              If this text is set, an error that would be thrown because the element was not
 	 *                            found is ignored. Essentially setting this text makes this an optional statement.
 	 */

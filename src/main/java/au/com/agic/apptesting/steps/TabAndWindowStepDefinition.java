@@ -41,9 +41,11 @@ public class TabAndWindowStepDefinition {
 
 	/**
 	 * Switchs to the specified window. This is useful when you open a link that opens in a new window.
+	 *
+	 * @param ignoreErrors ignore any errors
 	 */
 	@When("I switch to the new window( ignoring errors)?")
-	public void switchWindows(final String ignoreErrors) throws Exception {
+	public void switchWindows(final String ignoreErrors) {
 		try {
 			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			webDriver.getWindowHandles().stream()
@@ -61,6 +63,7 @@ public class TabAndWindowStepDefinition {
 	/**
 	 * Switchs to the specified window. This is useful when you open a link that opens in a new
 	 * window.
+	 * @param ignoreErrors ignore any errors
 	 */
 	@When("I close the current window( ignoring errors)?")
 	public void closeWindow(final String ignoreErrors) {
@@ -91,7 +94,7 @@ public class TabAndWindowStepDefinition {
 	 * Maximise the browser window
 	 */
 	@When("I maximi(?:s|z)e the window")
-	public void maximiseWindow() throws Throwable {
+	public void maximiseWindow() {
 		browserInteropUtils.maximizeWindow();
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
@@ -103,7 +106,7 @@ public class TabAndWindowStepDefinition {
 	 * @param height The height of the browser window
 	 */
 	@When("I set the window size to \"(\\d+)x(\\d+)\"")
-	public void setWindowSize(final Integer width, final Integer height) throws Throwable {
+	public void setWindowSize(final Integer width, final Integer height) {
 		browserInteropUtils.setWindowSize(width, height);
 		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
 	}
