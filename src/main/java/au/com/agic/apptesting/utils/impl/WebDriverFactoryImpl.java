@@ -104,7 +104,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		 */
 		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) &&
 			!Constants.FIREFOX.equalsIgnoreCase(browser) &&
-			!Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser) {
+			!Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser)) {
 			mainProxy
 				.map(myMainProxy -> {
 					final Proxy proxy = new Proxy();
