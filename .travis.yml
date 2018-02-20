@@ -16,7 +16,7 @@ env:
 - TEST_SUITE="{'browsers':['Opera'],'runNegTests':false,'runSimpleTests':false}"
 - TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Edge'}"
 - TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Safari'}"
-- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'IE'}"
+- TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'IE','additionalTags':'~@iefail'}"
 - TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Android'}"
 before_install:
 # https://github.com/travis-ci/travis-ci/issues/8520

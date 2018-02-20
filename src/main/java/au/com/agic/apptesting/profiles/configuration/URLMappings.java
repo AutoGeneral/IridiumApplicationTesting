@@ -1,9 +1,8 @@
 package au.com.agic.apptesting.profiles.configuration;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlElement;
 
 /**
  * Represents a collection of URL Mappings

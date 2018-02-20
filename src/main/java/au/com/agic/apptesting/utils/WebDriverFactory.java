@@ -2,13 +2,11 @@ package au.com.agic.apptesting.utils;
 
 import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.impl.SystemPropertyUtilsImpl;
-
 import org.openqa.selenium.WebDriver;
 
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.util.List;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * A service for creating web driver instances
