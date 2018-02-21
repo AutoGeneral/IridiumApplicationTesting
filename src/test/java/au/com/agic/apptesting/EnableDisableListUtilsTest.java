@@ -2,7 +2,6 @@ package au.com.agic.apptesting;
 
 import au.com.agic.apptesting.utils.EnableDisableListUtils;
 import au.com.agic.apptesting.utils.impl.EnableDisableListUtilsImpl;
-
 import org.junit.Assert;
 import org.junit.Test;
 

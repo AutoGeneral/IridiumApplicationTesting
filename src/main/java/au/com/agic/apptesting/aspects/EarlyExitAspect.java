@@ -2,7 +2,6 @@ package au.com.agic.apptesting.aspects;
 
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.FeatureState;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

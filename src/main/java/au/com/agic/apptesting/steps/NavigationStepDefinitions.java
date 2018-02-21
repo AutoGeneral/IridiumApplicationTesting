@@ -3,14 +3,12 @@ package au.com.agic.apptesting.steps;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.utils.AutoAliasUtils;
 import au.com.agic.apptesting.utils.SleepUtils;
-
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import cucumber.api.java.en.When;
 
 /**
  * Gherkin steps for navigating in the browser.

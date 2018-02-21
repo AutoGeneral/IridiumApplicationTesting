@@ -1,10 +1,8 @@
 package au.com.agic.apptesting.steps;
 
 import au.com.agic.apptesting.State;
-
-import org.springframework.stereotype.Component;
-
 import cucumber.api.java.en.When;
+import org.springframework.stereotype.Component;
 
 /**
  * Steps that change the execution of the scenarios and steps

@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 /**
  * Gherkin steps used to run javascript.
- *
+ * <p>
  * These steps have Atom snippets that start with the prefix "run".
  * See https://github.com/mcasperson/iridium-snippets for more details.
  */
@@ -27,11 +27,11 @@ public class JavaScriptStepDefinitions {
 	/**
 	 * Runs arbitrary JavaScript
 	 *
-	 * @param ignoreErrors	Set this text to ignore an JavaScript errors
-	 * @param javaScript    The JavaScript to run
+	 * @param javaScript   The JavaScript to run
+	 * @param ignoreErrors Set this text to ignore an JavaScript errors
 	 */
 	@When("^I run the following JavaScript( ignoring errors)?$")
-	public void runJavaScript(final String ignoreErrors, final String javaScript) throws Exception {
+	public void runJavaScript(final String ignoreErrors, final String javaScript) {
 		try {
 			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;
@@ -50,11 +50,12 @@ public class JavaScriptStepDefinitions {
 	/**
 	 * Runs arbitrary JavaScript
 	 *
-	 * @param javaScript         The JavaScript to run
-	 * @param alias 			The alias that holds the string result of the script
+	 * @param javaScript The JavaScript to run
+	 * @param alias      The alias that holds the string result of the script
+	 * @param ignoreErrors Set this text to ignore an JavaScript errors
 	 */
 	@When("^I run the following JavaScript and save the result to alias \"(.*?)\"( ignoring errors)?$")
-	public void runJavaScript(final String alias, final String ignoreErrors, final String javaScript) throws Exception {
+	public void runJavaScript(final String alias, final String ignoreErrors, final String javaScript) {
 		try {
 			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 			final JavascriptExecutor js = (JavascriptExecutor) webDriver;

@@ -1,8 +1,7 @@
 package au.com.agic.apptesting.utils;
 
-import java.net.URI;
-
 import javax.validation.constraints.NotNull;
+import java.net.URI;
 
 /**
  * Module with methods for interacting with the desktop

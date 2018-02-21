@@ -83,7 +83,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			Don't worry about ssl issues
 		 */
 		capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-		capabilities.setCapability("acceptInsecureCerts", true);
+		capabilities.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 
 		/*
 			Don't block popups
@@ -102,17 +102,26 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			There is a bug in the geckodriver that prevents us from using capabilities for
 			the proxy: https://github.com/mozilla/geckodriver/issues/669
 		 */
-		if (!Constants.MARIONETTE.equalsIgnoreCase(browser) &&
-			!Constants.FIREFOX.equalsIgnoreCase(browser) &&
-			!Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser)) {
+		if (!Constants.MARIONETTE.equalsIgnoreCase(browser)
+			&& !Constants.FIREFOX.equalsIgnoreCase(browser)
+			&& !Constants.FIREFOXHEADLESS.equalsIgnoreCase(browser)) {
 			mainProxy
 				.map(myMainProxy -> {
 					final Proxy proxy = new Proxy();
 					proxy.setProxyType(Proxy.ProxyType.MANUAL);
 					proxy.setHttpProxy("localhost:" + myMainProxy.getPort());
-					proxy.setSslProxy("localhost:" + myMainProxy.getPort());
 					proxy.setSocksProxy("localhost:" + myMainProxy.getPort());
 					proxy.setFtpProxy("localhost:" + myMainProxy.getPort());
+
+					/*
+						Also disable the proxy for Chrome headless HTTPS:
+						https://bugs.chromium.org/p/chromium/issues/detail?id=721739
+					 */
+					if (!Constants.CHROME_HEADLESS.equalsIgnoreCase(browser)
+						&& !Constants.CHROME_HEADLESS_SECURE.equalsIgnoreCase(browser)) {
+						proxy.setSslProxy("localhost:" + myMainProxy.getPort());
+					}
+
 					return proxy;
 				})
 				.ifPresent(proxy -> capabilities.setCapability("proxy", proxy));
@@ -242,10 +251,16 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 			buildSecureChromeOptions(options);
 		}
 
+		/*
+			There are some issues using Chrome headless
+			https://bugs.chromium.org/p/chromium/issues/detail?id=721739
+		 */
 		if (headless) {
 			options.addArguments("headless");
 			options.addArguments("disable-gpu");
 			options.addArguments("no-sandbox");
+			options.addArguments("allow-running-insecure-content");
+			options.addArguments("ignore-certificate-errors");
 			options.addArguments("window-size=1920,1080");
 		}
 

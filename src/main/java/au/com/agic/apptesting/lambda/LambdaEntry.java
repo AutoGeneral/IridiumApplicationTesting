@@ -4,8 +4,6 @@ import au.com.agic.apptesting.Main;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 /**

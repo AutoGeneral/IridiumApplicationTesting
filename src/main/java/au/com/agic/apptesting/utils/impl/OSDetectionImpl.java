@@ -1,7 +1,6 @@
 package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.utils.OSDetection;
-
 import org.springframework.stereotype.Component;
 
 /**

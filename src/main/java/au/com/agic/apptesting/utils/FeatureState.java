@@ -3,11 +3,10 @@ package au.com.agic.apptesting.utils;
 import au.com.agic.apptesting.State;
 import au.com.agic.apptesting.profiles.configuration.UrlMapping;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * Represents the details required by a feature to run in a particular thread.

@@ -1,15 +1,13 @@
 package au.com.agic.apptesting.steps;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import au.com.agic.apptesting.State;
-
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.When;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.When;
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Gherkin steps that are used to initialise the test script.

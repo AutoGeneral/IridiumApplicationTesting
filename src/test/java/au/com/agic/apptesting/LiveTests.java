@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,6 +36,7 @@ public class LiveTests {
 	private final List<String> browsers = new ArrayList<String>();
 	private boolean runNegTests = true;
 	private boolean runSimpleTests = true;
+	private String additionalTags = "";
 
 	public boolean runNegTests() {
 		return runNegTests;
@@ -47,44 +47,35 @@ public class LiveTests {
 	}
 
 	private File[] getFailureScreenshots() {
-		return new File(".").listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(final File dir, final String name) {
-				if (name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png")) {
-					LOGGER.info("Found screenshot file file: " + name);
-					return true;
-				}
-
-				return false;
+		return new File(".").listFiles((dir, name) -> {
+			if (name.contains(Constants.FAILURE_SCREENSHOT_SUFFIX) && name.endsWith(".png")) {
+				LOGGER.info("Found screenshot file file: " + name);
+				return true;
 			}
+
+			return false;
 		});
 	}
 
 	private File[] getScreenshots() {
-		return new File(".").listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(final File dir, final String name) {
-				if (name.endsWith(".png")) {
-					LOGGER.info("Found screenshot file file: " + name);
-					return true;
-				}
-
-				return false;
+		return new File(".").listFiles((dir, name) -> {
+			if (name.endsWith(".png")) {
+				LOGGER.info("Found screenshot file file: " + name);
+				return true;
 			}
+
+			return false;
 		});
 	}
 
 	private File[] getHarFiles() {
-		return new File(".").listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(final File dir, final String name) {
-				if (name.endsWith(".har")) {
-					LOGGER.info("Found HAR file: " + name);
-					return true;
-				}
-
-				return false;
+		return new File(".").listFiles((dir, name) -> {
+			if (name.endsWith(".har")) {
+				LOGGER.info("Found HAR file: " + name);
+				return true;
 			}
+
+			return false;
 		});
 	}
 
@@ -96,6 +87,7 @@ public class LiveTests {
 	public void getBrowserList() throws JSONException {
 		final String browsersSysProp = SYSTEM_PROPERTY_UTILS.getPropertyEmptyAsNull(TEST_BROWSERS_SYSTEM_PROPERTY);
 		if (StringUtils.isBlank(browsersSysProp)) {
+			//browsers.add("IE");
 			browsers.add("ChromeSecure");
 			browsers.add("Marionette");
 			browsers.add("PhantomJS");
@@ -116,6 +108,10 @@ public class LiveTests {
 
 				if (settings.has("runSimpleTests")) {
 					runSimpleTests = settings.getBoolean("runSimpleTests");
+				}
+
+				if (settings.has("additionalTags")) {
+					additionalTags = settings.getString("additionalTags");
 				}
 
 				if (settings.has("groupName")) {
@@ -285,9 +281,13 @@ public class LiveTests {
 					System.setProperty("testSource", this.getClass().getResource("/steptest.feature").toString());
 					System.setProperty("testDestination", browser);
 					System.setProperty("configuration", this.getClass().getResource("/config.xml").toString());
-					System.setProperty("browserStackUsername", System.getenv("browserStackUsername"));
-					System.setProperty("browserStackAccessToken", System.getenv("browserStackAccessToken"));
-					System.setProperty("tagsOverride", "@tag1,@tag2,@tag3,@tag5,@test;~@tag4,@test");
+					if (System.getenv("browserStackUsername") != null) {
+						System.setProperty("browserStackUsername", System.getenv("browserStackUsername"));
+					}
+					if (System.getenv("browserStackAccessToken") != null) {
+						System.setProperty("browserStackAccessToken", System.getenv("browserStackAccessToken"));
+					}
+					System.setProperty("tagsOverride", "@tag1,@tag2,@tag3,@tag5,@test;~@tag4,@test;" + additionalTags);
 					final int failures = new TestRunner().run(globalTempFiles);
 
 					if (!Constants.REMOTE_TESTS.equals(System.getProperty("testDestination"))) {
