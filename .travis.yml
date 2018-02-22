@@ -20,7 +20,7 @@ env:
 - TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Android'}"
 before_install:
 # https://github.com/travis-ci/travis-ci/issues/8520
-- sudo apt-get install dbus-x11
+- sudo apt-get install dbus-x11 gcc-5-base
 - sudo wget http://mirrors.kernel.org/ubuntu/pool/main/i/icu/libicu55_55.1-7ubuntu0.3_amd64.deb
 - sudo wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.9_amd64.deb
 - sudo dpkg -i libstdc++6_5.4.0-6ubuntu1~16.04.9_amd64.deb
