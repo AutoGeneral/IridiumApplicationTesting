@@ -20,14 +20,16 @@ env:
 - TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Android'}"
 before_install:
 # https://github.com/travis-ci/travis-ci/issues/8520
-- sudo apt-get install dbus-x11 libssl-dev
+- sudo apt-get install dbus-x11
 - sudo wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.4.0-6ubuntu1~16.04.9_amd64.deb
 - sudo wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.9_amd64.deb
 - sudo wget http://mirrors.kernel.org/ubuntu/pool/main/i/icu/libicu55_55.1-7ubuntu0.3_amd64.deb
+- sudo wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl-dev_1.0.2g-1ubuntu4.10_amd64.deb
 - sudo wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/openssl_1.0.2g-1ubuntu4.10_amd64.deb
 - sudo dpkg -i gcc-5-base_5.4.0-6ubuntu1~16.04.9_amd64.deb
 - sudo dpkg -i libstdc++6_5.4.0-6ubuntu1~16.04.9_amd64.deb
 - sudo dpkg -i libicu55_55.1-7ubuntu0.3_amd64.deb
+- sudo dpkg -i libssl-dev_1.0.2g-1ubuntu4.10_amd64.deb
 - sudo dpkg -i openssl_1.0.2g-1ubuntu4.10_amd64.deb
 - sudo apt-get -f install
 - export CHROME_BIN=/usr/bin/google-chrome
