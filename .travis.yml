@@ -20,7 +20,7 @@ env:
 - TEST_SUITE="{'browsers':['BrowserStack'],'runNegTests':false,'runSimpleTests':false,'groupName':'Android'}"
 before_install:
 # https://github.com/travis-ci/travis-ci/issues/8520
-- sudo apt-get install dbus-x11
+- sudo apt-get install dbus-x11 libicu52
 - export CHROME_BIN=/usr/bin/google-chrome
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
