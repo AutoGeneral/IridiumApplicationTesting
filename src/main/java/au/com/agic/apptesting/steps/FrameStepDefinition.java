@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import cucumber.api.java.en.When;
 
 /**
- * This class contains Gherkin step definitions for working with frames/iframes.
+ * This class contains the Gherkin step definitions for working with frames/iframes.
  */
 @Component
 public class FrameStepDefinition {
@@ -26,22 +26,13 @@ public class FrameStepDefinition {
 	@Autowired
 	private GetBy getBy;
 
-	@When("I switch to an iframe indexed at \"(\\d+)\"$")
-	public void switchToFrameAtIndex(final String frameIndex) {
-		final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
-		webDriver.switchTo().frame(Integer.parseInt(frameIndex));
-		sleepUtils.sleep(State.getFeatureStateForThread().getDefaultSleep());
-	}
-
 	/**
 	 * Switches to the frame/iframe with given selector or alias.
 	 *
 	 * @param selector      Either ID, class, xpath, name or css selector
-	 * @param alias         If this word is found in the step, it means the selectorValue is found from the
-	 *                      data set.
+	 * @param alias         If this word is found in the step, it means the selectorValue is found from the data set.
 	 * @param selectorValue The value used in conjunction with the selector to match the element. If alias
-	 *                      was set, ' this value is found from the data set. Otherwise it is a literal
-	 *                      value.
+	 *                      was set, this value is found from the data set. Otherwise it is a literal value.
 	 */
 	@When("^I switch to (?:a|an|the) (?:frame|iframe) with (?:a|an|the) (ID|class|xpath|name|css selector)( alias)? of \"([^\"]*)\"")
 	public void switchToFrame(
