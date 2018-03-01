@@ -2,7 +2,7 @@
 
 ## BrowserStack
 
-![Browserstack](browserstack.svg)
+![Browserstack](browserstack.png)
 
 Thanks to Browserstack for their support of this project.
 
@@ -34,8 +34,6 @@ Files from https://s3-ap-southeast-2.amazonaws.com/ag-iridium/won't be updated, 
 [![Dependency Status](https://www.versioneye.com/user/projects/57c4c52f69d94900403f6466/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57c4c52f69d94900403f6466)
 
 [![codecov](https://codecov.io/gh/mcasperson/IridiumApplicationTesting/branch/master/graph/badge.svg)](https://codecov.io/gh/mcasperson/IridiumApplicationTesting)
-
-[![Github All Releases](https://img.shields.io/github/downloads/mcasperson/IridiumApplicationTesting/total.svg)](https://github.com/mcasperson/IridiumApplicationTesting)
 
 ## Documentation
 See the [documentation](https://autogeneral.gitbooks.io/iridiumapplicationtesting-gettingstartedguide/content/)

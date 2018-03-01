@@ -41,6 +41,7 @@
 /CucumberThread*.txt
 /CucumberThread*.json
 /*.png
+!browserstack.png
 /MergedReport.xml
 /CucumberThread*.html
 /CucumberThread*.zap
