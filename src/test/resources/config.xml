@@ -6,22 +6,25 @@
     <settings>
 		<!-- https://www.browserstack.com/automate/junit#configure-capabilities -->
 		<desiredCapabilities enabled="true" group="Android,Mobile">
-			<capability name="platform" value="ANDROID"/>
-			<capability name="browserName" value="chrome"/>
-			<capability name="device" value="Samsung Galaxy S5"/>
-			<capability name="realMobile" value="false"/>
+			<capability name="os_version" value="7.0"/>
+			<capability name="device" value="Samsung Galaxy S8"/>
+			<capability name="real_mobile" value="true"/>
+			<capability name="browserstack.local" value="false"/>
 			<capability name="browserstack.selenium_version" value="3.4.0"/>
 		</desiredCapabilities>
 		<desiredCapabilities enabled="true" group="iPad,Mobile">
-			<capability name="platform" value="MAC"/>
-			<capability name="browserName" value="iPad"/>
+			<capability name="os_version" value="11.0"/>
+			<capability name="real_mobile" value="true"/>
 			<capability name="device" value="iPad Pro"/>
+			<capability name="browserstack.local" value="false"/>
 			<capability name="browserstack.selenium_version" value="3.4.0"/>
 		</desiredCapabilities>
 		<desiredCapabilities enabled="true" group="iPhone,Mobile">
-			<capability name="browserName" value="iPhone"/>
+			<capability name="real_mobile" value="true"/>
+			<capability name="os_version" value="10.3"/>
 			<capability name="platform" value="MAC"/>
-			<capability name="device" value="iPhone 6S Plus"/>
+			<capability name="device" value="iPhone 7"/>
+			<capability name="browserstack.local" value="false"/>
 			<capability name="browserstack.selenium_version" value="3.4.0"/>
 		</desiredCapabilities>
 		<desiredCapabilities enabled="true" group="Edge,Desktop">
