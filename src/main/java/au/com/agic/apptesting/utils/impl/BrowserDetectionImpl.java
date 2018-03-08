@@ -1,6 +1,8 @@
 package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.utils.BrowserDetection;
+import io.vavr.control.Option;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -109,7 +111,12 @@ public class BrowserDetectionImpl implements BrowserDetection {
 
 	@Override
 	public boolean isAndroid(@NotNull final WebDriver webDriver) {
-		return ((RemoteWebDriver) webDriver).getCapabilities().getPlatform().is(Platform.ANDROID);
+		final Capabilities remoteWebDriverCapabilities = ((RemoteWebDriver) webDriver).getCapabilities();
+
+		return remoteWebDriverCapabilities.getPlatform().is(Platform.ANDROID)
+			// realMobile and Linux means a remote browserstack android device
+			|| (remoteWebDriverCapabilities.getPlatform().is(Platform.LINUX)
+			&& "true".equals(remoteWebDriverCapabilities.asMap().get("realMobile")));
 	}
 
 	@Override
