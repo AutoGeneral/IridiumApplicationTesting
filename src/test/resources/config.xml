@@ -15,7 +15,7 @@
 		<desiredCapabilities enabled="true" group="iPad,Mobile">
 			<capability name="os_version" value="11.0"/>
 			<capability name="real_mobile" value="true"/>
-			<capability name="device" value="iPad Pro"/>
+			<capability name="device" value="iPad 5th"/>
 			<capability name="browserstack.local" value="false"/>
 			<capability name="browserstack.selenium_version" value="3.4.0"/>
 		</desiredCapabilities>
