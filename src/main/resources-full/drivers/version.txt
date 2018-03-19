@@ -1,6 +1,6 @@
 PhantomJS (http://phantomjs.org/download.html) 2.1.1
-Chrome (https://sites.google.com/a/chromium.org/chromedriver/downloads) 2.35
+Chrome (https://sites.google.com/a/chromium.org/chromedriver/downloads) 2.37
 Opera (https://github.com/operasoftware/operachromiumdriver/releases) 2.33
-IE (http://selenium-release.storage.googleapis.com/index.html) 3.8
-GeckoDriver (https://github.com/mozilla/geckodriver/releases) 0.19.1
+IE (http://selenium-release.storage.googleapis.com/index.html) 3.11.1
+GeckoDriver (https://github.com/mozilla/geckodriver/releases) 0.20.0
 Edge (https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/) Insiders release as of 5th Jan 2018
