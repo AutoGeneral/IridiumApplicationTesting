@@ -112,15 +112,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 					proxy.setHttpProxy("localhost:" + myMainProxy.getPort());
 					proxy.setSocksProxy("localhost:" + myMainProxy.getPort());
 					proxy.setFtpProxy("localhost:" + myMainProxy.getPort());
-
-					/*
-						Also disable the proxy for Chrome headless HTTPS:
-						https://bugs.chromium.org/p/chromium/issues/detail?id=721739
-					 */
-					if (!Constants.CHROME_HEADLESS.equalsIgnoreCase(browser)
-						&& !Constants.CHROME_HEADLESS_SECURE.equalsIgnoreCase(browser)) {
-						proxy.setSslProxy("localhost:" + myMainProxy.getPort());
-					}
+					proxy.setSslProxy("localhost:" + myMainProxy.getPort());
 
 					return proxy;
 				})
@@ -217,6 +209,8 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 		prefs.put("credentials_enable_service", false);
 		prefs.put("password_manager_enabled", false);
 		options.setExperimentalOption("prefs", prefs);
+		SYSTEM_PROPERTY_UTILS.getPropertyAsOptional(Constants.CHROME_EXECUTABLE_LOCATION_SYSTEM_PROPERTY)
+                .ifPresent(options::setBinary);
 		return options;
 	}
 
@@ -343,15 +337,15 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 				/*
 					Set the proxy
 				 */
-				if (mainProxy.isPresent()) {
+                mainProxy.ifPresent(proxyDetails -> {
 
-					profile.setPreference("network.proxy.type", 1);
-					profile.setPreference("network.proxy.http", "localhost");
-					profile.setPreference("network.proxy.http_port", mainProxy.get().getPort());
-					profile.setPreference("network.proxy.ssl", "localhost");
-					profile.setPreference("network.proxy.ssl_port", mainProxy.get().getPort());
-					profile.setPreference("network.proxy.no_proxies_on", "");
-				}
+                    profile.setPreference("network.proxy.type", 1);
+                    profile.setPreference("network.proxy.http", "localhost");
+                    profile.setPreference("network.proxy.http_port", proxyDetails.getPort());
+                    profile.setPreference("network.proxy.ssl", "localhost");
+                    profile.setPreference("network.proxy.ssl_port", proxyDetails.getPort());
+                    profile.setPreference("network.proxy.no_proxies_on", "");
+                });
 
 				options.setProfile(profile);
 			} else {
