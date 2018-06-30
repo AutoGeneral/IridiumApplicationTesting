@@ -24,7 +24,7 @@ buildscript {
 }
 
 plugins {
-	id 'com.gradle.build-scan' version '1.13'
+	id 'com.gradle.build-scan' version '1.13.2'
 	id 'com.github.ben-manes.versions' version '0.17.0'
 }
 
@@ -138,9 +138,9 @@ sourceSets {
 }
 
 def mysqlDriverVersion = '5.1.45'
-def guavaVersion = '24.1-jre'
-def seleniumVersion = '3.11.0'
-def htmlUnitDriverVersion = '2.29.3'
+def guavaVersion = '25.0-jre'
+def seleniumVersion = '3.12.0'
+def htmlUnitDriverVersion = '2.30.0'
 def validationVersion = '2.0.1.Final'
 def cucumberVersion = '1.2.5'
 def logbackVersion = '1.2.3'
@@ -160,8 +160,8 @@ def compressCommonsVersion = '1.16.1'
 def xmlApisVersion = '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2'
 def cucumberSpringVersion = '1.2.5'
-def springFrameworkVersion = '5.0.4.RELEASE'
-def aspectJVersion = '1.8.13'
+def springFrameworkVersion = '5.0.6.RELEASE'
+def aspectJVersion = '1.9.1'
 def springRetryVersion = '1.2.2.RELEASE'
 def cgLibVersion = '3.2.6'
 
