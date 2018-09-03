@@ -315,7 +315,7 @@ public class ClickingStepDefinitions {
 			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
-			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
+			final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
