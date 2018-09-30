@@ -3,4 +3,4 @@ Chrome (https://sites.google.com/a/chromium.org/chromedriver/downloads) 2.42
 Opera (https://github.com/operasoftware/operachromiumdriver/releases) 2.37
 IE (http://selenium-release.storage.googleapis.com/index.html) 3.13
 GeckoDriver (https://github.com/mozilla/geckodriver/releases) 0.22.0
-Edge (https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/) Release 16299
+Edge (https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/) Release 17134
