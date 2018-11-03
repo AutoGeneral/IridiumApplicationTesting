@@ -1,7 +1,6 @@
 package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.constants.Constants;
-import au.com.agic.apptesting.drivers.PhantomJSFixedDriver;
 import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
