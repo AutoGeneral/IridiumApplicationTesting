@@ -64,6 +64,7 @@ public class FocusStepDefinitions {
 			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -107,6 +108,7 @@ public class FocusStepDefinitions {
 			final WebElement element = webDriver.findElement(by);
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,

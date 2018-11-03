@@ -160,6 +160,7 @@ public class ClickingStepDefinitions {
 				StringUtils.isNotBlank(exists));
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				svgWebElement,
 				Constants.MOUSE_MOVE_TIME,
@@ -208,6 +209,7 @@ public class ClickingStepDefinitions {
 				State.getFeatureStateForThread());
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -267,6 +269,7 @@ public class ClickingStepDefinitions {
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -315,12 +318,13 @@ public class ClickingStepDefinitions {
 			final Integer fixedTimes = countConverter.convertCountToInteger(timesAlias, times);
 
 			final WebDriver webDriver = State.getThreadDesiredCapabilityMap().getWebDriverForThread();
-			final WebElement element = simpleWebElementInteraction.getClickableElementFoundBy(
+			final WebElement element = simpleWebElementInteraction.getPresenceElementFoundBy(
 				StringUtils.isNotBlank(alias),
 				selectorValue,
 				State.getFeatureStateForThread());
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -383,6 +387,7 @@ public class ClickingStepDefinitions {
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -439,6 +444,7 @@ public class ClickingStepDefinitions {
 				final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
 
 				mouseMovementUtils.mouseGlide(
+					webDriver,
 					(JavascriptExecutor) webDriver,
 					element,
 					Constants.MOUSE_MOVE_TIME,
@@ -505,6 +511,7 @@ public class ClickingStepDefinitions {
 					final WebElement element = browserInteropUtils.getLinkByText(webDriver, text);
 
 					mouseMovementUtils.mouseGlide(
+						webDriver,
 						(JavascriptExecutor) webDriver,
 						element,
 						Constants.MOUSE_MOVE_TIME,
@@ -585,6 +592,7 @@ public class ClickingStepDefinitions {
 						By.cssSelector("[" + attr + "='" + random + "']")));
 
 				mouseMovementUtils.mouseGlide(
+					webDriver,
 					(JavascriptExecutor) webDriver,
 					element,
 					Constants.MOUSE_MOVE_TIME,
@@ -652,6 +660,7 @@ public class ClickingStepDefinitions {
 						By.cssSelector("[" + attr + "='" + value + "']")));
 
 				mouseMovementUtils.mouseGlide(
+					webDriver,
 					(JavascriptExecutor) webDriver,
 					element,
 					Constants.MOUSE_MOVE_TIME,
@@ -767,6 +776,7 @@ public class ClickingStepDefinitions {
 					State.getFeatureStateForThread());
 
 				mouseMovementUtils.mouseGlide(
+					webDriver,
 					(JavascriptExecutor) webDriver,
 					element,
 					Constants.MOUSE_MOVE_TIME,
@@ -850,6 +860,7 @@ public class ClickingStepDefinitions {
 					ExpectedConditions.presenceOfElementLocated(By.linkText(text)));
 
 				mouseMovementUtils.mouseGlide(
+					webDriver,
 					(JavascriptExecutor) webDriver,
 					element,
 					Constants.MOUSE_MOVE_TIME,

@@ -78,6 +78,7 @@ public class DropDownStepDefinitions {
 				State.getFeatureStateForThread());
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -136,6 +137,7 @@ public class DropDownStepDefinitions {
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -186,6 +188,7 @@ public class DropDownStepDefinitions {
 				State.getFeatureStateForThread());
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -243,6 +246,7 @@ public class DropDownStepDefinitions {
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,

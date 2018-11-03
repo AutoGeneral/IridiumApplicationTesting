@@ -4,7 +4,9 @@ import au.com.agic.apptesting.constants.Constants;
 import au.com.agic.apptesting.utils.MouseMovementUtils;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,7 @@ public class MouseMovementUtilsImpl implements MouseMovementUtils {
 
 	@Override
 	public void mouseGlide(
+		@NotNull final WebDriver driver,
 		@NotNull final JavascriptExecutor javascriptExecutor,
 		@NotNull final WebElement element,
 		final int time,
@@ -79,6 +82,8 @@ public class MouseMovementUtilsImpl implements MouseMovementUtils {
 				(int) ((viewPoint.y + verticalOffset + height / 2) * zoom),
 				Constants.MOUSE_MOVE_TIME,
 				Constants.MOUSE_MOVE_STEPS);
+
+			new Actions(driver).moveToElement(element).perform();
 		}
 	}
 }
