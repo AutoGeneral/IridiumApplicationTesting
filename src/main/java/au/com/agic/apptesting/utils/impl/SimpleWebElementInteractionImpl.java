@@ -6,22 +6,22 @@ import au.com.agic.apptesting.exception.WebElementException;
 import au.com.agic.apptesting.utils.FeatureState;
 import au.com.agic.apptesting.utils.GetBy;
 import au.com.agic.apptesting.utils.SimpleWebElementInteraction;
-import au.com.agic.apptesting.webdriver.WebDriverWaitEx;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -73,10 +73,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = getBy.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWaitEx wait = new WebDriverWaitEx(
-						webDriver,
-						Constants.TIME_SLICE,
-						TimeUnit.MILLISECONDS);
+					final FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+						.withTimeout(Duration.ofMillis(Constants.TIME_SLICE));
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.elementToBeClickable(by);
 
@@ -122,10 +120,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 
 				try {
 					final By by = getBy.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWaitEx wait = new WebDriverWaitEx(
-						webDriver,
-						Constants.TIME_SLICE,
-						TimeUnit.MILLISECONDS);
+					final FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+						.withTimeout(Duration.ofMillis(Constants.TIME_SLICE));
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.elementToBeClickable(by);
 
@@ -183,10 +179,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = getBy.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWaitEx wait = new WebDriverWaitEx(
-						webDriver,
-						Constants.TIME_SLICE,
-						TimeUnit.MILLISECONDS);
+					final FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+						.withTimeout(Duration.ofMillis(Constants.TIME_SLICE));
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.visibilityOfElementLocated(by);
 
@@ -238,10 +232,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 
 				try {
 					final By by = getBy.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWaitEx wait = new WebDriverWaitEx(
-						webDriver,
-						Constants.TIME_SLICE,
-						TimeUnit.MILLISECONDS);
+					final FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+						.withTimeout(Duration.ofMillis(Constants.TIME_SLICE));
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.visibilityOfElementLocated(by);
 
@@ -298,10 +290,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 			for (final String locationMethod : LOCATION_METHODS) {
 				try {
 					final By by = getBy.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWaitEx wait = new WebDriverWaitEx(
-						webDriver,
-						Constants.TIME_SLICE,
-						TimeUnit.MILLISECONDS);
+					final FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+						.withTimeout(Duration.ofMillis(Constants.TIME_SLICE));
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.presenceOfElementLocated(by);
 
@@ -352,10 +342,8 @@ public class SimpleWebElementInteractionImpl implements SimpleWebElementInteract
 
 				try {
 					final By by = getBy.getBy(locationMethod, valueAlias, value, featureState);
-					final WebDriverWaitEx wait = new WebDriverWaitEx(
-						webDriver,
-						Constants.TIME_SLICE,
-						TimeUnit.MILLISECONDS);
+					final FluentWait<WebDriver> wait = new FluentWait<>(webDriver)
+						.withTimeout(Duration.ofMillis(Constants.TIME_SLICE));
 					final ExpectedCondition<WebElement> condition =
 						ExpectedConditions.presenceOfElementLocated(by);
 
