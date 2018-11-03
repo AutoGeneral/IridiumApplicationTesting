@@ -111,7 +111,14 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 					proxy.setProxyType(Proxy.ProxyType.MANUAL);
 					proxy.setHttpProxy("localhost:" + myMainProxy.getPort());
 					proxy.setSocksProxy("localhost:" + myMainProxy.getPort());
-					proxy.setSocksVersion(5);
+					/*
+						The socks version is required by chrome, but can not be set
+						for phantomjs otherwise there is a long to integer conversion
+						exception.
+					 */
+					if (!Constants.PHANTOMJS.equalsIgnoreCase(browser)) {
+						proxy.setSocksVersion(new Integer(5));
+					}
 					proxy.setFtpProxy("localhost:" + myMainProxy.getPort());
 					proxy.setSslProxy("localhost:" + myMainProxy.getPort());
 
