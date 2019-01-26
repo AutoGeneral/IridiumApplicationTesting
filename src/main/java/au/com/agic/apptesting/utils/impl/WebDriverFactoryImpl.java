@@ -110,7 +110,6 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 					final Proxy proxy = new Proxy();
 					proxy.setProxyType(Proxy.ProxyType.MANUAL);
 					proxy.setHttpProxy("localhost:" + myMainProxy.getPort());
-					proxy.setSocksProxy("localhost:" + myMainProxy.getPort());
 					proxy.setFtpProxy("localhost:" + myMainProxy.getPort());
 					proxy.setSslProxy("localhost:" + myMainProxy.getPort());
 
