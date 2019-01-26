@@ -132,9 +132,9 @@ sourceSets {
 }
 
 def mysqlDriverVersion = '5.1.45'
-def guavaVersion = '27.0-jre'
-def seleniumVersion = '3.141.0'
-def htmlUnitDriverVersion = '2.33.1'
+def guavaVersion = '27.0.1-jre'
+def seleniumVersion = '3.141.59'
+def htmlUnitDriverVersion = '2.33.3'
 def validationVersion = '2.0.1.Final'
 def cucumberVersion = '1.2.5'
 def logbackVersion = '1.2.3'
@@ -154,10 +154,10 @@ def compressCommonsVersion = '1.18'
 def xmlApisVersion = '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2'
 def cucumberSpringVersion = '1.2.5'
-def springFrameworkVersion = '5.1.2.RELEASE'
+def springFrameworkVersion = '5.1.4.RELEASE'
 def aspectJVersion = '1.9.2'
-def springRetryVersion = '1.2.2.RELEASE'
-def cgLibVersion = '3.2.9'
+def springRetryVersion = '1.2.4.RELEASE'
+def cgLibVersion = '3.2.10'
 
 configurations.all {
 	resolutionStrategy {
@@ -210,7 +210,7 @@ dependencies {
 	compile group: 'xml-apis', name: 'xml-apis', version: xmlApisVersion
 	compile group: 'uk.org.lidalia', name: 'sysout-over-slf4j', version: sysoutOverSLF4JVersion
 	compile group: 'org.springframework.retry', name: 'spring-retry', version: springRetryVersion
-	compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.6'
+	compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.7'
 	compile group: 'org.json', name: 'json', version: '20180813'
 	compile group: 'cglib', name: 'cglib', version: cgLibVersion
 	compile group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.0'
@@ -226,9 +226,9 @@ dependencies {
 	compile group: 'org.owasp.jbrofuzz', name: 'jbrofuzz', version: '2.5.1'
 	compile group: 'org.owasp.jbrofuzz', name: 'jbrofuzz-encoder', version: '2.5.1'
 	compile group: 'org.apache.ant', name: 'ant', version: '1.10.5'
-	compile group: 'org.bouncycastle', name: 'bcmail-jdk15on', version: '1.60'
-	compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.60'
-	compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.60'
+	compile group: 'org.bouncycastle', name: 'bcmail-jdk15on', version: '1.60.0.redhat-00001'
+	compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.60.0.redhat-00001'
+	compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.60.0.redhat-00001'
 	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
 	compile group: 'commons-codec', name: 'commons-codec', version: '1.11'
 	compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
@@ -242,8 +242,8 @@ dependencies {
 	compile group: 'net.sf.ezmorph', name: 'ezmorph', version: '1.0.6'
 	compile group: 'edu.umass.cs.benchlab', name: 'harlib', version: '1.1.2'
 	compile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
-	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.6'
-	compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.10'
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.7'
+	compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.11'
 	compile group: 'com.github.zafarkhaja', name: 'java-semver', version: '0.9.0'
 	compile group: 'org.jdom', name: 'jdom', version: '1.1.3'
 	compile group: 'net.htmlparser.jericho', name: 'jericho-html', version: '3.4'
