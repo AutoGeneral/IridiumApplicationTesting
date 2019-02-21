@@ -68,6 +68,7 @@ public class TextEntryStepDefinitions {
 			State.getFeatureStateForThread());
 
 		mouseMovementUtils.mouseGlide(
+			webDriver,
 			(JavascriptExecutor) webDriver,
 			element,
 			Constants.MOUSE_MOVE_TIME,
@@ -98,6 +99,7 @@ public class TextEntryStepDefinitions {
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 
 		mouseMovementUtils.mouseGlide(
+			webDriver,
 			(JavascriptExecutor) webDriver,
 			element,
 			Constants.MOUSE_MOVE_TIME,
@@ -127,6 +129,7 @@ public class TextEntryStepDefinitions {
 			State.getFeatureStateForThread());
 
 		mouseMovementUtils.mouseGlide(
+			webDriver,
 			(JavascriptExecutor) webDriver,
 			element,
 			Constants.MOUSE_MOVE_TIME,
@@ -158,6 +161,7 @@ public class TextEntryStepDefinitions {
 		final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 
 		mouseMovementUtils.mouseGlide(
+			webDriver,
 			(JavascriptExecutor) webDriver,
 			element,
 			Constants.MOUSE_MOVE_TIME,
@@ -201,6 +205,7 @@ public class TextEntryStepDefinitions {
 				State.getFeatureStateForThread());
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -260,6 +265,7 @@ public class TextEntryStepDefinitions {
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -324,6 +330,7 @@ public class TextEntryStepDefinitions {
 				State.getFeatureStateForThread());
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -406,6 +413,7 @@ public class TextEntryStepDefinitions {
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -477,6 +485,7 @@ public class TextEntryStepDefinitions {
 				State.getFeatureStateForThread());
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -558,6 +567,7 @@ public class TextEntryStepDefinitions {
 			final WebElement element = wait.until(ExpectedConditions.elementToBeClickable(by));
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -621,6 +631,7 @@ public class TextEntryStepDefinitions {
 				State.getFeatureStateForThread());
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -681,6 +692,7 @@ public class TextEntryStepDefinitions {
 			final WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,
@@ -752,6 +764,7 @@ public class TextEntryStepDefinitions {
 					By.cssSelector("[" + attr + "='" + value + "']")));
 
 			mouseMovementUtils.mouseGlide(
+				webDriver,
 				(JavascriptExecutor) webDriver,
 				element,
 				Constants.MOUSE_MOVE_TIME,

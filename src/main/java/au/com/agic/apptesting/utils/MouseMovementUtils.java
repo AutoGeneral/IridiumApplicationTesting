@@ -1,6 +1,7 @@
 package au.com.agic.apptesting.utils;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import javax.validation.constraints.NotNull;
@@ -31,10 +32,15 @@ public interface MouseMovementUtils {
 
 	/**
 	 * Move the mouse from the current position to the new position
+	 * @param driver The WebDriver instance
 	 * @param javascriptExecutor The selenium javascript executor
 	 * @param element the element to move the mouse to
 	 * @param time The amount of time to take
 	 * @param steps The number of steps to use
 	 */
-	void mouseGlide(@NotNull JavascriptExecutor javascriptExecutor, @NotNull WebElement element, int time, int steps);
+	void mouseGlide(@NotNull WebDriver driver,
+					@NotNull JavascriptExecutor javascriptExecutor,
+					@NotNull WebElement element,
+					int time,
+					int steps);
 }

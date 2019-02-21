@@ -13,7 +13,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.internal.ApacheHttpClient;
+import org.openqa.selenium.remote.http.HttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -184,8 +184,7 @@ public class RemoteThreadWebDriverMapImpl implements ThreadWebDriverMap {
 
 			final HttpCommandExecutor executor = new HttpCommandExecutor(
 				ImmutableMap.of(),
-				new URL(remoteAddress),
-				new ApacheHttpClient.Factory());
+				new URL(remoteAddress));
 
 			final WebDriver webDriver = new RemoteWebDriver(executor, desiredCapabilities);
 

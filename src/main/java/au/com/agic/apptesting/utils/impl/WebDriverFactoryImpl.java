@@ -1,7 +1,6 @@
 package au.com.agic.apptesting.utils.impl;
 
 import au.com.agic.apptesting.constants.Constants;
-import au.com.agic.apptesting.drivers.PhantomJSFixedDriver;
 import au.com.agic.apptesting.exception.DriverException;
 import au.com.agic.apptesting.utils.ProxyDetails;
 import au.com.agic.apptesting.utils.SystemPropertyUtils;
@@ -23,6 +22,7 @@ import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.opera.OperaOptions;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -110,7 +110,6 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 					final Proxy proxy = new Proxy();
 					proxy.setProxyType(Proxy.ProxyType.MANUAL);
 					proxy.setHttpProxy("localhost:" + myMainProxy.getPort());
-					proxy.setSocksProxy("localhost:" + myMainProxy.getPort());
 					proxy.setFtpProxy("localhost:" + myMainProxy.getPort());
 					proxy.setSslProxy("localhost:" + myMainProxy.getPort());
 
@@ -408,7 +407,7 @@ public class WebDriverFactoryImpl implements WebDriverFactory {
 				capabilities.setCapability("phantomjs.page.settings.userAgent", userAgent);
 			}
 
-			return Try.of(() -> new PhantomJSFixedDriver(capabilities))
+			return Try.of(() -> new PhantomJSDriver(capabilities))
 				.andThenTry(driver -> {
 					/*
 						This is required by PhantomJS

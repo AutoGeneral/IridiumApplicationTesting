@@ -18,19 +18,13 @@ buildscript {
 	}
 
 	dependencies {
-		classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+		classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.2'
 		classpath 'com.matthewcasperson:build:0.+'
 	}
 }
 
 plugins {
-	id 'com.gradle.build-scan' version '1.12.1'
-	id 'com.github.ben-manes.versions' version '0.17.0'
-}
-
-buildScan {
-	licenseAgreementUrl = 'https://gradle.com/terms-of-service'
-	licenseAgree = 'yes'
+	id 'com.github.ben-manes.versions' version '0.20.0'
 }
 
 apply plugin: 'java'
@@ -121,10 +115,10 @@ if (slimBuild) {
 	This removes the distributions from the maven upload.
 	See https://discuss.gradle.org/t/how-to-exclude-zip-only-from-archives-for-maven-repo-upload/13354/2
  */
-configurations.archives.with {
-	artifacts.remove artifacts.find { it.archiveTask.is distZip }
-	artifacts.remove artifacts.find { it.archiveTask.is distTar }
-}
+//configurations.archives.with {
+//	artifacts.remove artifacts.find { it.archiveTask.is distZip }
+//	artifacts.remove artifacts.find { it.archiveTask.is distTar }
+//}
 
 /*
 	A slim build has no divers and does not include ZAP
@@ -138,32 +132,32 @@ sourceSets {
 }
 
 def mysqlDriverVersion = '5.1.45'
-def guavaVersion = '24.0-jre'
-def seleniumVersion = '3.11.0'
-def htmlUnitDriverVersion = '2.29.2'
+def guavaVersion = '27.0.1-jre'
+def seleniumVersion = '3.141.59'
+def htmlUnitDriverVersion = '2.33.3'
 def validationVersion = '2.0.1.Final'
 def cucumberVersion = '1.2.5'
 def logbackVersion = '1.2.3'
 def slf4jVersion = '1.7.25'
 def threadPoolVersion = '20030513.073905'
 def commonsIoVersion = '2.6'
-def commonsLangVersion = '3.7'
+def commonsLangVersion = '3.8.1'
 def commonsExecVersion = '1.3'
 def operaDriverVersion = '1.5'
 def phantomJsDriverVersion = '1.4.4'        // https://github.com/detro/ghostdriver/issues/397
 def cucumberHtmlFormatterVersion = '0.2.6'
 def monteRepackVersion = '1.0.1'
-def vavrVersion = '1.0.0-SNAPSHOT'
+def vavrVersion = '0.9.2'
 def zapAPIVersion = '1.5.0'
 def browsermobVersion = '2.1.5'
-def compressCommonsVersion = '1.16.1'
+def compressCommonsVersion = '1.18'
 def xmlApisVersion = '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2'
 def cucumberSpringVersion = '1.2.5'
-def springFrameworkVersion = '5.0.4.RELEASE'
-def aspectJVersion = '1.8.13'
-def springRetryVersion = '1.2.2.RELEASE'
-def cgLibVersion = '3.2.6'
+def springFrameworkVersion = '5.1.4.RELEASE'
+def aspectJVersion = '1.9.2'
+def springRetryVersion = '1.2.4.RELEASE'
+def cgLibVersion = '3.2.10'
 
 configurations.all {
 	resolutionStrategy {
@@ -216,39 +210,40 @@ dependencies {
 	compile group: 'xml-apis', name: 'xml-apis', version: xmlApisVersion
 	compile group: 'uk.org.lidalia', name: 'sysout-over-slf4j', version: sysoutOverSLF4JVersion
 	compile group: 'org.springframework.retry', name: 'spring-retry', version: springRetryVersion
-	compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.5'
-	compile group: 'org.json', name: 'json', version: '20180130'
+	compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.7'
+	compile group: 'org.json', name: 'json', version: '20180813'
 	compile group: 'cglib', name: 'cglib', version: cgLibVersion
 	compile group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.0'
 	// Fixes an issue in java 9 where these classes are no longer included
 	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
+	compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
 
 	/*
         The following are dependencies required by ZAP
      */
-	compile group: 'commons-httpclient', name: 'commons-httpclient', version: '3.1.0.redhat-7'
+	compile group: 'commons-httpclient', name: 'commons-httpclient', version: '3.1.0.redhat-8'
 	compile group: 'edu.stanford.ejalbert', name: 'BrowserLauncher2', version: '1.3'
 	compile group: 'org.owasp.jbrofuzz', name: 'jbrofuzz', version: '2.5.1'
 	compile group: 'org.owasp.jbrofuzz', name: 'jbrofuzz-encoder', version: '2.5.1'
-	compile group: 'org.apache.ant', name: 'ant', version: '1.10.2'
-	compile group: 'org.bouncycastle', name: 'bcmail-jdk15on', version: '1.59'
-	compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.59'
-	compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.59'
+	compile group: 'org.apache.ant', name: 'ant', version: '1.10.5'
+	compile group: 'org.bouncycastle', name: 'bcmail-jdk15on', version: '1.60.0.redhat-00001'
+	compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.60.0.redhat-00001'
+	compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.60.0.redhat-00001'
 	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
 	compile group: 'commons-codec', name: 'commons-codec', version: '1.11'
 	compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
-	compile group: 'commons-configuration', name: 'commons-configuration', version: '1.10'
-	compile group: 'org.apache.commons', name: 'commons-csv', version: '1.5'
+	compile group: 'commons-configuration', name: 'commons-configuration', version: '1.10.0.redhat-1'
+	compile group: 'org.apache.commons', name: 'commons-csv', version: '1.6'
 	compile group: 'commons-jxpath', name: 'commons-jxpath', version: '1.3'
-	compile group: 'commons-lang', name: 'commons-lang', version: '2.6.0.redhat-6'
+	compile group: 'commons-lang', name: 'commons-lang', version: '2.6.0.redhat-7'
 	compile group: 'commons-logging', name: 'commons-logging', version: '1.2.0.redhat-3'
 	compile group: 'commons-logging', name: 'commons-logging-api', version: '1.1'
 	compile group: 'com.googlecode.java-diff-utils', name: 'diffutils', version: '1.3.0'
 	compile group: 'net.sf.ezmorph', name: 'ezmorph', version: '1.0.6'
 	compile group: 'edu.umass.cs.benchlab', name: 'harlib', version: '1.1.2'
-	compile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.0'
-	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
-	compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.9'
+	compile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.7'
+	compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.11'
 	compile group: 'com.github.zafarkhaja', name: 'java-semver', version: '0.9.0'
 	compile group: 'org.jdom', name: 'jdom', version: '1.1.3'
 	compile group: 'net.htmlparser.jericho', name: 'jericho-html', version: '3.4'
@@ -258,7 +253,7 @@ dependencies {
 	compile group: 'net.sf.json-lib', name: 'json-lib', version: '2.4', classifier: 'jdk15'
 	compile group: 'com.yuvimasory', name: 'orange-extensions', version: '1.3.0'
 	compile group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '2.6.1'
-	compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.21.0.1'
+	compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.25.2'
 	compile group: 'org.swinglabs', name: 'swingx', version: '1.6.1'
 	compile group: 'com.io7m.xom', name: 'xom', version: '1.2.10'
 	compile group: 'log4j', name: 'log4j', version: '1.2.17'

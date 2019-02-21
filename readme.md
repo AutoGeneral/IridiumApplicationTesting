@@ -8,6 +8,9 @@ Thanks to Browserstack for their support of this project.
 
 ## Important Announcements
 
+Java Web Start has been depreciated, and therefor the JAR file that was launched by the JNLP files will no longer be updated.
+Please launch the JAR file directly.
+
 The location of the JAR file that is referenced by the Web Start JNLP files has changed recently. It used to be https://s3-ap-southeast-2.amazonaws.com/ag-iridium/, so your JNLP files used to look like this:
 ```
 <?xml version="1.0" encoding="UTF-8"?>  
