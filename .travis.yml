@@ -40,8 +40,8 @@ before_install:
 - sudo apt-get update
 - sudo apt-get install -y libappindicator1 fonts-liberation
 #- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#- wget https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
-- wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
+- wget https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
+#- wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
 - sudo dpkg -i google-chrome*.deb
 - wget http://iridium-cloud-support.s3.amazonaws.com/opera-stable_54.0.2952.41_amd64.deb
 - sudo dpkg -i opera-*.deb
