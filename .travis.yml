@@ -43,7 +43,7 @@ before_install:
 - wget https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
 #- wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
 - sudo dpkg -i google-chrome*.deb
-- wget http://iridium-cloud-support.s3.amazonaws.com/opera-stable_54.0.2952.41_amd64.deb
+- wget https://s3.amazonaws.com/iridium-cloud-support/opera-stable_58.0.3135.107_amd64.deb
 - sudo dpkg -i opera-*.deb
 - wget ${GPG_Keyring}
 - openssl aes-256-cbc -K $encrypted_a39daf039737_key -iv $encrypted_a39daf039737_iv -in iridium_github_pages.enc -out iridium_github_pages -d
