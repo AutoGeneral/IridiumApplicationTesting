@@ -39,8 +39,8 @@ before_install:
 - sh -e /etc/init.d/xvfb start
 - sudo apt-get update
 - sudo apt-get install -y libappindicator1 fonts-liberation
-#- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-- wget https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
+- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#- wget https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb
 #- wget https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
 - sudo dpkg -i google-chrome*.deb
 - wget https://s3.amazonaws.com/iridium-cloud-support/opera-stable_58.0.3135.107_amd64.deb
