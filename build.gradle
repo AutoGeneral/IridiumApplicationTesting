@@ -154,7 +154,7 @@ def compressCommonsVersion = '1.18.0.redhat-00001'
 def xmlApisVersion = '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2'
 def cucumberSpringVersion = '1.2.5'
-def springFrameworkVersion = '5.1.5.RELEASE'
+def springFrameworkVersion = '5.1.6.RELEASE'
 def aspectJVersion = '1.9.2'
 def springRetryVersion = '1.2.4.RELEASE'
 def cgLibVersion = '3.2.10'
@@ -210,12 +210,12 @@ dependencies {
 	compile group: 'xml-apis', name: 'xml-apis', version: xmlApisVersion
 	compile group: 'uk.org.lidalia', name: 'sysout-over-slf4j', version: sysoutOverSLF4JVersion
 	compile group: 'org.springframework.retry', name: 'spring-retry', version: springRetryVersion
-	compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.7'
+	compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.8'
 	compile group: 'org.json', name: 'json', version: '20180813'
 	compile group: 'cglib', name: 'cglib', version: cgLibVersion
 	compile group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.0'
 	// Fixes an issue in java 9 where these classes are no longer included
-	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
+	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
 	compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
 
 	/*
@@ -242,7 +242,7 @@ dependencies {
 	compile group: 'net.sf.ezmorph', name: 'ezmorph', version: '1.0.6'
 	compile group: 'edu.umass.cs.benchlab', name: 'harlib', version: '1.1.2'
 	compile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
-	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.7'
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.8'
 	compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.11'
 	compile group: 'com.github.zafarkhaja', name: 'java-semver', version: '0.9.0'
 	compile group: 'org.jdom', name: 'jdom', version: '1.1.3'
