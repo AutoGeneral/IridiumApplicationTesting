@@ -131,7 +131,7 @@ sourceSets {
 	}
 }
 
-def mysqlDriverVersion = '5.1.45'
+def mysqlDriverVersion = '8.0.16'
 def guavaVersion = '27.1-jre'
 def seleniumVersion = '4.0.0-alpha-1'
 def htmlUnitDriverVersion = '2.35.1'
@@ -141,7 +141,7 @@ def logbackVersion = '1.2.3'
 def slf4jVersion = '1.7.25'
 def threadPoolVersion = '20030513.073905'
 def commonsIoVersion = '2.6'
-def commonsLangVersion = '3.8.1'
+def commonsLangVersion = '3.9'
 def commonsExecVersion = '1.3'
 def operaDriverVersion = '1.5'
 def phantomJsDriverVersion = '1.4.4'        // https://github.com/detro/ghostdriver/issues/397
@@ -155,9 +155,9 @@ def xmlApisVersion = '1.4.01'
 def sysoutOverSLF4JVersion = '1.0.2'
 def cucumberSpringVersion = '1.2.5'
 def springFrameworkVersion = '5.1.6.RELEASE'
-def aspectJVersion = '1.9.2'
+def aspectJVersion = '1.9.3'
 def springRetryVersion = '1.2.4.RELEASE'
-def cgLibVersion = '3.2.10'
+def cgLibVersion = '3.2.11'
 
 configurations.all {
 	resolutionStrategy {
